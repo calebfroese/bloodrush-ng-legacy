@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
+import * as moment from 'moment';
 
 import { MongoService } from './../../mongo/mongo.service';
 
