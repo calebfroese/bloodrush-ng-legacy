@@ -10,7 +10,18 @@
         <b>Games Played:</b> {{teamWins + teamLosses}}
         <br>
     </div>
-    <div class="six columns">
+    <div class="eight columns">
+        <h3>Recent &amp; Upcoming Games</h3>
+        <div class="dragscroll game-container" style="cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;">
+            <div *ngFor="let game of games" class="home-game">
+                <b>{{game.team}}</b>
+                <br> @ {{game.venue}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="twelve columns">
         <h3>Team</h3>
         <table class="u-full-width">
             <thead>

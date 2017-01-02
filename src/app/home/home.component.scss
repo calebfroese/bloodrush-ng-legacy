@@ -1,0 +1,16 @@
+.game-container {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 100%;
+    height: calc(100px + 2em);
+    white-space: nowrap;
+    .home-game {
+        height: 100px;
+        width: 170px;
+        background: lightgray;
+        padding: 0.5em;
+        margin: 0.5em;
+        display: inline-block;
+        vertical-align:top;
+    }
+}
