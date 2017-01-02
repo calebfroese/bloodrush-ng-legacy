@@ -1,42 +1,48 @@
 <div class="container">
-    <form>
-        <h3>Account Details</h3>
-        <div class="row">
-            <div class="six columns">
-                <label for="username">Username AC</label>
-                <input class="u-full-width" type="text" placeholder="enter a username" id="username">
-            </div>
-            <div class="six columns">
-                <label for="email">Email AC</label>
-                <input class="u-full-width" type="email" placeholder="enter a email" id="email">
-            </div>
+    <h3>Account Details</h3>
+    <div class="row">
+        <div class="six columns">
+            <label for="username">Username AC</label>
+            <input [(ngModel)]="user.username" class="u-full-width" type="text" placeholder="enter a username" id="username" maxlength="20">
         </div>
-        <div class="row">
-            <div class="six columns">
-                <label for="password">Password</label>
-                <input class="u-full-width" type="password" id="password">
-            </div>
-            <div class="six columns">
-                <label for="passwordconf">Confirm Password</label>
-                <input class="u-full-width" type="password" id="passwordconf">
-            </div>
+        <div class="six columns">
+            <label for="email">Email AC</label>
+            <input [(ngModel)]="user.email" class="u-full-width" type="email" placeholder="enter a email" id="email" maxlength="40">
         </div>
-        <hr>
-        <h3>Team Details</h3>
-        <div class="row">
-            <div class="four columns">
-                <label for="teamAcronym">Acronym AC</label>
-                <input class="u-full-width" type="text" placeholder="e.g. ADEL" maxlength="4" id="teamAcronym">
-            </div>
-            <div class="eight columns">
-                <label for="teamName">Team Name</label>
-                <input class="u-full-width" type="text" placeholder="enter a team name" id="teamName">
-            </div>
+    </div>
+    <div class="row">
+        <div class="six columns">
+            <label for="password">Password</label>
+            <input [(ngModel)]="user.password" class="u-full-width" type="password" id="password">
         </div>
-        <div class="row">
-            <div class="four columns">
-                <label for="teamCol1">Color 1</label>
-                <select class="u-full-width" id="teamCol1">
+        <div class="six columns">
+            <label for="passwordconf">Confirm Password</label>
+            <input [(ngModel)]="user.passwordconf" class="u-full-width" type="password" id="passwordconf">
+        </div>
+    </div>
+    <hr>
+    <h3>Team Details</h3>
+    <div class="row">
+        <div class="four columns">
+            <label for="teamAcronym">Acronym AC</label>
+            <input [(ngModel)]="team.acronym" class="u-full-width" type="text" placeholder="e.g. ADEL" maxlength="4" id="teamAcronym">
+        </div>
+        <div class="eight columns">
+            <label for="teamName">Team Name</label>
+            <input [(ngModel)]="team.name" class="u-full-width" type="text" placeholder="enter a team name" id="teamName" maxlength="20">
+        </div>
+    </div>
+    <div class="row">
+        <div class="four columns">
+            <label for="teamStyle">Style</label>
+            <select [(ngModel)]="team.style" class="u-full-width" id="teamStyle">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            <label for="col1">Color 1</label>
+            <select [(ngModel)]="team.col1" class="u-full-width" id="col1">
                     <option value="red">red</option>
                     <option value="green">green</option>
                     <option value="blue">blue</option>
@@ -44,11 +50,11 @@
                     <option value="gray">gray</option>
                     <option value="pink">pink</option>
                     <option value="teal">teal</option>
-                    <option value="lightgreen">lightgreen</option>
+                    <option value="yellow">yellow</option>
                     <option value="lightblue">lightblue</option>
                 </select>
-                <label for="teamCol2">Color 2</label>
-                <select class="u-full-width" id="teamCol2">
+            <label for="col2">Color 2</label>
+            <select [(ngModel)]="team.col2" class="u-full-width" id="col2">
                     <option value="red">red</option>
                     <option value="green">green</option>
                     <option value="blue">blue</option>
@@ -56,11 +62,11 @@
                     <option value="gray">gray</option>
                     <option value="pink">pink</option>
                     <option value="teal">teal</option>
-                    <option value="lightgreen">lightgreen</option>
+                    <option value="yellow">yellow</option>
                     <option value="lightblue">lightblue</option>
                 </select>
-                <label for="teamCol3">Color 3</label>
-                <select class="u-full-width" id="teamCol3">
+            <label for="col3">Color 3</label>
+            <select [(ngModel)]="team.col3" class="u-full-width" id="col3">
                     <option value="red">red</option>
                     <option value="green">green</option>
                     <option value="blue">blue</option>
@@ -68,15 +74,14 @@
                     <option value="gray">gray</option>
                     <option value="pink">pink</option>
                     <option value="teal">teal</option>
-                    <option value="lightgreen">lightgreen</option>
+                    <option value="yellow">yellow</option>
                     <option value="lightblue">lightblue</option>
                 </select>
-            </div>
-            <div class="eight columns">
-                <div class="team-preview">Preview of team guernsey</div>
-            </div>
         </div>
-        <input class="button-primary" type="submit" value="Submit">
-        <input class="button" type="button" value="Cancel">
-    </form>
+        <div class="eight columns">
+            <div class="team-preview">Preview of team guernsey (coming soon I promise!)</div>
+        </div>
+    </div>
+    <input class="button-primary" (click)="onClickSubmit()" type="button" value="Submit">
+    <input class="button" (click)="this.router.navigate(['/home'])" type="button" value="Cancel">
 </div>
