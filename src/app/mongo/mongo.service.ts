@@ -19,7 +19,16 @@ export class MongoService {
         return new Promise((resolve, reject) => {
             this.http.post(`${this.apiUrl}/teams/byId`, { '_id': teamId }).subscribe(response => {
                 // Return the single team object
-                resolve(this.extractData(response)[0]);
+                resolve(this.extractData(response));
+            });
+        });
+    }
+
+    fetchTeamByOwner(ownerId: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post(`${this.apiUrl}/teams/byId`, { 'ownerId': ownerId }).subscribe(response => {
+                // Return the single team object
+                resolve(this.extractData(response));
             });
         });
     }
@@ -31,7 +40,20 @@ export class MongoService {
                 if (reply.error) {
                     reject(reply.error);
                 } else {
-                    resolve();
+                    resolve(reply);
+                }
+            });
+        });
+    }
+
+    login(username: string, password: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post(`${this.apiUrl}/users/login`, { 'username': username, 'password': password }).subscribe(response => {
+                let reply = this.extractData(response);
+                if (reply.error) {
+                    reject(reply.error);
+                } else {
+                    resolve(reply);
                 }
             });
         });

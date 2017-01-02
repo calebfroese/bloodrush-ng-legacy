@@ -54,7 +54,13 @@ export class SignupComponent {
         }
         // Submit to mongo
         this.mongo.signup(this.user, this.team).then(response => {
-            debugger;
+            if (response.error) {
+                alert(response.error);
+            } else if (response.ok) {
+                this.router.navigate(['/home']);
+            } else {
+                alert('No response');
+            }
         }).catch(() => alert('Unable to sign up'));
     }
 }

@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './account/login/login.component';
 import { MongoService } from './mongo/mongo.service';
 import { TeamDetailComponent } from './team/team-detail.component';
 import { SignupComponent } from './account/signup/signup.component';
@@ -15,7 +16,8 @@ import { SignupComponent } from './account/signup/signup.component';
     AppComponent,
     HomeComponent,
     TeamDetailComponent,
-    SignupComponent
+    SignupComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +25,7 @@ import { SignupComponent } from './account/signup/signup.component';
     HttpModule,
     AppRouting
   ],
-  providers: [ MongoService ],
-  bootstrap: [ AppComponent ]
+  providers: [MongoService],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

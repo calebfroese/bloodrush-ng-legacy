@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="row">
+        <div class="twelve columns">
+            <h3>Login</h3>
+            <label for="username">Username</label>
+            <input [(ngModel)]="username" class="u-full-width" type="text" id="username">
+            <label for="password">Password</label>
+            <input [(ngModel)]="password" class="u-full-width" type="password" id="password">
+        </div>
+    </div>
+    <input class="button-primary" (click)="onClickSubmit()" type="button" value="Login">
+    <input class="button" (click)="this.router.navigate(['/home'])" type="button" value="Cancel">
+</div>
