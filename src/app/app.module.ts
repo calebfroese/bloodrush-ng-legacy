@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
+import { GameDetailComponent } from './season/game/game-detail.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './account/login/login.component';
 import { MongoService } from './mongo/mongo.service';
@@ -15,6 +16,7 @@ import { SignupComponent } from './account/signup/signup.component';
   declarations: [
     AppComponent,
     HomeComponent,
+    GameDetailComponent,
     TeamDetailComponent,
     SignupComponent,
     LoginComponent

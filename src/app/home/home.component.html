@@ -13,14 +13,14 @@
         </div>
         <div class="eight columns">
             <h3>Recent &amp; Upcoming Games</h3>
-            <div class="dragscroll game-container">
-                <a *ngFor="let game of games" (click)="viewGame(game.id)" class="button home-game">
+            <div class="game-container">
+                <a *ngFor="let game of games; let i = index" (click)="viewGame(i)" class="button home-game">
                     <div *ngIf="game[0] && game[1]" class="team-name">
                         <b>{{game[0].name}}</b>
                         <br>
                         <b>{{game[1].name}}</b>
                     </div>
-                    <br> {{game[2] | date:'medium'}}
+                    <br> {{game[2] | date:'MMM d'}}
                 </a>
             </div>
         </div>

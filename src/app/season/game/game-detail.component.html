@@ -1,0 +1,12 @@
+<div class="container">
+    <div *ngIf="isBye && games && games[gameId] && games[gameId][nonByeTeam] && games[gameId][nonByeTeam].name" class="row">
+        <div class="twelve columns">
+            <h4>{{games[gameId][nonByeTeam].name}} has a bye</h4>
+        </div>
+    </div>
+    <div *ngIf="!isBye && games && games[gameId] && games[gameId][0] && games[gameId][1]" class="row">
+        <div class="twelve columns">
+            <h4>{{games[gameId][0].name}} vs {{games[gameId][1].name}}</h4>
+        </div>
+    </div>
+</div>

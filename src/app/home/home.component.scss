@@ -1,13 +1,9 @@
 .game-container {
-    overflow-x: hidden;
+    overflow-x: scroll;
     overflow-y: hidden;
     width: 100%;
     height: calc(100px + 2em);
     white-space: nowrap;
-    cursor: grab;
-    cursor : -o-grab;
-    cursor : -moz-grab;
-    cursor : -webkit-grab;
 
     .home-game {
         height: 100px;
