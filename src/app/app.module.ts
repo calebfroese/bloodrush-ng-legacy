@@ -8,12 +8,14 @@ import { AppRouting } from './app.routing';
 import { HomeComponent } from './home/home.component';
 import { MongoService } from './mongo/mongo.service';
 import { TeamDetailComponent } from './team/team-detail.component';
+import { SignupComponent } from './account/signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    TeamDetailComponent
+    TeamDetailComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
