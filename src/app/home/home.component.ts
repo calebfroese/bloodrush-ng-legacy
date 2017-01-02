@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { MongoService } from './../mongo/mongo.service';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
     teamWins: number = 5;
     teamLosses: number = 8;
@@ -35,6 +37,17 @@ export class HomeComponent {
             'time': Date()
         }
     ];
+    teams: any; // array of teams in the league sorted by points
+
+    constructor(private mongo: MongoService) { }
+
+    ngOnInit(): void {
+        this.mongo.fetchTeams().then(teamsArray => {
+            this.teams = teamsArray;
+        }).catch(() => {
+            debugger;
+        });
+    }
 
     viewGame(gameId: number): void {
         console.log(gameId);

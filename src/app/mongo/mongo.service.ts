@@ -9,8 +9,8 @@ export class MongoService {
 
     fetchTeams(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/teams/all`, {}).subscribe(teamsArr => {
-                resolve(teamsArr);
+            this.http.post(`${this.apiUrl}/teams/all`, {}).subscribe(response => {
+                resolve(this.extractData(response));
             });
         });
     }
