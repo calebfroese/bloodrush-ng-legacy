@@ -24,6 +24,28 @@ export class HomeComponent implements OnInit {
         }).catch(() => {
             debugger;
         });
+
+        this.mongo.fetchSeasonByNumber(1).then(season => {
+            this.games = season.games;
+            console.log(this.games);
+            for (let x = 0; x < this.games.length; x++) {
+                // Fetch the name and stuff for the teams
+                for (let i = 0; i < 2; i++) {
+                    if (!this.games[x][i]) {
+                        this.games[x][i] = { 'name': 'Bye' };
+                    } else {
+                        this.teams.forEach(team => {
+                            if (team._id === this.games[x][i]) {
+                                this.games[x][i] = team;
+                            }
+                        });
+                    }
+                }
+            };
+
+        }).catch(err => {
+            debugger;
+        });
     }
 
     viewGame(gameId: number): void {
