@@ -10,20 +10,32 @@ export class HomeComponent {
     teamLosses: number = 8;
     games: any = [
         {
+            'id': '2319r7bhw9q87h92',
             'team': 'Burnside Blazers',
-            'venue': 'MTS Center'
+            'venue': 'MTS Center',
+            'time': Date()
         },
         {
+            'id': '2319r7bhw9q87h92',
             'team': 'Banksia Vikings',
-            'venue': 'All-Star Arena'
+            'venue': 'All-Star Arena',
+            'time': Date()
         },
         {
-            'team': 'Golden Grove Chasers',
-            'venue': 'GZ'
+            'id': '2319r7bhw9q87h92',
+            'team': 'Golden Grove McChasers',
+            'venue': 'GZ',
+            'time': Date()
         },
         {
+            'id': '2319r7bhw9q87h92',
             'team': 'Redwood Park Rangers',
-            'venue': 'Gumroad Stadium'
+            'venue': 'Gumroad Stadium',
+            'time': Date()
         }
     ];
+
+    viewGame(gameId: number): void {
+        console.log(gameId);
+    }
 }

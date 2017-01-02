@@ -12,11 +12,14 @@
     </div>
     <div class="eight columns">
         <h3>Recent &amp; Upcoming Games</h3>
-        <div class="dragscroll game-container" style="cursor: grab; cursor : -o-grab; cursor : -moz-grab; cursor : -webkit-grab;">
-            <div *ngFor="let game of games" class="home-game">
-                <b>{{game.team}}</b>
+        <div class="dragscroll game-container">
+            <a *ngFor="let game of games" (click)="viewGame(game.id)" class="button home-game">
+                <div class="team-name">
+                    <b>{{game.team}}</b>
+                </div>
                 <br> @ {{game.venue}}
-            </div>
+                <br> {{game.time | date:'medium'}}
+            </a>
         </div>
     </div>
 </div>
@@ -33,6 +36,24 @@
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>Caleb Froese</td>
+                    <td>52</td>
+                    <td>20</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Craig Bobrovski</td>
+                    <td>52</td>
+                    <td>23</td>
+                    <td>13</td>
+                </tr>
+                <tr>
+                    <td>Johnn Chef</td>
+                    <td>22</td>
+                    <td>47</td>
+                    <td>1</td>
+                </tr>
                 <tr>
                     <td>Caleb Froese</td>
                     <td>52</td>

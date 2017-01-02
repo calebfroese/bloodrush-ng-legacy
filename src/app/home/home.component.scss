@@ -4,13 +4,27 @@
     width: 100%;
     height: calc(100px + 2em);
     white-space: nowrap;
+    cursor: grab;
+    cursor : -o-grab;
+    cursor : -moz-grab;
+    cursor : -webkit-grab;
+
     .home-game {
         height: 100px;
         width: 170px;
-        background: lightgray;
+        background: #f2f2f2;
         padding: 0.5em;
         margin: 0.5em;
         display: inline-block;
         vertical-align:top;
+        line-height: 110%;
+        text-align: left;
+        overflow: initial;
+        white-space: initial;
+        font-weight: normal;
+
+        .team-name {
+            height: 2em;
+        }
     }
 }

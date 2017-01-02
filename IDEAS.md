@@ -8,3 +8,4 @@
 -- Random stadium names
 -- Bigger venue = more capacity
 -- Fans to generate income
+* Use momentjs for date stuff
