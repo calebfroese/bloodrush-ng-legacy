@@ -8,7 +8,7 @@ import { TeamDetailComponent } from './team/team-detail.component';
 const routes: Routes = [
     { path: '', component: AppComponent },
     { path: 'home', component: HomeComponent },
-    { path: 'detail/:id', component: TeamDetailComponent }
+    { path: 'team/:teamId', component: TeamDetailComponent }
 ];
 @NgModule({
     imports: [RouterModule.forRoot(routes)],

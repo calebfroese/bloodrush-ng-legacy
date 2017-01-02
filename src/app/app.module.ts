@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 import { HomeComponent } from './home/home.component';
+import { MongoService } from './mongo/mongo.service';
 import { TeamDetailComponent } from './team/team-detail.component';
 
 @NgModule({
@@ -20,7 +21,7 @@ import { TeamDetailComponent } from './team/team-detail.component';
     HttpModule,
     AppRouting
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ MongoService ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

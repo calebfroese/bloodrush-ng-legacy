@@ -1,7 +1,9 @@
-<div class="container">
+<div *ngIf="team" class="container">
     <div class="row">
         <div class="twelve columns">
-            TEAM!
+            <b>Name: </b> {{team.name}}
+            <br>
+            <b>Venue: </b> {{team.venue}}
         </div>
     </div>
 </div>

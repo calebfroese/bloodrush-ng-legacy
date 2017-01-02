@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+
     teamWins: number = 5;
     teamLosses: number = 8;
     games: any = [
@@ -38,4 +39,5 @@ export class HomeComponent {
     viewGame(gameId: number): void {
         console.log(gameId);
     }
+
 }
