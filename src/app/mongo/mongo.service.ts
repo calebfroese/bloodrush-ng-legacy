@@ -17,7 +17,7 @@ export class MongoService {
 
     fetchTeamById(teamId: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/teams/byId`, { '_id': teamId }).subscribe(response => {
+            this.http.post(`${this.apiUrl}/teams/byId`, { 'id': teamId }).subscribe(response => {
                 // Return the single team object
                 resolve(this.extractData(response));
             });
@@ -26,7 +26,7 @@ export class MongoService {
 
     fetchTeamByOwner(ownerId: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/teams/byId`, { 'ownerId': ownerId }).subscribe(response => {
+            this.http.post(`${this.apiUrl}/teams/byOwner`, { 'ownerId': ownerId }).subscribe(response => {
                 // Return the single team object
                 resolve(this.extractData(response));
             });

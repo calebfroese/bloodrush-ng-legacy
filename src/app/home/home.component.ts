@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MongoService } from './../mongo/mongo.service';
 
@@ -11,39 +12,15 @@ export class HomeComponent implements OnInit {
 
     teamWins: number = 5;
     teamLosses: number = 8;
-    games: any = [
-        {
-            'id': '2319r7bhw9q87h92',
-            'team': 'Burnside Blazers',
-            'venue': 'MTS Center',
-            'time': Date()
-        },
-        {
-            'id': '2319r7bhw9q87h92',
-            'team': 'Banksia Vikings',
-            'venue': 'All-Star Arena',
-            'time': Date()
-        },
-        {
-            'id': '2319r7bhw9q87h92',
-            'team': 'Golden Grove McChasers',
-            'venue': 'GZ',
-            'time': Date()
-        },
-        {
-            'id': '2319r7bhw9q87h92',
-            'team': 'Redwood Park Rangers',
-            'venue': 'Gumroad Stadium',
-            'time': Date()
-        }
-    ];
+    games: any = [];
     teams: any; // array of teams in the league sorted by points
 
-    constructor(private mongo: MongoService) { }
+    constructor(private mongo: MongoService, private router: Router) { }
 
     ngOnInit(): void {
         this.mongo.fetchTeams().then(teamsArray => {
             this.teams = teamsArray;
+            this.games = teamsArray;
         }).catch(() => {
             debugger;
         });

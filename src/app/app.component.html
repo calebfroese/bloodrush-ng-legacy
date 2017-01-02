@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="six columns">
-      <h1>Bloodrush</h1>
+      <h1 (click)="this.router.navigate(['/home'])" style="cursor: pointer;">Bloodrush</h1>
     </div>
     <div class="six columns" style="text-align: right;">
       <input class="button btn-nav" (click)="this.router.navigate(['/login'])" type="button" value="Login">

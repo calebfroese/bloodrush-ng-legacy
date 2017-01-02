@@ -9,3 +9,4 @@
 -- Bigger venue = more capacity
 -- Fans to generate income
 * Use momentjs for date stuff
+* x rounds, then playoffs. playoffs to have double elimination
