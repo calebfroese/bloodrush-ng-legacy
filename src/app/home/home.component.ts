@@ -9,10 +9,9 @@ import { MongoService } from './../mongo/mongo.service';
     styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-    seasonNumber: number = 1; // 1 default for testing
+    season: any;
     teamWins: number = 5;
     teamLosses: number = 8;
-    games: any = [];
     teams: any; // array of teams in the league sorted by points
 
     constructor(private mongo: MongoService, private router: Router) { }
@@ -20,32 +19,28 @@ export class HomeComponent implements OnInit {
     ngOnInit(): void {
         this.mongo.fetchTeams().then(teamsArray => {
             this.teams = teamsArray;
-            this.mongo.fetchSeasonByNumber(this.seasonNumber).then(season => {
-                this.games = season.games;
-                for (let x = 0; x < this.games.length; x++) {
-                    // Fetch the name and stuff for the teams
-                    for (let i = 0; i < 2; i++) {
-                        if (!this.games[x][i]) {
-                            this.games[x][i] = { 'name': 'Bye' };
-                        } else {
-                            this.teams.forEach(team => {
-                                if (team._id === this.games[x][i]) {
-                                    this.games[x][i] = team;
-                                }
-                            });
-                        }
-                    }
-                };
+            this.mongo.fetchSeasonByActive().then(season => {
+                this.season = season;
+                for(let i = 0; i < this.season.games.length; i++) {
+                    this.mongo.fetchTeamById(this.season.games[i]['home']).then(teamHome => {
+                        // debugger;
+                        this.season.games[i]['home'] = teamHome;
+                    });
+                    this.mongo.fetchTeamById(this.season.games[i]['away']).then(teamAway => {
+                        this.season.games[i]['away'] = teamAway;
+                        console.log(teamAway)
+                    });
+                }
             }).catch(err => {
                 debugger;
             });
-        }).catch(() => {
+        }).catch(err => {
             debugger;
         });
     }
 
     viewGame(gameId: number): void {
-        this.router.navigate(['/season/' + this.seasonNumber + '/' + gameId]);
+        this.router.navigate(['/season/' + this.season.number + '/' + gameId]);
     }
 
 }

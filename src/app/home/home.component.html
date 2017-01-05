@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="season">
     <div class="row">
         <div class="four columns">
             <h3>Stats</h3>
@@ -14,14 +14,14 @@
         <div class="eight columns">
             <h3>Recent &amp; Upcoming Games</h3>
             <div class="game-container">
-                <a *ngFor="let game of games; let i = index" (click)="viewGame(i)" class="button home-game">
-                    <div *ngIf="game[0] && game[1]" class="team-name">
-                        <b>{{game[0].name}}</b>
+                <a *ngFor="let game of season.games" (click)="viewGame(game.id)" class="button home-game">
+                    <div *ngIf="game.home && game.away" class="team-name">
+                        <b>{{game.home.name}}</b>
                         <br>
-                        <b>{{game[1].name}}</b>
+                        <b>{{game.away.name}}</b>
                     </div>
-                    <br> {{game[2] | date:'MMM d'}}
-                    <br> Round #{{game[3]}}
+                    <br> {{game.date | date:'MMM d'}}
+                    <br> Round #{{game.round}}
                 </a>
             </div>
         </div>

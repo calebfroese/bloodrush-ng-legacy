@@ -41,6 +41,14 @@ export class MongoService {
         });
     }
 
+    fetchSeasonByActive(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post(`${this.apiUrl}/seasons/byActive`, {}).subscribe(response => {
+                resolve(this.extractData(response));
+            });
+        });
+    }
+
     signup(user: any, team: any): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.post(`${this.apiUrl}/users/signup`, { 'user': user, 'team': team }).subscribe(response => {
