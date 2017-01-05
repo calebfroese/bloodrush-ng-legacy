@@ -9,12 +9,9 @@ import { MongoService } from './../../mongo/mongo.service';
     templateUrl: './game-detail.component.html'
 })
 export class GameDetailComponent implements OnInit {
-    games: any = [];
-    teams: any; // array of teams in the league sorted by points
-    seasonNumber: number;
-    gameId: number;
     isBye: boolean = false;
-    nonByeTeam: number = 0; // index of the team that is not null
+    nonByeTeam: string; // index of the team that is not null
+    game: any;
 
     constructor(
         private route: ActivatedRoute,
@@ -25,43 +22,35 @@ export class GameDetailComponent implements OnInit {
     ngOnInit(): void {
         this.route.params.subscribe((params: Params) => {
             // Fetch the season
-            this.seasonNumber = params['seasonNumber'];
-            this.gameId = params['gameId'];
-            this.mongo.fetchTeams().then(teamsArray => {
-                this.teams = teamsArray;
-                this.mongo.fetchSeasonByNumber(this.seasonNumber).then(season => {
-                    this.games = season.games;
-                    for (let x = 0; x < this.games.length; x++) {
-                        // Fetch the name and stuff for the teams
-                        for (let i = 0; i < 2; i++) {
-                            if (!this.games[x][i]) {
-                                if (this.gameId == x) { // make sure this is only == not ===
-                                    this.isBye = true;
-                                    this.calculateBye(x);
-                                }
-                            } else {
-                                this.teams.forEach(team => {
-                                    if (team._id === this.games[x][i]) {
-                                        this.games[x][i] = team;
-                                    }
-                                });
-                            }
-                        }
-                    };
-                }).catch(err => {
+            let seasonNumber: number = +params['seasonNumber'];
+            let gameId: number = +params['gameId'];
+            this.mongo.fetchSeasonByNumber(seasonNumber).then(season => {
+                if (season) {
+                    if (season.games[gameId]) this.game = season.games[gameId];
+                    // Load the teams
+                    this.mongo.fetchTeamById(this.game.home).then(teamHome => {
+                        this.game.home = teamHome;
+                        
+                        return this.mongo.fetchTeamById(this.game.away)
+                    }).then(awayTeam => {
+                        this.game.away = awayTeam;
+                    }).catch(err => {
+                        debugger;
+                    })
+                } else {
                     debugger;
-                });
-            }).catch(() => {
+                }
+            }).catch(err => {
                 debugger;
             });
         });
     }
 
     calculateBye(x): void {
-        if (!this.games[x][0]) {
-            this.nonByeTeam = 1;
+        if (!this.game['home']) {
+            this.nonByeTeam = 'home';
         } else {
-            this.nonByeTeam = 0;
+            this.nonByeTeam = 'away';
         }
     }
 }

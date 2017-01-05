@@ -36,7 +36,7 @@ export class MongoService {
     fetchSeasonByNumber(seasonNumber: number): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.post(`${this.apiUrl}/seasons/byNumber`, { 'number': seasonNumber }).subscribe(response => {
-                resolve(this.extractData(response)[0]);
+                resolve(this.extractData(response));
             });
         });
     }

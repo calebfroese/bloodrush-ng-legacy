@@ -1,16 +1,16 @@
-<div class="container">
-    <div *ngIf="isBye && games && games[gameId] && games[gameId][nonByeTeam] && games[gameId][nonByeTeam].name" class="row">
+<div class="container" *ngIf="game">
+    <div *ngIf="isBye && game" class="row">
         <div class="twelve columns">
-            <h4>{{games[gameId][nonByeTeam].name}} has a bye</h4>
-            Round: #{{games[gameId][3]}}
-            <br> Date: {{games[gameId][2] | date}}
+            <h4>{{game[nonByeTeam].name}} has a bye</h4>
+            Round: #{{game.round}}
+            <br> Date: {{game.date | date}}
         </div>
     </div>
-    <div *ngIf="!isBye && games && games[gameId] && games[gameId][0] && games[gameId][1]" class="row">
+    <div *ngIf="!isBye && game['home'] && game['away']" class="row">
         <div class="twelve columns">
-            <h4>{{games[gameId][0].name}} vs {{games[gameId][1].name}}</h4>
-            Round: #{{games[gameId][3]}}
-            <br> Date: {{games[gameId][2] | date}}
+            <h4>{{game['home'].name}} vs {{game['away'].name}}</h4>
+            Round: #{{game.round}}
+            <br> Date: {{game.date | date}}
         </div>
     </div>
 </div>

@@ -14,7 +14,7 @@
         <div class="eight columns">
             <h3>Recent &amp; Upcoming Games</h3>
             <div class="game-container">
-                <a *ngFor="let game of season.games" (click)="viewGame(game.id)" class="button home-game">
+                <a *ngFor="let game of season.games; let i = index" (click)="viewGame(i)" class="button home-game">
                     <div *ngIf="game.home && game.away" class="team-name">
                         <b>{{game.home.name}}</b>
                         <br>

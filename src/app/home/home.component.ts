@@ -39,8 +39,7 @@ export class HomeComponent implements OnInit {
                         this.season.games[i]['away'] = { name: 'Bye' };
                     }
                 } else {
-                    this.season.games[i]['home'] = { name: 'Undecided' };
-                    this.season.games[i]['away'] = { name: 'Undecided' };
+                    // Playoffs, leave names as are
                 }
             }
         }).catch(err => {
