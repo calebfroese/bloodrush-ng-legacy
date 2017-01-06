@@ -24,14 +24,14 @@ export class GameDetailComponent implements OnInit {
             // Fetch the season
             let seasonNumber: number = +params['seasonNumber'];
             let gameId: number = +params['gameId'];
-            this.mongo.fetchSeasonByNumber(seasonNumber).then(season => {
+            this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber }).then(season => {
                 if (season) {
                     if (season.games[gameId]) this.game = season.games[gameId];
                     // Load the teams
-                    this.mongo.fetchTeamById(this.game.home).then(teamHome => {
+                    this.mongo.run('teams', 'oneById', { _id: this.game.home }).then(teamHome => {
                         this.game.home = teamHome;
 
-                        return this.mongo.fetchTeamById(this.game.away)
+                        return this.mongo.run('teams', 'oneById', { _id: this.game.away })
                     }).then(awayTeam => {
                         this.game.away = awayTeam;
                     }).catch(err => {

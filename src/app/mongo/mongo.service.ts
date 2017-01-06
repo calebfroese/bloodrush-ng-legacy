@@ -14,49 +14,7 @@ export class MongoService {
             });
         });
     }
-
-    fetchTeams(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/teams/all`, {}).subscribe(response => {
-                resolve(this.extractData(response));
-            });
-        });
-    }
-
-    fetchTeamById(teamId: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/teams/byId`, { 'id': teamId }).subscribe(response => {
-                // Return the single team object
-                resolve(this.extractData(response));
-            });
-        });
-    }
-
-    fetchTeamByOwner(ownerId: string): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/teams/byOwner`, { 'ownerId': ownerId }).subscribe(response => {
-                // Return the single team object
-                resolve(this.extractData(response));
-            });
-        });
-    }
-
-    fetchSeasonByNumber(seasonNumber: number): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/seasons/byNumber`, { 'number': seasonNumber }).subscribe(response => {
-                resolve(this.extractData(response));
-            });
-        });
-    }
-
-    fetchSeasonByActive(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/seasons/byActive`, {}).subscribe(response => {
-                resolve(this.extractData(response));
-            });
-        });
-    }
-
+    
     signup(user: any, team: any): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.post(`${this.apiUrl}/users/signup`, { 'user': user, 'team': team }).subscribe(response => {

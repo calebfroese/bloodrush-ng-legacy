@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
         }).catch(err => {
             debugger;
         });
-        this.mongo.fetchTeams().then(teamsArray => {
+        this.mongo.run('teams', 'all', {}).then(teamsArray => {
             this.teams = teamsArray;
         }).catch(err => {
             debugger;

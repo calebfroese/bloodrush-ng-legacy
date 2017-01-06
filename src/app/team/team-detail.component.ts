@@ -19,7 +19,7 @@ export class TeamDetailComponent implements OnInit {
     ngOnInit(): void {
         this.route.params.subscribe((params: Params) => {
             let teamId = params['teamId'];
-            this.mongo.fetchTeamById(teamId).then(team => {
+            this.mongo.run('teams', 'oneById', { _id: teamId }).then(team => {
                 this.team = team;
             });
         });
