@@ -30,7 +30,7 @@ export class GameDetailComponent implements OnInit {
                     // Load the teams
                     this.mongo.fetchTeamById(this.game.home).then(teamHome => {
                         this.game.home = teamHome;
-                        
+
                         return this.mongo.fetchTeamById(this.game.away)
                     }).then(awayTeam => {
                         this.game.away = awayTeam;

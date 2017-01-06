@@ -17,21 +17,21 @@ export class HomeComponent implements OnInit {
     constructor(private mongo: MongoService, private router: Router) { }
 
     ngOnInit(): void {
-        this.mongo.fetchSeasonByActive().then(season => {
-            console.log(season)
+        this.mongo.run('seasons', 'allActive', {})
+        .then(seasons => {
+            let season = seasons[0];
             this.season = season;
             for (let i = 0; i < this.season.games.length; i++) {
                 if (this.season.games[i]['round'] === parseInt(this.season.games[i]['round'], 10)) {
                     if (this.season.games[i]['home']) {
-                        this.mongo.fetchTeamById(this.season.games[i]['home']).then(teamHome => {
-                            // debugger;
+                        this.mongo.run('teams', 'oneById', { _id: this.season.games[i]['home'] }).then(teamHome => {
                             this.season.games[i]['home'] = teamHome;
                         });
                     } else {
                         this.season.games[i]['home'] = { name: 'Bye' };
                     }
                     if (this.season.games[i]['away']) {
-                        this.mongo.fetchTeamById(this.season.games[i]['away']).then(teamAway => {
+                        this.mongo.run('teams', 'oneById', { _id: this.season.games[i]['away'] }).then(teamAway => {
                             this.season.games[i]['away'] = teamAway;
 
                         });

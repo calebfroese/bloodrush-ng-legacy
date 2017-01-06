@@ -7,6 +7,14 @@ export class MongoService {
 
     constructor(private http: Http) { }
 
+    run(collection: string, queryname: string, params: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post(`${this.apiUrl}/${collection}/${queryname}`, params).subscribe(response => {
+                resolve(this.extractData(response));
+            });
+        });
+    }
+
     fetchTeams(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.post(`${this.apiUrl}/teams/all`, {}).subscribe(response => {
