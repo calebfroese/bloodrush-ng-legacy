@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgUploaderModule } from 'ngx-uploader';
 
+import { AccountService } from './shared/account.service';
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 import { GameDetailComponent } from './season/game/game-detail.component';
 import { HomeComponent } from './home/home.component';
+import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';
 import { MongoService } from './mongo/mongo.service';
 import { TeamDetailComponent } from './team/team-detail.component';
@@ -20,7 +22,8 @@ import { SignupComponent } from './account/signup/signup.component';
     GameDetailComponent,
     TeamDetailComponent,
     SignupComponent,
-    LoginComponent
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,7 @@ import { SignupComponent } from './account/signup/signup.component';
     AppRouting,
     NgUploaderModule
   ],
-  providers: [MongoService],
+  providers: [MongoService, AccountService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

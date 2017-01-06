@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AccountService } from './../../shared/account.service';
 import { MongoService } from './../../mongo/mongo.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class LoginComponent {
     username: string;
     password: string;
 
-    constructor(private mongo: MongoService, private router: Router) { }
+    constructor(private mongo: MongoService, private router: Router, private acc: AccountService) { }
 
     onClickSubmit(): void {
         if (this.username && this.password) {
@@ -19,16 +20,12 @@ export class LoginComponent {
                     if (response.error) {
                         alert(response.error);
                     } else {
-                        this.setLoginVariables(response._id);
+                        this.acc.setLoginVariables(response._id);
                         this.router.navigate(['/home']);
                     }
                 }).catch(err => {
                     alert(err);
                 });
         }
-    }
-
-    setLoginVariables(_id: string): void {
-        localStorage.setItem('_id', _id);
     }
 }
