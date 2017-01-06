@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgUploaderOptions } from 'ngx-uploader';
 
 import { MongoService } from './../../mongo/mongo.service';
 
@@ -63,4 +64,33 @@ export class SignupComponent {
             }
         }).catch(() => alert('Unable to sign up'));
     }
+
+
+
+    uploadFile: any;
+    hasBaseDropZoneOver: boolean = false;
+    options: NgUploaderOptions = {
+        url: 'http://localhost:3000/file'
+    };
+    sizeLimit = 2000000;
+
+    handleUpload(data): void {
+        if (data && data.response) {
+            // console.log(data)
+            // data = JSON.parse(data.response);
+            this.uploadFile = data;
+        }
+    }
+
+    fileOverBase(e: any): void {
+        this.hasBaseDropZoneOver = e;
+    }
+
+    beforeUpload(uploadingFile): void {
+        if (uploadingFile.size > this.sizeLimit) {
+            uploadingFile.setAbort();
+            alert('File is too large');
+        }
+    }
+
 }
