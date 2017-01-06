@@ -14,10 +14,10 @@ export class MongoService {
             });
         });
     }
-    
+
     signup(user: any, team: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/users/signup`, { 'user': user, 'team': team }).subscribe(response => {
+            this.http.post(`${this.apiUrl}/accounts/signup`, { 'user': user, 'team': team }).subscribe(response => {
                 let reply = this.extractData(response);
                 if (reply.error) {
                     reject(reply.error);
@@ -30,7 +30,7 @@ export class MongoService {
 
     login(username: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/users/login`, { 'username': username, 'password': password }).subscribe(response => {
+            this.http.post(`${this.apiUrl}/accounts/login`, { 'username': username, 'password': password }).subscribe(response => {
                 let reply = this.extractData(response);
                 if (reply.error) {
                     reject(reply.error);

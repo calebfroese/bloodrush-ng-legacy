@@ -14,15 +14,21 @@ export class LoginComponent {
 
     onClickSubmit(): void {
         if (this.username && this.password) {
-            this.mongo.login(this.username, this.password).then(response => {
-                if (response.error) {
-                    alert(response.error);
-                } else {
-                    this.router.navigate(['/home']);
-                }
-            }).catch(err => {
-                alert(err);
-            });
+            this.mongo.login(this.username, this.password)
+                .then(response => {
+                    if (response.error) {
+                        alert(response.error);
+                    } else {
+                        this.setLoginVariables(response._id);
+                        this.router.navigate(['/home']);
+                    }
+                }).catch(err => {
+                    alert(err);
+                });
         }
+    }
+
+    setLoginVariables(_id: string): void {
+        localStorage.setItem('_id', _id);
     }
 }
