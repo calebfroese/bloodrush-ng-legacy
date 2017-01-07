@@ -13,6 +13,7 @@
             <br> Date: {{game.date | date}}
             <br>
             <button (click)="playGame()">Play Game</button>
+            <canvas #gameCanvas [attr.width]='canvasSize' [attr.height]='canvasSize'></canvas>
         </div>
     </div>
 </div>
