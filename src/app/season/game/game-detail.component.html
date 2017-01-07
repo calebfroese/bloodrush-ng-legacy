@@ -11,6 +11,8 @@
             <h4>{{game['home'].name}} vs {{game['away'].name}}</h4>
             Round: #{{game.round}}
             <br> Date: {{game.date | date}}
+            <br>
+            <button (click)="playGame()">Play Game</button>
         </div>
     </div>
 </div>
