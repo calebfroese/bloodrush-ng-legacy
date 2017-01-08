@@ -31,9 +31,6 @@ export class GameDetailComponent implements OnInit {
     x: number = 0;
     y: number = 0;
     images = {};
-
-    totalResources = 6;
-    numResourcesLoaded = 0;
     fps = 30;
 
     constructor(
@@ -89,10 +86,6 @@ export class GameDetailComponent implements OnInit {
 
     resourceLoaded() {
         this.animate();
-        this.numResourcesLoaded++;
-        if (this.numResourcesLoaded === this.totalResources) {
-            setInterval(this.animate(), 1000 / this.fps);
-        }
     }
 
     loadImage(name) {
@@ -109,8 +102,8 @@ export class GameDetailComponent implements OnInit {
             ctx2.drawImage(this.images[name], 0, 0, w / 2, h / 2);
             ctx2.drawImage(can2, 0, 0, w / 2, h / 2, 0, 0, w / 4, h / 4);
             ctx2.drawImage(can2, 0, 0, w / 4, h / 4, 0, 0, w / 6, h / 6);
-
             this.context.drawImage(can2, 0, 0, w / 6, h / 6, 0, 200, w / 6, h / 6);
+
             this.resourceLoaded();
         };
         this.images[name].src = "/assets/" + name + ".jpg";
@@ -124,10 +117,11 @@ export class GameDetailComponent implements OnInit {
         // Draw to the canvas
         let canvasWidth = this.gameCanvas.nativeElement.width;
         let canvasHeight = this.gameCanvas.nativeElement.height;
-        this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
-        this.context.drawImage(this.images["char"], this.x, this.y);
+        console.log(this.images['char'].width)
+        // this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
+        // this.context.drawImage(this.images["char"], this.x, 200);
         setTimeout(() => {
-            window.setTimeout(this.animate(), 1000 / 60);
+            window.setTimeout(this.animate(), 1000 / this.fps);
         }, 30);
     }
 
