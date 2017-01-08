@@ -108,7 +108,15 @@ export class GameDetailComponent implements OnInit {
 
         this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
         this.drawField();
-        this.drawPlayer(this.images['char'], 50, 50, 0, 0, '38');
+        // Draw the home players
+        for (let i = 0; i < this.game.game.homePlayers.length; i++) {
+            this.drawPlayer(this.images['char'], 50, 50, 0, i * 50, this.game.game.homePlayers[i].first);
+        }
+        // Draw the away players
+        let calcEndPoint = (this.maxWidth - 50);
+        for (let i = 0; i < this.game.game.awayPlayers.length; i++) {
+            this.drawPlayer(this.images['char'], 50, 50, calcEndPoint, i * 50, this.game.game.awayPlayers[i].first);
+        }
         setTimeout(() => {
             window.setTimeout(this.redrawCanvas(), 1000 / this.fps);
         }, 30);
