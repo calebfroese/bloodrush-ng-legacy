@@ -30,17 +30,17 @@ export class GameDetailComponent implements OnInit {
     context: any;
     x: number = 0;
     y: number = 0;
-    charX: number;
-    charY: number;
-    startTime;
+    images = {};
+
+    totalResources = 6;
+    numResourcesLoaded = 0;
+    fps = 30;
 
     constructor(
         private route: ActivatedRoute,
         private location: Location,
         private mongo: MongoService
-    ) {
-        this.startTime = (new Date()).getTime();
-    }
+    ) { }
 
     ngOnInit(): void {
         this.route.params.subscribe((params: Params) => {
@@ -86,12 +86,6 @@ export class GameDetailComponent implements OnInit {
         this.initCanvas();
         this.fullscreenify();
     }
-
-    images = {};
-
-    totalResources = 6;
-    numResourcesLoaded = 0;
-    fps = 30;
 
     resourceLoaded() {
         this.animate();
