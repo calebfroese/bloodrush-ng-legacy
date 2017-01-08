@@ -108,7 +108,7 @@ export class GameDetailComponent implements OnInit {
 
         this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
         this.drawField();
-        this.context.drawImage(this.images['char'], this.x / this.ratio, this.y / this.ratio, this.images['char'].width / this.ratio, this.images['char'].height / this.ratio);
+        this.drawPlayer(this.images['char'], 50, 50, 0, 0, '38');
         setTimeout(() => {
             window.setTimeout(this.redrawCanvas(), 1000 / this.fps);
         }, 30);
@@ -136,5 +136,13 @@ export class GameDetailComponent implements OnInit {
         this.context.rect(0, 0, this.maxWidth, this.maxHeight);
         this.context.fillStyle = 'green';
         this.context.fill();
+    }
+
+    drawPlayer(image: any, width: number, height: number, x, y, name: string): void {
+        // Draws a single player
+        this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
+        this.context.font = '12px Arial';
+        this.context.fillStyle = 'white';
+        this.context.fillText(name, x + 10, y + 16);
     }
 }
