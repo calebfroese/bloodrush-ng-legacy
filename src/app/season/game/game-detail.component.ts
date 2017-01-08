@@ -15,11 +15,6 @@ export class GameDetailComponent implements OnInit {
     gameId: number;
     season: any;
 
-    // Canvas
-    canvasSize = {
-        width: 1000,
-        height: 800
-    };
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
     context: any;
     x: number = 0;
@@ -99,6 +94,7 @@ export class GameDetailComponent implements OnInit {
 
         this.images[name] = new Image();
         this.images[name].onload = () => {
+            this.context.imageSmoothingEnabled = false;
             this.resourceLoaded();
         };
         this.images[name].src = "/assets/" + name + ".jpg";
@@ -110,43 +106,34 @@ export class GameDetailComponent implements OnInit {
     }
 
     animate() {
+        // Draw to the canvas
+        let canvasWidth = this.gameCanvas.nativeElement.width;
+        let canvasHeight = this.gameCanvas.nativeElement.height;
+
         let time = (new Date()).getTime() - this.startTime;
         let linearSpeed = 84;
         // pixels / second
         let newX = linearSpeed * time / 1000;
-        if (newX < this.gameCanvas.nativeElement.width - 100 - 100 / 2) {
+        if (newX < canvasWidth - (canvasWidth / 10) - (canvasWidth / 10) / 2) {
             this.x = newX;
         }
         this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
-        this.context.drawImage(this.images["char"], this.x, this.y);
+        this.context.imageSmoothingEnabled = false;
+        this.context.drawImage(this.images["char"], this.x, this.y, (canvasWidth / 10), (canvasWidth / 10));
         setTimeout(() => {
             window.setTimeout(this.animate(), 1000 / 60);
         }, 30);
     }
 
     fullscreenify() {
-        //  var style = canvas.getAttribute('style') || '';
-        window.addEventListener('resize', () => { this.resize(); }, false);
-
-        this.resize();
-
+        this.resizeCanvas();
+        window.addEventListener('resize', () => {
+            // This runs when the window size is changed. Use to resize canvas
+            this.resizeCanvas();
+        }, false);
     }
 
-    
-    resize() {
-        
-        let scale = { x: 1, y: 1 };
-
-        scale.x = (window.innerWidth - 10) / this.gameCanvas.nativeElement.width;
-        scale.y = (window.innerHeight - 10) / this.gameCanvas.nativeElement.height;
-
-        if (scale.x < 1 || scale.y < 1) {
-            scale = { x: 1, y: 1 };
-        } else if (scale.x < scale.y) {
-            scale = { x: scale.x, y: scale.x };
-        } else {
-            scale = { x: scale.y, y: scale.y };
-        }
-        this.gameCanvas.nativeElement.setAttribute('style', '-ms-transform-origin: center top; -webkit-transform-origin: center top; -moz-transform-origin: center top; -o-transform-origin: center top; transform-origin: center top; -ms-transform: scale(' + scale.x + ', ' + scale.y + '); -webkit-transform: scale3d(' + scale + ', 1); -moz-transform: scale(' + scale.x + ', ' + scale.y + '); -o-transform: scale(' + scale.x + ', ' + scale.y + '); transform: scale(' + scale.x + ', ' + scale.y + ');');
+    resizeCanvas() {
+        this.gameCanvas.nativeElement.height = this.gameCanvas.nativeElement.width / 1.6;
     }
 }
