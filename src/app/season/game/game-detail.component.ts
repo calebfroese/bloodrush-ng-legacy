@@ -16,20 +16,24 @@ export class GameDetailComponent implements OnInit {
     season: any;
 
     // Canvas
-    canvasSize: number = 600;
+    canvasSize = {
+        width: 1000,
+        height: 800
+    };
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
     context: any;
     x: number = 0;
     y: number = 0;
     charX: number;
     charY: number;
+    startTime;
 
     constructor(
         private route: ActivatedRoute,
         private location: Location,
         private mongo: MongoService
     ) {
-
+        this.startTime = (new Date()).getTime();
     }
 
     ngOnInit(): void {
@@ -71,7 +75,10 @@ export class GameDetailComponent implements OnInit {
 
     // CANVAS
     playGame(game: any): void {
+        this.loadImage("char");
+
         this.initCanvas();
+        this.fullscreenify();
     }
 
     images = {};
@@ -81,39 +88,65 @@ export class GameDetailComponent implements OnInit {
     fps = 30;
 
     resourceLoaded() {
-
+        this.animate();
         this.numResourcesLoaded++;
         if (this.numResourcesLoaded === this.totalResources) {
-            setInterval(this.redraw, 1000 / this.fps);
+            setInterval(this.animate(), 1000 / this.fps);
         }
+    }
+
+    loadImage(name) {
+
+        this.images[name] = new Image();
+        this.images[name].onload = () => {
+            this.resourceLoaded();
+        };
+        this.images[name].src = "/assets/" + name + ".jpg";
     }
 
     initCanvas(): void {
         this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
-        let imageObj = new Image();
-
-        imageObj.onload = () => {
-            this.context.drawImage(imageObj, 69, 50);
-        };
-        imageObj.src = '/assets/char.png';
-        // happy drawing from here on
-        // this.context.drawImage(this.images["char"], 0, 0);
-        // this.context.drawImage(this.images["torso"], this.x, this.y - 50);
-        // this.context.drawImage(this.images["rightArm"], this.x - 15, this.y - 42);
-        // this.context.drawImage(this.images["head"], this.x - 10, this.y - 125);
-        // this.context.drawImage(this.images["hair"], this.x - 37, this.y - 138);
+        this.context.drawImage(this.images["char"], this.x, this.y);
     }
 
-    redraw() {
-        // this.context.drawImage(this.images["char"], this.x, this.y);
-        // this.x = this.charX;
-        // this.y = this.charY;
-        // this.gameCanvas.nativeElement.width = this.gameCanvas.nativeElement.width;
-        // this.context.drawImage(this.images["leftArm"], this.x + 40, this.y - 42);
-        // this.context.drawImage(this.images["legs"], this.x, this.y);
-        // this.context.drawImage(this.images["torso"], this.x, this.y - 50);
-        // this.context.drawImage(this.images["rightArm"], this.x - 15, this.y - 42);
-        // this.context.drawImage(this.images["head"], this.x - 10, this.y - 125);
-        // this.context.drawImage(this.images["hair"], this.x - 37, this.y - 138);
+    animate() {
+        let time = (new Date()).getTime() - this.startTime;
+        let linearSpeed = 84;
+        // pixels / second
+        let newX = linearSpeed * time / 1000;
+        if (newX < this.gameCanvas.nativeElement.width - 100 - 100 / 2) {
+            this.x = newX;
+        }
+        this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
+        this.context.drawImage(this.images["char"], this.x, this.y);
+        setTimeout(() => {
+            window.setTimeout(this.animate(), 1000 / 60);
+        }, 30);
+    }
+
+    fullscreenify() {
+        //  var style = canvas.getAttribute('style') || '';
+        window.addEventListener('resize', () => { this.resize(); }, false);
+
+        this.resize();
+
+    }
+
+    
+    resize() {
+        
+        let scale = { x: 1, y: 1 };
+
+        scale.x = (window.innerWidth - 10) / this.gameCanvas.nativeElement.width;
+        scale.y = (window.innerHeight - 10) / this.gameCanvas.nativeElement.height;
+
+        if (scale.x < 1 || scale.y < 1) {
+            scale = { x: 1, y: 1 };
+        } else if (scale.x < scale.y) {
+            scale = { x: scale.x, y: scale.x };
+        } else {
+            scale = { x: scale.y, y: scale.y };
+        }
+        this.gameCanvas.nativeElement.setAttribute('style', '-ms-transform-origin: center top; -webkit-transform-origin: center top; -moz-transform-origin: center top; -o-transform-origin: center top; transform-origin: center top; -ms-transform: scale(' + scale.x + ', ' + scale.y + '); -webkit-transform: scale3d(' + scale + ', 1); -moz-transform: scale(' + scale.x + ', ' + scale.y + '); -o-transform: scale(' + scale.x + ', ' + scale.y + '); transform: scale(' + scale.x + ', ' + scale.y + ');');
     }
 }
