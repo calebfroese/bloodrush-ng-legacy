@@ -84,8 +84,8 @@ export class GameDetailComponent implements OnInit {
         this.initCanvas();
 
         let img = new Image();
-        let w = 1280;
-        let h = 853;
+        let w = 1000;
+        let h = 1000;
         img.onload = () => {
             // Step it down several times
             let can2 = document.createElement('canvas');
@@ -97,11 +97,12 @@ export class GameDetailComponent implements OnInit {
 
             ctx2.drawImage(img, 0, 0, w / 2, h / 2);
             ctx2.drawImage(can2, 0, 0, w / 2, h / 2, 0, 0, w / 4, h / 4);
-            // ctx2.drawImage(can2, 0, 0, w / 4, h / 4, 0, 0, w / 6, h / 6);
-            this.context.drawImage(can2, 0, 0, w / 4, h / 4, 0, 200, w / 4, h / 4);
+            ctx2.drawImage(can2, 0, 0, w / 4, h / 4, 0, 0, w / 6, h / 6);
+
+            this.context.drawImage(can2, 0, 0, w / 6, h / 6, 0, 200, w / 6, h / 6);
         };
 
-        img.src = 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Equus_quagga_%28Namutoni%2C_2012%29.jpg/1280px-Equus_quagga_%28Namutoni%2C_2012%29.jpg'
+        img.src = '/assets/char.jpg';
 
         // this.loadImage("char");
 
