@@ -81,33 +81,10 @@ export class GameDetailComponent implements OnInit {
 
     // CANVAS
     playGame(game: any): void {
+        this.loadImage("char");
+
         this.initCanvas();
-
-        let img = new Image();
-        let w = 1000;
-        let h = 1000;
-        img.onload = () => {
-            // Step it down several times
-            let can2 = document.createElement('canvas');
-            can2.width = w / 2;
-            can2.height = w / 2;
-            let ctx2 = can2.getContext('2d');
-
-            // Draw it at 1/2 size 3 times (step down three times)
-
-            ctx2.drawImage(img, 0, 0, w / 2, h / 2);
-            ctx2.drawImage(can2, 0, 0, w / 2, h / 2, 0, 0, w / 4, h / 4);
-            ctx2.drawImage(can2, 0, 0, w / 4, h / 4, 0, 0, w / 6, h / 6);
-
-            this.context.drawImage(can2, 0, 0, w / 6, h / 6, 0, 200, w / 6, h / 6);
-        };
-
-        img.src = '/assets/char.jpg';
-
-        // this.loadImage("char");
-
-        // this.initCanvas();
-        // this.fullscreenify();
+        this.fullscreenify();
     }
 
     resourceLoaded() {
@@ -121,6 +98,19 @@ export class GameDetailComponent implements OnInit {
     loadImage(name) {
         this.images[name] = new Image();
         this.images[name].onload = () => {
+            let w = this.images[name].width * 10;
+            let h = this.images[name].height * 10;
+            // Step it down several times
+            let can2 = document.createElement('canvas');
+            can2.width = w / 2;
+            can2.height = w / 2;
+            let ctx2 = can2.getContext('2d');
+            // Draw it at 1/2 size 3 times (step down three times)
+            ctx2.drawImage(this.images[name], 0, 0, w / 2, h / 2);
+            ctx2.drawImage(can2, 0, 0, w / 2, h / 2, 0, 0, w / 4, h / 4);
+            ctx2.drawImage(can2, 0, 0, w / 4, h / 4, 0, 0, w / 6, h / 6);
+
+            this.context.drawImage(can2, 0, 0, w / 6, h / 6, 0, 200, w / 6, h / 6);
             this.resourceLoaded();
         };
         this.images[name].src = "/assets/" + name + ".jpg";
