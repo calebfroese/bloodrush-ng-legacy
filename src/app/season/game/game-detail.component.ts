@@ -125,14 +125,9 @@ export class GameDetailComponent implements OnInit {
     }
 
     fullscreenify() {
-        this.resizeCanvas();
-        window.addEventListener('resize', () => {
-            // This runs when the window size is changed. Use to resize canvas
-            this.resizeCanvas();
-        }, false);
-    }
-
-    resizeCanvas() {
         this.gameCanvas.nativeElement.height = this.gameCanvas.nativeElement.width / 1.6;
+        window.addEventListener('resize', () => {
+            this.gameCanvas.nativeElement.height = this.gameCanvas.nativeElement.width / 1.6;
+        }, false);
     }
 }
