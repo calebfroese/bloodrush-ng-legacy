@@ -27,6 +27,7 @@ export class GameDetailComponent implements OnInit {
     season: any;
 
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
+    @ViewChild('cDiv') cDiv: ElementRef;
     context: any;
     x: number = 0;
     y: number = 0;
@@ -91,19 +92,6 @@ export class GameDetailComponent implements OnInit {
     loadImage(name) {
         this.images[name] = new Image();
         this.images[name].onload = () => {
-            let w = this.images[name].width * 10;
-            let h = this.images[name].height * 10;
-            // Step it down several times
-            let can2 = document.createElement('canvas');
-            can2.width = w / 2;
-            can2.height = w / 2;
-            let ctx2 = can2.getContext('2d');
-            // Draw it at 1/2 size 3 times (step down three times)
-            ctx2.drawImage(this.images[name], 0, 0, w / 2, h / 2);
-            ctx2.drawImage(can2, 0, 0, w / 2, h / 2, 0, 0, w / 4, h / 4);
-            ctx2.drawImage(can2, 0, 0, w / 4, h / 4, 0, 0, w / 6, h / 6);
-            this.context.drawImage(can2, 0, 0, w / 6, h / 6, 0, 200, w / 6, h / 6);
-
             this.resourceLoaded();
         };
         this.images[name].src = "/assets/" + name + ".jpg";
@@ -117,18 +105,25 @@ export class GameDetailComponent implements OnInit {
         // Draw to the canvas
         let canvasWidth = this.gameCanvas.nativeElement.width;
         let canvasHeight = this.gameCanvas.nativeElement.height;
-        console.log(this.images['char'].width)
-        // this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
-        // this.context.drawImage(this.images["char"], this.x, 200);
+        // console.log(this.images['char'].width)
+        this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
+        this.context.drawImage(this.images["char"], this.x, 200);
         setTimeout(() => {
             window.setTimeout(this.animate(), 1000 / this.fps);
         }, 30);
     }
 
-    fullscreenify() {
-        this.gameCanvas.nativeElement.height = this.gameCanvas.nativeElement.width / 1.6;
+    fullscreenify(): void {
+        this.resizeScreen();
         window.addEventListener('resize', () => {
-            this.gameCanvas.nativeElement.height = this.gameCanvas.nativeElement.width / 1.6;
+            this.resizeScreen();
         }, false);
+    }
+
+    resizeScreen(): void {
+        let containerWidth = this.cDiv.nativeElement.offsetWidth;
+
+        this.gameCanvas.nativeElement.width = containerWidth;
+        this.gameCanvas.nativeElement.height = containerWidth / 1.6;
     }
 }

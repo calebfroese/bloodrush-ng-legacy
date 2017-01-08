@@ -13,7 +13,9 @@
             <br> Date: {{game.date | date}}
             <br>
             <button (click)="playGame()">Play Game</button>
-            <canvas #gameCanvas width="800" height="800"></canvas>
+            <div #cDiv style="width: 100%;">
+                <canvas #gameCanvas width="800" height="800"></canvas>
+            </div>
         </div>
     </div>
 </div>
