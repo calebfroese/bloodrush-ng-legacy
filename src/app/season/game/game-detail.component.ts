@@ -6,7 +6,18 @@ import * as moment from 'moment';
 import { MongoService } from './../../mongo/mongo.service';
 
 @Component({
-    templateUrl: './game-detail.component.html'
+    templateUrl: './game-detail.component.html',
+    styles: [`
+    canvas, img {
+        image-rendering: optimizeSpeed;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: optimize-contrast;
+        image-rendering: pixelated;
+        -ms-interpolation-mode: nearest-neighbor;
+        border: 5px solid #ddd;
+    }
+`]
 })
 export class GameDetailComponent implements OnInit {
     isBye: boolean = false;
@@ -91,10 +102,8 @@ export class GameDetailComponent implements OnInit {
     }
 
     loadImage(name) {
-
         this.images[name] = new Image();
         this.images[name].onload = () => {
-            this.context.imageSmoothingEnabled = false;
             this.resourceLoaded();
         };
         this.images[name].src = "/assets/" + name + ".jpg";
@@ -102,24 +111,14 @@ export class GameDetailComponent implements OnInit {
 
     initCanvas(): void {
         this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
-        this.context.drawImage(this.images["char"], this.x, this.y);
     }
 
     animate() {
         // Draw to the canvas
         let canvasWidth = this.gameCanvas.nativeElement.width;
         let canvasHeight = this.gameCanvas.nativeElement.height;
-
-        let time = (new Date()).getTime() - this.startTime;
-        let linearSpeed = 84;
-        // pixels / second
-        let newX = linearSpeed * time / 1000;
-        if (newX < canvasWidth - (canvasWidth / 10) - (canvasWidth / 10) / 2) {
-            this.x = newX;
-        }
         this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
-        this.context.imageSmoothingEnabled = false;
-        this.context.drawImage(this.images["char"], this.x, this.y, (canvasWidth / 10), (canvasWidth / 10));
+        this.context.drawImage(this.images["char"], this.x, this.y);
         setTimeout(() => {
             window.setTimeout(this.animate(), 1000 / 60);
         }, 30);
