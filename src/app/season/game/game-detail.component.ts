@@ -81,10 +81,35 @@ export class GameDetailComponent implements OnInit {
 
     // CANVAS
     playGame(game: any): void {
-        this.loadImage("char");
-
         this.initCanvas();
-        this.fullscreenify();
+
+        let img = new Image();
+        let w = 1280;
+        let h = 853;
+        img.onload = () => {
+            // step it down only once to 1/6 size:
+            this.context.drawImage(img, 0, 0, w / 6, h / 6);
+
+            // Step it down several times
+            let can2 = document.createElement('canvas');
+            can2.width = w / 2;
+            can2.height = w / 2;
+            let ctx2 = can2.getContext('2d');
+
+            // Draw it at 1/2 size 3 times (step down three times)
+
+            ctx2.drawImage(img, 0, 0, w / 2, h / 2);
+            ctx2.drawImage(can2, 0, 0, w / 2, h / 2, 0, 0, w / 4, h / 4);
+            ctx2.drawImage(can2, 0, 0, w / 4, h / 4, 0, 0, w / 6, h / 6);
+            this.context.drawImage(can2, 0, 0, w / 6, h / 6, 0, 200, w / 6, h / 6);
+        };
+
+        img.src = 'http://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Equus_quagga_%28Namutoni%2C_2012%29.jpg/1280px-Equus_quagga_%28Namutoni%2C_2012%29.jpg'
+
+        // this.loadImage("char");
+
+        // this.initCanvas();
+        // this.fullscreenify();
     }
 
     resourceLoaded() {
