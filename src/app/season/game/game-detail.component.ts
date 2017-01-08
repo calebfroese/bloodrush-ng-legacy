@@ -24,7 +24,7 @@ export class GameDetailComponent implements OnInit {
     nonByeTeam: string; // index of the team that is not null
     game: any;
     gameId: number;
-    season: any;
+    season: any;    
 
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
     @ViewChild('cDiv') cDiv: ElementRef;
@@ -33,6 +33,8 @@ export class GameDetailComponent implements OnInit {
     y: number = 0;
     images = {};
     fps = 30;
+    // Scaling
+    ratio: number;
 
     constructor(
         private route: ActivatedRoute,
@@ -85,14 +87,10 @@ export class GameDetailComponent implements OnInit {
         this.fullscreenify();
     }
 
-    resourceLoaded() {
-        this.animate();
-    }
-
     loadImage(name) {
         this.images[name] = new Image();
         this.images[name].onload = () => {
-            this.resourceLoaded();
+            this.redrawCanvas();
         };
         this.images[name].src = "/assets/" + name + ".jpg";
     }
@@ -101,15 +99,15 @@ export class GameDetailComponent implements OnInit {
         this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
     }
 
-    animate() {
+    redrawCanvas() {
         // Draw to the canvas
         let canvasWidth = this.gameCanvas.nativeElement.width;
         let canvasHeight = this.gameCanvas.nativeElement.height;
-        // console.log(this.images['char'].width)
+
         this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
-        this.context.drawImage(this.images["char"], this.x, 200);
+        this.context.drawImage(this.images["char"], this.x, 200, this.images['char'].width / this.ratio, this.images['char'].height / this.ratio);
         setTimeout(() => {
-            window.setTimeout(this.animate(), 1000 / this.fps);
+            window.setTimeout(this.redrawCanvas(), 1000 / this.fps);
         }, 30);
     }
 
@@ -125,5 +123,7 @@ export class GameDetailComponent implements OnInit {
 
         this.gameCanvas.nativeElement.width = containerWidth;
         this.gameCanvas.nativeElement.height = containerWidth / 1.6;
+
+        this.ratio = 969.09 / containerWidth;
     }
 }
