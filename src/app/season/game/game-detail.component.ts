@@ -7,7 +7,7 @@ import { MongoService } from './../../mongo/mongo.service';
 
 @Component({
     templateUrl: './game-detail.component.html',
-    //     styles: [`
+    // styles: [`
     //     canvas, img {
     //         image-rendering: optimizeSpeed;
     //         image-rendering: -moz-crisp-edges;
@@ -128,6 +128,7 @@ export class GameDetailComponent implements OnInit {
         let canvasHeight = this.gameCanvas.nativeElement.height;
 
         this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
+        
         this.drawField();
         this.drawScore();
 
@@ -167,10 +168,8 @@ export class GameDetailComponent implements OnInit {
 
     resizeScreen(): void {
         let containerWidth = this.cDiv.nativeElement.offsetWidth;
-
-        this.gameCanvas.nativeElement.width = containerWidth;
-        this.gameCanvas.nativeElement.height = containerWidth / 1.6;
-
+        this.gameCanvas.nativeElement.width = (containerWidth);
+        this.gameCanvas.nativeElement.height = (containerWidth) / 1.6;
         this.ratio = this.maxWidth / containerWidth;
     }
 
@@ -207,7 +206,7 @@ export class GameDetailComponent implements OnInit {
     }
 
     playerMove(isAway, playerIndex) {
-        let gameSpeed = 120;
+        let gameSpeed = 160;
         // Calculates if a player can move (or is stuck attacking opponents)
         if (isAway === 0) {
             // Home team
