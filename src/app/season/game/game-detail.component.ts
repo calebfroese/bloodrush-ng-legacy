@@ -126,13 +126,21 @@ export class GameDetailComponent implements OnInit {
 
         // Draw the home players
         for (let i = 0; i < homePlayers.length; i++) {
-            let downText = homePlayers[i].down ? homePlayers[i].knockdown : '' ;
+            let downText = Math.round(homePlayers[i].kg);
+            if (homePlayers[i].down) {
+                this.calculateRecovery(0, i);
+                downText = homePlayers[i].knockdown;
+            }
             this.homePos[i] += this.playerMove(0, i);
             this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.homePos[i], i * this.playerDimensions, homePlayers[i].first, downText);
         }
         // Draw the away players
         for (let i = 0; i < awayPlayers.length; i++) {
-            let downText = awayPlayers[i].down ? awayPlayers[i].knockdown : '' ;
+            let downText = Math.round(awayPlayers[i].kg);
+            if (awayPlayers[i].down) {
+                this.calculateRecovery(1, i);
+                downText = awayPlayers[i].knockdown;
+            }
             this.awayPos[i] -= this.playerMove(1, i);
             this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.awayPos[i], i * this.playerDimensions, awayPlayers[i].first, downText);
         }
@@ -165,7 +173,7 @@ export class GameDetailComponent implements OnInit {
         this.context.fill();
     }
 
-    drawPlayer(image: any, width: number, height: number, x, y, first: string, down: string): void {
+    drawPlayer(image: any, width: number, height: number, x, y, first: string, down: any): void {
         // Draws a single player
         this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
         this.context.font = 12 / this.ratio + 'px Arial';
@@ -213,5 +221,24 @@ export class GameDetailComponent implements OnInit {
             }
         }
         return 0;
+    }
+
+    calculateRecovery(isAway, playerIndex) {
+        let homePlayers = this.game.game.homePlayers;
+        let awayPlayers = this.game.game.awayPlayers;
+
+        if (isAway === 0) {
+            // Home team
+            if (homePlayers[playerIndex].knockdown === 'recover' && Math.random() < homePlayers[playerIndex].rec / 100) {
+                homePlayers[playerIndex].down = false;
+                homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 3; // give hp back
+            }
+        } else {
+            // Away team
+            if (awayPlayers[playerIndex].knockdown === 'recover' && Math.random() < awayPlayers[playerIndex].rec / 100) {
+                awayPlayers[playerIndex].down = false;
+                awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 3; // give hp back
+            }
+        }
     }
 }
