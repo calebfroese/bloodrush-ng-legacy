@@ -62,9 +62,7 @@ export class GameDetailComponent implements OnInit {
                         return this.mongo.run('teams', 'oneById', { _id: this.game.away });
                     }).then(awayTeam => {
                         this.game.away = awayTeam;
-                        if (this.season.games[gameId].game) {
-                            this.playGame(this.season.games[gameId].game);
-                        }
+                        this.playGame(this.season.games[gameId].game);
                     }).catch(err => {
                         debugger;
                     });
@@ -209,8 +207,9 @@ export class GameDetailComponent implements OnInit {
 
             if (!this.game.game.awayPlayers[playerIndex].down && this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
                 // Colliding
-                if (Math.random() > 0.3) {
-                    this.game.game.awayPlayers[playerIndex].kg -= this.game.game.homePlayers[playerIndex].atk / (this.game.game.awayPlayers[playerIndex].def * 2);
+                let rand = Math.random();
+                if (rand > 0.9) {
+                    this.game.game.awayPlayers[playerIndex].kg -= this.game.game.homePlayers[playerIndex].atk / (this.game.game.awayPlayers[playerIndex].def / 4);
                     if (this.game.game.awayPlayers[playerIndex].kg < 0) {
                         this.game.game.awayPlayers[playerIndex].down = true;
                     }
@@ -236,8 +235,9 @@ export class GameDetailComponent implements OnInit {
 
             if (!this.game.game.homePlayers[playerIndex].down && this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
                 // Colliding
-                if (Math.random() > 0.3) {
-                    this.game.game.homePlayers[playerIndex].kg -= this.game.game.homePlayers[playerIndex].atk / (this.game.game.homePlayers[playerIndex].def * 2);
+                let rand = Math.random();
+                if (rand > 0.9) {
+                    this.game.game.homePlayers[playerIndex].kg -= this.game.game.homePlayers[playerIndex].atk / (this.game.game.homePlayers[playerIndex].def / 4);
                     if (this.game.game.homePlayers[playerIndex].kg < 0) {
                         this.game.game.homePlayers[playerIndex].down = true;
                     }
