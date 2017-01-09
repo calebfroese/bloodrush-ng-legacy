@@ -191,34 +191,70 @@ export class GameDetailComponent implements OnInit {
         // Calculates if a player can move (or is stuck attacking opponents)
         if (isAway === 0) {
             // Home team
-            if (homePlayers[playerIndex].down) return 0;
+            if (homePlayers[playerIndex].down) return 0; // self is down
 
-            if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex] || awayPlayers[playerIndex].down) {
-                return homePlayers[playerIndex].spd / gameSpeed;
-            } else {
-                // Attack
-                if (Math.random() > 0.8) {
-                    awayPlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (awayPlayers[playerIndex].def * 1.2);
-                    if (awayPlayers[playerIndex].kg <= 0) {
-                        awayPlayers[playerIndex].down = true;
+            if (!awayPlayers[playerIndex].down) {
+                if (this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
+                    // Attack
+                    if (Math.random() > 0.8) {
+                        awayPlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (awayPlayers[playerIndex].def * 1.2);
+                        if (awayPlayers[playerIndex].kg <= 0) {
+                            awayPlayers[playerIndex].down = true;
+                        }
                     }
+                } else {
+                    // Allowed to move
+                    return homePlayers[playerIndex].spd / gameSpeed;
                 }
+            } else {
+                // Allowed to move
+                return homePlayers[playerIndex].spd / gameSpeed;
             }
+
+            // if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex] && this.homePos[playerIndex]  || awayPlayers[playerIndex].down) {
+            //     return homePlayers[playerIndex].spd / gameSpeed;
+            // } else {
+            //     // Attack
+            //     if (Math.random() > 0.8) {
+            //         awayPlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (awayPlayers[playerIndex].def * 1.2);
+            //         if (awayPlayers[playerIndex].kg <= 0) {
+            //             awayPlayers[playerIndex].down = true;
+            //         }
+            //     }
+            // }
         } else {
             // Away team
-            if (awayPlayers[playerIndex].down) return 0;
+            if (awayPlayers[playerIndex].down) return 0; // self is down
 
-            if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex] || homePlayers[playerIndex].down) {
-                return awayPlayers[playerIndex].spd / gameSpeed;
-            } else {
-                // Attack
-                if (Math.random() > 0.8) {
-                    homePlayers[playerIndex].kg -= awayPlayers[playerIndex].atk / (homePlayers[playerIndex].def * 1.2);
-                    if (homePlayers[playerIndex].kg <= 0) {
-                        homePlayers[playerIndex].down = true;
+            if (!homePlayers[playerIndex].down) {
+                if (this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
+                    // Attack
+                    if (Math.random() > 0.8) {
+                        homePlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (homePlayers[playerIndex].def * 1.2);
+                        if (homePlayers[playerIndex].kg <= 0) {
+                            homePlayers[playerIndex].down = true;
+                        }
                     }
+                } else {
+                    // Allowed to move
+                    return awayPlayers[playerIndex].spd / gameSpeed;
                 }
+            } else {
+                // Allowed to move
+                return awayPlayers[playerIndex].spd / gameSpeed;
             }
+
+            // if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex] || homePlayers[playerIndex].down) {
+            //     return awayPlayers[playerIndex].spd / gameSpeed;
+            // } else {
+            //     // Attack
+            //     if (Math.random() > 0.8) {
+            //         homePlayers[playerIndex].kg -= awayPlayers[playerIndex].atk / (homePlayers[playerIndex].def * 1.2);
+            //         if (homePlayers[playerIndex].kg <= 0) {
+            //             homePlayers[playerIndex].down = true;
+            //         }
+            //     }
+            // }
         }
         return 0;
     }
