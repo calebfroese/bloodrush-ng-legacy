@@ -229,15 +229,23 @@ export class GameDetailComponent implements OnInit {
 
         if (isAway === 0) {
             // Home team
-            if (homePlayers[playerIndex].knockdown === 'recover' && Math.random() < homePlayers[playerIndex].rec / 100) {
-                homePlayers[playerIndex].down = false;
-                homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 3; // give hp back
+            if (homePlayers[playerIndex].knockdown === 'recover' && Math.random() < homePlayers[playerIndex].rec / 1) {
+                setTimeout(() => {
+                    homePlayers[playerIndex].down = false;
+                    homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 3; // give hp back
+                }, 3000);
+            } else {
+                homePlayers[playerIndex].knockdown = 'knockdown';
             }
         } else {
             // Away team
-            if (awayPlayers[playerIndex].knockdown === 'recover' && Math.random() < awayPlayers[playerIndex].rec / 100) {
-                awayPlayers[playerIndex].down = false;
-                awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 3; // give hp back
+            if (awayPlayers[playerIndex].knockdown === 'recover' && Math.random() < awayPlayers[playerIndex].rec / 1) {
+                setTimeout(() => {
+                    awayPlayers[playerIndex].down = false;
+                    awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 3; // give hp back
+                }, 3000);
+            } else {
+                awayPlayers[playerIndex].knockdown = 'knockdown';
             }
         }
     }
