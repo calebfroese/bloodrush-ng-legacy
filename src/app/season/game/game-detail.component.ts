@@ -123,12 +123,12 @@ export class GameDetailComponent implements OnInit {
 
         // Draw the home players
         for (let i = 0; i < this.game.game.homePlayers.length; i++) {
-            this.homePos[i] += this.game.game.homePlayers[i].spd / 50;
+            this.homePos[i] += this.playerMove(0, i);
             this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.homePos[i], i * this.playerDimensions, this.game.game.homePlayers[i].first, this.game.game.homePlayers[i].last);
         }
         // Draw the away players
         for (let i = 0; i < this.game.game.awayPlayers.length; i++) {
-            this.awayPos[i] -= this.game.game.awayPlayers[i].spd / 50;
+            this.awayPos[i] -= this.playerMove(1, i);
             this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.awayPos[i], i * this.playerDimensions, this.game.game.awayPlayers[i].first, this.game.game.awayPlayers[i].last);
         }
         setTimeout(() => {
@@ -169,5 +169,16 @@ export class GameDetailComponent implements OnInit {
         this.context.font = 12 / this.ratio + 'px Arial';
         this.context.fillStyle = 'white';
         this.context.fillText(last, (x + 10) / this.ratio, (y + 26) / this.ratio);
+    }
+
+    playerMove(isAway, playerIndex) {
+        // Calculates if a player can move (or is stuck attacking opponents)
+        if (isAway === 0) {
+            // Home team
+            return this.game.game.homePlayers[playerIndex].spd / 50;
+        } else {
+            // Away team
+            return this.game.game.awayPlayers[playerIndex].spd / 50;
+        }
     }
 }
