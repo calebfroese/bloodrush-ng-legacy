@@ -113,6 +113,7 @@ export class GameDetailComponent implements OnInit {
     calcEndPoint = this.maxWidth - this.playerDimensions;
     homePos = [0, 0, 0, 0, 0, 0, 0, 0];
     awayPos = [this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint];
+
     redrawCanvas() {
         // Draw to the canvas
         let canvasWidth = this.gameCanvas.nativeElement.width;
@@ -124,12 +125,12 @@ export class GameDetailComponent implements OnInit {
         // Draw the home players
         for (let i = 0; i < this.game.game.homePlayers.length; i++) {
             this.homePos[i] += this.playerMove(0, i);
-            this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.homePos[i], i * this.playerDimensions, this.game.game.homePlayers[i].first, this.game.game.homePlayers[i].last);
+            this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.homePos[i], i * this.playerDimensions, this.game.game.homePlayers[i].first, this.game.game.homePlayers[i].kg);
         }
         // Draw the away players
         for (let i = 0; i < this.game.game.awayPlayers.length; i++) {
             this.awayPos[i] -= this.playerMove(1, i);
-            this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.awayPos[i], i * this.playerDimensions, this.game.game.awayPlayers[i].first, this.game.game.awayPlayers[i].last);
+            this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.awayPos[i], i * this.playerDimensions, this.game.game.awayPlayers[i].first, this.game.game.awayPlayers[i].kg);
         }
         setTimeout(() => {
             window.setTimeout(this.redrawCanvas(), 1000 / this.fps);
@@ -160,7 +161,7 @@ export class GameDetailComponent implements OnInit {
         this.context.fill();
     }
 
-    drawPlayer(image: any, width: number, height: number, x, y, first: string, last: string): void {
+    drawPlayer(image: any, width: number, height: number, x, y, first: string, kg: number): void {
         // Draws a single player
         this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
         this.context.font = 12 / this.ratio + 'px Arial';
@@ -168,7 +169,7 @@ export class GameDetailComponent implements OnInit {
         this.context.fillText(first, (x + 10) / this.ratio, (y + 16) / this.ratio);
         this.context.font = 12 / this.ratio + 'px Arial';
         this.context.fillStyle = 'white';
-        this.context.fillText(last, (x + 10) / this.ratio, (y + 26) / this.ratio);
+        this.context.fillText(Math.round(kg), (x + 10) / this.ratio, (y + 26) / this.ratio);
     }
 
     playerMove(isAway, playerIndex) {
@@ -176,12 +177,34 @@ export class GameDetailComponent implements OnInit {
         // Calculates if a player can move (or is stuck attacking opponents)
         if (isAway === 0) {
             // Home team
-            if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex])
+            if (this.game.game.homePlayers[playerIndex].down) return 0;
+
+            if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex] || this.game.game.awayPlayers[playerIndex].down) {
                 return this.game.game.homePlayers[playerIndex].spd / gameSpeed;
+            } else {
+                // Attack
+                if (Math.random() > 0.8) {
+                    this.game.game.awayPlayers[playerIndex].kg -= this.game.game.homePlayers[playerIndex].atk / (this.game.game.awayPlayers[playerIndex].def * 1.2);
+                    if (this.game.game.awayPlayers[playerIndex].kg <= 0) {
+                        this.game.game.awayPlayers[playerIndex].down = true;
+                    }
+                }
+            }
         } else {
             // Away team
-            if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex])
+            if (this.game.game.awayPlayers[playerIndex].down) return 0;
+
+            if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex] || this.game.game.homePlayers[playerIndex].down) {
                 return this.game.game.awayPlayers[playerIndex].spd / gameSpeed;
+            } else {
+                // Attack
+                if (Math.random() > 0.8) {
+                    this.game.game.homePlayers[playerIndex].kg -= this.game.game.awayPlayers[playerIndex].atk / (this.game.game.homePlayers[playerIndex].def * 1.2);
+                    if (this.game.game.homePlayers[playerIndex].kg <= 0) {
+                        this.game.game.homePlayers[playerIndex].down = true;
+                    }
+                }
+            }
         }
         return 0;
     }
