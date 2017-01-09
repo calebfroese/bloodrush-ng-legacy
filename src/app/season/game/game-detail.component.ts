@@ -201,20 +201,18 @@ export class GameDetailComponent implements OnInit {
     }
 
     playerMove(isAway, playerIndex) {
-        let homePlayers = this.game.game.homePlayers;
-        let awayPlayers = this.game.game.awayPlayers;
         let gameSpeed = 30;
         // Calculates if a player can move (or is stuck attacking opponents)
         if (isAway === 0) {
             // Home team
-            if (homePlayers[playerIndex].down) return 0; // self is down
+            if (this.game.game.homePlayers[playerIndex].down) return 0; // self is down
 
-            if (!awayPlayers[playerIndex].down && this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
+            if (!this.game.game.awayPlayers[playerIndex].down && this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
                 // Colliding
                 if (Math.random() > 0.3) {
-                    awayPlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (awayPlayers[playerIndex].def * 2);
-                    if (awayPlayers[playerIndex].kg <= 0) {
-                        awayPlayers[playerIndex].down = true;
+                    this.game.game.awayPlayers[playerIndex].kg -= this.game.game.homePlayers[playerIndex].atk / (this.game.game.awayPlayers[playerIndex].def * 2);
+                    if (this.game.game.awayPlayers[playerIndex].kg < 0) {
+                        this.game.game.awayPlayers[playerIndex].down = true;
                     }
                 }
             } else {
@@ -227,21 +225,21 @@ export class GameDetailComponent implements OnInit {
                         this.homePos[playerIndex] = scoringZone;
                         this.homeScore++;
                     } else {
-                        return homePlayers[playerIndex].spd / gameSpeed;
+                        return this.game.game.homePlayers[playerIndex].spd / gameSpeed;
                     }
                 }
                 return 0;
             }
         } else {
             // Away team
-            if (awayPlayers[playerIndex].down) return 0; // self is down
+            if (this.game.game.awayPlayers[playerIndex].down) return 0; // self is down
 
-            if (!homePlayers[playerIndex].down && this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
+            if (!this.game.game.homePlayers[playerIndex].down && this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
                 // Colliding
                 if (Math.random() > 0.3) {
-                    homePlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (homePlayers[playerIndex].def * 2);
-                    if (homePlayers[playerIndex].kg <= 0) {
-                        homePlayers[playerIndex].down = true;
+                    this.game.game.homePlayers[playerIndex].kg -= this.game.game.homePlayers[playerIndex].atk / (this.game.game.homePlayers[playerIndex].def * 2);
+                    if (this.game.game.homePlayers[playerIndex].kg < 0) {
+                        this.game.game.homePlayers[playerIndex].down = true;
                     }
                 }
             } else {
@@ -254,7 +252,7 @@ export class GameDetailComponent implements OnInit {
                         this.awayPos[playerIndex] = scoringZone;
                         this.awayScore++;
                     } else {
-                        return awayPlayers[playerIndex].spd / gameSpeed;
+                        return this.game.game.awayPlayers[playerIndex].spd / gameSpeed;
                     }
                 }
                 return 0;
