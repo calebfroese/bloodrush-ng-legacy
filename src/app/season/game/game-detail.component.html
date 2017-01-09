@@ -12,7 +12,7 @@
             Round: #{{game.round}}
             <br> Date: {{game.date | date}}
             <br>
-            <button (click)="playGame()">Play Game</button>
+            <button type="button" (click)="runGame()">Play Game</button>
             <div #cDiv style="width: 100%;">
                 <canvas #gameCanvas width="800" height="800"></canvas>
             </div>

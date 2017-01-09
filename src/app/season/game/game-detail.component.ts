@@ -24,6 +24,7 @@ export class GameDetailComponent implements OnInit {
     nonByeTeam: string; // index of the team that is not null
     game: any;
     gameId: number;
+    seasonNumber: number;
     season: any;
 
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
@@ -48,6 +49,7 @@ export class GameDetailComponent implements OnInit {
         this.route.params.subscribe((params: Params) => {
             // Fetch the season
             let seasonNumber: number = +params['seasonNumber'];
+            this.seasonNumber = seasonNumber;
             let gameId: number = +params['gameId'];
             this.gameId = gameId;
             this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber }).then(season => {
@@ -60,7 +62,9 @@ export class GameDetailComponent implements OnInit {
                         return this.mongo.run('teams', 'oneById', { _id: this.game.away });
                     }).then(awayTeam => {
                         this.game.away = awayTeam;
-                        this.playGame(this.season.games[gameId].game);
+                        if (this.season.games[gameId].game) {
+                            this.playGame(this.season.games[gameId].game);
+                        }
                     }).catch(err => {
                         debugger;
                     });
@@ -79,6 +83,10 @@ export class GameDetailComponent implements OnInit {
         } else {
             this.nonByeTeam = 'away';
         }
+    }
+
+    runGame() {
+        this.mongo.run('games', 'playGame', { 'seasonNumber': this.seasonNumber, 'gameNumber': this.gameId });
     }
 
     // CANVAS
@@ -101,6 +109,10 @@ export class GameDetailComponent implements OnInit {
         this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
     }
 
+    playerDimensions = 75; // playerDimensions both width and height
+    calcEndPoint = this.maxWidth - this.playerDimensions;
+    homePos = [0, 0, 0, 0, 0, 0, 0, 0];
+    awayPos = [this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint];
     redrawCanvas() {
         // Draw to the canvas
         let canvasWidth = this.gameCanvas.nativeElement.width;
@@ -108,14 +120,16 @@ export class GameDetailComponent implements OnInit {
 
         this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
         this.drawField();
+
         // Draw the home players
         for (let i = 0; i < this.game.game.homePlayers.length; i++) {
-            this.drawPlayer(this.images['char'], 50, 50, 0, i * 50, this.game.game.homePlayers[i].first);
+            this.homePos[i] += this.game.game.homePlayers[i].spd / 50;
+            this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.homePos[i], i * this.playerDimensions, this.game.game.homePlayers[i].first, this.game.game.homePlayers[i].last);
         }
         // Draw the away players
-        let calcEndPoint = (this.maxWidth - 50);
         for (let i = 0; i < this.game.game.awayPlayers.length; i++) {
-            this.drawPlayer(this.images['char'], 50, 50, calcEndPoint, i * 50, this.game.game.awayPlayers[i].first);
+            this.awayPos[i] -= this.game.game.awayPlayers[i].spd / 50;
+            this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.awayPos[i], i * this.playerDimensions, this.game.game.awayPlayers[i].first, this.game.game.awayPlayers[i].last);
         }
         setTimeout(() => {
             window.setTimeout(this.redrawCanvas(), 1000 / this.fps);
@@ -146,11 +160,14 @@ export class GameDetailComponent implements OnInit {
         this.context.fill();
     }
 
-    drawPlayer(image: any, width: number, height: number, x, y, name: string): void {
+    drawPlayer(image: any, width: number, height: number, x, y, first: string, last: string): void {
         // Draws a single player
         this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
         this.context.font = 12 / this.ratio + 'px Arial';
         this.context.fillStyle = 'white';
-        this.context.fillText(name, (x + 10) / this.ratio, (y + 16) / this.ratio);
+        this.context.fillText(first, (x + 10) / this.ratio, (y + 16) / this.ratio);
+        this.context.font = 12 / this.ratio + 'px Arial';
+        this.context.fillStyle = 'white';
+        this.context.fillText(last, (x + 10) / this.ratio, (y + 26) / this.ratio);
     }
 }
