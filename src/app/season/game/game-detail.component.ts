@@ -244,14 +244,14 @@ export class GameDetailComponent implements OnInit {
     calculateRecovery(isAway, playerIndex) {
         let homePlayers = this.game.game.homePlayers;
         let awayPlayers = this.game.game.awayPlayers;
-
+        let randomRecoveryTime = 1500 + Math.random() * 6;
         if (isAway === 0) {
             // Home team
             if (homePlayers[playerIndex].knockdown === 'recover' && Math.random() < homePlayers[playerIndex].rec / 100) {
                 setTimeout(() => {
                     homePlayers[playerIndex].down = false;
                     homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 3; // give hp back
-                }, 3000);
+                }, randomRecoveryTime);
             } else {
                 // Stay knocked down
                 homePlayers[playerIndex].knockdown = 'knockdown';
@@ -262,7 +262,7 @@ export class GameDetailComponent implements OnInit {
                 setTimeout(() => {
                     awayPlayers[playerIndex].down = false;
                     awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 3; // give hp back
-                }, 3000);
+                }, randomRecoveryTime);
             } else {
                 // Stay knocked down
                 awayPlayers[playerIndex].knockdown = 'knockdown';
