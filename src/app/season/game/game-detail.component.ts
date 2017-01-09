@@ -62,7 +62,6 @@ export class GameDetailComponent implements OnInit {
                         return this.mongo.run('teams', 'oneById', { _id: this.game.away });
                     }).then(awayTeam => {
                         this.game.away = awayTeam;
-                        this.playGame(this.season.games[gameId].game);
                     }).catch(err => {
                         debugger;
                     });
@@ -88,7 +87,7 @@ export class GameDetailComponent implements OnInit {
     }
 
     // CANVAS
-    playGame(game: any): void {
+    playGame(): void {
         this.loadImage('char');
 
         this.initCanvas();
@@ -110,7 +109,8 @@ export class GameDetailComponent implements OnInit {
     playerDimensions = 75; // playerDimensions both width and height
     calcEndPoint = this.maxWidth - this.playerDimensions;
     homePos = [0, 0, 0, 0, 0, 0, 0, 0];
-    awayPos = [this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint];
+    awayPos = [this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint,
+    this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint];
     homeScore = 0;
     awayScore = 0;
 
@@ -133,7 +133,8 @@ export class GameDetailComponent implements OnInit {
                 downText = homePlayers[i].knockdown;
             }
             this.homePos[i] += this.playerMove(0, i);
-            this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.homePos[i], i * this.playerDimensions, homePlayers[i].first, downText);
+            this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions,
+            this.homePos[i], i * this.playerDimensions, homePlayers[i].last, downText);
         }
         // Draw the away players
         for (let i = 0; i < awayPlayers.length; i++) {
@@ -143,7 +144,8 @@ export class GameDetailComponent implements OnInit {
                 downText = awayPlayers[i].knockdown;
             }
             this.awayPos[i] -= this.playerMove(1, i);
-            this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions, this.awayPos[i], i * this.playerDimensions, awayPlayers[i].first, downText);
+            this.drawPlayer(this.images['char'], this.playerDimensions, this.playerDimensions,
+            this.awayPos[i], i * this.playerDimensions, awayPlayers[i].last, downText);
         }
         setTimeout(() => {
             window.setTimeout(this.redrawCanvas(), 1000 / this.fps);
