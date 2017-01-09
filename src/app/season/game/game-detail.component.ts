@@ -172,13 +172,17 @@ export class GameDetailComponent implements OnInit {
     }
 
     playerMove(isAway, playerIndex) {
+        let gameSpeed = 30;
         // Calculates if a player can move (or is stuck attacking opponents)
         if (isAway === 0) {
             // Home team
-            return this.game.game.homePlayers[playerIndex].spd / 50;
+            if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex])
+                return this.game.game.homePlayers[playerIndex].spd / gameSpeed;
         } else {
             // Away team
-            return this.game.game.awayPlayers[playerIndex].spd / 50;
+            if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex])
+                return this.game.game.awayPlayers[playerIndex].spd / gameSpeed;
         }
+        return 0;
     }
 }
