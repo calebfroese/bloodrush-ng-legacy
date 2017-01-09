@@ -113,6 +113,8 @@ export class GameDetailComponent implements OnInit {
     calcEndPoint = this.maxWidth - this.playerDimensions;
     homePos = [0, 0, 0, 0, 0, 0, 0, 0];
     awayPos = [this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint];
+    homeScore = 0;
+    awayScore = 0;
 
     redrawCanvas() {
         let homePlayers = this.game.game.homePlayers;
@@ -123,6 +125,7 @@ export class GameDetailComponent implements OnInit {
 
         this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
         this.drawField();
+        this.drawScore();
 
         // Draw the home players
         for (let i = 0; i < homePlayers.length; i++) {
@@ -186,6 +189,17 @@ export class GameDetailComponent implements OnInit {
         this.context.fillText(down, (x + 10) / this.ratio, (y + 26) / this.ratio);
     }
 
+    drawScore() {
+        // Home Score
+        this.context.font = 30 / this.ratio + 'px Arial';
+        this.context.fillStyle = 'black';
+        this.context.fillText('Home: ' + this.homeScore, 10, 60);
+        // Away Score
+        this.context.font = 30 / this.ratio + 'px Arial';
+        this.context.fillStyle = 'black';
+        this.context.fillText('Away: ' + this.awayScore, this.maxWidth / this.ratio - 140, 60);
+    }
+
     playerMove(isAway, playerIndex) {
         let homePlayers = this.game.game.homePlayers;
         let awayPlayers = this.game.game.awayPlayers;
@@ -198,8 +212,8 @@ export class GameDetailComponent implements OnInit {
             if (!awayPlayers[playerIndex].down) {
                 if (this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
                     // Attack
-                    if (Math.random() > 0.8) {
-                        awayPlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (awayPlayers[playerIndex].def * 1.2);
+                    if (Math.random() > 0.3) {
+                        awayPlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (awayPlayers[playerIndex].def * 2);
                         if (awayPlayers[playerIndex].kg <= 0) {
                             awayPlayers[playerIndex].down = true;
                         }
@@ -212,18 +226,6 @@ export class GameDetailComponent implements OnInit {
                 // Allowed to move
                 return homePlayers[playerIndex].spd / gameSpeed;
             }
-
-            // if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex] && this.homePos[playerIndex]  || awayPlayers[playerIndex].down) {
-            //     return homePlayers[playerIndex].spd / gameSpeed;
-            // } else {
-            //     // Attack
-            //     if (Math.random() > 0.8) {
-            //         awayPlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (awayPlayers[playerIndex].def * 1.2);
-            //         if (awayPlayers[playerIndex].kg <= 0) {
-            //             awayPlayers[playerIndex].down = true;
-            //         }
-            //     }
-            // }
         } else {
             // Away team
             if (awayPlayers[playerIndex].down) return 0; // self is down
@@ -231,8 +233,8 @@ export class GameDetailComponent implements OnInit {
             if (!homePlayers[playerIndex].down) {
                 if (this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
                     // Attack
-                    if (Math.random() > 0.8) {
-                        homePlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (homePlayers[playerIndex].def * 1.2);
+                    if (Math.random() > 0.3) {
+                        homePlayers[playerIndex].kg -= homePlayers[playerIndex].atk / (homePlayers[playerIndex].def * 2);
                         if (homePlayers[playerIndex].kg <= 0) {
                             homePlayers[playerIndex].down = true;
                         }
@@ -245,18 +247,6 @@ export class GameDetailComponent implements OnInit {
                 // Allowed to move
                 return awayPlayers[playerIndex].spd / gameSpeed;
             }
-
-            // if (this.homePos[playerIndex] + this.playerDimensions < this.awayPos[playerIndex] || homePlayers[playerIndex].down) {
-            //     return awayPlayers[playerIndex].spd / gameSpeed;
-            // } else {
-            //     // Attack
-            //     if (Math.random() > 0.8) {
-            //         homePlayers[playerIndex].kg -= awayPlayers[playerIndex].atk / (homePlayers[playerIndex].def * 1.2);
-            //         if (homePlayers[playerIndex].kg <= 0) {
-            //             homePlayers[playerIndex].down = true;
-            //         }
-            //     }
-            // }
         }
         return 0;
     }
