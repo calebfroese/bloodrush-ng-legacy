@@ -114,9 +114,9 @@ export class GameDetailComponent implements OnInit {
         y: 250 * 0.2
     };
     calcEndPoint = this.maxWidth - this.playerDimensions.x;
-    homePos = [0, 0, 0, 0, 0, 0, 0, 0];
-    awayPos = [this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint,
-    this.calcEndPoint, this.calcEndPoint, this.calcEndPoint, this.calcEndPoint];
+    homePos = [{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}];
+    awayPos = [{x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0},
+    {x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0}];
     homeScore = 0;
     awayScore = 0;
 
@@ -139,9 +139,9 @@ export class GameDetailComponent implements OnInit {
                 this.calculateRecovery(0, i);
                 downText = homePlayers[i].knockdown;
             }
-            this.homePos[i] += this.playerMove(0, i);
+            this.homePos[i].x += this.playerMove(0, i);
             this.drawPlayer(this.images['player' + this.game.home.style], this.playerDimensions.x, this.playerDimensions.y,
-                this.homePos[i], i * this.playerDimensions.y, homePlayers[i].last, downText);
+                this.homePos[i].x, i * this.playerDimensions.y, homePlayers[i].last, downText);
         }
         // Draw the away players
         for (let i = 0; i < awayPlayers.length; i++) {
@@ -150,9 +150,9 @@ export class GameDetailComponent implements OnInit {
                 this.calculateRecovery(1, i);
                 downText = awayPlayers[i].knockdown;
             }
-            this.awayPos[i] -= this.playerMove(1, i);
+            this.awayPos[i].x -= this.playerMove(1, i);
             this.drawPlayer(this.images['player' + this.game.away.style], this.playerDimensions.x, this.playerDimensions.y,
-                this.awayPos[i], i * this.playerDimensions.y, awayPlayers[i].last, downText);
+                this.awayPos[i].x, i * this.playerDimensions.y, awayPlayers[i].last, downText);
         }
         setTimeout(() => {
             window.setTimeout(this.redrawCanvas(), 1000 / this.fps);
@@ -212,7 +212,7 @@ export class GameDetailComponent implements OnInit {
             // Home team
             if (this.game.game.homePlayers[playerIndex].down) return 0; // self is down
 
-            if (!this.game.game.awayPlayers[playerIndex].down && this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions.x && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
+            if (!this.game.game.awayPlayers[playerIndex].down && this.awayPos[playerIndex].x < this.homePos[playerIndex].x + this.playerDimensions.x && this.homePos[playerIndex].x < this.awayPos[playerIndex].x) {
                 // Colliding
                 let rand = Math.random();
                 if (rand > 0.9) {
@@ -225,10 +225,10 @@ export class GameDetailComponent implements OnInit {
                 // Not colliding
                 let scoringZone = (this.maxWidth - this.playerDimensions.x) / this.ratio;
                 if (!this.game.game.homePlayers[playerIndex].hasScored) {
-                    if (this.homePos[playerIndex] > scoringZone && !this.game.game.homePlayers[playerIndex].hasScored) {
+                    if (this.homePos[playerIndex].x > scoringZone && !this.game.game.homePlayers[playerIndex].hasScored) {
                         // In the scoring zone
                         this.game.game.homePlayers[playerIndex].hasScored = true;
-                        this.homePos[playerIndex] = scoringZone;
+                        this.homePos[playerIndex].x = scoringZone;
                         this.homeScore++;
                     } else {
                         return this.game.game.homePlayers[playerIndex].spd / gameSpeed;
@@ -240,7 +240,7 @@ export class GameDetailComponent implements OnInit {
             // Away team
             if (this.game.game.awayPlayers[playerIndex].down) return 0; // self is down
 
-            if (!this.game.game.homePlayers[playerIndex].down && this.awayPos[playerIndex] < this.homePos[playerIndex] + this.playerDimensions.x && this.homePos[playerIndex] < this.awayPos[playerIndex]) {
+            if (!this.game.game.homePlayers[playerIndex].down && this.awayPos[playerIndex].x < this.homePos[playerIndex].x + this.playerDimensions.x && this.homePos[playerIndex].x < this.awayPos[playerIndex].x) {
                 // Colliding
                 let rand = Math.random();
                 if (rand > 0.9) {
@@ -253,10 +253,10 @@ export class GameDetailComponent implements OnInit {
                 // Not colliding
                 let scoringZone = 0;
                 if (!this.game.game.awayPlayers[playerIndex].hasScored) {
-                    if (this.awayPos[playerIndex] < scoringZone) {
+                    if (this.awayPos[playerIndex].x < scoringZone) {
                         // In the scoring zone
                         this.game.game.awayPlayers[playerIndex].hasScored = true;
-                        this.awayPos[playerIndex] = scoringZone;
+                        this.awayPos[playerIndex].x = scoringZone;
                         this.awayScore++;
                     } else {
                         return this.game.game.awayPlayers[playerIndex].spd / gameSpeed;
