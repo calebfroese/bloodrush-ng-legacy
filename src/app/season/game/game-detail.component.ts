@@ -55,7 +55,13 @@ export class GameDetailComponent implements OnInit {
             this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber }).then(season => {
                 this.season = season;
                 if (season) {
-                    if (season.games[gameId]) this.game = season.games[gameId];
+                    if (season.games[gameId]) {
+                        this.game = season.games[gameId];
+                        for (let i = 0; i < 8; i++) {
+                            this.game.game.homePlayers[i].scored = { round1: false };
+                            this.game.game.awayPlayers[i].scored = { round1: false };
+                        }
+                    }
                     // Load the teams
                     this.mongo.run('teams', 'oneById', { _id: this.game.home }).then(teamHome => {
                         this.game.home = teamHome;
@@ -223,15 +229,15 @@ export class GameDetailComponent implements OnInit {
         let oPlayers = this.game.game[oTeam + 'Players'];
         let oPos = this[oTeam + 'Pos'];
 
-        // If down
-        if (teamPlayers[i].kg <= 0 || teamPlayers[i].scored) return playerPos;
+        // If down or scored
+        if (teamPlayers[i].kg <= 0 || teamPlayers[i].scored.round1) return playerPos;
 
         // Run through to find the closest enemy
         if (this.timeElapsed > playerPos.recalc && oPlayers[i].down) {
             let lowestC = 1000000000; // unreasonably higher number that any player will be closer than
             playerPos.targetIndex = null;
             for (let x = 0; x < 8; x++) {
-                if (oPlayers[x].kg > 0) {
+                if (oPlayers[x].kg > 0 && !oPlayers[x].scored.round1) {
                     let a = playerPos.x - oPos[x].x;
                     let b = playerPos.y - oPos[x].y;
                     let c = Math.sqrt(a * a + b * b);
@@ -284,7 +290,7 @@ export class GameDetailComponent implements OnInit {
             let moveDirection = (team === 'home') ? 1 : -1;
             if (playerPos.x >= this.calcEndPoint && moveDirection === 1 ||
                 playerPos.x <= 0 && moveDirection === -1) {
-                teamPlayers[i].scored = { round1: 1 };
+                this.game.game[team + 'Players'][i].scored = { round1: true };
             } else {
                 playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
             }
