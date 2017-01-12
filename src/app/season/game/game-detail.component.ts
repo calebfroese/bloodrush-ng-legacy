@@ -231,7 +231,6 @@ export class GameDetailComponent implements OnInit {
          * @param {string} team // home or away
          * @param {number} i // player index in array e.g. homePlayers[i]
          */
-        let gameSpeed = 160;
         let oTeam = (team === 'home') ? 'away' : 'home'; // other team
         let teamPlayers = this.game.game[team + 'Players'];
         let oPlayers = this.game.game[oTeam + 'Players'];
@@ -249,7 +248,7 @@ export class GameDetailComponent implements OnInit {
                     let a = playerPos.x - oPos[x].x;
                     let b = playerPos.y - oPos[x].y;
                     let c = Math.sqrt(a * a + b * b);
-                    if (c < lowestC) {
+                    if (c < lowestC && c < 100) {
                         lowestC = c;
                         playerPos.targetIndex = x;
                     }
