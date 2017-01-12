@@ -237,7 +237,7 @@ export class GameDetailComponent implements OnInit {
             let lowestC = 1000000000; // unreasonably higher number that any player will be closer than
             playerPos.targetIndex = null;
             for (let x = 0; x < 8; x++) {
-                if (oPlayers[x].kg > 0 && !oPlayers[x].scored.round1) {
+                if (oPlayers[x].kg > 0) {
                     let a = playerPos.x - oPos[x].x;
                     let b = playerPos.y - oPos[x].y;
                     let c = Math.sqrt(a * a + b * b);
@@ -249,6 +249,10 @@ export class GameDetailComponent implements OnInit {
             }
             // Reset the timer until next recalculation of target
             playerPos.recalc = this.timeElapsed + 1000;
+        }
+
+        if (playerPos.targetIndex && oPlayers[playerPos.targetIndex].scored.round1 === true) {
+            playerPos.targetIndex = null;
         }
 
         if (playerPos.targetIndex !== null && !oPlayers[playerPos.targetIndex].down) {
