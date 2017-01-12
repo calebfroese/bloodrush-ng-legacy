@@ -295,7 +295,7 @@ export class GameDetailComponent implements OnInit {
             }
         } else {
             // MOVE TO END field
-            let moveDirection = team === 'home' ? 1 : -1;
+            let moveDirection = (team === 'home') ? 1 : -1;
             playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
         }
         return playerPos;
@@ -311,7 +311,6 @@ export class GameDetailComponent implements OnInit {
             // Home team
             if (homePlayers[playerIndex].knockdown === 'recover') {
                 setTimeout(() => {
-                    console.log("RECOVERING HOME");
                     homePlayers[playerIndex].down = false;
                     homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 6; // give hp back
                 }, recoveryTime);
@@ -323,7 +322,6 @@ export class GameDetailComponent implements OnInit {
             // Away team
             if (awayPlayers[playerIndex].knockdown === 'recover') {
                 setTimeout(() => {
-                    console.log("RECOVERING AWAY");
                     awayPlayers[playerIndex].down = false;
                     awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 6; // give hp back
                 }, recoveryTime);
