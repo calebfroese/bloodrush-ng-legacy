@@ -223,6 +223,9 @@ export class GameDetailComponent implements OnInit {
         let oPlayers = this.game.game[oTeam + 'Players'];
         let oPos = this[oTeam + 'Pos'];
 
+        // If down
+        if(teamPlayers[i].down) return playerPos;
+
         if (!playerPos.targetIndex) playerPos.targetIndex = i;
 
         // Run through to find the closest enemy
@@ -251,9 +254,14 @@ export class GameDetailComponent implements OnInit {
 
             if (c <= 50) {
                 // ATTACK THE ENEMY
-                this.game.game[oTeam + 'Players'][playerPos.targetIndex].hp -= teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def;
+                if (Math.random() * 100 < 4) {
+                    this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg -= teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def;
+                    if (this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
+                        this.game.game[oTeam + 'Players'][playerPos.targetIndex].down = true;
+                    }
+                }
             } else {
-                // MOVE TOWWARDS ENEMY
+                // MOVE TOWARDS ENEMY
 
                 // Calculate direction towards player
                 let calcX = this[oTeam + 'Pos'][playerPos.targetIndex].x - playerPos.x;
