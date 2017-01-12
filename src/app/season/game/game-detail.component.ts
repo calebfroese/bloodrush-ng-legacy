@@ -162,7 +162,7 @@ export class GameDetailComponent implements OnInit {
             }
             this.homePos[i] = this.playerLogic(this.homePos[i], 'home', i);
             this.drawPlayer(this.images['player' + this.game.home.style], this.playerDimensions.x, this.playerDimensions.y,
-                this.homePos[i].x, this.homePos[i].y, homePlayers[i].first, homePlayers[i].last, downText);
+                this.homePos[i].x, this.homePos[i].y, homePlayers[i].first, homePlayers[i].last, downText, this.game.home.col1);
         }
         // Draw the away players
         for (let i = 0; i < awayPlayers.length; i++) {
@@ -173,7 +173,7 @@ export class GameDetailComponent implements OnInit {
             }
             this.awayPos[i] = this.playerLogic(this.awayPos[i], 'away', i);
             this.drawPlayer(this.images['player' + this.game.away.style], this.playerDimensions.x, this.playerDimensions.y,
-                this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].first, awayPlayers[i].last, downText);
+                this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].first, awayPlayers[i].last, downText, this.game.away.col1);
         }
         // Update time
         this.timeCurrent = Date.now();
@@ -205,13 +205,13 @@ export class GameDetailComponent implements OnInit {
         this.context.fill();
     }
 
-    drawPlayer(image: any, width: number, height: number, x, y, first: string, last: string, down: any): void {
+    drawPlayer(image: any, width: number, height: number, x, y, first: string, last: string, down: any, color: string): void {
         // Draws a single player
         if (!parseInt(down)) this.context.globalAlpha = 0.3;
         this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
         // Font
         this.context.font = 12 / this.ratio + 'px Arial';
-        this.context.fillStyle = 'red';
+        this.context.fillStyle = color;
         this.context.fillText(first, (x) / this.ratio, (y - 14) / this.ratio);
         this.context.fillText(last, (x) / this.ratio, (y - 4) / this.ratio);
         this.context.globalAlpha = 1;
