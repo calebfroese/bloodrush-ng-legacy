@@ -115,27 +115,29 @@ export class GameDetailComponent implements OnInit {
         this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
     }
 
-    playerDimensions = {
+    playerAttr = {
         x: 160 * 0.2,
-        y: 250 * 0.2
+        y: 250 * 0.2,
+        visionRadius: 100,
+        attackRadius: 30
     };
-    calcEndPoint = this.maxWidth - this.playerDimensions.x;
-    homePos = [{ x: 0, y: this.playerDimensions.y * 0, r: 0, recalc: 0, targetIndex: 0 },
-    { x: 0, y: this.playerDimensions.y * 1, r: 0, recalc: 0, targetIndex: 1 },
-    { x: 0, y: this.playerDimensions.y * 2, r: 0, recalc: 0, targetIndex: 2 },
-    { x: 0, y: this.playerDimensions.y * 3, r: 0, recalc: 0, targetIndex: 3 },
-    { x: 0, y: this.playerDimensions.y * 4, r: 0, recalc: 0, targetIndex: 4 },
-    { x: 0, y: this.playerDimensions.y * 5, r: 0, recalc: 0, targetIndex: 5 },
-    { x: 0, y: this.playerDimensions.y * 6, r: 0, recalc: 0, targetIndex: 6 },
-    { x: 0, y: this.playerDimensions.y * 7, r: 0, recalc: 0, targetIndex: 7 }];
-    awayPos = [{ x: this.calcEndPoint, y: this.playerDimensions.y * 0, r: 0, recalc: 0, targetIndex: 0 },
-    { x: this.calcEndPoint, y: this.playerDimensions.y * 1, r: 0, recalc: 0, targetIndex: 1 },
-    { x: this.calcEndPoint, y: this.playerDimensions.y * 2, r: 0, recalc: 0, targetIndex: 2 },
-    { x: this.calcEndPoint, y: this.playerDimensions.y * 3, r: 0, recalc: 0, targetIndex: 3 },
-    { x: this.calcEndPoint, y: this.playerDimensions.y * 4, r: 0, recalc: 0, targetIndex: 4 },
-    { x: this.calcEndPoint, y: this.playerDimensions.y * 5, r: 0, recalc: 0, targetIndex: 5 },
-    { x: this.calcEndPoint, y: this.playerDimensions.y * 6, r: 0, recalc: 0, targetIndex: 6 },
-    { x: this.calcEndPoint, y: this.playerDimensions.y * 7, r: 0, recalc: 0, targetIndex: 7 }];
+    calcEndPoint = this.maxWidth - this.playerAttr.x;
+    homePos = [{ x: 0, y: this.playerAttr.y * 0, r: 0, recalc: 0, targetIndex: 0 },
+    { x: 0, y: this.playerAttr.y * 1, r: 0, recalc: 0, targetIndex: 1 },
+    { x: 0, y: this.playerAttr.y * 2, r: 0, recalc: 0, targetIndex: 2 },
+    { x: 0, y: this.playerAttr.y * 3, r: 0, recalc: 0, targetIndex: 3 },
+    { x: 0, y: this.playerAttr.y * 4, r: 0, recalc: 0, targetIndex: 4 },
+    { x: 0, y: this.playerAttr.y * 5, r: 0, recalc: 0, targetIndex: 5 },
+    { x: 0, y: this.playerAttr.y * 6, r: 0, recalc: 0, targetIndex: 6 },
+    { x: 0, y: this.playerAttr.y * 7, r: 0, recalc: 0, targetIndex: 7 }];
+    awayPos = [{ x: this.calcEndPoint, y: this.playerAttr.y * 0, r: 0, recalc: 0, targetIndex: 0 },
+    { x: this.calcEndPoint, y: this.playerAttr.y * 1, r: 0, recalc: 0, targetIndex: 1 },
+    { x: this.calcEndPoint, y: this.playerAttr.y * 2, r: 0, recalc: 0, targetIndex: 2 },
+    { x: this.calcEndPoint, y: this.playerAttr.y * 3, r: 0, recalc: 0, targetIndex: 3 },
+    { x: this.calcEndPoint, y: this.playerAttr.y * 4, r: 0, recalc: 0, targetIndex: 4 },
+    { x: this.calcEndPoint, y: this.playerAttr.y * 5, r: 0, recalc: 0, targetIndex: 5 },
+    { x: this.calcEndPoint, y: this.playerAttr.y * 6, r: 0, recalc: 0, targetIndex: 6 },
+    { x: this.calcEndPoint, y: this.playerAttr.y * 7, r: 0, recalc: 0, targetIndex: 7 }];
     homeScore = 0;
     awayScore = 0;
     timeStart = Date.now();
@@ -161,7 +163,7 @@ export class GameDetailComponent implements OnInit {
                 downText = homePlayers[i].knockdown;
             }
             this.homePos[i] = this.playerLogic(this.homePos[i], 'home', i);
-            this.drawPlayer(this.images['player' + this.game.home.style], this.playerDimensions.x, this.playerDimensions.y,
+            this.drawPlayer(this.images['player' + this.game.home.style], this.playerAttr.x, this.playerAttr.y,
                 this.homePos[i].x, this.homePos[i].y, homePlayers[i].first, homePlayers[i].last, downText, this.game.home.col1);
         }
         // Draw the away players
@@ -172,7 +174,7 @@ export class GameDetailComponent implements OnInit {
                 downText = awayPlayers[i].knockdown;
             }
             this.awayPos[i] = this.playerLogic(this.awayPos[i], 'away', i);
-            this.drawPlayer(this.images['player' + this.game.away.style], this.playerDimensions.x, this.playerDimensions.y,
+            this.drawPlayer(this.images['player' + this.game.away.style], this.playerAttr.x, this.playerAttr.y,
                 this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].first, awayPlayers[i].last, downText, this.game.away.col1);
         }
         // Update time
@@ -241,7 +243,7 @@ export class GameDetailComponent implements OnInit {
                     let a = playerPos.x - oPos[x].x;
                     let b = playerPos.y - oPos[x].y;
                     let c = Math.sqrt(a * a + b * b);
-                    if (c < lowestC && c < 100) {
+                    if (c < lowestC && c < this.playerAttr.visionRadius) {
                         lowestC = c;
                         playerPos.targetIndex = x;
                     }
@@ -261,11 +263,11 @@ export class GameDetailComponent implements OnInit {
             let b = playerPos.y - oPos[playerPos.targetIndex].y;
             let c = Math.sqrt(a * a + b * b);
 
-            if (c <= 50) {
+            if (c <= this.playerAttr.attackRadius) {
                 // ATTACK THE ENEMY
                 if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
-                    playerPos.atkTime = this.timeElapsed + 100 + teamPlayers[i].spd;
-                    this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg -= teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def;
+                    playerPos.atkTime = this.timeElapsed + 1000 + teamPlayers[i].spd;
+                    this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg -= 5 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 3;
                     if (this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
                         this.game.game[oTeam + 'Players'][playerPos.targetIndex].down = true;
                     }
