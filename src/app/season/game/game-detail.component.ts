@@ -146,7 +146,6 @@ export class GameDetailComponent implements OnInit {
         this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
 
         this.drawField();
-        this.drawScore();
 
         // Draw the home players
         for (let i = 0; i < homePlayers.length; i++) {
@@ -211,17 +210,6 @@ export class GameDetailComponent implements OnInit {
         this.context.font = 12 / this.ratio + 'px Arial';
         this.context.fillStyle = 'white';
         this.context.fillText(down, (x + 10) / this.ratio, (y + 26) / this.ratio);
-    }
-
-    drawScore() {
-        // Home Score
-        this.context.font = 30 / this.ratio + 'px Arial';
-        this.context.fillStyle = 'black';
-        this.context.fillText('Home: ' + this.homeScore, 10, 60);
-        // Away Score
-        this.context.font = 30 / this.ratio + 'px Arial';
-        this.context.fillStyle = 'black';
-        this.context.fillText('Away: ' + this.awayScore, (this.maxWidth - 140) / this.ratio, 60);
     }
 
     playerLogic(playerPos, team, i) {
