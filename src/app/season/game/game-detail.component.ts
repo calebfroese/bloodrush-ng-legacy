@@ -152,7 +152,7 @@ export class GameDetailComponent implements OnInit {
         for (let i = 0; i < homePlayers.length; i++) {
             let downText = Math.round(homePlayers[i].kg);
             if (homePlayers[i].down) {
-                this.calculateRecovery(0, i);
+                this.calculateRecovery('home', i);
                 downText = homePlayers[i].knockdown;
             }
             this.homePos[i] = this.playerLogic(this.homePos[i], 'home', i);
@@ -163,7 +163,7 @@ export class GameDetailComponent implements OnInit {
         for (let i = 0; i < awayPlayers.length; i++) {
             let downText = Math.round(awayPlayers[i].kg);
             if (awayPlayers[i].down) {
-                this.calculateRecovery(1, i);
+                this.calculateRecovery('away', i);
                 downText = awayPlayers[i].knockdown;
             }
             this.awayPos[i] = this.playerLogic(this.awayPos[i], 'away', i);
@@ -238,14 +238,14 @@ export class GameDetailComponent implements OnInit {
         let oPos = this[oTeam + 'Pos'];
 
         // If down
-        if (teamPlayers[i].down) return playerPos;
+        if (teamPlayers[i].kg <= 0) return playerPos;
 
         // Run through to find the closest enemy
         if (this.timeElapsed > playerPos.recalc && oPlayers[i].down) {
             let lowestC = 1000000000; // unreasonably higher number that any player will be closer than
             playerPos.targetIndex = null;
             for (let x = 0; x < 8; x++) {
-                if (!oPlayers[x].down) {
+                if (oPlayers[x].kg > 0) {
                     let a = playerPos.x - oPos[x].x;
                     let b = playerPos.y - oPos[x].y;
                     let c = Math.sqrt(a * a + b * b);
@@ -259,7 +259,7 @@ export class GameDetailComponent implements OnInit {
             playerPos.recalc = this.timeElapsed + 1000;
         }
 
-        if (!oPlayers[playerPos.targetIndex].down) {
+        if (playerPos.targetIndex && !oPlayers[playerPos.targetIndex].down) {
             // Target is alive, check if nearby enough to attack
             let a = playerPos.x - oPos[playerPos.targetIndex].x;
             let b = playerPos.y - oPos[playerPos.targetIndex].y;
@@ -275,59 +275,62 @@ export class GameDetailComponent implements OnInit {
                     }
                 }
             } else {
-                if (playerPos.targetIndex) {
-                    // MOVE TOWARDS ENEMY
+                // MOVE TOWARDS ENEMY
 
-                    // Calculate direction towards player
-                    let calcX = this[oTeam + 'Pos'][playerPos.targetIndex].x - playerPos.x;
-                    let calcY = this[oTeam + 'Pos'][playerPos.targetIndex].y - playerPos.y;
+                // Calculate direction towards player
+                let calcX = this[oTeam + 'Pos'][playerPos.targetIndex].x - playerPos.x;
+                let calcY = this[oTeam + 'Pos'][playerPos.targetIndex].y - playerPos.y;
 
-                    // Normalize
-                    let toEnemyLength = Math.sqrt(calcX * calcX + calcY * calcY);
-                    calcX = calcX / toEnemyLength;
-                    calcY = calcY / toEnemyLength;
+                // Normalize
+                let toEnemyLength = Math.sqrt(calcX * calcX + calcY * calcY);
+                calcX = calcX / toEnemyLength;
+                calcY = calcY / toEnemyLength;
 
-                    // Move towards the enemy
-                    playerPos.x += (calcX * teamPlayers[i].spd) / 100;
-                    playerPos.y += (calcY * teamPlayers[i].spd) / 100;
+                // Move towards the enemy
+                playerPos.x += (calcX * teamPlayers[i].spd) / 100;
+                playerPos.y += (calcY * teamPlayers[i].spd) / 100;
 
-                    // Rotate us to face the player
-                    playerPos.r = Math.atan2(calcY, calcX);
-                } else {
-                    // MOVE TO END FIELD
-                    playerPos.x += teamPlayers[i].spd / 100;
-                }
+                // Rotate us to face the player
+                playerPos.r = Math.atan2(calcY, calcX);
             }
+        } else {
+            // MOVE TO END field
+            let moveDirection = team === 'home' ? 1 : -1;
+            playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
         }
         return playerPos;
     }
 
-    calculateRecovery(isAway, playerIndex) {
-        let homePlayers = this.game.game.homePlayers;
-        let awayPlayers = this.game.game.awayPlayers;
-        let randomRecoveryTime = 1500 + Math.random() * 6;
-        if (isAway === 0) {
-            // Home team
-            if (homePlayers[playerIndex].knockdown === 'recover' && Math.random() < homePlayers[playerIndex].rec / 100) {
-                setTimeout(() => {
-                    homePlayers[playerIndex].down = false;
-                    homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 6; // give hp back
-                }, randomRecoveryTime);
-            } else {
-                // Stay knocked down
-                homePlayers[playerIndex].knockdown = 'knockdown';
-            }
-        } else {
-            // Away team
-            if (awayPlayers[playerIndex].knockdown === 'recover' && Math.random() < awayPlayers[playerIndex].rec / 100) {
-                setTimeout(() => {
-                    awayPlayers[playerIndex].down = false;
-                    awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 6; // give hp back
-                }, randomRecoveryTime);
-            } else {
-                // Stay knocked down
-                awayPlayers[playerIndex].knockdown = 'knockdown';
-            }
-        }
+    calculateRecovery(team, playerIndex) {
+        // let homePlayers = this.game.game.homePlayers;
+        // let awayPlayers = this.game.game.awayPlayers;
+
+        // let recoveryTime = 6000;
+
+        // if (team === 'home') {
+        //     // Home team
+        //     if (homePlayers[playerIndex].knockdown === 'recover') {
+        //         setTimeout(() => {
+        //             console.log("RECOVERING HOME");
+        //             homePlayers[playerIndex].down = false;
+        //             homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 6; // give hp back
+        //         }, recoveryTime);
+        //     } else {
+        //         // Stay knocked down
+        //         homePlayers[playerIndex].knockdown = 'knockdown';
+        //     }
+        // } else {
+        //     // Away team
+        //     if (awayPlayers[playerIndex].knockdown === 'recover') {
+        //         setTimeout(() => {
+        //             console.log("RECOVERING AWAY");
+        //             awayPlayers[playerIndex].down = false;
+        //             awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 6; // give hp back
+        //         }, recoveryTime);
+        //     } else {
+        //         // Stay knocked down
+        //         awayPlayers[playerIndex].knockdown = 'knockdown';
+        //     }
+        // }
     }
 }
