@@ -139,7 +139,7 @@ export class GameDetailComponent implements OnInit {
                 this.calculateRecovery(0, i);
                 downText = homePlayers[i].knockdown;
             }
-            this.homePos[i].x += this.playerMove(0, i);
+            this.homePos[i].x += this.playerLogic(0, i);
             this.drawPlayer(this.images['player' + this.game.home.style], this.playerDimensions.x, this.playerDimensions.y,
                 this.homePos[i].x, i * this.playerDimensions.y, homePlayers[i].last, downText);
         }
@@ -150,7 +150,7 @@ export class GameDetailComponent implements OnInit {
                 this.calculateRecovery(1, i);
                 downText = awayPlayers[i].knockdown;
             }
-            this.awayPos[i].x -= this.playerMove(1, i);
+            this.awayPos[i].x -= this.playerLogic(1, i);
             this.drawPlayer(this.images['player' + this.game.away.style], this.playerDimensions.x, this.playerDimensions.y,
                 this.awayPos[i].x, i * this.playerDimensions.y, awayPlayers[i].last, downText);
         }
@@ -205,61 +205,64 @@ export class GameDetailComponent implements OnInit {
         this.context.fillText('Away: ' + this.awayScore, (this.maxWidth - 140) / this.ratio, 60);
     }
 
-    playerMove(isAway, playerIndex) {
+    playerLogic(isAway, i) {
+        /**
+         * Calculates the player logic
+         */
         let gameSpeed = 160;
         // Calculates if a player can move (or is stuck attacking opponents)
         if (isAway === 0) {
             // Home team
-            if (this.game.game.homePlayers[playerIndex].down) return 0; // self is down
+            if (this.game.game.homePlayers[i].down) return 0; // self is down
 
-            if (!this.game.game.awayPlayers[playerIndex].down && this.awayPos[playerIndex].x < this.homePos[playerIndex].x + this.playerDimensions.x && this.homePos[playerIndex].x < this.awayPos[playerIndex].x) {
+            if (!this.game.game.awayPlayers[i].down && this.awayPos[i].x < this.homePos[i].x + this.playerDimensions.x && this.homePos[i].x < this.awayPos[i].x) {
                 // Colliding
                 let rand = Math.random();
                 if (rand > 0.9) {
-                    this.game.game.awayPlayers[playerIndex].kg -= this.game.game.homePlayers[playerIndex].atk / (this.game.game.awayPlayers[playerIndex].def / 4);
-                    if (this.game.game.awayPlayers[playerIndex].kg < 0) {
-                        this.game.game.awayPlayers[playerIndex].down = true;
+                    this.game.game.awayPlayers[i].kg -= this.game.game.homePlayers[i].atk / (this.game.game.awayPlayers[i].def / 4);
+                    if (this.game.game.awayPlayers[i].kg < 0) {
+                        this.game.game.awayPlayers[i].down = true;
                     }
                 }
             } else {
                 // Not colliding
                 let scoringZone = (this.maxWidth - this.playerDimensions.x) / this.ratio;
-                if (!this.game.game.homePlayers[playerIndex].hasScored) {
-                    if (this.homePos[playerIndex].x > scoringZone && !this.game.game.homePlayers[playerIndex].hasScored) {
+                if (!this.game.game.homePlayers[i].hasScored) {
+                    if (this.homePos[i].x > scoringZone && !this.game.game.homePlayers[i].hasScored) {
                         // In the scoring zone
-                        this.game.game.homePlayers[playerIndex].hasScored = true;
-                        this.homePos[playerIndex].x = scoringZone;
+                        this.game.game.homePlayers[i].hasScored = true;
+                        this.homePos[i].x = scoringZone;
                         this.homeScore++;
                     } else {
-                        return this.game.game.homePlayers[playerIndex].spd / gameSpeed;
+                        return this.game.game.homePlayers[i].spd / gameSpeed;
                     }
                 }
                 return 0;
             }
         } else {
             // Away team
-            if (this.game.game.awayPlayers[playerIndex].down) return 0; // self is down
+            if (this.game.game.awayPlayers[i].down) return 0; // self is down
 
-            if (!this.game.game.homePlayers[playerIndex].down && this.awayPos[playerIndex].x < this.homePos[playerIndex].x + this.playerDimensions.x && this.homePos[playerIndex].x < this.awayPos[playerIndex].x) {
+            if (!this.game.game.homePlayers[i].down && this.awayPos[i].x < this.homePos[i].x + this.playerDimensions.x && this.homePos[i].x < this.awayPos[i].x) {
                 // Colliding
                 let rand = Math.random();
                 if (rand > 0.9) {
-                    this.game.game.homePlayers[playerIndex].kg -= this.game.game.homePlayers[playerIndex].atk / (this.game.game.homePlayers[playerIndex].def / 4);
-                    if (this.game.game.homePlayers[playerIndex].kg < 0) {
-                        this.game.game.homePlayers[playerIndex].down = true;
+                    this.game.game.homePlayers[i].kg -= this.game.game.homePlayers[i].atk / (this.game.game.homePlayers[i].def / 4);
+                    if (this.game.game.homePlayers[i].kg < 0) {
+                        this.game.game.homePlayers[i].down = true;
                     }
                 }
             } else {
                 // Not colliding
                 let scoringZone = 0;
-                if (!this.game.game.awayPlayers[playerIndex].hasScored) {
-                    if (this.awayPos[playerIndex].x < scoringZone) {
+                if (!this.game.game.awayPlayers[i].hasScored) {
+                    if (this.awayPos[i].x < scoringZone) {
                         // In the scoring zone
-                        this.game.game.awayPlayers[playerIndex].hasScored = true;
-                        this.awayPos[playerIndex].x = scoringZone;
+                        this.game.game.awayPlayers[i].hasScored = true;
+                        this.awayPos[i].x = scoringZone;
                         this.awayScore++;
                     } else {
-                        return this.game.game.awayPlayers[playerIndex].spd / gameSpeed;
+                        return this.game.game.awayPlayers[i].spd / gameSpeed;
                     }
                 }
                 return 0;
