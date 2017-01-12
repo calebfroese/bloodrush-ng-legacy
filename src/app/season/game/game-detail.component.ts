@@ -219,7 +219,7 @@ export class GameDetailComponent implements OnInit {
 
         if (teamPlayers[i].down) return playerPos; // self is down
 
-        if (!this.game.game.homePlayers[i].down && this.awayPos[i].x < this.homePos[i].x + this.playerDimensions.x && this.homePos[i].x < this.awayPos[i].x) {
+        if (!oPlayers[i].down && this.awayPos[i].x < this.homePos[i].x + this.playerDimensions.x && this.homePos[i].x < this.awayPos[i].x) {
             // Colliding
             let rand = Math.random();
             if (rand > 0.9) {
