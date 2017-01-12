@@ -223,21 +223,54 @@ export class GameDetailComponent implements OnInit {
         let oPlayers = this.game.game[oTeam + 'Players'];
         let oPos = this[oTeam + 'Pos'];
 
+        if (!playerPos.targetIndex) playerPos.targetIndex = i;
+
         // Run through to find the closest enemy
-        if (this.timeElapsed > playerPos.recalc) {
-            let targetIndex = null;
+        if (this.timeElapsed > playerPos.recalc && oPlayers[i].down) {
             let lowestC = 1000000000; // unreasonably higher number that any player will be closer than
             for (let x = 0; x < 8; x++) {
-                let a = playerPos.x - oPos[x].x;
-                let b = playerPos.y - oPos[x].y;
-                let c = Math.sqrt(a * a + b * b);
-                if (c < lowestC) {
-                    lowestC = c;
-                    targetIndex = x;
+                if (!oPlayers[x].down) {
+                    let a = playerPos.x - oPos[x].x;
+                    let b = playerPos.y - oPos[x].y;
+                    let c = Math.sqrt(a * a + b * b);
+                    if (c < lowestC) {
+                        lowestC = c;
+                        playerPos.targetIndex = x;
+                    }
                 }
             }
-            console.log('targeting', targetIndex);
+            // Reset the timer until next recalculation of target
             playerPos.recalc = this.timeElapsed + 1000;
+        }
+
+        if (!oPlayers[playerPos.targetIndex].down) {
+            // Target is alive, check if nearby enough to attack
+            let a = playerPos.x - oPos[playerPos.targetIndex].x;
+            let b = playerPos.y - oPos[playerPos.targetIndex].y;
+            let c = Math.sqrt(a * a + b * b);
+
+            if (c <= 50) {
+                // ATTACK THE ENEMY
+                this.game.game[oTeam + 'Players'][playerPos.targetIndex].hp -= teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def;
+            } else {
+                // MOVE TOWWARDS ENEMY
+
+                // Calculate direction towards player
+                let calcX = this[oTeam + 'Pos'][playerPos.targetIndex].x - playerPos.x;
+                let calcY = this[oTeam + 'Pos'][playerPos.targetIndex].y - playerPos.y;
+
+                // Normalize
+                let toEnemyLength = Math.sqrt(calcX * calcX + calcY * calcY);
+                calcX = calcX / toEnemyLength;
+                calcY = calcY / toEnemyLength;
+
+                // Move towards the enemy
+                playerPos.x += (calcX * teamPlayers[i].spd) / 100;
+                playerPos.y += (calcY * teamPlayers[i].spd) / 100;
+
+                // Rotate us to face the player
+                playerPos.r = Math.atan2(calcY, calcX);
+            }
         }
         return playerPos;
     }
