@@ -114,9 +114,9 @@ export class GameDetailComponent implements OnInit {
         y: 250 * 0.2
     };
     calcEndPoint = this.maxWidth - this.playerDimensions.x;
-    homePos = [{x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}, {x: 0, y: 0}];
-    awayPos = [{x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0},
-    {x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0}, {x: this.calcEndPoint, y: 0}];
+    homePos = [{x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}];
+    awayPos = [{x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0},
+    {x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0}];
     homeScore = 0;
     awayScore = 0;
 
