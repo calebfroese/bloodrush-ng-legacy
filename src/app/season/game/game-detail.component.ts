@@ -259,7 +259,7 @@ export class GameDetailComponent implements OnInit {
             playerPos.recalc = this.timeElapsed + 1000;
         }
 
-        if (playerPos.targetIndex && !oPlayers[playerPos.targetIndex].down) {
+        if (playerPos.targetIndex !== null && !oPlayers[playerPos.targetIndex].down) {
             // Target is alive, check if nearby enough to attack
             let a = playerPos.x - oPos[playerPos.targetIndex].x;
             let b = playerPos.y - oPos[playerPos.targetIndex].y;
@@ -302,35 +302,35 @@ export class GameDetailComponent implements OnInit {
     }
 
     calculateRecovery(team, playerIndex) {
-        // let homePlayers = this.game.game.homePlayers;
-        // let awayPlayers = this.game.game.awayPlayers;
+        let homePlayers = this.game.game.homePlayers;
+        let awayPlayers = this.game.game.awayPlayers;
 
-        // let recoveryTime = 6000;
+        let recoveryTime = 6000;
 
-        // if (team === 'home') {
-        //     // Home team
-        //     if (homePlayers[playerIndex].knockdown === 'recover') {
-        //         setTimeout(() => {
-        //             console.log("RECOVERING HOME");
-        //             homePlayers[playerIndex].down = false;
-        //             homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 6; // give hp back
-        //         }, recoveryTime);
-        //     } else {
-        //         // Stay knocked down
-        //         homePlayers[playerIndex].knockdown = 'knockdown';
-        //     }
-        // } else {
-        //     // Away team
-        //     if (awayPlayers[playerIndex].knockdown === 'recover') {
-        //         setTimeout(() => {
-        //             console.log("RECOVERING AWAY");
-        //             awayPlayers[playerIndex].down = false;
-        //             awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 6; // give hp back
-        //         }, recoveryTime);
-        //     } else {
-        //         // Stay knocked down
-        //         awayPlayers[playerIndex].knockdown = 'knockdown';
-        //     }
-        // }
+        if (team === 'home') {
+            // Home team
+            if (homePlayers[playerIndex].knockdown === 'recover') {
+                setTimeout(() => {
+                    console.log("RECOVERING HOME");
+                    homePlayers[playerIndex].down = false;
+                    homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 6; // give hp back
+                }, recoveryTime);
+            } else {
+                // Stay knocked down
+                homePlayers[playerIndex].knockdown = 'knockdown';
+            }
+        } else {
+            // Away team
+            if (awayPlayers[playerIndex].knockdown === 'recover') {
+                setTimeout(() => {
+                    console.log("RECOVERING AWAY");
+                    awayPlayers[playerIndex].down = false;
+                    awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 6; // give hp back
+                }, recoveryTime);
+            } else {
+                // Stay knocked down
+                awayPlayers[playerIndex].knockdown = 'knockdown';
+            }
+        }
     }
 }
