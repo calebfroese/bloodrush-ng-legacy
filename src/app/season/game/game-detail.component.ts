@@ -114,9 +114,9 @@ export class GameDetailComponent implements OnInit {
         y: 250 * 0.2
     };
     calcEndPoint = this.maxWidth - this.playerDimensions.x;
-    homePos = [{x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}, {x: 0, y: 0, r: 0}];
-    awayPos = [{x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0},
-    {x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0}, {x: this.calcEndPoint, y: 0, r: 0}];
+    homePos = [{ x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }];
+    awayPos = [{ x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 },
+    { x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 }];
     homeScore = 0;
     awayScore = 0;
 
@@ -128,7 +128,7 @@ export class GameDetailComponent implements OnInit {
         let canvasHeight = this.gameCanvas.nativeElement.height;
 
         this.context.clearRect(0, 0, this.gameCanvas.nativeElement.width, this.gameCanvas.nativeElement.height);
-        
+
         this.drawField();
         this.drawScore();
 
@@ -139,7 +139,7 @@ export class GameDetailComponent implements OnInit {
                 this.calculateRecovery(0, i);
                 downText = homePlayers[i].knockdown;
             }
-            this.homePos[i].x += this.playerLogic(0, i);
+            this.homePos[i] = this.playerLogic(this.homePos[i], 'home', i);
             this.drawPlayer(this.images['player' + this.game.home.style], this.playerDimensions.x, this.playerDimensions.y,
                 this.homePos[i].x, i * this.playerDimensions.y, homePlayers[i].last, downText);
         }
@@ -150,7 +150,7 @@ export class GameDetailComponent implements OnInit {
                 this.calculateRecovery(1, i);
                 downText = awayPlayers[i].knockdown;
             }
-            this.awayPos[i].x -= this.playerLogic(1, i);
+            this.awayPos[i] = this.playerLogic(this.awayPos[i], 'away', i);
             this.drawPlayer(this.images['player' + this.game.away.style], this.playerDimensions.x, this.playerDimensions.y,
                 this.awayPos[i].x, i * this.playerDimensions.y, awayPlayers[i].last, downText);
         }
@@ -205,70 +205,47 @@ export class GameDetailComponent implements OnInit {
         this.context.fillText('Away: ' + this.awayScore, (this.maxWidth - 140) / this.ratio, 60);
     }
 
-    playerLogic(isAway, i) {
+    playerLogic(playerPos, team, i) {
         /**
          * Calculates the player logic
+         * @param {x, y, r} playerPos
+         * @param {string} team // home or away
+         * @param {number} i // player index in array e.g. homePlayers[i]
          */
         let gameSpeed = 160;
-        // Calculates if a player can move (or is stuck attacking opponents)
-        if (isAway === 0) {
-            // Home team
-            if (this.game.game.homePlayers[i].down) return 0; // self is down
+        let oTeam = (team === 'home') ? 'away' : 'home'; // other team
+        let teamPlayers = this.game.game[team + 'Players'];
+        let oPlayers = this.game.game[oTeam + 'Players'];
 
-            if (!this.game.game.awayPlayers[i].down && this.awayPos[i].x < this.homePos[i].x + this.playerDimensions.x && this.homePos[i].x < this.awayPos[i].x) {
-                // Colliding
-                let rand = Math.random();
-                if (rand > 0.9) {
-                    this.game.game.awayPlayers[i].kg -= this.game.game.homePlayers[i].atk / (this.game.game.awayPlayers[i].def / 4);
-                    if (this.game.game.awayPlayers[i].kg < 0) {
-                        this.game.game.awayPlayers[i].down = true;
-                    }
+        if (teamPlayers[i].down) return playerPos; // self is down
+
+        if (!oPlayers[i].down && this[oTeam + 'Pos'][i].x < playerPos.x + this.playerDimensions.x && playerPos.x < this[oTeam + 'Pos'][i].x) {
+            // Colliding
+            let rand = Math.random();
+            if (rand > 0.9) {
+                this.game.game[oTeam + 'Players'][i].kg -= teamPlayers[i].atk / (oPlayers[i].def / 4);
+                if (oPlayers[i].kg < 0) {
+                    this.game.game[oTeam + 'Players'][i].down = true;
                 }
-            } else {
-                // Not colliding
-                let scoringZone = (this.maxWidth - this.playerDimensions.x) / this.ratio;
-                if (!this.game.game.homePlayers[i].hasScored) {
-                    if (this.homePos[i].x > scoringZone && !this.game.game.homePlayers[i].hasScored) {
-                        // In the scoring zone
-                        this.game.game.homePlayers[i].hasScored = true;
-                        this.homePos[i].x = scoringZone;
-                        this.homeScore++;
-                    } else {
-                        return this.game.game.homePlayers[i].spd / gameSpeed;
-                    }
-                }
-                return 0;
             }
         } else {
-            // Away team
-            if (this.game.game.awayPlayers[i].down) return 0; // self is down
-
-            if (!this.game.game.homePlayers[i].down && this.awayPos[i].x < this.homePos[i].x + this.playerDimensions.x && this.homePos[i].x < this.awayPos[i].x) {
-                // Colliding
-                let rand = Math.random();
-                if (rand > 0.9) {
-                    this.game.game.homePlayers[i].kg -= this.game.game.homePlayers[i].atk / (this.game.game.homePlayers[i].def / 4);
-                    if (this.game.game.homePlayers[i].kg < 0) {
-                        this.game.game.homePlayers[i].down = true;
-                    }
+            // Not colliding
+            let scoringZone = (this.maxWidth - this.playerDimensions.x) / this.ratio;
+            if (!teamPlayers[i].hasScored) {
+                if (playerPos.x > scoringZone && !teamPlayers[i].hasScored) {
+                    // In the scoring zone
+                    this.game.game[team + 'Players'][i].hasScored = true;
+                    playerPos.x = scoringZone;
+                    this[team + 'Score']++;
+                } else {
+                    if (team === 'home') { playerPos.x = playerPos.x + teamPlayers[i].spd / gameSpeed; }
+                    if (team === 'away') { playerPos.x = playerPos.x - teamPlayers[i].spd / gameSpeed; }
+                    return playerPos;
                 }
-            } else {
-                // Not colliding
-                let scoringZone = 0;
-                if (!this.game.game.awayPlayers[i].hasScored) {
-                    if (this.awayPos[i].x < scoringZone) {
-                        // In the scoring zone
-                        this.game.game.awayPlayers[i].hasScored = true;
-                        this.awayPos[i].x = scoringZone;
-                        this.awayScore++;
-                    } else {
-                        return this.game.game.awayPlayers[i].spd / gameSpeed;
-                    }
-                }
-                return 0;
             }
+            return playerPos;
         }
-        return 0;
+        return playerPos;
     }
 
     calculateRecovery(isAway, playerIndex) {
