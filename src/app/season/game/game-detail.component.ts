@@ -237,7 +237,7 @@ export class GameDetailComponent implements OnInit {
         let oPos = this[oTeam + 'Pos'];
 
         // If down
-        if (teamPlayers[i].kg <= 0) return playerPos;
+        if (teamPlayers[i].kg <= 0 || teamPlayers[i].scored) return playerPos;
 
         // Run through to find the closest enemy
         if (this.timeElapsed > playerPos.recalc && oPlayers[i].down) {
@@ -295,7 +295,12 @@ export class GameDetailComponent implements OnInit {
         } else {
             // MOVE TO END field
             let moveDirection = (team === 'home') ? 1 : -1;
-            playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
+            if (playerPos.x >= this.calcEndPoint && moveDirection === 1 ||
+                playerPos.x >= this.playerDimensions.x / this.ratio && moveDirection === -1) {
+                teamPlayers[i].scored = { round1: 1 };
+            } else {
+                playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
+            }
         }
         return playerPos;
     }
@@ -313,10 +318,8 @@ export class GameDetailComponent implements OnInit {
                     homePlayers[playerIndex].down = false;
                     homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 6; // give hp back
                 }, recoveryTime);
-            } else {
-                // Stay knocked down
-                homePlayers[playerIndex].knockdown = 'knockdown';
             }
+            homePlayers[playerIndex].knockdown = 'knockdown';
         } else {
             // Away team
             if (awayPlayers[playerIndex].knockdown === 'recover') {
@@ -324,10 +327,8 @@ export class GameDetailComponent implements OnInit {
                     awayPlayers[playerIndex].down = false;
                     awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 6; // give hp back
                 }, recoveryTime);
-            } else {
-                // Stay knocked down
-                awayPlayers[playerIndex].knockdown = 'knockdown';
             }
+            awayPlayers[playerIndex].knockdown = 'knockdown';
         }
     }
 }
