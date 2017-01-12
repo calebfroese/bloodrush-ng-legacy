@@ -41,7 +41,7 @@ Generate an icon based on existing ones, or upload your own
 * * Bruiser
 -- Hyper agressive
 * * Chaser
--- If no direct attacker, will go for any getaways. Only playertype that will move backwards
+-- If no direct attacker, will go for any getaways
 
 ## General Logic
 Ball should only be passed to BALANCED or EVADER

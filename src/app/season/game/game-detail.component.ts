@@ -183,7 +183,7 @@ export class GameDetailComponent implements OnInit {
 
     drawPlayer(image: any, width: number, height: number, x, y, first: string, down: any): void {
         // Draws a single player
-        if (!parseInt(down)) this.context.globalAlpha = 0.5;
+        if (!parseInt(down)) this.context.globalAlpha = 0.3;
         this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
         this.context.globalAlpha = 1;
         this.context.font = 12 / this.ratio + 'px Arial';
