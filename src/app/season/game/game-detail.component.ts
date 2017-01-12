@@ -114,11 +114,13 @@ export class GameDetailComponent implements OnInit {
         y: 250 * 0.2
     };
     calcEndPoint = this.maxWidth - this.playerDimensions.x;
-    homePos = [{ x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }, { x: 0, y: 0, r: 0 }];
-    awayPos = [{ x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 },
-    { x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 }, { x: this.calcEndPoint, y: 0, r: 0 }];
+    homePos = [{ x: this.calcEndPoint, y: this.playerDimensions.y * 0, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 1, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 2, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 3, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 4, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 5, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 6, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 7, r: 0, recalc: 0 }];
+    awayPos = [{ x: this.calcEndPoint, y: this.playerDimensions.y * 0, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 1, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 2, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 3, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 4, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 5, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 6, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 7, r: 0, recalc: 0 }];
     homeScore = 0;
     awayScore = 0;
+    timeStart = Date.now();
+    timeCurrent = this.timeStart;
+    timeElapsed = 0;
 
     redrawCanvas() {
         let homePlayers = this.game.game.homePlayers;
@@ -141,7 +143,7 @@ export class GameDetailComponent implements OnInit {
             }
             this.homePos[i] = this.playerLogic(this.homePos[i], 'home', i);
             this.drawPlayer(this.images['player' + this.game.home.style], this.playerDimensions.x, this.playerDimensions.y,
-                this.homePos[i].x, i * this.playerDimensions.y, homePlayers[i].last, downText);
+                this.homePos[i].x, this.homePos[i].y, homePlayers[i].last, downText);
         }
         // Draw the away players
         for (let i = 0; i < awayPlayers.length; i++) {
@@ -152,8 +154,11 @@ export class GameDetailComponent implements OnInit {
             }
             this.awayPos[i] = this.playerLogic(this.awayPos[i], 'away', i);
             this.drawPlayer(this.images['player' + this.game.away.style], this.playerDimensions.x, this.playerDimensions.y,
-                this.awayPos[i].x, i * this.playerDimensions.y, awayPlayers[i].last, downText);
+                this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].last, downText);
         }
+        // Update time
+        this.timeCurrent = Date.now();
+        this.timeElapsed = this.timeCurrent - this.timeStart;
         setTimeout(() => {
             window.setTimeout(this.redrawCanvas(), 1000 / this.fps);
         }, 30);
@@ -216,34 +221,23 @@ export class GameDetailComponent implements OnInit {
         let oTeam = (team === 'home') ? 'away' : 'home'; // other team
         let teamPlayers = this.game.game[team + 'Players'];
         let oPlayers = this.game.game[oTeam + 'Players'];
+        let oPos = this[oTeam + 'Pos'];
 
-        if (teamPlayers[i].down) return playerPos; // self is down
-
-        if (!oPlayers[i].down && this.awayPos[i].x < this.homePos[i].x + this.playerDimensions.x && this.homePos[i].x < this.awayPos[i].x) {
-            // Colliding
-            let rand = Math.random();
-            if (rand > 0.9) {
-                this.game.game[oTeam + 'Players'][i].kg -= teamPlayers[i].atk / (oPlayers[i].def / 4);
-                if (oPlayers[i].kg < 0) {
-                    this.game.game[oTeam + 'Players'][i].down = true;
+        // Run through to find the closest enemy
+        if (this.timeElapsed > playerPos.recalc) {
+            let targetIndex = null;
+            let lowestC = 1000000000; // unreasonably higher number that any player will be closer than
+            for (let x = 0; x < 8; x++) {
+                let a = playerPos.x - oPos[x].x;
+                let b = playerPos.y - oPos[x].y;
+                let c = Math.sqrt(a * a + b * b);
+                if (c < lowestC) {
+                    lowestC = c;
+                    targetIndex = x;
                 }
             }
-        } else {
-            // Not colliding
-            let scoringZone = (this.maxWidth - this.playerDimensions.x) / this.ratio;
-            if (!teamPlayers[i].hasScored) {
-                if (playerPos.x > scoringZone && !teamPlayers[i].hasScored) {
-                    // In the scoring zone
-                    this.game.game[team + 'Players'][i].hasScored = true;
-                    playerPos.x = scoringZone;
-                    this[team + 'Score']++;
-                } else {
-                    if (team === 'home') { playerPos.x = playerPos.x + teamPlayers[i].spd / gameSpeed; }
-                    if (team === 'away') { playerPos.x = playerPos.x - teamPlayers[i].spd / gameSpeed; }
-                    return playerPos;
-                }
-            }
-            return playerPos;
+            console.log('targeting', targetIndex);
+            playerPos.recalc = this.timeElapsed + 1000;
         }
         return playerPos;
     }
