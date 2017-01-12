@@ -114,8 +114,22 @@ export class GameDetailComponent implements OnInit {
         y: 250 * 0.2
     };
     calcEndPoint = this.maxWidth - this.playerDimensions.x;
-    homePos = [{ x: 0, y: this.playerDimensions.y * 0, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 1, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 2, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 3, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 4, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 5, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 6, r: 0, recalc: 0 }, { x: 0, y: this.playerDimensions.y * 7, r: 0, recalc: 0 }];
-    awayPos = [{ x: this.calcEndPoint, y: this.playerDimensions.y * 0, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 1, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 2, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 3, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 4, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 5, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 6, r: 0, recalc: 0 }, { x: this.calcEndPoint, y: this.playerDimensions.y * 7, r: 0, recalc: 0 }];
+    homePos = [{ x: 0, y: this.playerDimensions.y * 0, r: 0, recalc: 0, targetIndex: 0 },
+    { x: 0, y: this.playerDimensions.y * 1, r: 0, recalc: 0, targetIndex: 1 },
+    { x: 0, y: this.playerDimensions.y * 2, r: 0, recalc: 0, targetIndex: 2 },
+    { x: 0, y: this.playerDimensions.y * 3, r: 0, recalc: 0, targetIndex: 3 },
+    { x: 0, y: this.playerDimensions.y * 4, r: 0, recalc: 0, targetIndex: 4 },
+    { x: 0, y: this.playerDimensions.y * 5, r: 0, recalc: 0, targetIndex: 5 },
+    { x: 0, y: this.playerDimensions.y * 6, r: 0, recalc: 0, targetIndex: 6 },
+    { x: 0, y: this.playerDimensions.y * 7, r: 0, recalc: 0, targetIndex: 7 }];
+    awayPos = [{ x: this.calcEndPoint, y: this.playerDimensions.y * 0, r: 0, recalc: 0, targetIndex: 0 },
+    { x: this.calcEndPoint, y: this.playerDimensions.y * 1, r: 0, recalc: 0, targetIndex: 1 },
+    { x: this.calcEndPoint, y: this.playerDimensions.y * 2, r: 0, recalc: 0, targetIndex: 2 },
+    { x: this.calcEndPoint, y: this.playerDimensions.y * 3, r: 0, recalc: 0, targetIndex: 3 },
+    { x: this.calcEndPoint, y: this.playerDimensions.y * 4, r: 0, recalc: 0, targetIndex: 4 },
+    { x: this.calcEndPoint, y: this.playerDimensions.y * 5, r: 0, recalc: 0, targetIndex: 5 },
+    { x: this.calcEndPoint, y: this.playerDimensions.y * 6, r: 0, recalc: 0, targetIndex: 6 },
+    { x: this.calcEndPoint, y: this.playerDimensions.y * 7, r: 0, recalc: 0, targetIndex: 7 }];
     homeScore = 0;
     awayScore = 0;
     timeStart = Date.now();
@@ -224,13 +238,12 @@ export class GameDetailComponent implements OnInit {
         let oPos = this[oTeam + 'Pos'];
 
         // If down
-        if(teamPlayers[i].down) return playerPos;
-
-        if (!playerPos.targetIndex) playerPos.targetIndex = i;
+        if (teamPlayers[i].down) return playerPos;
 
         // Run through to find the closest enemy
         if (this.timeElapsed > playerPos.recalc && oPlayers[i].down) {
             let lowestC = 1000000000; // unreasonably higher number that any player will be closer than
+            playerPos.targetIndex = null;
             for (let x = 0; x < 8; x++) {
                 if (!oPlayers[x].down) {
                     let a = playerPos.x - oPos[x].x;
@@ -254,30 +267,36 @@ export class GameDetailComponent implements OnInit {
 
             if (c <= 50) {
                 // ATTACK THE ENEMY
-                if (Math.random() * 100 < 4) {
+                if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
+                    playerPos.atkTime = this.timeElapsed + 100 + teamPlayers[i].spd;
                     this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg -= teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def;
                     if (this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
                         this.game.game[oTeam + 'Players'][playerPos.targetIndex].down = true;
                     }
                 }
             } else {
-                // MOVE TOWARDS ENEMY
+                if (playerPos.targetIndex) {
+                    // MOVE TOWARDS ENEMY
 
-                // Calculate direction towards player
-                let calcX = this[oTeam + 'Pos'][playerPos.targetIndex].x - playerPos.x;
-                let calcY = this[oTeam + 'Pos'][playerPos.targetIndex].y - playerPos.y;
+                    // Calculate direction towards player
+                    let calcX = this[oTeam + 'Pos'][playerPos.targetIndex].x - playerPos.x;
+                    let calcY = this[oTeam + 'Pos'][playerPos.targetIndex].y - playerPos.y;
 
-                // Normalize
-                let toEnemyLength = Math.sqrt(calcX * calcX + calcY * calcY);
-                calcX = calcX / toEnemyLength;
-                calcY = calcY / toEnemyLength;
+                    // Normalize
+                    let toEnemyLength = Math.sqrt(calcX * calcX + calcY * calcY);
+                    calcX = calcX / toEnemyLength;
+                    calcY = calcY / toEnemyLength;
 
-                // Move towards the enemy
-                playerPos.x += (calcX * teamPlayers[i].spd) / 100;
-                playerPos.y += (calcY * teamPlayers[i].spd) / 100;
+                    // Move towards the enemy
+                    playerPos.x += (calcX * teamPlayers[i].spd) / 100;
+                    playerPos.y += (calcY * teamPlayers[i].spd) / 100;
 
-                // Rotate us to face the player
-                playerPos.r = Math.atan2(calcY, calcX);
+                    // Rotate us to face the player
+                    playerPos.r = Math.atan2(calcY, calcX);
+                } else {
+                    // MOVE TO END FIELD
+                    playerPos.x += teamPlayers[i].spd / 100;
+                }
             }
         }
         return playerPos;
