@@ -296,7 +296,7 @@ export class GameDetailComponent implements OnInit {
             // MOVE TO END field
             let moveDirection = (team === 'home') ? 1 : -1;
             if (playerPos.x >= this.calcEndPoint && moveDirection === 1 ||
-                playerPos.x <= this.playerDimensions.x / this.ratio && moveDirection === -1) {
+                playerPos.x <= 0 && moveDirection === -1) {
                 teamPlayers[i].scored = { round1: 1 };
             } else {
                 playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
