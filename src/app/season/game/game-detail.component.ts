@@ -7,17 +7,6 @@ import { MongoService } from './../../mongo/mongo.service';
 
 @Component({
     templateUrl: './game-detail.component.html',
-    // styles: [`
-    //     canvas, img {
-    //         image-rendering: optimizeSpeed;
-    //         image-rendering: -moz-crisp-edges;
-    //         image-rendering: -webkit-optimize-contrast;
-    //         image-rendering: optimize-contrast;
-    //         image-rendering: pixelated;
-    //         -ms-interpolation-mode: nearest-neighbor;
-    //         border: 5px solid #ddd;
-    //     }
-    // `]
 })
 export class GameDetailComponent implements OnInit {
     isBye: boolean = false;
@@ -33,7 +22,7 @@ export class GameDetailComponent implements OnInit {
     x: number = 0;
     y: number = 0;
     images = {};
-    fps = 30;
+    fps = 40;
     // Scaling
     ratio: number;
     maxWidth: number = 960;
@@ -57,18 +46,17 @@ export class GameDetailComponent implements OnInit {
                 if (season.games[gameId]) {
                     // The game exists
                     this.game = season.games[gameId];
-
                     // Load the teams
                     this.mongo.run('teams', 'oneById', { _id: this.game.home }).then(teamHome => {
                         this.game.home = teamHome;
                         return this.mongo.run('teams', 'oneById', { _id: this.game.away });
                     }).then(awayTeam => {
                         this.game.away = awayTeam;
-                        if (season.games[gameId].game.awayPlayers && season.games[gameId].game.homePlayers) {
+                        if (season.games[gameId].data.awayPlayers && season.games[gameId].data.homePlayers) {
                             // Game has been played
                             for (let i = 0; i < 8; i++) {
-                                this.game.game.homePlayers[i].scored = { round1: false };
-                                this.game.game.awayPlayers[i].scored = { round1: false };
+                                this.game.data.homePlayers[i].scored = { round1: false };
+                                this.game.data.awayPlayers[i].scored = { round1: false };
                             }
                             this.playGame();
                         }
@@ -150,8 +138,8 @@ export class GameDetailComponent implements OnInit {
     timeElapsed = 0;
 
     redrawCanvas() {
-        let homePlayers = this.game.game.homePlayers;
-        let awayPlayers = this.game.game.awayPlayers;
+        let homePlayers = this.game.data.homePlayers;
+        let awayPlayers = this.game.data.awayPlayers;
         // Draw to the canvas
         let canvasWidth = this.gameCanvas.nativeElement.width;
         let canvasHeight = this.gameCanvas.nativeElement.height;
@@ -186,8 +174,8 @@ export class GameDetailComponent implements OnInit {
         this.timeCurrent = Date.now();
         this.timeElapsed = this.timeCurrent - this.timeStart;
         setTimeout(() => {
-            window.setTimeout(this.redrawCanvas(), 1000 / this.fps);
-        }, 30);
+            this.redrawCanvas();
+        }, 1000 / this.fps);
     }
 
     fullscreenify(): void {
@@ -232,8 +220,8 @@ export class GameDetailComponent implements OnInit {
          * @param {number} i // player index in array e.g. homePlayers[i]
          */
         let oTeam = (team === 'home') ? 'away' : 'home'; // other team
-        let teamPlayers = this.game.game[team + 'Players'];
-        let oPlayers = this.game.game[oTeam + 'Players'];
+        let teamPlayers = this.game.data[team + 'Players'];
+        let oPlayers = this.game.data[oTeam + 'Players'];
         let oPos = this[oTeam + 'Pos'];
 
         // If down or scored
@@ -272,9 +260,9 @@ export class GameDetailComponent implements OnInit {
                 // ATTACK THE ENEMY
                 if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
                     playerPos.atkTime = this.timeElapsed + 1000 + teamPlayers[i].spd;
-                    this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg -= 8 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 8;
-                    if (this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
-                        this.game.game[oTeam + 'Players'][playerPos.targetIndex].down = true;
+                    this.game.data[oTeam + 'Players'][playerPos.targetIndex].kg -= 8 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 8;
+                    if (this.game.data[oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
+                        this.game.data[oTeam + 'Players'][playerPos.targetIndex].down = true;
                     }
                 }
             } else {
@@ -301,7 +289,7 @@ export class GameDetailComponent implements OnInit {
             let moveDirection = (team === 'home') ? 1 : -1;
             if (playerPos.x >= this.calcEndPoint && moveDirection === 1 ||
                 playerPos.x <= 0 && moveDirection === -1) {
-                this.game.game[team + 'Players'][i].scored = { round1: true };
+                this.game.data[team + 'Players'][i].scored = { round1: true };
             } else {
                 playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
             }
@@ -310,8 +298,8 @@ export class GameDetailComponent implements OnInit {
     }
 
     calculateRecovery(team, playerIndex) {
-        let homePlayers = this.game.game.homePlayers;
-        let awayPlayers = this.game.game.awayPlayers;
+        let homePlayers = this.game.data.homePlayers;
+        let awayPlayers = this.game.data.awayPlayers;
 
         let recoveryTime = 6000;
 
