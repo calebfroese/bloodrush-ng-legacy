@@ -22,6 +22,12 @@ export class GameDetailComponent implements OnInit {
     data: any; // game data
     homePos: any = [];
     awayPos: any = [];
+    calcEndPoint: number;
+    homeScore = 0;
+    awayScore = 0;
+    timeStart = Date.now();
+    timeCurrent = this.timeStart;
+    timeElapsed = 0;
 
 
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
@@ -51,6 +57,7 @@ export class GameDetailComponent implements OnInit {
             let gameId: number = +params['gameId'];
             this.gameId = gameId;
             this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber }).then(season => {
+                this.game = season.games[gameId];
                 if (season.games[gameId]) {
                     // The game exists, load the teams
                     this.mongo.run('teams', 'oneById', { _id: season.games[gameId].home }).then(teamHome => {
@@ -60,7 +67,6 @@ export class GameDetailComponent implements OnInit {
                         this.away = awayTeam;
                         if (season.games[gameId].data.awayPlayers && season.games[gameId].data.homePlayers) {
                             // Game has been played
-                            this.game = season.games[gameId];
                             this.data = season.games[gameId].data;
                             for (let i = 0; i < 8; i++) {
                                 this.data.homePlayers[i].scored = { round1: false };
@@ -100,10 +106,11 @@ export class GameDetailComponent implements OnInit {
 
     initVariables(): void {
         // Generate player positions
-        for (let i = 0; i < 8; i ++) {
-            this.homePos.push({ x: 0, y: this.playerAttr.y * i, r: 0, recalc: 0, targetIndex: i});
-            this.awayPos.push({ x: this.calcEndPoint, y: this.playerAttr.y * i, r: 0, recalc: 0, targetIndex: i});
+        for (let i = 0; i < 8; i++) {
+            this.homePos.push({ x: 0, y: this.data.playerAttr.y * i, r: 0, recalc: 0, targetIndex: i });
+            this.awayPos.push({ x: this.calcEndPoint, y: this.data.playerAttr.y * i, r: 0, recalc: 0, targetIndex: i });
         }
+        this.calcEndPoint = this.maxWidth - this.data.playerAttr.x;
         this.playGame();
     }
 
@@ -124,19 +131,6 @@ export class GameDetailComponent implements OnInit {
         this.images[name].src = src;
     }
 
-    playerAttr = {
-        x: 160 * 0.2,
-        y: 250 * 0.2,
-        visionRadius: 100,
-        attackRadius: 30
-    };
-    calcEndPoint = this.maxWidth - this.playerAttr.x;
-    homeScore = 0;
-    awayScore = 0;
-    timeStart = Date.now();
-    timeCurrent = this.timeStart;
-    timeElapsed = 0;
-
     redrawCanvas() {
         let homePlayers = this.data.homePlayers;
         let awayPlayers = this.data.awayPlayers;
@@ -156,7 +150,7 @@ export class GameDetailComponent implements OnInit {
                 downText = homePlayers[i].knockdown;
             }
             this.homePos[i] = this.playerLogic(this.homePos[i], 'home', i);
-            this.drawPlayer(this.images['player' + this.home.style], this.playerAttr.x, this.playerAttr.y,
+            this.drawPlayer(this.images['player' + this.home.style], this.data.playerAttr.x, this.data.playerAttr.y,
                 this.homePos[i].x, this.homePos[i].y, homePlayers[i].first, homePlayers[i].last, downText, this.home.col1);
         }
         // Draw the away players
@@ -167,7 +161,7 @@ export class GameDetailComponent implements OnInit {
                 downText = awayPlayers[i].knockdown;
             }
             this.awayPos[i] = this.playerLogic(this.awayPos[i], 'away', i);
-            this.drawPlayer(this.images['player' + this.away.style], this.playerAttr.x, this.playerAttr.y,
+            this.drawPlayer(this.images['player' + this.away.style], this.data.playerAttr.x, this.data.playerAttr.y,
                 this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].first, awayPlayers[i].last, downText, this.away.col1);
         }
         // Update time
@@ -236,7 +230,7 @@ export class GameDetailComponent implements OnInit {
                     let a = playerPos.x - oPos[x].x;
                     let b = playerPos.y - oPos[x].y;
                     let c = Math.sqrt(a * a + b * b);
-                    if (c < lowestC && c < this.playerAttr.visionRadius) {
+                    if (c < lowestC && c < this.data.playerAttr.visionRadius) {
                         lowestC = c;
                         playerPos.targetIndex = x;
                     }
@@ -256,7 +250,7 @@ export class GameDetailComponent implements OnInit {
             let b = playerPos.y - oPos[playerPos.targetIndex].y;
             let c = Math.sqrt(a * a + b * b);
 
-            if (c <= this.playerAttr.attackRadius) {
+            if (c <= this.data.playerAttr.attackRadius) {
                 // ATTACK THE ENEMY
                 if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
                     playerPos.atkTime = this.timeElapsed + 1000 + teamPlayers[i].spd;
