@@ -3,12 +3,12 @@
     <div class="six columns">
       <h1 (click)="this.router.navigate(['/home'])" style="cursor: pointer;">Bloodrush</h1>
     </div>
-    <div *ngIf="!account" class="six columns" style="text-align: right;">
+    <div *ngIf="!acc.loggedInAccount._id" class="six columns" style="text-align: right;">
       <input class="button btn-nav" (click)="this.router.navigate(['/login'])" type="button" value="Login">
       <input class="button-primary btn-nav" (click)="this.router.navigate(['/signup'])" type="button" value="Signup">
     </div>
-    <div *ngIf="account" class="six columns" style="text-align: right;">
-      <b>{{account.username}}</b>
+    <div *ngIf="acc.loggedInAccount.username" class="six columns" style="text-align: right;">
+      <b>{{acc.loggedInAccount.username}}</b>
       <input class="button-primary btn-nav" (click)="this.router.navigate(['/logout'])" type="button" value="Logout">
     </div>
   </div>

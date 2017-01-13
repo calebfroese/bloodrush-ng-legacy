@@ -17,12 +17,8 @@ export class LoginComponent {
         if (this.username && this.password) {
             this.mongo.login(this.username, this.password)
                 .then(response => {
-                    if (response.error) {
-                        alert(response.error);
-                    } else {
-                        this.acc.setLoginVariables(response._id);
-                        this.router.navigate(['/home']);
-                    }
+                    this.acc.setLoginVariables(response._id);
+                    this.router.navigate(['/home']);
                 }).catch(err => {
                     alert(err);
                 });

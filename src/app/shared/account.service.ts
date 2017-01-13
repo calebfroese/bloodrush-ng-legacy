@@ -4,7 +4,15 @@ import { MongoService } from './../mongo/mongo.service';
 
 @Injectable()
 export class AccountService {
-    constructor(private mongo: MongoService) { }
+    loggedInAccount: any = {};
+
+    constructor(private mongo: MongoService) { 
+        // If localstorage account, fetch it
+        if (localStorage.getItem('_id')) {
+            // TODO better auth than guessing an _id.......
+            this.setLoginVariables(localStorage.getItem('_id'));
+        }
+    }
 
     loadAccount(_id: string): Promise<any> {
         return this.mongo.run('users', 'oneById', { _id: _id })
@@ -13,11 +21,16 @@ export class AccountService {
     logout(): Promise<any> {
         return new Promise((resolve, reject) => {
             localStorage.clear();
+            this.loggedInAccount = {};
             resolve(true);
         });
     }
 
     setLoginVariables(_id: string): void {
-        localStorage.setItem('_id', _id);
+        this.loggedInAccount._id = _id;
+        // Fetch the rest of the account
+        this.mongo.run('users', 'oneById', { _id: _id })
+            .then(user => { this.loggedInAccount = user; localStorage.setItem('_id', _id); })
+            .catch(err => { debugger; });
     }
 }

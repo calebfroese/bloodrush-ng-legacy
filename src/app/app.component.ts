@@ -9,14 +9,5 @@ import { AccountService } from './shared/account.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  account: string;
-
-  constructor(private router: Router, private acc: AccountService) {
-    if (localStorage.getItem('_id')) {
-      this.acc.loadAccount(localStorage.getItem('_id'))
-        .then(account => {
-          this.account = account;
-        });
-    }
-  }
+  constructor(private router: Router, private acc: AccountService) { }
 }
