@@ -22,7 +22,7 @@ export class GameDetailComponent implements OnInit {
     data: any; // game data
     homePos: any = [];
     awayPos: any = [];
-    calcEndPoint: number;
+    calcEndPoint: number = 0;
     homeScore = 0;
     awayScore = 0;
     timeStart = Date.now();
@@ -105,12 +105,13 @@ export class GameDetailComponent implements OnInit {
     }
 
     initVariables(): void {
+        // Calculate end point
+        this.calcEndPoint = this.maxWidth - this.data.playerAttr.x;
         // Generate player positions
         for (let i = 0; i < 8; i++) {
             this.homePos.push({ x: 0, y: this.data.playerAttr.y * i, r: 0, recalc: 0, targetIndex: i });
             this.awayPos.push({ x: this.calcEndPoint, y: this.data.playerAttr.y * i, r: 0, recalc: 0, targetIndex: i });
         }
-        this.calcEndPoint = this.maxWidth - this.data.playerAttr.x;
         this.playGame();
     }
 
