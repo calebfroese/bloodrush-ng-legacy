@@ -17,8 +17,11 @@ export class GameDetailComponent implements OnInit {
     // Teams
     home: any; // original unmodified team
     away: any; // original unmodified team
-    data: any; // game data
     game: any; // the game object "game": { "data": {}, "round": Date(), etc}
+    // Game data
+    data: any; // game data
+    homePos: any = [];
+    awayPos: any = [];
 
 
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
@@ -87,12 +90,21 @@ export class GameDetailComponent implements OnInit {
     initCanvas(): void {
         if (this.gameCanvas) {
             this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
-            this.playGame();
+            this.initVariables();
         } else {
             setTimeout(() => {
                 this.initCanvas();
             }, 10);
         }
+    }
+
+    initVariables(): void {
+        // Generate player positions
+        for (let i = 0; i < 8; i ++) {
+            this.homePos.push({ x: 0, y: this.playerAttr.y * i, r: 0, recalc: 0, targetIndex: i});
+            this.awayPos.push({ x: this.calcEndPoint, y: this.playerAttr.y * i, r: 0, recalc: 0, targetIndex: i});
+        }
+        this.playGame();
     }
 
     playGame(): void {
@@ -119,22 +131,6 @@ export class GameDetailComponent implements OnInit {
         attackRadius: 30
     };
     calcEndPoint = this.maxWidth - this.playerAttr.x;
-    homePos = [{ x: 0, y: this.playerAttr.y * 0, r: 0, recalc: 0, targetIndex: 0 },
-    { x: 0, y: this.playerAttr.y * 1, r: 0, recalc: 0, targetIndex: 1 },
-    { x: 0, y: this.playerAttr.y * 2, r: 0, recalc: 0, targetIndex: 2 },
-    { x: 0, y: this.playerAttr.y * 3, r: 0, recalc: 0, targetIndex: 3 },
-    { x: 0, y: this.playerAttr.y * 4, r: 0, recalc: 0, targetIndex: 4 },
-    { x: 0, y: this.playerAttr.y * 5, r: 0, recalc: 0, targetIndex: 5 },
-    { x: 0, y: this.playerAttr.y * 6, r: 0, recalc: 0, targetIndex: 6 },
-    { x: 0, y: this.playerAttr.y * 7, r: 0, recalc: 0, targetIndex: 7 }];
-    awayPos = [{ x: this.calcEndPoint, y: this.playerAttr.y * 0, r: 0, recalc: 0, targetIndex: 0 },
-    { x: this.calcEndPoint, y: this.playerAttr.y * 1, r: 0, recalc: 0, targetIndex: 1 },
-    { x: this.calcEndPoint, y: this.playerAttr.y * 2, r: 0, recalc: 0, targetIndex: 2 },
-    { x: this.calcEndPoint, y: this.playerAttr.y * 3, r: 0, recalc: 0, targetIndex: 3 },
-    { x: this.calcEndPoint, y: this.playerAttr.y * 4, r: 0, recalc: 0, targetIndex: 4 },
-    { x: this.calcEndPoint, y: this.playerAttr.y * 5, r: 0, recalc: 0, targetIndex: 5 },
-    { x: this.calcEndPoint, y: this.playerAttr.y * 6, r: 0, recalc: 0, targetIndex: 6 },
-    { x: this.calcEndPoint, y: this.playerAttr.y * 7, r: 0, recalc: 0, targetIndex: 7 }];
     homeScore = 0;
     awayScore = 0;
     timeStart = Date.now();
