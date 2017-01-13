@@ -35,50 +35,26 @@
                         <th>Player</th>
                         <th>ATK</th>
                         <th>DEF</th>
-                        <th>PTS</th>
+                        <th>SPD</th>
+                        <th>KG</th>
+                        <th>REC</th>
+                        <th>STY</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Caleb Froese</td>
-                        <td>52</td>
-                        <td>20</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Craig Bobrovski</td>
-                        <td>52</td>
-                        <td>23</td>
-                        <td>13</td>
-                    </tr>
-                    <tr>
-                        <td>Johnn Chef</td>
-                        <td>22</td>
-                        <td>47</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>Caleb Froese</td>
-                        <td>52</td>
-                        <td>20</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Craig Bobrovski</td>
-                        <td>52</td>
-                        <td>23</td>
-                        <td>13</td>
-                    </tr>
-                    <tr>
-                        <td>Johnn Chef</td>
-                        <td>22</td>
-                        <td>47</td>
-                        <td>1</td>
+                    <tr *ngFor="let player of myTeam.players">
+                        <td>{{player.first}} {{player.last}}</td>
+                        <td>{{player.atk}}</td>
+                        <td>{{player.def}}</td>
+                        <td>{{player.spd}}</td>
+                        <td>{{player.kg}}</td>
+                        <td>{{player.rec}}</td>
+                        <td>{{player.sty}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>w
     <div class="row">
         <div class="twelve columns">
             <h3>Ladder</h3>
