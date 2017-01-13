@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AccountService } from './../shared/account.service';
 import { MongoService } from './../mongo/mongo.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class HomeComponent implements OnInit {
     teamLosses: number = 8;
     teams: any; // array of teams in the league sorted by points
 
-    constructor(private mongo: MongoService, private router: Router) { }
+    constructor(private mongo: MongoService, private router: Router, private acc: AccountService) { }
 
     ngOnInit(): void {
         this.mongo.run('seasons', 'allActive', {})
