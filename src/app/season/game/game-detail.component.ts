@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
@@ -11,10 +11,15 @@ import { MongoService } from './../../mongo/mongo.service';
 export class GameDetailComponent implements OnInit {
     isBye: boolean = false;
     nonByeTeam: string; // index of the team that is not null
-    game: any;
+    // Params
     gameId: number;
     seasonNumber: number;
-    season: any;
+    // Teams
+    home: any; // original unmodified team
+    away: any; // original unmodified team
+    data: any; // game data
+    game: any; // the game object "game": { "data": {}, "round": Date(), etc}
+
 
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
     @ViewChild('cDiv') cDiv: ElementRef;
@@ -31,7 +36,8 @@ export class GameDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private location: Location,
-        private mongo: MongoService
+        private mongo: MongoService,
+        private zone: NgZone
     ) { }
 
     ngOnInit(): void {
@@ -42,23 +48,23 @@ export class GameDetailComponent implements OnInit {
             let gameId: number = +params['gameId'];
             this.gameId = gameId;
             this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber }).then(season => {
-                this.season = season;
                 if (season.games[gameId]) {
-                    // The game exists
-                    this.game = season.games[gameId];
-                    // Load the teams
-                    this.mongo.run('teams', 'oneById', { _id: this.game.home }).then(teamHome => {
-                        this.game.home = teamHome;
-                        return this.mongo.run('teams', 'oneById', { _id: this.game.away });
+                    // The game exists, load the teams
+                    this.mongo.run('teams', 'oneById', { _id: season.games[gameId].home }).then(teamHome => {
+                        this.home = teamHome;
+                        return this.mongo.run('teams', 'oneById', { _id: season.games[gameId].away });
                     }).then(awayTeam => {
-                        this.game.away = awayTeam;
+                        this.away = awayTeam;
                         if (season.games[gameId].data.awayPlayers && season.games[gameId].data.homePlayers) {
                             // Game has been played
+                            this.game = season.games[gameId];
+                            this.data = season.games[gameId].data;
                             for (let i = 0; i < 8; i++) {
-                                this.game.data.homePlayers[i].scored = { round1: false };
-                                this.game.data.awayPlayers[i].scored = { round1: false };
+                                this.data.homePlayers[i].scored = { round1: false };
+                                this.data.awayPlayers[i].scored = { round1: false };
                             }
-                            this.playGame();
+                            this.zone.run(() => { });
+                            this.initCanvas();
                         }
                     }).catch(err => {
                         debugger;
@@ -73,26 +79,28 @@ export class GameDetailComponent implements OnInit {
         });
     }
 
-    calculateBye(x): void {
-        if (!this.game['home']) {
-            this.nonByeTeam = 'home';
-        } else {
-            this.nonByeTeam = 'away';
-        }
-    }
-
     runGame() {
         this.mongo.run('games', 'playGame', { 'seasonNumber': this.seasonNumber, 'gameNumber': this.gameId });
     }
 
     // CANVAS
+    initCanvas(): void {
+        if (this.gameCanvas) {
+            this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
+            this.playGame();
+        } else {
+            setTimeout(() => {
+                this.initCanvas();
+            }, 10);
+        }
+    }
+
     playGame(): void {
         this.loadImage('player1', '/assets/img/player1.png');
         this.loadImage('player2', '/assets/img/player2.png');
         this.loadImage('player3', '/assets/img/player3.png');
         this.loadImage('player1', '/assets/img/player1.png');
 
-        this.initCanvas();
         this.fullscreenify();
     }
 
@@ -102,10 +110,6 @@ export class GameDetailComponent implements OnInit {
             this.redrawCanvas();
         };
         this.images[name].src = src;
-    }
-
-    initCanvas(): void {
-        this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
     }
 
     playerAttr = {
@@ -138,8 +142,8 @@ export class GameDetailComponent implements OnInit {
     timeElapsed = 0;
 
     redrawCanvas() {
-        let homePlayers = this.game.data.homePlayers;
-        let awayPlayers = this.game.data.awayPlayers;
+        let homePlayers = this.data.homePlayers;
+        let awayPlayers = this.data.awayPlayers;
         // Draw to the canvas
         let canvasWidth = this.gameCanvas.nativeElement.width;
         let canvasHeight = this.gameCanvas.nativeElement.height;
@@ -156,8 +160,8 @@ export class GameDetailComponent implements OnInit {
                 downText = homePlayers[i].knockdown;
             }
             this.homePos[i] = this.playerLogic(this.homePos[i], 'home', i);
-            this.drawPlayer(this.images['player' + this.game.home.style], this.playerAttr.x, this.playerAttr.y,
-                this.homePos[i].x, this.homePos[i].y, homePlayers[i].first, homePlayers[i].last, downText, this.game.home.col1);
+            this.drawPlayer(this.images['player' + this.home.style], this.playerAttr.x, this.playerAttr.y,
+                this.homePos[i].x, this.homePos[i].y, homePlayers[i].first, homePlayers[i].last, downText, this.home.col1);
         }
         // Draw the away players
         for (let i = 0; i < awayPlayers.length; i++) {
@@ -167,8 +171,8 @@ export class GameDetailComponent implements OnInit {
                 downText = awayPlayers[i].knockdown;
             }
             this.awayPos[i] = this.playerLogic(this.awayPos[i], 'away', i);
-            this.drawPlayer(this.images['player' + this.game.away.style], this.playerAttr.x, this.playerAttr.y,
-                this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].first, awayPlayers[i].last, downText, this.game.away.col1);
+            this.drawPlayer(this.images['player' + this.away.style], this.playerAttr.x, this.playerAttr.y,
+                this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].first, awayPlayers[i].last, downText, this.away.col1);
         }
         // Update time
         this.timeCurrent = Date.now();
@@ -220,8 +224,8 @@ export class GameDetailComponent implements OnInit {
          * @param {number} i // player index in array e.g. homePlayers[i]
          */
         let oTeam = (team === 'home') ? 'away' : 'home'; // other team
-        let teamPlayers = this.game.data[team + 'Players'];
-        let oPlayers = this.game.data[oTeam + 'Players'];
+        let teamPlayers = this.data[team + 'Players'];
+        let oPlayers = this.data[oTeam + 'Players'];
         let oPos = this[oTeam + 'Pos'];
 
         // If down or scored
@@ -260,9 +264,9 @@ export class GameDetailComponent implements OnInit {
                 // ATTACK THE ENEMY
                 if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
                     playerPos.atkTime = this.timeElapsed + 1000 + teamPlayers[i].spd;
-                    this.game.data[oTeam + 'Players'][playerPos.targetIndex].kg -= 8 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 8;
-                    if (this.game.data[oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
-                        this.game.data[oTeam + 'Players'][playerPos.targetIndex].down = true;
+                    this.data[oTeam + 'Players'][playerPos.targetIndex].kg -= 8 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 8;
+                    if (this.data[oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
+                        this.data[oTeam + 'Players'][playerPos.targetIndex].down = true;
                     }
                 }
             } else {
@@ -289,7 +293,7 @@ export class GameDetailComponent implements OnInit {
             let moveDirection = (team === 'home') ? 1 : -1;
             if (playerPos.x >= this.calcEndPoint && moveDirection === 1 ||
                 playerPos.x <= 0 && moveDirection === -1) {
-                this.game.data[team + 'Players'][i].scored = { round1: true };
+                this.data[team + 'Players'][i].scored = { round1: true };
             } else {
                 playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
             }
@@ -298,8 +302,8 @@ export class GameDetailComponent implements OnInit {
     }
 
     calculateRecovery(team, playerIndex) {
-        let homePlayers = this.game.data.homePlayers;
-        let awayPlayers = this.game.data.awayPlayers;
+        let homePlayers = this.data.homePlayers;
+        let awayPlayers = this.data.awayPlayers;
 
         let recoveryTime = 6000;
 
