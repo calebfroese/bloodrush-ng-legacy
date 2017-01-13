@@ -71,11 +71,11 @@ export class GameDetailComponent implements OnInit {
                             // Game has been played
                             this.data = season.games[gameId].data;
                             this.qtr = season.games[gameId].qtr;
-                            console.log(this.qtr)
-                            debugger;
                             for (let i = 0; i < 8; i++) {
-                                this.qtr[this.qtrNum].homePlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
-                                this.qtr[this.qtrNum].awayPlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
+                                for (let j = 1; j <= 4; j++) {
+                                    this.qtr[j].homePlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
+                                    this.qtr[j].awayPlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
+                                }
                             }
                             this.zone.run(() => { });
                             this.initCanvas();
@@ -99,45 +99,66 @@ export class GameDetailComponent implements OnInit {
 
     // CANVAS
     initCanvas(): void {
-        if (this.gameCanvas) {
-            this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
-            this.initVariables();
-        } else {
-            setTimeout(() => {
-                this.initCanvas();
-            }, 10);
-        }
+        this.loadImage('player1', '/assets/img/player1.png')
+            .then(() => { return this.loadImage('player2', '/assets/img/player2.png'); })
+            .then(() => { return this.loadImage('player3', '/assets/img/player3.png'); })
+            .then(() => { return this.loadImage('player4', '/assets/img/player4.png'); })
+            .then(() => {
+                // All images loaded
+                if (this.gameCanvas) {
+                    this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
+                    this.initVariables();
+                    this.playGame();
+                    this.redrawCanvas();
+                } else {
+                    setTimeout(() => {
+                        this.initCanvas();
+                    }, 10);
+                }
+            });
     }
 
     initVariables(): void {
         // Calculate end point
         this.calcEndPoint = this.maxWidth - this.data.playerAttr.x;
         // Generate player positions
+        this.homePos = [];
+        this.awayPos = [];
         for (let i = 0; i < 8; i++) {
             this.homePos.push({ x: 0, y: this.data.playerAttr.y * i, r: 0, recalc: 0, targetIndex: i });
             this.awayPos.push({ x: this.calcEndPoint, y: this.data.playerAttr.y * i, r: 0, recalc: 0, targetIndex: i });
         }
-        this.playGame();
+        // Set a timeout to end the round
+        setTimeout(() => {
+            if (this.qtrNum < 4) {
+                this.qtrNum++;
+                this.cachedQtrNum = this.qtrNum;
+                this.initVariables();
+            } else {
+                console.log('end')
+            }
+        }, 12000);
     }
 
     playGame(): void {
-        this.loadImage('player1', '/assets/img/player1.png');
-        this.loadImage('player2', '/assets/img/player2.png');
-        this.loadImage('player3', '/assets/img/player3.png');
-        this.loadImage('player1', '/assets/img/player1.png');
-
         this.fullscreenify();
     }
 
-    loadImage(name, src) {
-        this.images[name] = new Image();
-        this.images[name].onload = () => {
-            this.redrawCanvas();
-        };
-        this.images[name].src = src;
+    loadImage(name, src): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.images[name] = new Image();
+            this.images[name].onload = () => {
+                resolve();
+            };
+            this.images[name].src = src;
+        });
     }
 
+    cachedQtrNum = this.qtrNum;
     redrawCanvas() {
+        if (this.cachedQtrNum !== this.qtrNum) {
+            return;
+        }
         let homePlayers = this.qtr[this.qtrNum].homePlayers;
         let awayPlayers = this.qtr[this.qtrNum].awayPlayers;
         // Draw to the canvas
@@ -173,6 +194,7 @@ export class GameDetailComponent implements OnInit {
         // Update time
         this.timeCurrent = Date.now();
         this.timeElapsed = this.timeCurrent - this.timeStart;
+
         setTimeout(() => {
             this.redrawCanvas();
         }, 1000 / this.fps);
@@ -225,7 +247,7 @@ export class GameDetailComponent implements OnInit {
         let oPos = this[oTeam + 'Pos'];
 
         // If down or scored
-        if (teamPlayers[i].kg <= 0 || teamPlayers[i].scored.round1) return playerPos;
+        if (teamPlayers[i].kg <= 0 || teamPlayers[i].scored['qtr' + this.qtrNum]) return playerPos;
 
         // Run through to find the closest enemy
         if (this.timeElapsed > playerPos.recalc && oPlayers[i].down) {
@@ -246,7 +268,7 @@ export class GameDetailComponent implements OnInit {
             playerPos.recalc = this.timeElapsed + 1000;
         }
 
-        if (playerPos.targetIndex && oPlayers[playerPos.targetIndex].scored.round1 === true) {
+        if (playerPos.targetIndex && oPlayers[playerPos.targetIndex].scored['qtr' + this.qtrNum] === true) {
             playerPos.targetIndex = null;
         }
 
@@ -289,7 +311,7 @@ export class GameDetailComponent implements OnInit {
             let moveDirection = (team === 'home') ? 1 : -1;
             if (playerPos.x >= this.calcEndPoint && moveDirection === 1 ||
                 playerPos.x <= 0 && moveDirection === -1) {
-                this.qtr[this.qtrNum][team + 'Players'][i].scored = { round1: true };
+                this.qtr[this.qtrNum][team + 'Players'][i].scored['qtr' + this.qtrNum] = true;
                 this[team + 'Score']++;
             } else {
                 playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
@@ -299,6 +321,9 @@ export class GameDetailComponent implements OnInit {
     }
 
     calculateRecovery(team, playerIndex) {
+        if (this.cachedQtrNum !== this.qtrNum) {
+            return;
+        }
         let homePlayers = this.qtr[this.qtrNum].homePlayers;
         let awayPlayers = this.qtr[this.qtrNum].awayPlayers;
 
