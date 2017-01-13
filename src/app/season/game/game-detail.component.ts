@@ -137,7 +137,7 @@ export class GameDetailComponent implements OnInit {
             } else {
                 console.log('end')
             }
-        }, 12000);
+        }, this.data.gameAttr.roundDuration);
     }
 
     playGame(): void {
@@ -300,8 +300,8 @@ export class GameDetailComponent implements OnInit {
                 calcY = calcY / toEnemyLength;
 
                 // Move towards the enemy
-                playerPos.x += (calcX * teamPlayers[i].spd) / this.data.playerAttr.speedMultiplier;
-                playerPos.y += (calcY * teamPlayers[i].spd) / this.data.playerAttr.speedMultiplier;
+                playerPos.x += (calcX * teamPlayers[i].spd) / this.data.gameAttr.speedMultiplier;
+                playerPos.y += (calcY * teamPlayers[i].spd) / this.data.gameAttr.speedMultiplier;
 
                 // Rotate us to face the player
                 playerPos.r = Math.atan2(calcY, calcX);
@@ -314,7 +314,7 @@ export class GameDetailComponent implements OnInit {
                 this.qtr[this.qtrNum][team + 'Players'][i].scored['qtr' + this.qtrNum] = true;
                 this[team + 'Score']++;
             } else {
-                playerPos.x += (teamPlayers[i].spd / this.data.playerAttr.speedMultiplier) * moveDirection;
+                playerPos.x += (teamPlayers[i].spd / this.data.gameAttr.speedMultiplier) * moveDirection;
             }
         }
         return playerPos;
