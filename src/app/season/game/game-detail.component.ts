@@ -54,25 +54,30 @@ export class GameDetailComponent implements OnInit {
             this.gameId = gameId;
             this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber }).then(season => {
                 this.season = season;
-                if (season) {
-                    if (season.games[gameId]) {
-                        this.game = season.games[gameId];
-                        for (let i = 0; i < 8; i++) {
-                            this.game.game.homePlayers[i].scored = { round1: false };
-                            this.game.game.awayPlayers[i].scored = { round1: false };
-                        }
-                    }
+                if (season.games[gameId]) {
+                    // The game exists
+                    this.game = season.games[gameId];
+
                     // Load the teams
                     this.mongo.run('teams', 'oneById', { _id: this.game.home }).then(teamHome => {
                         this.game.home = teamHome;
                         return this.mongo.run('teams', 'oneById', { _id: this.game.away });
                     }).then(awayTeam => {
                         this.game.away = awayTeam;
+                        if (season.games[gameId].game.awayPlayers && season.games[gameId].game.homePlayers) {
+                            // Game has been played
+                            for (let i = 0; i < 8; i++) {
+                                this.game.game.homePlayers[i].scored = { round1: false };
+                                this.game.game.awayPlayers[i].scored = { round1: false };
+                            }
+                            this.playGame();
+                        }
                     }).catch(err => {
                         debugger;
                     });
                 } else {
-                    debugger;
+                    // Game does not exist
+                    alert('Game does not exist!');
                 }
             }).catch(err => {
                 debugger;
@@ -267,7 +272,7 @@ export class GameDetailComponent implements OnInit {
                 // ATTACK THE ENEMY
                 if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
                     playerPos.atkTime = this.timeElapsed + 1000 + teamPlayers[i].spd;
-                    this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg -= 5 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 3;
+                    this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg -= 8 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 8;
                     if (this.game.game[oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
                         this.game.game[oTeam + 'Players'][playerPos.targetIndex].down = true;
                     }
