@@ -19,7 +19,7 @@ export class GameDetailComponent implements OnInit {
     away: any; // original unmodified team
     game: any; // the game object "game": { "data": {}, "round": Date(), etc}
     // Game data
-    data: any; // game data
+    data: any; // additional game data
     homePos: any = [];
     awayPos: any = [];
     calcEndPoint: number = 0;
@@ -28,6 +28,8 @@ export class GameDetailComponent implements OnInit {
     timeStart = Date.now();
     timeCurrent = this.timeStart;
     timeElapsed = 0;
+    qtr: any;
+    qtrNum: number = 1; // round number
 
 
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
@@ -65,12 +67,15 @@ export class GameDetailComponent implements OnInit {
                         return this.mongo.run('teams', 'oneById', { _id: season.games[gameId].away });
                     }).then(awayTeam => {
                         this.away = awayTeam;
-                        if (season.games[gameId].data.awayPlayers && season.games[gameId].data.homePlayers) {
+                        if (season.games[gameId].round && season.games[gameId].qtr) {
                             // Game has been played
                             this.data = season.games[gameId].data;
+                            this.qtr = season.games[gameId].qtr;
+                            console.log(this.qtr)
+                            debugger;
                             for (let i = 0; i < 8; i++) {
-                                this.data.homePlayers[i].scored = { round1: false };
-                                this.data.awayPlayers[i].scored = { round1: false };
+                                this.qtr[this.qtrNum].homePlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
+                                this.qtr[this.qtrNum].awayPlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
                             }
                             this.zone.run(() => { });
                             this.initCanvas();
@@ -133,8 +138,8 @@ export class GameDetailComponent implements OnInit {
     }
 
     redrawCanvas() {
-        let homePlayers = this.data.homePlayers;
-        let awayPlayers = this.data.awayPlayers;
+        let homePlayers = this.qtr[this.qtrNum].homePlayers;
+        let awayPlayers = this.qtr[this.qtrNum].awayPlayers;
         // Draw to the canvas
         let canvasWidth = this.gameCanvas.nativeElement.width;
         let canvasHeight = this.gameCanvas.nativeElement.height;
@@ -215,8 +220,8 @@ export class GameDetailComponent implements OnInit {
          * @param {number} i // player index in array e.g. homePlayers[i]
          */
         let oTeam = (team === 'home') ? 'away' : 'home'; // other team
-        let teamPlayers = this.data[team + 'Players'];
-        let oPlayers = this.data[oTeam + 'Players'];
+        let teamPlayers = this.qtr[this.qtrNum][team + 'Players'];
+        let oPlayers = this.qtr[this.qtrNum][oTeam + 'Players'];
         let oPos = this[oTeam + 'Pos'];
 
         // If down or scored
@@ -255,9 +260,9 @@ export class GameDetailComponent implements OnInit {
                 // ATTACK THE ENEMY
                 if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
                     playerPos.atkTime = this.timeElapsed + 1000 + teamPlayers[i].spd;
-                    this.data[oTeam + 'Players'][playerPos.targetIndex].kg -= 8 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 8;
-                    if (this.data[oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
-                        this.data[oTeam + 'Players'][playerPos.targetIndex].down = true;
+                    this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg -= 8 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 8;
+                    if (this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
+                        this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].down = true;
                     }
                 }
             } else {
@@ -284,7 +289,7 @@ export class GameDetailComponent implements OnInit {
             let moveDirection = (team === 'home') ? 1 : -1;
             if (playerPos.x >= this.calcEndPoint && moveDirection === 1 ||
                 playerPos.x <= 0 && moveDirection === -1) {
-                this.data[team + 'Players'][i].scored = { round1: true };
+                this.qtr[this.qtrNum][team + 'Players'][i].scored = { round1: true };
                 this[team + 'Score']++;
             } else {
                 playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
@@ -294,8 +299,8 @@ export class GameDetailComponent implements OnInit {
     }
 
     calculateRecovery(team, playerIndex) {
-        let homePlayers = this.data.homePlayers;
-        let awayPlayers = this.data.awayPlayers;
+        let homePlayers = this.qtr[this.qtrNum].homePlayers;
+        let awayPlayers = this.qtr[this.qtrNum].awayPlayers;
 
         let recoveryTime = 6000;
 
