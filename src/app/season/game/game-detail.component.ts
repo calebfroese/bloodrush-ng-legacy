@@ -285,6 +285,7 @@ export class GameDetailComponent implements OnInit {
             if (playerPos.x >= this.calcEndPoint && moveDirection === 1 ||
                 playerPos.x <= 0 && moveDirection === -1) {
                 this.data[team + 'Players'][i].scored = { round1: true };
+                this[team + 'Score']++;
             } else {
                 playerPos.x += (teamPlayers[i].spd / 100) * moveDirection;
             }

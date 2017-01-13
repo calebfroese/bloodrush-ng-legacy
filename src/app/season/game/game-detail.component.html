@@ -8,6 +8,8 @@
             <button type="button" (click)="runGame()">Run Game</button>
             <button type="button" (click)="playGame()">Play Game</button>
             <div *ngIf="data" #cDiv style="width: 100%;">
+                Home: {{homeScore}}
+                Away: {{awayScore}}
                 <canvas #gameCanvas></canvas>
             </div>
         </div>
