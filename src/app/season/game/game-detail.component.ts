@@ -281,7 +281,8 @@ export class GameDetailComponent implements OnInit {
             if (c <= this.data.playerAttr.attackRadius) {
                 // ATTACK THE ENEMY
                 if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
-                    playerPos.atkTime = this.timeElapsed + 1000 + teamPlayers[i].spd;
+                    let genNextTime: number = 800 + parseInt(Math.round(this.timeCurrent * playerPos.x).toString().substr(-2));
+                    playerPos.atkTime = this.timeElapsed + genNextTime + teamPlayers[i].spd; // REMOVE ME
                     this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg -= 8 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 8;
                     if (this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
                         this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].down = true;
