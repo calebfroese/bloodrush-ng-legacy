@@ -34,20 +34,45 @@
 </section>
 <section *ngIf="season" class="section">
     <div class="container">
+        <h3 class="title">Recent &amp; Upcoming Games</h3>
         <div class="columns">
-            <div class="column">
-                <h3>Recent &amp; Upcoming Games</h3>
-                <div class="game-container">
-                    <a *ngFor="let game of season.games; let i = index" (click)="viewGame(i)" class="button home-game">
-                        <div *ngIf="game.home && game.away" class="team-name">
-                            <b>{{game.home.name}}</b>
-                            <br>
-                            <b>{{game.away.name}}</b>
+            <div *ngFor="let game of season.games; let i = index;" (click)="viewGame(i)">
+                <div *ngIf="i < 5" class="column">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                {{game.date | date:'MMM d'}}
+                            </p>
+                            <a class="card-header-icon">
+                                <span class="icon">
+                            <i class="fa fa-angle-down"></i>
+                        </span>
+                            </a>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                                <a>@bulmaio</a>. <a>#css</a> <a>#responsive</a>
+                                <br>
+                                <small>11:09 PM - 1 Jan 2016</small>
+                            </div>
                         </div>
-                        <br> {{game.date | date:'MMM d'}}
-                        <br> Round #{{game.round}}
-                    </a>
+                        <footer class="card-footer">
+                            <a class="card-footer-item">Save</a>
+                            <a class="card-footer-item">Edit</a>
+                            <a class="card-footer-item">Delete</a>
+                        </footer>
+                    </div>
                 </div>
+                <!--<a *ngFor="let game of season.games; let i = index" (click)="viewGame(i)" class="button home-game">
+                    <div *ngIf="game.home && game.away" class="team-name">
+                        <b>{{game.home.name}}</b>
+                        <br>
+                        <b>{{game.away.name}}</b>
+                    </div>
+                    <br> {{game.date | date:'MMM d'}}
+                    <br> Round #{{game.round}}
+                </a>-->
             </div>
         </div>
     </div>
