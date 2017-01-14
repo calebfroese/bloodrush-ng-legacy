@@ -11,19 +11,20 @@ import { MongoService } from './../mongo/mongo.service';
 })
 export class HomeComponent implements OnInit {
     season: any;
-    teamWins: number = 5;
-    teamLosses: number = 8;
+    teamWins: number = 0;
+    teamLosses: number = 0;
+    gamesPlayed: number = 0;
     teams: any; // array of teams in the league sorted by points
     myTeam: any;
 
     constructor(private mongo: MongoService, private router: Router, private acc: AccountService) { }
 
     ngOnInit(): void {
-        this.loadMyTeam();
         this.mongo.run('seasons', 'allActive', {})
             .then(seasons => {
                 let season = seasons[0];
                 this.season = season;
+                this.loadMyTeam();
                 for (let i = 0; i < this.season.games.length; i++) {
                     if (this.season.games[i]['round'] === parseInt(this.season.games[i]['round'], 10)) {
                         if (this.season.games[i]['home']) {
@@ -67,9 +68,22 @@ export class HomeComponent implements OnInit {
         this.mongo.run('teams', 'oneByOwner', { ownerId: this.acc.loggedInAccount._id })
             .then(myTeam => {
                 this.myTeam = myTeam;
+                this.getStats(myTeam);
             })
             .catch(err => {
                 debugger;
             });
+    }
+
+    /**
+     * Will fetch the win loss, ratio, gp, etc from the season object
+     */
+    getStats(team: any): void {
+        for (let i = 0; i < this.season.games.length; i++) {
+            if (this.season.games[i].home === team._id && this.season.games[i].data.gameAttr) {
+                // Games plaeyd here
+                this.gamesPlayed++;
+            }
+        }
     }
 }
