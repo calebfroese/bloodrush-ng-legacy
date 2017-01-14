@@ -1,6 +1,6 @@
-<div class="container">
+<div class="columns">
     <h3>Account Details</h3>
-    <div class="row">
+    <div>
         <div class="six columns">
             <label for="username">Username AC</label>
             <input [(ngModel)]="user.username" class="u-full-width" type="text" placeholder="enter a username" id="username" maxlength="20">
@@ -10,7 +10,7 @@
             <input [(ngModel)]="user.email" class="u-full-width" type="email" placeholder="enter a email" id="email" maxlength="40">
         </div>
     </div>
-    <div class="row">
+    <div>
         <div class="six columns">
             <label for="password">Password</label>
             <input [(ngModel)]="user.password" class="u-full-width" type="password" id="password">
@@ -22,7 +22,7 @@
     </div>
     <hr>
     <h3>Team Details</h3>
-    <div class="row">
+    <div>
         <div class="four columns">
             <label for="teamAcronym">Acronym AC</label>
             <input [(ngModel)]="team.acronym" class="u-full-width" type="text" placeholder="e.g. ADEL" maxlength="4" id="teamAcronym">
@@ -32,7 +32,7 @@
             <input [(ngModel)]="team.name" class="u-full-width" type="text" placeholder="enter a team name" id="teamName" maxlength="20">
         </div>
     </div>
-    <div class="row">
+    <div>
         <div class="four columns">
             <label for="teamStyle">Style</label>
             <select [(ngModel)]="team.style" class="u-full-width" id="teamStyle">

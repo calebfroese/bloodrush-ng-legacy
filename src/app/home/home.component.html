@@ -1,5 +1,5 @@
-<div class="container" *ngIf="season">
-    <div *ngIf="acc.loggedInAccount._id" class="row">
+<div class="columns" *ngIf="season">
+    <div *ngIf="acc.loggedInAccount._id">
         <div class="four columns">
             <h3>Stats</h3>
             <b>Wins:</b> {{teamWins}}
@@ -55,7 +55,7 @@
             </table>
         </div>
     </div>
-    <div class="row">
+    <div>
         <div class="twelve columns">
             <h3>Ladder</h3>
             <table class="u-full-width">

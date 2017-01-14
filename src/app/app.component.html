@@ -1,16 +1,50 @@
-<div class="container">
-  <div class="row">
-    <div class="six columns">
-      <h1 (click)="this.router.navigate(['/home'])" style="cursor: pointer;">Bloodrush</h1>
-    </div>
-    <div *ngIf="!acc.loggedInAccount._id" class="six columns" style="text-align: right;">
-      <input class="button btn-nav" (click)="this.router.navigate(['/login'])" type="button" value="Login">
-      <input class="button-primary btn-nav" (click)="this.router.navigate(['/signup'])" type="button" value="Signup">
-    </div>
-    <div *ngIf="acc.loggedInAccount.username" class="six columns" style="text-align: right;">
-      <b>{{acc.loggedInAccount.username}}</b>
-      <input class="button-primary btn-nav" (click)="this.router.navigate(['/logout'])" type="button" value="Logout">
-    </div>
+<nav class="nav">
+  <div class="nav-left">
+    <a class="nav-item" >
+      <img src="assets/img/logowithtext.png" alt="Bloodrush">
+    </a>
   </div>
-</div>
+
+  <!--Mobile hamber toggle menu-->
+  <span class="nav-toggle" (click)="showMobileNav = !showMobileNav">
+    <span></span>
+  <span></span>
+  <span></span>
+  </span>
+  <!--Mobile navigation-->
+  <div class="nav-right nav-menu" [ngClass]="{'is-active': showMobileNav}">
+    <a class="nav-item">
+      Home
+    </a>
+    <a class="nav-item">
+      Documentation
+    </a>
+    <a class="nav-item">
+      Blog
+    </a>
+    <!--Non-mobile navigation-->
+    <span *ngIf="acc.loggedInAccount.username" class="nav-item">
+      <a class="button" >
+        <span class="icon">
+          <i class="fa fa-user-circle"></i>
+        </span>
+      <span>{{acc.loggedInAccount.username}}</span>
+      </a>
+      <a (click)="this.router.navigate(['/logout'])" class="button is-primary">
+        <span class="icon">
+            <i class="fa fa-sign-out"></i>
+          </span>
+        <span>Logout</span>
+      </a>
+    </span>
+    <span *ngIf="!acc.loggedInAccount.username" class="nav-item">
+      <a (click)="this.router.navigate(['/signup'])" class="button is-primary">
+        <span class="icon">
+            <i class="fa fa-sign-in"></i>
+          </span>
+        <span>Signup</span>
+      </a>
+    </span>
+  </div>
+</nav>
 <router-outlet></router-outlet>
