@@ -12,58 +12,107 @@
         </div>
     </div>
 </section>
+<!--Team stats-->
 <section *ngIf="acc.loggedInAccount._id" class="section">
     <div class="container">
         <div class="columns">
-            <div class="column">
-                <h3>Stats</h3>
-                <b>Wins:</b> {{teamWins}}
-                <br>
-                <b>Losses:</b> {{teamLosses}}
-                <br>
-                <b>W/L Ratio:</b> {{teamWins / teamLosses}}
-                <br>
-                <b>Games Played:</b> {{teamWins + teamLosses}}
-                <br>
+            <div class="column is-one-quarter has-text-centered">
+                <h5 class="title">Wins</h5>
+                {{teamWins}}
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+                <h5 class="title">Losses</h5>
+                {{teamWins}}
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+                <h5 class="title">Ratio</h5>
+                {{teamWins / teamLosses}}
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+                <h5 class="title">Games Played</h5>
+                {{teamWins + teamLosses}}
             </div>
         </div>
     </div>
 </section>
+<!--Recent and upcoming games-->
 <section *ngIf="season" class="section">
     <div class="container">
         <h3 class="title">Recent &amp; Upcoming Games</h3>
+        <hr>
         <div class="columns">
             <div class="column is-one-quarter">
-                <div class="card">
+                <div class="card custom-card">
                     <header class="card-header">
                         <p class="card-header-title">
-                            Round #{{season.games[0].round}}
+                            {{season.games[0].date | date:['MMM d']}}
                         </p>
                         <a class="card-header-icon">
                             <span class="icon">
-                                <i class="fa fa-angle-down"></i>
+                                <i class="fa fa-search"></i>
                             </span>
                         </a>
                     </header>
                     <div class="card-content">
+                        Home: {{season.games[0].home.name}}
+                        <br> Away: {{season.games[0].away.name}}
+                        <br> Round #{{season.games[0].round}}
                         <div class="content">
                             <small>{{season.games[0].date | date:'MMM d'}}</small>
                         </div>
                     </div>
-                    <footer class="card-footer">
-                        <a class="card-footer-item">View</a>
-                    </footer>
                 </div>
             </div>
             <div class="column is-one-quarter">
-                <div class="card">
+                <div class="card custom-card">
                     <header class="card-header">
                         <p class="card-header-title">
-                            See More
+                            {{season.games[1].date | date:['MMM d']}}
                         </p>
+                        <a class="card-header-icon">
+                            <span class="icon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </a>
                     </header>
                     <div class="card-content">
+                        Home: {{season.games[1].home.name}}
+                        <br> Away: {{season.games[1].away.name}}
+                        <br> Round #{{season.games[1].round}}
                         <div class="content">
+                            <small>{{season.games[1].date | date:'MMM d'}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-quarter">
+                <div class="card custom-card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            {{season.games[2].date | date:['MMM d']}}
+                        </p>
+                        <a class="card-header-icon">
+                            <span class="icon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        Home: {{season.games[2].home.name}}
+                        <br> Away: {{season.games[2].away.name}}
+                        <br> Round #{{season.games[2].round}}
+                        <div class="content">
+                            <small>{{season.games[2].date | date:'MMM d'}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-one-quarter">
+                <div class="card custom-card">
+                    <div class="card-content">
+                        <div class="content has-text-centered">
+                            <br>
+                            <p>See More</p>
                             <span class="icon is-large">
                                 <i class="fa fa-plus-square"></i>
                             </span>
@@ -74,8 +123,11 @@
         </div>
     </div>
 </section>
+<!--My team-->
 <section *ngIf="myTeam" class="section">
     <div class="container">
+        <h3 class="title">Players</h3>
+        <hr>
         <div class="columns">
             <div class="column">
                 <h3>Team</h3>
@@ -107,8 +159,11 @@
         </div>
     </div>
 </section>
+<!--Ladder-->
 <section *ngIf="season" class="section">
     <div class="container">
+        <h3 class="title">Ladder</h3>
+        <hr>
         <div class="columns">
             <div class="column">
                 <h3>Ladder</h3>

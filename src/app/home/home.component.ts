@@ -6,7 +6,8 @@ import { MongoService } from './../mongo/mongo.service';
 
 @Component({
     selector: 'app-home',
-    templateUrl: './home.component.html'
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
     season: any;
@@ -60,13 +61,11 @@ export class HomeComponent implements OnInit {
 
     loadMyTeam(): void {
         if (!this.acc.loggedInAccount._id) {
-            console.log('no team!');
             return;
         }
 
         this.mongo.run('teams', 'oneByOwner', { ownerId: this.acc.loggedInAccount._id })
             .then(myTeam => {
-                console.log(myTeam)
                 this.myTeam = myTeam;
             })
             .catch(err => {
