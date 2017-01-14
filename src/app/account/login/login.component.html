@@ -1,13 +1,27 @@
-<div class="columns">
-    <form [formGroup]="form" (ngSubmit)="onClickSubmit(form)">
-        <div>
-            <div class="twelve columns">
-                <h3>Login</h3>
-                Username
-                <input formControlName="username" class="u-full-width" type="text"> Password
-                <input formControlName="password" class="u-full-width" type="password">
+<section class="section">
+    <div class="container">
+        <h1 class="title">Login</h1>
+        <div class="columns">
+            <div class="column is-12">
+                <form [formGroup]="form" (ngSubmit)="onClickSubmit(form)">
+                    <label class="label">Username</label>
+                    <p class="control has-icon has-icon-right">
+                        <input formControlName="username" class="input" type="text" placeholder="enter username">
+                    </p>
+                    <label class="label">Password</label>
+                    <p class="control has-icon has-icon-right">
+                        <input formControlName="password" class="input" type="password" placeholder="enter password">
+                    </p>
+                    <div class="control is-grouped">
+                        <p class="control">
+                            <button type="submit" class="button is-primary">Submit</button>
+                        </p>
+                        <p class="control">
+                            <button routerLink="/home" type="button" class="button is-link">Cancel</button>
+                        </p>
+                    </div>
+                </form>
             </div>
         </div>
-        <button class="button-primary" type="submit" [disabled]="!form.valid">Login</button>
-    </form>
-</div>
+    </div>
+</section>

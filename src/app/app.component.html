@@ -39,9 +39,15 @@
       </a>
     </span>
     <span *ngIf="!acc.loggedInAccount.username" class="nav-item">
-      <a (click)="this.router.navigate(['/signup'])" class="button is-primary">
+      <a (click)="this.router.navigate(['/login'])" class="button">
         <span class="icon">
             <i class="fa fa-sign-in"></i>
+          </span>
+        <span>Login</span>
+      </a>
+      <a (click)="this.router.navigate(['/signup'])" class="button is-primary">
+        <span class="icon">
+            <i class="fa fa-user-plus"></i>
           </span>
         <span>Signup</span>
       </a>
