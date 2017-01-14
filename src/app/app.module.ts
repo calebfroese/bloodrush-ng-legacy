@@ -41,7 +41,13 @@ import { SignupComponent } from './account/signup/signup.component';
     AppRouting,
     NgUploaderModule
   ],
-  providers: [MongoService, AccountService],
-  bootstrap: [AppComponent, FooterComponent]
+  providers: [
+    MongoService,
+    AccountService
+  ],
+  bootstrap: [
+    AppComponent,
+    FooterComponent
+  ]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 <nav class="nav">
   <div class="nav-left">
-    <a routerLink="/home" class="nav-item" >
+    <a routerLink="/home" class="nav-item">
       <img src="assets/img/logowithtext.png" alt="Bloodrush">
       <span class="tag is-warning">Beta</span>
     </a>
@@ -29,28 +29,28 @@
         <span class="icon">
           <i class="fa fa-user-circle"></i>
         </span>
-      <span>{{acc.loggedInAccount.username}}</span>
-      </a>
-      <a (click)="this.router.navigate(['/logout'])" class="button is-primary">
-        <span class="icon">
+    <span>{{acc.loggedInAccount.username}}</span>
+    </a>
+    <a (click)="this.router.navigate(['/logout'])" class="button is-primary">
+      <span class="icon">
             <i class="fa fa-sign-out"></i>
           </span>
-        <span>Logout</span>
-      </a>
+      <span>Logout</span>
+    </a>
     </span>
     <span *ngIf="!acc.loggedInAccount.username" class="nav-item">
       <a (click)="this.router.navigate(['/login'])" class="button">
         <span class="icon">
             <i class="fa fa-sign-in"></i>
           </span>
-        <span>Login</span>
-      </a>
-      <a (click)="this.router.navigate(['/signup'])" class="button is-primary">
-        <span class="icon">
+    <span>Login</span>
+    </a>
+    <a (click)="this.router.navigate(['/signup'])" class="button is-primary">
+      <span class="icon">
             <i class="fa fa-user-plus"></i>
           </span>
-        <span>Signup</span>
-      </a>
+      <span>Signup</span>
+    </a>
     </span>
   </div>
 </nav>

@@ -46,10 +46,10 @@ export class MyTeamComponent implements OnInit {
         // TODO: Server-side protection of meddling
         this.mongo.run('teams', 'saveMyTeam', { team: this.team })
             .then(res => {
-                debugger;
+                alert('Team saved successfully.');
             })
             .catch(err => {
                 debugger;
-            })
+            });
     }
 }
