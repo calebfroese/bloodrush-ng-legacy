@@ -33,25 +33,27 @@
     <div class="container">
         <h3 class="title">Recent &amp; Upcoming Games</h3>
         <div class="columns">
-            <div class="card">
-                <header class="card-header">
-                    <p class="card-header-title">
-                        Round #{{season.games[0].round}}
-                    </p>
-                    <a class="card-header-icon">
-                        <span class="icon">
-                            <i class="fa fa-angle-down"></i>
-                        </span>
-                    </a>
-                </header>
-                <div class="card-content">
-                    <div class="content">
-                        <small>{{season.games[0].date | date:'MMM d'}}</small>
+            <div class="column is-one-quarter">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            Round #{{season.games[0].round}}
+                        </p>
+                        <a class="card-header-icon">
+                            <span class="icon">
+                                <i class="fa fa-angle-down"></i>
+                            </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <small>{{season.games[0].date | date:'MMM d'}}</small>
+                        </div>
                     </div>
+                    <footer class="card-footer">
+                        <a class="card-footer-item">View</a>
+                    </footer>
                 </div>
-                <footer class="card-footer">
-                    <a class="card-footer-item">View</a>
-                </footer>
             </div>
             <div class="column is-one-quarter">
                 <div class="card">
@@ -59,22 +61,14 @@
                         <p class="card-header-title">
                             See More
                         </p>
-                        <a class="card-header-icon">
-                            <span class="icon">
-                            <i class="fa fa-angle-down"></i>
-                        </span>
-                        </a>
                     </header>
                     <div class="card-content">
                         <div class="content">
-                            <small>11:09 PM - 1 Jan 2016</small>
+                            <span class="icon is-large">
+                                <i class="fa fa-plus-square"></i>
+                            </span>
                         </div>
                     </div>
-                    <footer class="card-footer">
-                        <a class="card-footer-item">Save</a>
-                        <a class="card-footer-item">Edit</a>
-                        <a class="card-footer-item">Delete</a>
-                    </footer>
                 </div>
             </div>
         </div>

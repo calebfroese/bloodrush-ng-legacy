@@ -2,6 +2,7 @@
   <div class="nav-left">
     <a class="nav-item" >
       <img src="assets/img/logowithtext.png" alt="Bloodrush">
+      <span class="tag is-warning">Beta</span>
     </a>
   </div>
 
@@ -11,18 +12,18 @@
   <span></span>
   <span></span>
   </span>
-  <!--Mobile navigation-->
+  <!--Nav links-->
   <div class="nav-right nav-menu" [ngClass]="{'is-active': showMobileNav}">
-    <a class="nav-item">
-      Home
+    <a *ngIf="acc.loggedInAccount.username" class="nav-item">
+      TeamName
     </a>
     <a class="nav-item">
-      Documentation
+      Season
     </a>
     <a class="nav-item">
-      Blog
+      Ladder
     </a>
-    <!--Non-mobile navigation-->
+    <!--Nav buttons-->
     <span *ngIf="acc.loggedInAccount.username" class="nav-item">
       <a class="button" >
         <span class="icon">
