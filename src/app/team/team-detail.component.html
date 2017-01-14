@@ -1,9 +1,11 @@
-<div *ngIf="team" class="columns">
-    <div>
-        <div class="twelve columns">
-            <b>Name: </b> {{team.name}}
-            <br> <b>Acronym: </b> {{team.acronym}}
-            <br> <b>Style: </b> {{team.style}}
+<section *ngIf="team" class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-12">
+                <b>Name: </b> {{team.name}}
+                <br> <b>Acronym: </b> {{team.acronym}}
+                <br> <b>Style: </b> {{team.style}}
+            </div>
         </div>
     </div>
-</div>
+</section>
