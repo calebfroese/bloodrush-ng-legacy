@@ -11,6 +11,7 @@ import { AppRouting } from './app.routing';
 import { GameDetailComponent } from './season/game/game-detail.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
+import { MarketComponent } from './market/market.component';
 import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';
 import { MongoService } from './mongo/mongo.service';
@@ -23,6 +24,7 @@ import { SignupComponent } from './account/signup/signup.component';
     AppComponent,
     FooterComponent,
     HomeComponent,
+    MarketComponent,
     GameDetailComponent,
     TeamDetailComponent,
     SignupComponent,

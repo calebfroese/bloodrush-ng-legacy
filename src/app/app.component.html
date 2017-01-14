@@ -14,14 +14,14 @@
   </span>
   <!--Nav links-->
   <div class="nav-right nav-menu" [ngClass]="{'is-active': showMobileNav}">
-    <a *ngIf="acc.loggedInAccount.username" class="nav-item">
-      TeamName
+    <a *ngIf="acc.loggedInAccount.team" routerLink="/team/{{acc.loggedInAccount.team._id}}" class="nav-item">
+      {{acc.loggedInAccount.team.name}}
     </a>
-    <a class="nav-item">
+    <a routerLink="/season" class="nav-item">
       Season
     </a>
-    <a class="nav-item">
-      Ladder
+    <a routerLink="/market" class="nav-item">
+      Market
     </a>
     <!--Nav buttons-->
     <span *ngIf="acc.loggedInAccount.username" class="nav-item">
