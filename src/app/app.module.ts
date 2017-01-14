@@ -17,6 +17,7 @@ import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';
 import { MongoService } from './mongo/mongo.service';
 import { TeamDetailComponent } from './team/team-detail.component';
+import { SeasonComponent } from './season/season.component';
 import { SignupComponent } from './account/signup/signup.component';
 
 @NgModule({
@@ -30,6 +31,7 @@ import { SignupComponent } from './account/signup/signup.component';
     GameDetailComponent,
     TeamDetailComponent,
     SignupComponent,
+    SeasonComponent,
     LoginComponent,
     LogoutComponent
   ],

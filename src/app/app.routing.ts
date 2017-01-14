@@ -11,6 +11,7 @@ import { SignupComponent } from './account/signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { MyTeamComponent } from './home/my-team/my-team.component';
 import { TeamDetailComponent } from './team/team-detail.component';
+import { SeasonComponent } from './season/season.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -21,6 +22,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'logout', component: LogoutComponent },
     { path: 'signup', component: SignupComponent },
+    { path: 'season', component: SeasonComponent },
     { path: 'team/:teamId', component: TeamDetailComponent },
     { path: 'season/:seasonNumber/:gameId', component: GameDetailComponent }
 ];
