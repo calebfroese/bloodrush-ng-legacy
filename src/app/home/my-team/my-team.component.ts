@@ -44,5 +44,12 @@ export class MyTeamComponent implements OnInit {
     saveTeam(): void {
         // Saves the team to the current orientation of players
         // TODO: Server-side protection of meddling
+        this.mongo.run('teams', 'saveMyTeam', { team: this.team })
+            .then(res => {
+                debugger;
+            })
+            .catch(err => {
+                debugger;
+            })
     }
 }
