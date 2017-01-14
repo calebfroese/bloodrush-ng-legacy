@@ -3,7 +3,28 @@
         <h1 class="title">{{team.name}}</h1>
         <div class="columns">
             <div class="column is-12">
-                Edit your team here!
+                <table class="table is-striped is-narrow">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>ATK</td>
+                            <td>DEF</td>
+                            <td>SPD</td>
+                            <td>WEI</td>
+                            <td>REC</td>
+                            <td>STY</td>
+                        </tr>
+                    </thead>
+                    <tr *ngFor="let player of team.players; let i = index;">
+                        <td>{{player.first}} {{player.last}}</td>
+                        <td>{{player.atk}}</td>
+                        <td>{{player.def}}</td>
+                        <td>{{player.spd}}</td>
+                        <td>{{player.kg}}kg</td>
+                        <td>{{player.rec}}%</td>
+                        <td>{{player.sty}}</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
