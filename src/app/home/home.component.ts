@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
             .then(seasons => {
                 let season = seasons[0];
                 this.season = season;
+                if (!this.season) return;
                 this.loadMyTeam();
                 for (let i = 0; i < this.season.games.length; i++) {
                     if (this.season.games[i]['round'] === parseInt(this.season.games[i]['round'], 10)) {
