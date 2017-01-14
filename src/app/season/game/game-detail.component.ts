@@ -8,7 +8,9 @@ import { MongoService } from './../../mongo/mongo.service';
 @Component({
     templateUrl: './game-detail.component.html',
     styles: [`
-        .c-div { width: 100%; }
+        .c-div {
+            width: 100%;
+        }
     `]
 })
 export class GameDetailComponent implements OnInit {

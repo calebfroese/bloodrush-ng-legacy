@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgUploaderModule } from 'ngx-uploader';
 
+import { AboutComponent } from './about/about.component';
 import { AccountService } from './shared/account.service';
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
@@ -18,6 +19,7 @@ import { SignupComponent } from './account/signup/signup.component';
 
 @NgModule({
   declarations: [
+    AboutComponent,
     AppComponent,
     FooterComponent,
     HomeComponent,

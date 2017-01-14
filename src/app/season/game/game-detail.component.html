@@ -1,18 +1,25 @@
-<div class="section">
+<section *ngIf="home && away && game" class="section">
     <div class="container">
-        <div *ngIf="home && away && game" class="columns">
+        <h1 class="title">{{home.name}} vs {{away.name}}</h1>
+        <div class="columns">
             <div class="column is-12">
-                <h1 class="title">{{home.name}} vs {{away.name}}</h1>
-                Round: #{{game.round}}
-                <br> Date: {{game.date | date}}
-                <br>
+                Round: #{{game.round}} <br> Date: {{game.date | date}} <br>
                 <button class="button is-primary" type="button" (click)="runGame()">Run Game</button>
                 <button class="button is-primary" type="button" (click)="playGame()">Play Game</button>
-                <div *ngIf="data" #cDiv class="c-div">
-                    Home: {{homeScore}}<br> Away: {{awayScore}}<br> Quarter: {{qtrNum}}
+            </div>
+        </div>
+    </div>
+</section>
+<section *ngIf="data" class="section">
+    <div class="container">
+        <h3 class="title">Game</h3>
+        <div class="columns">
+            <div class="column is-12">
+                Home: {{homeScore}}<br> Away: {{awayScore}}<br> Quarter: {{qtrNum}}
+                <div #cDiv class="c-div">
                     <canvas #gameCanvas></canvas>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
