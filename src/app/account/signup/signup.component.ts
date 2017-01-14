@@ -17,10 +17,10 @@ export class SignupComponent {
     team: any = {
         acronym: '',
         name: '',
-        style: '',
-        col1: '',
-        col2: '',
-        col3: ''
+        style: '1',
+        col1: 'white',
+        col2: 'white',
+        col3: 'white'
     };
 
     constructor(private router: Router, private mongo: MongoService) { }
@@ -58,7 +58,7 @@ export class SignupComponent {
             if (response.error) {
                 alert(response.error);
             } else if (response.ok) {
-                this.router.navigate(['/home']);
+                this.router.navigate(['/login']);
             } else {
                 alert('No response');
             }
