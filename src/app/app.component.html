@@ -14,7 +14,7 @@
   </span>
   <!--Nav links-->
   <div class="nav-right nav-menu" [ngClass]="{'is-active': showMobileNav}">
-    <a *ngIf="acc.loggedInAccount.team" routerLink="/team/{{acc.loggedInAccount.team._id}}" class="nav-item">
+    <a *ngIf="acc.loggedInAccount.team" routerLink="/home/team" class="nav-item">
       {{acc.loggedInAccount.team.name}}
     </a>
     <a routerLink="/season" class="nav-item">

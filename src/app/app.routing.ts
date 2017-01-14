@@ -9,11 +9,13 @@ import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';
 import { SignupComponent } from './account/signup/signup.component';
 import { HomeComponent } from './home/home.component';
+import { MyTeamComponent } from './home/my-team/my-team.component';
 import { TeamDetailComponent } from './team/team-detail.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
+    { path: 'home/team', component: MyTeamComponent },
     { path: 'about', component: AboutComponent },
     { path: 'market', component: MarketComponent },
     { path: 'login', component: LoginComponent },

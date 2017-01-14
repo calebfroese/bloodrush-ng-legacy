@@ -7,11 +7,13 @@
                 <b>Name: </b> {{team.name}}
                 <br> <b>Acronym: </b> {{team.acronym}}
                 <br> <b>Style: </b> {{team.style}}
+                <br>
+                <br>
+                <button *ngIf="acc.loggedInAccount.team && team._id === acc.loggedInAccount.team._id" routerLink="/home/team" class="button is-primary">Manage Team</button>
             </div>
         </div>
     </div>
 </section>
-<!--My team-->
 <section *ngIf="team && team.players" class="section">
     <div class="container">
         <h2 class="title">Players</h2>

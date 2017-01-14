@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { AccountService } from './../shared/account.service';
 import { MongoService } from './../mongo/mongo.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class TeamDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private location: Location,
-        private mongo: MongoService
+        private mongo: MongoService,
+        private acc: AccountService
     ) { }
 
     ngOnInit(): void {
