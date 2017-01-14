@@ -3,6 +3,37 @@
         <h1 class="title">{{team.name}}</h1>
         <div class="columns">
             <div class="column is-12">
+                <h3 class="title">Team</h3>
+                <table class="table is-striped is-narrow content">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>ATK</td>
+                            <td>DEF</td>
+                            <td>SPD</td>
+                            <td>WEI</td>
+                            <td>REC</td>
+                            <td>STY</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tr *ngFor="let player of team.players; let i = index;">
+                        <ng-container *ngIf="i < 8">
+                            <td>{{player.first}} {{player.last}}</td>
+                            <td>{{player.atk}}</td>
+                            <td>{{player.def}}</td>
+                            <td>{{player.spd}}</td>
+                            <td>{{player.kg}}kg</td>
+                            <td>{{player.rec}}%</td>
+                            <td>{{player.sty}}</td>
+                            <td>
+                                <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
+                                <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </table>
+                <h3 class="title">Subs</h3>
                 <table class="table is-striped is-narrow">
                     <thead>
                         <tr>
@@ -17,17 +48,49 @@
                         </tr>
                     </thead>
                     <tr *ngFor="let player of team.players; let i = index;">
-                        <td>{{player.first}} {{player.last}}</td>
-                        <td>{{player.atk}}</td>
-                        <td>{{player.def}}</td>
-                        <td>{{player.spd}}</td>
-                        <td>{{player.kg}}kg</td>
-                        <td>{{player.rec}}%</td>
-                        <td>{{player.sty}}</td>
-                        <td>
-                            <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
-                            <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
-                        </td>
+                        <ng-container *ngIf="i >= 8 && i < 12">
+                            <td>{{player.first}} {{player.last}}</td>
+                            <td>{{player.atk}}</td>
+                            <td>{{player.def}}</td>
+                            <td>{{player.spd}}</td>
+                            <td>{{player.kg}}kg</td>
+                            <td>{{player.rec}}%</td>
+                            <td>{{player.sty}}</td>
+                            <td>
+                                <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
+                                <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </table>
+                <h3 class="title">Other</h3>
+                <table class="table is-striped is-narrow">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>ATK</td>
+                            <td>DEF</td>
+                            <td>SPD</td>
+                            <td>WEI</td>
+                            <td>REC</td>
+                            <td>STY</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tr *ngFor="let player of team.players; let i = index;">
+                        <ng-container *ngIf="i >= 12">
+                            <td>{{player.first}} {{player.last}}</td>
+                            <td>{{player.atk}}</td>
+                            <td>{{player.def}}</td>
+                            <td>{{player.spd}}</td>
+                            <td>{{player.kg}}kg</td>
+                            <td>{{player.rec}}%</td>
+                            <td>{{player.sty}}</td>
+                            <td>
+                                <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
+                                <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
+                            </td>
+                        </ng-container>
                     </tr>
                 </table>
             </div>

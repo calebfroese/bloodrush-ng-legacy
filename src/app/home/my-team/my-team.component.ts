@@ -29,17 +29,9 @@ export class MyTeamComponent implements OnInit {
             });
     }
 
-    moveUp(index): void {
-        // Moves a player up a space
-        var temp = this.team.players[index];
-        this.team.players[index]
-    }
-
-    moveDown(index): void {
-        // Moves a player down a space
-    }
-
     moveTo(old_index, new_index) {
+        if (!this.team.players[new_index]) return;
+
         if (new_index >= this.team.players.length) {
             let k = new_index - this.team.players.length;
             while ((k--) + 1) {
@@ -47,6 +39,5 @@ export class MyTeamComponent implements OnInit {
             }
         }
         this.team.players.splice(new_index, 0, this.team.players.splice(old_index, 1)[0]);
-        // return this.team.players; // for testing purposes
     };
 }
