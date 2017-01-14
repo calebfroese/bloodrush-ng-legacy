@@ -47,7 +47,7 @@
                         <p class="card-header-title">
                             {{season.games[0].date | date:['MMM d']}}
                         </p>
-                        <a class="card-header-icon">
+                        <a class="card-header-icon" routerLink="/season/{{season.number}}/0">
                             <span class="icon">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -69,7 +69,7 @@
                         <p class="card-header-title">
                             {{season.games[1].date | date:['MMM d']}}
                         </p>
-                        <a class="card-header-icon">
+                        <a class="card-header-icon" routerLink="/season/{{season.number}}/1">
                             <span class="icon">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -91,7 +91,7 @@
                         <p class="card-header-title">
                             {{season.games[2].date | date:['MMM d']}}
                         </p>
-                        <a class="card-header-icon">
+                        <a class="card-header-icon" routerLink="/season/{{season.number}}/2">
                             <span class="icon">
                                 <i class="fa fa-search"></i>
                             </span>
