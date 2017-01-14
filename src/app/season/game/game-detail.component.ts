@@ -7,6 +7,9 @@ import { MongoService } from './../../mongo/mongo.service';
 
 @Component({
     templateUrl: './game-detail.component.html',
+    styles: [`
+        .c-div { width: 100%; }
+    `]
 })
 export class GameDetailComponent implements OnInit {
     isBye: boolean = false;
@@ -41,8 +44,8 @@ export class GameDetailComponent implements OnInit {
     fps = 40;
     // Scaling
     ratio: number;
-    maxWidth: number = 960;
-    maxHeight: number = 600;
+    maxWidth: number = 1152;
+    maxHeight: number = 720;
 
     constructor(
         private route: ActivatedRoute,
@@ -81,7 +84,6 @@ export class GameDetailComponent implements OnInit {
                             this.initCanvas();
                         }
                     }).catch(err => {
-                        debugger;
                     });
                 } else {
                     // Game does not exist

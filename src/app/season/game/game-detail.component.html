@@ -1,17 +1,17 @@
-<div class="columns">
-    <div>
-        <div class="twelve columns" *ngIf="home && away && game">
-            <h4>{{home.name}} vs {{away.name}}</h4>
-            Round: #{{game.round}}
-            <br> Date: {{game.date | date}}
-            <br>
-            <button type="button" (click)="runGame()">Run Game</button>
-            <button type="button" (click)="playGame()">Play Game</button>
-            <div *ngIf="data" #cDiv style="width: 100%;">
-                Home: {{homeScore}}<br>
-                Away: {{awayScore}}<br>
-                Quarter: {{qtrNum}}
-                <canvas #gameCanvas></canvas>
+<div class="section">
+    <div class="container">
+        <div *ngIf="home && away && game" class="columns">
+            <div class="column is-12">
+                <h1 class="title">{{home.name}} vs {{away.name}}</h1>
+                Round: #{{game.round}}
+                <br> Date: {{game.date | date}}
+                <br>
+                <button class="button is-primary" type="button" (click)="runGame()">Run Game</button>
+                <button class="button is-primary" type="button" (click)="playGame()">Play Game</button>
+                <div *ngIf="data" #cDiv class="c-div">
+                    Home: {{homeScore}}<br> Away: {{awayScore}}<br> Quarter: {{qtrNum}}
+                    <canvas #gameCanvas></canvas>
+                </div>
             </div>
         </div>
     </div>
