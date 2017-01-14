@@ -8,6 +8,7 @@ import { AccountService } from './shared/account.service';
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 import { GameDetailComponent } from './season/game/game-detail.component';
+import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';
@@ -18,6 +19,7 @@ import { SignupComponent } from './account/signup/signup.component';
 @NgModule({
   declarations: [
     AppComponent,
+    FooterComponent,
     HomeComponent,
     GameDetailComponent,
     TeamDetailComponent,
@@ -34,6 +36,6 @@ import { SignupComponent } from './account/signup/signup.component';
     NgUploaderModule
   ],
   providers: [MongoService, AccountService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, FooterComponent]
 })
 export class AppModule { }

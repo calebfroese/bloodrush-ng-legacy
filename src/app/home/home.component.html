@@ -1,103 +1,120 @@
+<section class="hero is-medium is-primary is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns has-text-centered">
+                <div class="column">
+                    <h1 class="title is-2">
+                        Free Bulma Templates
+                    </h1>
+                    <h2 class="subtitle is-4">
+                        Bulma is an awesome CSS framework, and <a href="https://github.com/dansup">@dansup</a> designed some
+                        templates to bootstrap your frontend!
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <section *ngIf="acc.loggedInAccount._id" class="section">
     <div class="container">
-    <div class="columns">
-    <div class="column">
-        <h3>Stats</h3>
-        <b>Wins:</b> {{teamWins}}
-        <br>
-        <b>Losses:</b> {{teamLosses}}
-        <br>
-        <b>W/L Ratio:</b> {{teamWins / teamLosses}}
-        <br>
-        <b>Games Played:</b> {{teamWins + teamLosses}}
-        <br>
-    </div>
-    </div>
+        <div class="columns">
+            <div class="column">
+                <h3>Stats</h3>
+                <b>Wins:</b> {{teamWins}}
+                <br>
+                <b>Losses:</b> {{teamLosses}}
+                <br>
+                <b>W/L Ratio:</b> {{teamWins / teamLosses}}
+                <br>
+                <b>Games Played:</b> {{teamWins + teamLosses}}
+                <br>
+            </div>
+        </div>
     </div>
 </section>
 <section *ngIf="season" class="section">
     <div class="container">
-    <div class="columns">
-    <div class="column">
-        <h3>Recent &amp; Upcoming Games</h3>
-        <div class="game-container">
-            <a *ngFor="let game of season.games; let i = index" (click)="viewGame(i)" class="button home-game">
-                <div *ngIf="game.home && game.away" class="team-name">
-                    <b>{{game.home.name}}</b>
-                    <br>
-                    <b>{{game.away.name}}</b>
+        <div class="columns">
+            <div class="column">
+                <h3>Recent &amp; Upcoming Games</h3>
+                <div class="game-container">
+                    <a *ngFor="let game of season.games; let i = index" (click)="viewGame(i)" class="button home-game">
+                        <div *ngIf="game.home && game.away" class="team-name">
+                            <b>{{game.home.name}}</b>
+                            <br>
+                            <b>{{game.away.name}}</b>
+                        </div>
+                        <br> {{game.date | date:'MMM d'}}
+                        <br> Round #{{game.round}}
+                    </a>
                 </div>
-                <br> {{game.date | date:'MMM d'}}
-                <br> Round #{{game.round}}
-            </a>
+            </div>
         </div>
-    </div>
-    </div>
     </div>
 </section>
 <section *ngIf="myTeam" class="section">
     <div class="container">
-    <div class="columns">
-    <div class="column">
-        <h3>Team</h3>
-        <table class="u-full-width">
-            <thead>
-                <tr>
-                    <th>Player</th>
-                    <th>ATK</th>
-                    <th>DEF</th>
-                    <th>SPD</th>
-                    <th>KG</th>
-                    <th>REC</th>
-                    <th>STY</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let player of myTeam.players">
-                    <td>{{player.first}} {{player.last}}</td>
-                    <td>{{player.atk}}</td>
-                    <td>{{player.def}}</td>
-                    <td>{{player.spd}}</td>
-                    <td>{{player.kg}}</td>
-                    <td>{{player.rec}}</td>
-                    <td>{{player.sty}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    </div>
+        <div class="columns">
+            <div class="column">
+                <h3>Team</h3>
+                <table class="u-full-width">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>ATK</th>
+                            <th>DEF</th>
+                            <th>SPD</th>
+                            <th>KG</th>
+                            <th>REC</th>
+                            <th>STY</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let player of myTeam.players">
+                            <td>{{player.first}} {{player.last}}</td>
+                            <td>{{player.atk}}</td>
+                            <td>{{player.def}}</td>
+                            <td>{{player.spd}}</td>
+                            <td>{{player.kg}}</td>
+                            <td>{{player.rec}}</td>
+                            <td>{{player.sty}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </section>
 <section *ngIf="season" class="section">
     <div class="container">
-    <div class="columns">
-    <div class="column">
-        <h3>Ladder</h3>
-        <table class="u-full-width">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Wins</th>
-                    <th>Losses</th>
-                    <th>W/L Ratio</th>
-                    <th>Games Played</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let team of teams; let i = index" (click)="this.router.navigate(['/team/' + team._id])" style="cursor: pointer;">
-                    <td>{{i + 1}}</td>
-                    <td>{{team.acronym}}</td>
-                    <td>{{team.name}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    </div>
+        <div class="columns">
+            <div class="column">
+                <h3>Ladder</h3>
+                <table class="u-full-width">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                            <th>W/L Ratio</th>
+                            <th>Games Played</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let team of teams; let i = index;" (click)="this.router.navigate(['/team/' + team._id]);">
+                            <td>{{i + 1}}</td>
+                            <td>{{team.acronym}}</td>
+                            <td>{{team.name}}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </section>
