@@ -1,6 +1,18 @@
+<section class="hero is-small is-primary is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns has-text-centered">
+                <div *ngIf="team" class="column">
+                    <h1 class="title is-2">
+                        {{team.name}}
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <section *ngIf="team" class="section">
     <div class="container">
-        <h1 class="title">{{team.name}}</h1>
         <div class="columns">
             <div class="column is-12">
                 <h3 class="title">Team</h3>
@@ -95,5 +107,6 @@
                 </table>
             </div>
         </div>
+        <button (click)="saveTeam()" class="button is-primary">Save</button>
     </div>
 </section>

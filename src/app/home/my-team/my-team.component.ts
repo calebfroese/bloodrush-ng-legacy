@@ -39,5 +39,10 @@ export class MyTeamComponent implements OnInit {
             }
         }
         this.team.players.splice(new_index, 0, this.team.players.splice(old_index, 1)[0]);
-    };
+    }
+
+    saveTeam(): void {
+        // Saves the team to the current orientation of players
+        // TODO: Server-side protection of meddling
+    }
 }
