@@ -3,7 +3,12 @@ import { Component } from '@angular/core';
 import { MongoService } from './../mongo/mongo.service';
 
 @Component({
-    templateUrl: './season.component.html'
+    templateUrl: './season.component.html',
+    styles: [`
+        .custom-third {
+            width: 33.333%;
+        }
+    `]
 })
 export class SeasonComponent {
     season: any;

@@ -4,8 +4,39 @@
         <div class="columns">
             <div class="column">
                 <h2 class="title">Games</h2>
-                <div *ngFor="let game of season.games" class="box">
-                    {{game.home.name}} vs {{game.away.name}}
+                <div *ngFor="let game of season.games">
+                    <div class="card">
+                        <table class="table">
+                            <tr>
+                                <td class="title custom-third has-text-left">{{game.home.name}}</td>
+                                <td class="title custom-third has-text-centered">0 - 0</td>
+                                <td class="title custom-third has-text-right">{{game.away.name}}</td>
+                            </tr>
+                        </table>
+                        <div class="media">
+                            <div class="media-left">
+                                <figure class="image is-64x64">
+                                    <img src="http://bulma.io/images/placeholders/128x128.png" alt="Image">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+                                <a>@bulmaio</a>. <a>#css</a> <a>#responsive</a>
+                                <br>
+                                <small>11:09 PM - 1 Jan 2016</small>
+                            </div>
+                            <div class="media-right">
+                                <figure class="image is-64x64">
+                                    <img src="http://bulma.io/images/placeholders/128x128.png" alt="Image">
+                                </figure>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a class="card-footer-item">Save</a>
+                            <a class="card-footer-item">Edit</a>
+                            <a class="card-footer-item">Delete</a>
+                        </footer>
+                    </div>
                 </div>
             </div>
             <div class="column">
