@@ -116,7 +116,8 @@ export class GameDetailComponent implements OnInit {
 
     // CANVAS
     initCanvas(): void {
-        this.loadImage('player1', '/assets/img/player1.png')
+        this.loadImage('field', '/assets/img/field.png')
+            .then(() => { return this.loadImage('player1', '/assets/img/player1.png'); })
             .then(() => { return this.loadImage('player2', '/assets/img/player2.png'); })
             .then(() => { return this.loadImage('player3', '/assets/img/player3.png'); })
             .then(() => { return this.loadImage('player4', '/assets/img/player4.png'); })
@@ -240,10 +241,7 @@ export class GameDetailComponent implements OnInit {
 
     drawField(): void {
         // Draws the field
-        this.context.beginPath();
-        this.context.rect(0, 0, this.maxWidth, this.maxHeight);
-        this.context.fillStyle = 'green';
-        this.context.fill();
+        this.context.drawImage(this.images['field'], 0, 0, this.maxWidth / this.ratio, this.maxHeight / this.ratio);
     }
 
     drawPlayer(image: any, width: number, height: number, x, y, first: string, last: string, down: any, color: string): void {
