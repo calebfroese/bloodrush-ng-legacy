@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { MongoService } from './../mongo/mongo.service';
+import { Config } from './../shared/config';
 
 @Component({
     templateUrl: './season.component.html',
@@ -16,6 +17,7 @@ import { MongoService } from './../mongo/mongo.service';
 export class SeasonComponent {
     season: any;
     teams: any;
+    config = Config;
 
     constructor(private mongo: MongoService) {
         this.loadSeason();

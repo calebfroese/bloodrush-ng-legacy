@@ -109,17 +109,3 @@
         </div>
     </div>
 </section>
-<!-- app.component.html -->
-<input type="file" ngFileSelect [options]="options" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)">
-
-<!-- drag & drop file example-->
-<style>
-  .file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
-</style>
-<div ngFileDrop [options]="options" (onUpload)="handleUpload($event)" [ngClass]="{'file-over': hasBaseDropZoneOver}" (onFileOver)="fileOverBase($event)"
-    (beforeUpload)="beforeUpload($event)">
-</div>
-
-<div>
-    Response: {{ uploadFile | json }}
-</div>

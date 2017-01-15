@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
+import { Config } from './../shared/config';
+
 @Injectable()
 export class MongoService {
-    apiUrl: string = 'http://localhost:3000/query';
 
     constructor(private http: Http) { }
 
     run(collection: string, queryname: string, params: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/${collection}/${queryname}`, params).subscribe(response => {
+            this.http.post(`${Config.apiUrl}/${collection}/${queryname}`, params).subscribe(response => {
                 resolve(this.extractData(response));
             });
         });
@@ -17,7 +18,7 @@ export class MongoService {
 
     signup(user: any, team: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/accounts/signup`, { 'user': user, 'team': team }).subscribe(response => {
+            this.http.post(`${Config.apiUrl}/accounts/signup`, { 'user': user, 'team': team }).subscribe(response => {
                 let reply = this.extractData(response);
                 if (reply.error) {
                     reject(reply.error);
@@ -30,7 +31,7 @@ export class MongoService {
 
     login(username: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${this.apiUrl}/accounts/login`, { 'username': username, 'password': password }).subscribe(response => {
+            this.http.post(`${Config.apiUrl}/accounts/login`, { 'username': username, 'password': password }).subscribe(response => {
                 let reply = this.extractData(response);
                 if (reply.error) {
                     reject(reply.error);
