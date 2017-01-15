@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MongoService } from './../mongo/mongo.service';
 import { Config } from './../shared/config';
@@ -19,7 +20,7 @@ export class SeasonComponent {
     teams: any;
     config = Config;
 
-    constructor(private mongo: MongoService) {
+    constructor(private mongo: MongoService, private router: Router) {
         this.loadSeason();
     }
 
