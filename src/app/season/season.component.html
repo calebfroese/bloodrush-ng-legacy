@@ -3,6 +3,45 @@
         <h1 class="title">Season {{season.number}}</h1>
         <div class="columns">
             <div class="column">
+                <h2 class="title">Ladder</h2>
+                <div class="container">
+                    <div class="columns">
+                        <div class="column">
+                            <table class="u-full-width">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Wins</th>
+                                        <th>Losses</th>
+                                        <th>W/L Ratio</th>
+                                        <th>Games Played</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let team of teams; let i = index;" (click)="this.router.navigate(['/team/' + team._id]);">
+                                        <td>{{i + 1}}</td>
+                                        <td>{{team.acronym}}</td>
+                                        <td>{{team.name}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section *ngIf="season" class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
                 <h2 class="title">Games</h2>
                 <div *ngFor="let game of season.games; let i = index" class="custom-margin">
                     <div class="card">
@@ -35,9 +74,6 @@
                         </footer>
                     </div>
                 </div>
-            </div>
-            <div class="column">
-                <h2 class="title">Ladder</h2>
             </div>
         </div>
     </div>
