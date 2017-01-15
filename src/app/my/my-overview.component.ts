@@ -6,9 +6,9 @@ import { MongoService } from './../mongo/mongo.service';
 import { AccountService } from './../shared/account.service';
 
 @Component({
-    templateUrl: './my-team.component.html'
+    templateUrl: './my-overview.component.html'
 })
-export class MyTeamComponent implements OnInit {
+export class MyOverviewComponent implements OnInit {
     team: any;
 
     constructor(
