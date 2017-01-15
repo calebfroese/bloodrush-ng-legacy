@@ -122,6 +122,12 @@ export class GameDetailComponent implements OnInit {
             .then(() => { return this.loadImage('player4', '/assets/img/player4.png'); })
             .then(() => { return this.loadImage('player5', '/assets/img/player5.png'); })
             .then(() => { return this.loadImage('player6', '/assets/img/player6.png'); })
+            .then(() => { return this.loadImage('player1r', '/assets/img/player1r.png'); })
+            .then(() => { return this.loadImage('player2r', '/assets/img/player2r.png'); })
+            .then(() => { return this.loadImage('player3r', '/assets/img/player3r.png'); })
+            .then(() => { return this.loadImage('player4r', '/assets/img/player4r.png'); })
+            .then(() => { return this.loadImage('player5r', '/assets/img/player5r.png'); })
+            .then(() => { return this.loadImage('player6r', '/assets/img/player6r.png'); })
             .then(() => {
                 // All images loaded
                 if (this.gameCanvas) {
@@ -206,7 +212,7 @@ export class GameDetailComponent implements OnInit {
                 downText = awayPlayers[i].knockdown;
             }
             this.awayPos[i] = this.playerLogic(this.awayPos[i], 'away', i);
-            this.drawPlayer(this.images['player' + this.awayPos[i].frame], this.data.playerAttr.x, this.data.playerAttr.y,
+            this.drawPlayer(this.images['player' + this.awayPos[i].frame + 'r'], this.data.playerAttr.x, this.data.playerAttr.y,
                 this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].first, awayPlayers[i].last, downText, this.away.col1);
         }
         // Update time
