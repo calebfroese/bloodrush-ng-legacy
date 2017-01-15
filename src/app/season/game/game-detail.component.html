@@ -4,8 +4,8 @@
         <div class="columns">
             <div class="column is-12">
                 Round: #{{game.round}} <br> Date: {{game.date | date}} <br>
-                <button class="button is-primary" type="button" (click)="runGame()">Run Game</button>
-                <button class="button is-primary" type="button" (click)="playGame()">Play Game</button>
+                <button *ngIf="!bye" class="button is-primary" type="button" (click)="runGame()">Run Game</button>
+                <button *ngIf="!bye" class="button is-primary" type="button" (click)="playGame()">Play Game</button>
             </div>
         </div>
     </div>
