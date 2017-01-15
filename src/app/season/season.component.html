@@ -4,6 +4,9 @@
         <div class="columns">
             <div class="column">
                 <h2 class="title">Games</h2>
+                <div *ngFor="let game of season.games" class="box">
+                    {{game.home.name}} vs {{game.away.name}}
+                </div>
             </div>
             <div class="column">
                 <h2 class="title">Ladder</h2>
