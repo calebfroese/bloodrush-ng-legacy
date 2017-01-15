@@ -8,6 +8,9 @@ import { MongoService } from './../mongo/mongo.service';
         .custom-third {
             width: 33.333%;
         }
+        .custom-margin {
+            margin-bottom: 10px;
+        }
     `]
 })
 export class SeasonComponent {

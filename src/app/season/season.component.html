@@ -4,7 +4,7 @@
         <div class="columns">
             <div class="column">
                 <h2 class="title">Games</h2>
-                <div *ngFor="let game of season.games">
+                <div *ngFor="let game of season.games" class="custom-margin">
                     <div class="card">
                         <table class="table">
                             <tr>
@@ -23,7 +23,7 @@
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
                                 <a>@bulmaio</a>. <a>#css</a> <a>#responsive</a>
                                 <br>
-                                <small>11:09 PM - 1 Jan 2016</small>
+                                <small>11:00 AM - {{game.date | date:['MMM d']}}</small>
                             </div>
                             <div class="media-right">
                                 <figure class="image is-64x64">
