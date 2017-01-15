@@ -4,7 +4,7 @@
         <div class="columns">
             <div class="column">
                 <h2 class="title">Games</h2>
-                <div *ngFor="let game of season.games" class="custom-margin">
+                <div *ngFor="let game of season.games; let i = index" class="custom-margin">
                     <div class="card">
                         <table class="table">
                             <tr>
@@ -32,9 +32,7 @@
                             </div>
                         </div>
                         <footer class="card-footer">
-                            <a class="card-footer-item">Save</a>
-                            <a class="card-footer-item">Edit</a>
-                            <a class="card-footer-item">Delete</a>
+                            <a routerLink="/season/{{season.number}}/{{i}}" class="card-footer-item">View</a>
                         </footer>
                     </div>
                 </div>

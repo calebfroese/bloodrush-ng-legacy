@@ -9,7 +9,7 @@ import { MongoService } from './../mongo/mongo.service';
             width: 33.333%;
         }
         .custom-margin {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
     `]
 })
