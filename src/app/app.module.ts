@@ -11,7 +11,7 @@ import { AppRouting } from './app.routing';
 import { GameDetailComponent } from './season/game/game-detail.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
-import { MyTeamComponent } from './home/my-team/my-team.component';
+import { MyTeamComponent } from './my-team/my-team.component';
 import { MarketComponent } from './market/market.component';
 import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';

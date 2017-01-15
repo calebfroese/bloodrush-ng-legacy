@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgUploaderOptions } from 'ngx-uploader';
 
-import { Config } from './../../shared/config';
-import { MongoService } from './../../mongo/mongo.service';
-import { AccountService } from './../../shared/account.service';
+import { Config } from './../shared/config';
+import { MongoService } from './../mongo/mongo.service';
+import { AccountService } from './../shared/account.service';
 
 @Component({
     templateUrl: './my-team.component.html'
@@ -15,14 +15,15 @@ export class MyTeamComponent implements OnInit {
         private acc: AccountService,
         private mongo: MongoService
     ) {
-        this.options = {
-            url: Config.imgUrl + this.acc.loggedInAccount.team._id
-        };
+
     }
 
     ngOnInit(): void {
         // Upon page init, load the team data
         this.loadTeam();
+        this.options = {
+            url: Config.imgUrl + 'file/' + this.acc.loggedInAccount.team._id
+        };
     }
 
     loadTeam(): void {
@@ -66,8 +67,7 @@ export class MyTeamComponent implements OnInit {
 
     handleUpload(data): void {
         if (data && data.response) {
-            // console.log(data)
-            // data = JSON.parse(data.response);
+            data = JSON.parse(data.response);
             this.uploadFile = data;
         }
     }

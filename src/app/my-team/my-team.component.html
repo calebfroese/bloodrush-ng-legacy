@@ -126,7 +126,3 @@
 <div ngFileDrop [options]="options" (onUpload)="handleUpload($event)" [ngClass]="{'file-over': hasBaseDropZoneOver}" (onFileOver)="fileOverBase($event)"
     (beforeUpload)="beforeUpload($event)">
 </div>
-
-<div>
-    Response: {{ uploadFile | json }}
-</div>

@@ -15,7 +15,7 @@
                         </table>
                         <div class="media">
                             <div class="media-left">
-                                <figure class="image is-64x64">
+                                <figure class="image is-128x128">
                                     <img *ngIf="game.home.hasImg" src="{{config.imgUrl}}/teamlogos/{{game.home._id}}.png">
                                     <img *ngIf="!game.home.hasImg" src="{{config.imgUrl}}/teamlogos/default.png">
                                 </figure>
@@ -26,7 +26,7 @@
                                 <small>11:00 AM - {{game.date | date:['MMM d']}}</small>
                             </div>
                             <div class="media-right">
-                                <figure class="image is-64x64">
+                                <figure class="image is-128x128">
                                     <img *ngIf="game.home.hasImg" src="{{config.imgUrl}}/teamlogos/{{game.away._id}}.png">
                                     <img *ngIf="!game.home.hasImg" src="{{config.imgUrl}}/teamlogos/default.png">
                                 </figure>
