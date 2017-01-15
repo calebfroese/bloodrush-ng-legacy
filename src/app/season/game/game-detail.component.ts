@@ -23,6 +23,7 @@ export class GameDetailComponent implements OnInit {
     home: any; // original unmodified team
     away: any; // original unmodified team
     game: any; // the game object "game": { "data": {}, "round": Date(), etc}
+    bye: string = null; // 'home' or 'away' or null;
     // Game data
     data: any; // additional game data
     homePos: any = [];
@@ -35,6 +36,7 @@ export class GameDetailComponent implements OnInit {
     timeElapsed = 0;
     qtr: any;
     qtrNum: number = 1; // round number
+
 
 
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
@@ -68,25 +70,36 @@ export class GameDetailComponent implements OnInit {
                 if (season.games[gameId]) {
                     // The game exists, load the teams
                     this.mongo.run('teams', 'oneById', { _id: season.games[gameId].home }).then(teamHome => {
-                        this.home = teamHome;
-                        return this.mongo.run('teams', 'oneById', { _id: season.games[gameId].away });
-                    }).then(awayTeam => {
-                        this.away = awayTeam;
-                        if (season.games[gameId].round && season.games[gameId].qtr) {
-                            // Game has been played
-                            this.data = season.games[gameId].data;
-                            this.qtr = season.games[gameId].qtr;
-                            for (let i = 0; i < 8; i++) {
-                                for (let j = 1; j <= 4; j++) {
-                                    this.qtr[j].homePlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
-                                    this.qtr[j].awayPlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
-                                }
-                            }
-                            this.zone.run(() => { });
-                            this.initCanvas();
+                        if (teamHome && teamHome !== '') {
+                            this.home = teamHome;
+                        } else {
+                            this.home = { name: 'Bye' };
+                            this.bye = 'home';
                         }
-                    }).catch(err => {
-                    });
+                        return this.mongo.run('teams', 'oneById', { _id: season.games[gameId].away });
+                    })
+                        .then(awayTeam => {
+                            if (awayTeam && awayTeam !== '') {
+                                this.away = awayTeam;
+                            } else {
+                                this.away = { name: 'Bye' };
+                                this.bye = 'away';
+                            }
+                            if (season.games[gameId].round && season.games[gameId].qtr) {
+                                // Game has been played
+                                this.data = season.games[gameId].data;
+                                this.qtr = season.games[gameId].qtr;
+                                for (let i = 0; i < 8; i++) {
+                                    for (let j = 1; j <= 4; j++) {
+                                        this.qtr[j].homePlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
+                                        this.qtr[j].awayPlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
+                                    }
+                                }
+                                this.zone.run(() => { });
+                                this.initCanvas();
+                            }
+                        }).catch(err => {
+                        });
                 } else {
                     // Game does not exist
                     alert('Game does not exist!');
@@ -139,7 +152,6 @@ export class GameDetailComponent implements OnInit {
                 this.cachedQtrNum = this.qtrNum;
                 this.initVariables();
             } else {
-                console.log('end')
             }
         }, this.data.gameAttr.roundDuration);
     }

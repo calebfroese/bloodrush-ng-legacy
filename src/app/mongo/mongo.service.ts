@@ -42,7 +42,11 @@ export class MongoService {
     }
 
     extractData(res: Response) {
-        let body = res.json();
-        return body || {};
+        try {
+            let body = res.json();
+            return body || {};
+        } catch (err) {
+            return null;
+        }
     }
 }

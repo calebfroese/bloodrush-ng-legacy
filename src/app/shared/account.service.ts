@@ -33,7 +33,6 @@ export class AccountService {
                 return this.mongo.run('teams', 'oneByOwner', { ownerId: _id });
             })
             .then(team => {
-                console.log(team)
                 this.loggedInAccount.team = team;
             })
             .catch(err => { debugger; });
