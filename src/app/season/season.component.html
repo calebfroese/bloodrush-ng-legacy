@@ -4,6 +4,7 @@
         <div class="columns">
             <div class="column">
                 <h2 class="title">Ladder</h2>
+                <hr>
                 <div class="container">
                     <div class="columns">
                         <div class="column">
@@ -20,7 +21,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let team of teams; let i = index;" (click)="this.router.navigate(['/team/' + team._id]);">
+                                    <tr *ngFor="let team of teams; let i = index;" (click)="router.navigate(['/team/' + team._id]);">
                                         <td>{{i + 1}}</td>
                                         <td>{{team.acronym}}</td>
                                         <td>{{team.name}}</td>
@@ -43,6 +44,7 @@
         <div class="columns">
             <div class="column">
                 <h2 class="title">Games</h2>
+                <hr>
                 <div *ngFor="let game of season.games; let i = index" class="custom-margin">
                     <div class="card">
                         <table class="table">
