@@ -1,9 +1,9 @@
-<section *ngIf="team" class="hero is-primary is-small">
+<section *ngIf="acc.loggedInAccount.team" class="hero is-primary is-small">
     <!-- Hero content: will be in the middle -->
     <div class="hero-body">
         <div class="container has-text-centered">
-            <h1 class="title">{{team.name}}</h1>
-            <h2 class="subtitle">{{team._id}}</h2>
+            <h1 class="title">{{acc.loggedInAccount.team.name}}</h1>
+            <h2 class="subtitle">{{acc.loggedInAccount.team._id}}</h2>
         </div>
     </div>
     <!-- Hero footer: will stick at the bottom -->
@@ -19,112 +19,3 @@
         </nav>
     </div>
 </section>
-<section *ngIf="team" class="section">
-    <div class="container">
-        <div class="columns">
-            <div class="column is-12">
-                <h3 class="title">Team</h3>
-                <table class="table is-striped is-narrow content">
-                    <thead>
-                        <tr>
-                            <td>Name</td>
-                            <td>ATK</td>
-                            <td>DEF</td>
-                            <td>SPD</td>
-                            <td>WEI</td>
-                            <td>REC</td>
-                            <td>STY</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tr *ngFor="let player of team.players; let i = index;">
-                        <ng-container *ngIf="i < 8">
-                            <td>{{player.first}} {{player.last}}</td>
-                            <td>{{player.atk}}</td>
-                            <td>{{player.def}}</td>
-                            <td>{{player.spd}}</td>
-                            <td>{{player.kg}}kg</td>
-                            <td>{{player.rec}}%</td>
-                            <td>{{player.sty}}</td>
-                            <td>
-                                <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
-                                <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
-                            </td>
-                        </ng-container>
-                    </tr>
-                </table>
-                <h3 class="title">Subs</h3>
-                <table class="table is-striped is-narrow">
-                    <thead>
-                        <tr>
-                            <td>Name</td>
-                            <td>ATK</td>
-                            <td>DEF</td>
-                            <td>SPD</td>
-                            <td>WEI</td>
-                            <td>REC</td>
-                            <td>STY</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tr *ngFor="let player of team.players; let i = index;">
-                        <ng-container *ngIf="i >= 8 && i < 12">
-                            <td>{{player.first}} {{player.last}}</td>
-                            <td>{{player.atk}}</td>
-                            <td>{{player.def}}</td>
-                            <td>{{player.spd}}</td>
-                            <td>{{player.kg}}kg</td>
-                            <td>{{player.rec}}%</td>
-                            <td>{{player.sty}}</td>
-                            <td>
-                                <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
-                                <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
-                            </td>
-                        </ng-container>
-                    </tr>
-                </table>
-                <h3 class="title">Other</h3>
-                <table class="table is-striped is-narrow">
-                    <thead>
-                        <tr>
-                            <td>Name</td>
-                            <td>ATK</td>
-                            <td>DEF</td>
-                            <td>SPD</td>
-                            <td>WEI</td>
-                            <td>REC</td>
-                            <td>STY</td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tr *ngFor="let player of team.players; let i = index;">
-                        <ng-container *ngIf="i >= 12">
-                            <td>{{player.first}} {{player.last}}</td>
-                            <td>{{player.atk}}</td>
-                            <td>{{player.def}}</td>
-                            <td>{{player.spd}}</td>
-                            <td>{{player.kg}}kg</td>
-                            <td>{{player.rec}}%</td>
-                            <td>{{player.sty}}</td>
-                            <td>
-                                <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
-                                <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
-                            </td>
-                        </ng-container>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <button (click)="saveTeam()" class="button is-primary">Save</button>
-    </div>
-</section>
-<!-- app.component.html -->
-<input type="file" ngFileSelect [options]="options" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)">
-
-<!-- drag & drop file example-->
-<style>
-  .file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
-</style>
-<div ngFileDrop [options]="options" (onUpload)="handleUpload($event)" [ngClass]="{'file-over': hasBaseDropZoneOver}" (onFileOver)="fileOverBase($event)"
-    (beforeUpload)="beforeUpload($event)">
-</div>
