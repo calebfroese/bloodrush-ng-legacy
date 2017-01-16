@@ -118,8 +118,10 @@ export class GameDetailComponent implements OnInit {
     // CANVAS
     initCanvas(): void {
         this.loadImage('field', '/assets/img/field.png')
-            .then(() => { return this.loadImage('home', `${Config.imgUrl}player/output/${this.home._id}.png`); })
-            .then(() => { return this.loadImage('away', `${Config.imgUrl}player/output/${this.away._id}.png`); })
+            .then(() => { return this.loadImage('home1', `${Config.imgUrl}player/output/${this.home._id}-1.png`); })
+            .then(() => { return this.loadImage('home4', `${Config.imgUrl}player/output/${this.home._id}-4.png`); })
+            .then(() => { return this.loadImage('away1', `${Config.imgUrl}player/output/${this.away._id}-1.png`); })
+            .then(() => { return this.loadImage('away4', `${Config.imgUrl}player/output/${this.away._id}-4.png`); })
             .then(() => {
                 // All images loaded
                 if (this.gameCanvas) {
@@ -193,7 +195,7 @@ export class GameDetailComponent implements OnInit {
                 downText = homePlayers[i].knockdown;
             }
             this.homePos[i] = this.playerLogic(this.homePos[i], 'home', i);
-            this.drawPlayer(this.images['home'], this.data.playerAttr.x, this.data.playerAttr.y,
+            this.drawPlayer(this.images['home' + this.homePos[i].frame], this.data.playerAttr.x, this.data.playerAttr.y,
                 this.homePos[i].x, this.homePos[i].y, homePlayers[i].first, homePlayers[i].last, downText, this.home.col1);
         }
         // Draw the away players
@@ -204,7 +206,7 @@ export class GameDetailComponent implements OnInit {
                 downText = awayPlayers[i].knockdown;
             }
             this.awayPos[i] = this.playerLogic(this.awayPos[i], 'away', i);
-            this.drawPlayer(this.images['away'], this.data.playerAttr.x, this.data.playerAttr.y,
+            this.drawPlayer(this.images['away' + this.awayPos[i].frame], this.data.playerAttr.x, this.data.playerAttr.y,
                 this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].first, awayPlayers[i].last, downText, this.away.col1);
         }
         // Update time
@@ -328,10 +330,18 @@ export class GameDetailComponent implements OnInit {
         }
         // Graphics
         if (this.timeElapsed > playerPos.framecalc) {
-            playerPos.framecalc = this.timeElapsed + 70;
-            playerPos.frame++;
-            if (playerPos.frame > 9) playerPos.frame = 1;
+            playerPos.framecalc = this.timeElapsed + 135;
+            if (playerPos.frame === 1) {
+                playerPos.frame = 4;
+            } else if (playerPos.frame === 4) {
+                playerPos.frame = 1;
+            }
         }
+        // if (this.timeElapsed > playerPos.framecalc) {
+        //     playerPos.framecalc = this.timeElapsed + 70;
+        //     playerPos.frame++;
+        //     if (playerPos.frame > 9) playerPos.frame = 1;
+        // }
         return playerPos;
     }
 
