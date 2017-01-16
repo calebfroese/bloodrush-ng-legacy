@@ -239,11 +239,6 @@ export class GameDetailComponent implements OnInit {
         // Draws a single player
         if (!parseInt(down)) this.context.globalAlpha = 0.3;
         this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
-        // Font
-        this.context.font = 12 / this.ratio + 'px Arial';
-        this.context.fillStyle = color;
-        this.context.fillText(first, (x) / this.ratio, (y - 14) / this.ratio);
-        this.context.fillText(last, (x) / this.ratio, (y - 4) / this.ratio);
         this.context.globalAlpha = 1;
     }
 
