@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
 
+import { Config } from './../../shared/config';
 import { MongoService } from './../../mongo/mongo.service';
 
 @Component({
@@ -117,15 +118,8 @@ export class GameDetailComponent implements OnInit {
     // CANVAS
     initCanvas(): void {
         this.loadImage('field', '/assets/img/field.png')
-            .then(() => { return this.loadImage('player1', '/assets/img/player1.png'); })
-            .then(() => { return this.loadImage('player2', '/assets/img/player2.png'); })
-            .then(() => { return this.loadImage('player3', '/assets/img/player3.png'); })
-            .then(() => { return this.loadImage('player4', '/assets/img/player4.png'); })
-            .then(() => { return this.loadImage('player5', '/assets/img/player5.png'); })
-            .then(() => { return this.loadImage('player6', '/assets/img/player6.png'); })
-            .then(() => { return this.loadImage('player7', '/assets/img/player7.png'); })
-            .then(() => { return this.loadImage('player8', '/assets/img/player8.png'); })
-            .then(() => { return this.loadImage('player9', '/assets/img/player9.png'); })
+            .then(() => { return this.loadImage('home', `${Config.imgUrl}player/output/${this.home._id}.png`); })
+            .then(() => { return this.loadImage('away', `${Config.imgUrl}player/output/${this.away._id}.png`); })
             .then(() => {
                 // All images loaded
                 if (this.gameCanvas) {
@@ -199,7 +193,7 @@ export class GameDetailComponent implements OnInit {
                 downText = homePlayers[i].knockdown;
             }
             this.homePos[i] = this.playerLogic(this.homePos[i], 'home', i);
-            this.drawPlayer(this.images['player' + this.homePos[i].frame], this.data.playerAttr.x, this.data.playerAttr.y,
+            this.drawPlayer(this.images['home'], this.data.playerAttr.x, this.data.playerAttr.y,
                 this.homePos[i].x, this.homePos[i].y, homePlayers[i].first, homePlayers[i].last, downText, this.home.col1);
         }
         // Draw the away players
@@ -210,7 +204,7 @@ export class GameDetailComponent implements OnInit {
                 downText = awayPlayers[i].knockdown;
             }
             this.awayPos[i] = this.playerLogic(this.awayPos[i], 'away', i);
-            this.drawPlayer(this.images['player' + this.awayPos[i].frame], this.data.playerAttr.x, this.data.playerAttr.y,
+            this.drawPlayer(this.images['away'], this.data.playerAttr.x, this.data.playerAttr.y,
                 this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].first, awayPlayers[i].last, downText, this.away.col1);
         }
         // Update time
