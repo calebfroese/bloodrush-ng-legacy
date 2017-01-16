@@ -120,8 +120,10 @@ export class GameDetailComponent implements OnInit {
         this.loadImage('field', '/assets/img/field.png')
             .then(() => { return this.loadImage('home1', `${Config.imgUrl}player/output/${this.home._id}-1.png`); })
             .then(() => { return this.loadImage('home4', `${Config.imgUrl}player/output/${this.home._id}-4.png`); })
+            .then(() => { return this.loadImage('home7', `${Config.imgUrl}player/output/${this.home._id}-7.png`); })
             .then(() => { return this.loadImage('away1', `${Config.imgUrl}player/output/${this.away._id}-1.png`); })
             .then(() => { return this.loadImage('away4', `${Config.imgUrl}player/output/${this.away._id}-4.png`); })
+            .then(() => { return this.loadImage('away7', `${Config.imgUrl}player/output/${this.away._id}-7.png`); })
             .then(() => {
                 // All images loaded
                 if (this.gameCanvas) {
@@ -334,6 +336,8 @@ export class GameDetailComponent implements OnInit {
             if (playerPos.frame === 1) {
                 playerPos.frame = 4;
             } else if (playerPos.frame === 4) {
+                playerPos.frame = 7;
+            } else if (playerPos.frame === 7) {
                 playerPos.frame = 1;
             }
         }
