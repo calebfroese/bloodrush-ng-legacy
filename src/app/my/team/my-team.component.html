@@ -85,15 +85,14 @@
                 <table class="table">
                     <tr *ngFor="let part of parts; let i = index" (click)="editPart(i)">
                         <ng-container *ngIf="!part.hidden">
-                            <ng-container *ngIf="part.selected === true || part.base === true">
-                                <td>{{part.name}}</td>
-                                <td [ngClass]="{'part-editing': partEditIndex === i}">{{part.color.r}}, {{part.color.g}}, {{part.color.b}}</td>
-                                <td class="has-text-right">
-                                    <a *ngIf="!part.base" (click)="part.selected = false">
-                                        <span class="icon"><i class="fa fa-remove"></i></span>
-                                    </a>
-                                </td>
-                            </ng-container>
+                            <td>{{part.name}}</td>
+                            <td [ngClass]="{'part-editing': partEditIndex === i}">{{part.color.r}}, {{part.color.g}}, {{part.color.b}}</td>
+                            <td class="has-text-right">
+                                <a *ngIf="!part.base">
+                                    <span *ngIf="part.selected" (click)="part.selected = !part.selected" class="icon"><i class="fa fa-remove is-success"></i></span>
+                                    <span *ngIf="!part.selected" (click)="part.selected = !part.selected" class="icon"><i class="fa fa-plus"></i></span>
+                                </a>
+                            </td>
                         </ng-container>
                     </tr>
                 </table>

@@ -47,7 +47,7 @@ export class MyTeamComponent {
         {
             name: 'leg1',
             color: { r: 0, g: 123, b: 255 },
-            selected: true
+            selected: false
         },
         {
             name: 'leg2',
@@ -142,5 +142,9 @@ export class MyTeamComponent {
         this.partEditIndex = i;
         this.picker = this.parts[i].color;
         this.colorChange();
+    }
+
+    onChangeObj(e: any): void {
+        console.log(e)
     }
 }
