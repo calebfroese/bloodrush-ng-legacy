@@ -18,6 +18,9 @@ import { AccountService } from './../../shared/account.service';
         height: 20px;
         margin: 5px;
     }
+    .part-editing {
+        background-color: yellow;
+    }
     `]
 })
 export class MyTeamComponent {
@@ -29,6 +32,34 @@ export class MyTeamComponent {
         b: 120
     };
     convert = require('color-convert');
+    parts: any = [
+        {
+            name: 'shirt1',
+            base: true,
+            color: {}
+        },
+        {
+            name: 'leg1',
+            color: {},
+            selected: false
+        },
+        {
+            name: 'leg2',
+            color: {},
+            selected: false
+        },
+        {
+            name: 'lines',
+            base: true,
+            color: {}
+        },
+        {
+            name: 'face',
+            base: true,
+            color: {}
+        }
+    ];
+    partEditIndex: number = null;
 
     constructor(
         private acc: AccountService,
@@ -42,6 +73,7 @@ export class MyTeamComponent {
             url: Config.imgUrl + 'file/' + this.acc.loggedInAccount.team._id
         };
         this.team = this.acc.loggedInAccount.team;
+        this.colorChange();
     }
 
     uploadFile: any;
@@ -94,4 +126,5 @@ export class MyTeamComponent {
     colorChange(): void {
         this.colorPreview.nativeElement.style.backgroundColor = '#' + this.convert.rgb.hex(this.picker.r, this.picker.g, this.picker.b);
     }
+
 }

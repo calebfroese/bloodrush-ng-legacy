@@ -82,6 +82,16 @@
                         </p>
                     </div>
                 </div>
+                <ng-container *ngFor="let part of parts; let i = index">
+                    <!--Show active parts-->
+                    <div *ngIf="part.selected || part.base" (click)="partEditIndex = i" class="box" [ngClass]="{'part-editing': partEditIndex == i}">
+                        {{part.name}}
+                        <br> {{part.base}}
+                        <br> {{part.color.r}}
+                        <br> {{part.color.g}}
+                        <br> {{part.color.b}}
+                    </div>
+                </ng-container>
             </div>
         </div>
     </div>
