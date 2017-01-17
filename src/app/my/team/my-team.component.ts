@@ -34,6 +34,12 @@ export class MyTeamComponent {
     convert = require('color-convert');
     parts: any = [
         {
+            name: 'lines',
+            base: true,
+            hidden: true,
+            color: { r: 0, g: 0, b: 0 }
+        },
+        {
             name: 'shirt1',
             base: true,
             color: { r: 0, g: 120, b: 12 }
@@ -41,12 +47,12 @@ export class MyTeamComponent {
         {
             name: 'leg1',
             color: { r: 0, g: 123, b: 255 },
-            selected: false
+            selected: true
         },
         {
             name: 'leg2',
             color: { r: 52, g: 120, b: 0 },
-            selected: false
+            selected: true
         },
         {
             name: 'lines',
@@ -56,6 +62,7 @@ export class MyTeamComponent {
         {
             name: 'face',
             base: true,
+            hidden: true,
             color: { r: 70, g: 120, b: 50 }
         }
     ];

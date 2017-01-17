@@ -84,14 +84,16 @@
                 </div>
                 <table class="table">
                     <tr *ngFor="let part of parts; let i = index" (click)="editPart(i)">
-                        <ng-container *ngIf="part.selected === true || part.base === true">
-                            <td>{{part.name}}</td>
-                            <td [ngClass]="{'part-editing': partEditIndex === i}">{{partEditIndex}}</td>
-                            <td class="has-text-right">
-                                <a *ngIf="!part.base" (click)="part.selected = false">
-                                    <span class="icon"><i class="fa fa-remove"></i></span>
-                                </a>
-                            </td>
+                        <ng-container *ngIf="!part.hidden">
+                            <ng-container *ngIf="part.selected === true || part.base === true">
+                                <td>{{part.name}}</td>
+                                <td [ngClass]="{'part-editing': partEditIndex === i}">{{part.color.r}}, {{part.color.g}}, {{part.color.b}}</td>
+                                <td class="has-text-right">
+                                    <a *ngIf="!part.base" (click)="part.selected = false">
+                                        <span class="icon"><i class="fa fa-remove"></i></span>
+                                    </a>
+                                </td>
+                            </ng-container>
                         </ng-container>
                     </tr>
                 </table>
