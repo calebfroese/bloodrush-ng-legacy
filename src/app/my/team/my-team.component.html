@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <table class="table">
-                    <tr *ngFor="let part of parts; let i = index" (click)="editPart(i)">
+                    <tr *ngFor="let part of team.style; let i = index" (click)="editPart(i)">
                         <ng-container *ngIf="!part.hidden">
                             <td>{{part.name}}</td>
                             <td [ngClass]="{'part-editing': partEditIndex === i}">{{part.color.r}}, {{part.color.g}}, {{part.color.b}}</td>

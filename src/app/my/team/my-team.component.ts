@@ -32,40 +32,6 @@ export class MyTeamComponent {
         b: 120
     };
     convert = require('color-convert');
-    parts: any = [
-        {
-            name: 'lines',
-            base: true,
-            hidden: true,
-            color: { r: 0, g: 0, b: 0 }
-        },
-        {
-            name: 'shirt1',
-            base: true,
-            color: { r: 0, g: 120, b: 12 }
-        },
-        {
-            name: 'leg1',
-            color: { r: 0, g: 123, b: 255 },
-            selected: false
-        },
-        {
-            name: 'leg2',
-            color: { r: 52, g: 120, b: 0 },
-            selected: true
-        },
-        {
-            name: 'lines',
-            base: true,
-            color: { r: 100, g: 120, b: 0 }
-        },
-        {
-            name: 'face',
-            base: true,
-            hidden: true,
-            color: { r: 70, g: 120, b: 50 }
-        }
-    ];
     partEditIndex: number = 0;
 
     constructor(
@@ -80,7 +46,40 @@ export class MyTeamComponent {
             url: Config.imgUrl + 'file/' + this.acc.loggedInAccount.team._id
         };
         this.team = this.acc.loggedInAccount.team;
-        this.colorChange();
+        this.team.style = [
+            {
+                name: 'lines',
+                base: true,
+                hidden: true,
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'shirt1',
+                base: true,
+                color: { r: 0, g: 120, b: 12 }
+            },
+            {
+                name: 'leg1',
+                color: { r: 0, g: 123, b: 255 },
+                selected: false
+            },
+            {
+                name: 'leg2',
+                color: { r: 52, g: 120, b: 0 },
+                selected: true
+            },
+            {
+                name: 'lines',
+                base: true,
+                color: { r: 100, g: 120, b: 0 }
+            },
+            {
+                name: 'face',
+                base: true,
+                hidden: true,
+                color: { r: 70, g: 120, b: 50 }
+            }
+        ];
     }
 
     uploadFile: any;
@@ -132,15 +131,15 @@ export class MyTeamComponent {
 
     colorChange(): void {
         this.colorPreview.nativeElement.style.backgroundColor = '#' + this.convert.rgb.hex(this.picker.r, this.picker.g, this.picker.b);
-        if (this.parts[this.partEditIndex]) {
-            this.parts[this.partEditIndex].color = this.picker;
+        if (this.team.style[this.partEditIndex]) {
+            this.team.style[this.partEditIndex].color = this.picker;
         }
     }
 
     editPart(i: number): void {
         console.log('editing part')
         this.partEditIndex = i;
-        this.picker = this.parts[i].color;
+        this.picker = this.team.style[i].color;
         this.colorChange();
     }
 
