@@ -46,40 +46,40 @@ export class MyTeamComponent {
             url: Config.imgUrl + 'file/' + this.acc.loggedInAccount.team._id
         };
         this.team = this.acc.loggedInAccount.team;
-        this.team.style = [
-            {
-                name: 'lines',
-                base: true,
-                hidden: true,
-                color: { r: 0, g: 0, b: 0 }
-            },
-            {
-                name: 'shirt1',
-                base: true,
-                color: { r: 0, g: 120, b: 12 }
-            },
-            {
-                name: 'leg1',
-                color: { r: 0, g: 123, b: 255 },
-                selected: false
-            },
-            {
-                name: 'leg2',
-                color: { r: 52, g: 120, b: 0 },
-                selected: true
-            },
-            {
-                name: 'lines',
-                base: true,
-                color: { r: 100, g: 120, b: 0 }
-            },
-            {
-                name: 'face',
-                base: true,
-                hidden: true,
-                color: { r: 70, g: 120, b: 50 }
-            }
-        ];
+        // this.team.style = [
+        //     {
+        //         name: 'lines',
+        //         base: true,
+        //         hidden: true,
+        //         color: { r: 0, g: 0, b: 0 }
+        //     },
+        //     {
+        //         name: 'shirt1',
+        //         base: true,
+        //         color: { r: 0, g: 120, b: 12 }
+        //     },
+        //     {
+        //         name: 'leg1',
+        //         color: { r: 0, g: 123, b: 255 },
+        //         selected: false
+        //     },
+        //     {
+        //         name: 'leg2',
+        //         color: { r: 52, g: 120, b: 0 },
+        //         selected: true
+        //     },
+        //     {
+        //         name: 'lines',
+        //         base: true,
+        //         color: { r: 100, g: 120, b: 0 }
+        //     },
+        //     {
+        //         name: 'face',
+        //         base: true,
+        //         hidden: true,
+        //         color: { r: 70, g: 120, b: 50 }
+        //     }
+        // ];
     }
 
     uploadFile: any;
