@@ -125,10 +125,11 @@ export class MyTeamComponent {
 
     colorChange(): void {
         this.colorPreview.nativeElement.style.backgroundColor = '#' + this.convert.rgb.hex(this.picker.r, this.picker.g, this.picker.b);
+        this.parts[this.partEditIndex].color = this.picker;
     }
 
     editPart(i: number): void {
-        this.partEditIndex = i
+        this.partEditIndex = i;
         this.picker = this.parts[i].color;
         this.colorChange();
     }
