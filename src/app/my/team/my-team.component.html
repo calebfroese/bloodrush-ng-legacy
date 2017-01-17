@@ -21,9 +21,9 @@
 </section>
 <section class="section">
     <div class="container">
+        <h1 class="title">Team</h1>
         <div class="columns">
             <div class="column">
-                <h1 class="title">Team</h1>
                 <hr>
                 <label class="label">Logo</label>
                 <p class="control">
@@ -36,87 +36,56 @@
                 </p>
                 <label class="label">Name</label>
                 <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="acc.loggedInAccount.team.name" class="input" type="text" placeholder="enter a team name" id="teamName" maxlength="20">
+                    <input [(ngModel)]="acc.loggedInAccount.team.name" class="input" type="text" placeholder="enter a team name" id="teamName"
+                        maxlength="20">
                 </p>
-                <label class="label">Style</label>
-                <p class="control has-icon has-icon-right">
-                    <select [(ngModel)]="acc.loggedInAccount.team.style" class="select">
-                        <option value="1">Style 1</option>
-                        <option value="2">Style 2</option>
-                        <option value="3">Style 3</option>
-                        <option value="4">Style 4</option>
-                    </select>
-                </p>
-                <label class="label">Color 1</label>
-                <p class="control has-icon has-icon-right">
-                    <select [(ngModel)]="acc.loggedInAccount.team.col1" class="select">
-                        <option value="red">red</option>
-                        <option value="green">green</option>
-                        <option value="blue">blue</option>
-                        <option value="orange">orange</option>
-                        <option value="gray">gray</option>
-                        <option value="pink">pink</option>
-                        <option value="teal">teal</option>
-                        <option value="yellow">yellow</option>
-                        <option value="lightblue">lightblue</option>
-                        <option value="lightgreen">lightgreen</option>
-                        <option value="white">white</option>
-                        <option value="black">black</option>
-                        <option value="purple">purple</option>
-                        <option value="brown">brown</option>
-                        <option value="aqua">aqua</option>
-                        <option value="olive">olive</option>
-                        <option value="darkblue">darkblue</option>
-                    </select>
-                </p>
-                <label class="label">Color 2</label>
-                <p class="control has-icon has-icon-right">
-                    <select [(ngModel)]="acc.loggedInAccount.team.col2" class="select">
-                        <option value="red">red</option>
-                        <option value="green">green</option>
-                        <option value="blue">blue</option>
-                        <option value="orange">orange</option>
-                        <option value="gray">gray</option>
-                        <option value="pink">pink</option>
-                        <option value="teal">teal</option>
-                        <option value="yellow">yellow</option>
-                        <option value="lightblue">lightblue</option>
-                        <option value="lightgreen">lightgreen</option>
-                        <option value="white">white</option>
-                        <option value="black">black</option>
-                        <option value="purple">purple</option>
-                        <option value="brown">brown</option>
-                        <option value="aqua">aqua</option>
-                        <option value="olive">olive</option>
-                        <option value="darkblue">darkblue</option>
-                    </select>
-                </p>
-                <label class="label">Color 3</label>
-                <p class="control has-icon has-icon-right">
-                    <select [(ngModel)]="acc.loggedInAccount.team.col3" class="select">
-                        <option value="red">red</option>
-                        <option value="green">green</option>
-                        <option value="blue">blue</option>
-                        <option value="orange">orange</option>
-                        <option value="gray">gray</option>
-                        <option value="pink">pink</option>
-                        <option value="teal">teal</option>
-                        <option value="yellow">yellow</option>
-                        <option value="lightblue">lightblue</option>
-                        <option value="lightgreen">lightgreen</option>
-                        <option value="white">white</option>
-                        <option value="black">black</option>
-                        <option value="purple">purple</option>
-                        <option value="brown">brown</option>
-                        <option value="aqua">aqua</option>
-                        <option value="olive">olive</option>
-                        <option value="darkblue">darkblue</option>
-                    </select>
-                </p>
-                <button (click)="onClickSubmit()" type="button" class="button is-primary">Save Changes</button>
             </div>
         </div>
     </div>
+</section>
+<section class="section">
+    <div class="container">
+        <h4 class="title">Players</h4>
+        <div class="columns">
+            <div class="column">
+                <canvas #playerPreviewCanvas class="player-preview"></canvas>
+            </div>
+            <div class="column is-two-thirds">
+                <div #colorPreview class="picker-color"></div>
+                <div class="control is-horizontal">
+                    <div class="control-label">
+                        <label class="label">Red</label>
+                    </div>
+                    <div class="control is-grouped">
+                        <p class="control is-expanded">
+                            <input (change)="colorChange()" [(ngModel)]="picker.r" class="input" min="0" max="255" step="1" type="range">
+                        </p>
+                    </div>
+                </div>
+                <div class="control is-horizontal">
+                    <div class="control-label">
+                        <label class="label">Green</label>
+                    </div>
+                    <div class="control is-grouped">
+                        <p class="control is-expanded">
+                            <input (change)="colorChange()" [(ngModel)]="picker.g" class="input" min="0" max="255" step="1" type="range">
+                        </p>
+                    </div>
+                </div>
+                <div class="control is-horizontal">
+                    <div class="control-label">
+                        <label class="label">Blue</label>
+                    </div>
+                    <div class="control is-grouped">
+                        <p class="control is-expanded">
+                            <input (change)="colorChange()" [(ngModel)]="picker.b" class="input" min="0" max="255" step="1" type="range">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button (click)="onClickSubmit()" type="button" class="button is-primary">Save Changes</button>
 </section>
 <div ngFileDrop [options]="options" (onUpload)="handleUpload($event)" [ngClass]="{'file-over': hasBaseDropZoneOver}" (onFileOver)="fileOverBase($event)"
     (beforeUpload)="beforeUpload($event)">

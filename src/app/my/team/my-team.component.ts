@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgUploaderOptions } from 'ngx-uploader';
 
@@ -7,11 +7,28 @@ import { MongoService } from './../../mongo/mongo.service';
 import { AccountService } from './../../shared/account.service';
 
 @Component({
-    templateUrl: './my-team.component.html'
+    templateUrl: './my-team.component.html',
+    styles: [`
+    .player-preview {
+        width: 100%;
+        height: 400px;
+    }
+    .picker-color {
+        width: 100%;
+        height: 20px;
+        margin: 5px;
+    }
+    `]
 })
 export class MyTeamComponent {
-
+    @ViewChild('colorPreview') colorPreview: ElementRef;
     team: any;
+    picker = {
+        r: 0,
+        g: 255,
+        b: 120
+    };
+    convert = require('color-convert');
 
     constructor(
         private acc: AccountService,
@@ -72,5 +89,9 @@ export class MyTeamComponent {
                 alert('No response');
             }
         }).catch(() => alert('Unable to sign up'));
+    }
+
+    colorChange(): void {
+        this.colorPreview.nativeElement.style.backgroundColor = '#' + this.convert.rgb.hex(this.picker.r, this.picker.g, this.picker.b);
     }
 }
