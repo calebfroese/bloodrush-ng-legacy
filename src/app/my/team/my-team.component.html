@@ -54,7 +54,7 @@
                 <div #colorPreview class="picker-color"></div>
                 <div class="control is-horizontal">
                     <div class="control-label">
-                        <label class="label">Red</label>
+                        <label class="label">Red {{picker.r}}</label>
                     </div>
                     <div class="control is-grouped">
                         <p class="control is-expanded">
@@ -64,7 +64,7 @@
                 </div>
                 <div class="control is-horizontal">
                     <div class="control-label">
-                        <label class="label">Green</label>
+                        <label class="label">Green {{picker.g}}</label>
                     </div>
                     <div class="control is-grouped">
                         <p class="control is-expanded">
@@ -74,7 +74,7 @@
                 </div>
                 <div class="control is-horizontal">
                     <div class="control-label">
-                        <label class="label">Blue</label>
+                        <label class="label">Blue {{picker.b}}</label>
                     </div>
                     <div class="control is-grouped">
                         <p class="control is-expanded">
@@ -82,16 +82,19 @@
                         </p>
                     </div>
                 </div>
-                <ng-container *ngFor="let part of parts; let i = index">
-                    <!--Show active parts-->
-                    <div *ngIf="part.selected || part.base" (click)="editPart(i)" class="box" [ngClass]="{'part-editing': partEditIndex == i}">
-                        {{part.name}}
-                        <br> {{part.base}}
-                        <br> {{part.color.r}}
-                        <br> {{part.color.g}}
-                        <br> {{part.color.b}}
-                    </div>
-                </ng-container>
+                <table class="table">
+                    <tr *ngFor="let part of parts; let i = index" (click)="editPart(i)">
+                        <ng-container *ngIf="part.selected === true || part.base === true">
+                            <td>{{part.name}}</td>
+                            <td [ngClass]="{'part-editing': partEditIndex === i}">{{partEditIndex}}</td>
+                            <td class="has-text-right">
+                                <a *ngIf="!part.base" (click)="part.selected = false">
+                                    <span class="icon"><i class="fa fa-remove"></i></span>
+                                </a>
+                            </td>
+                        </ng-container>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

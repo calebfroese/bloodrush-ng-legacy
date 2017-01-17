@@ -59,7 +59,7 @@ export class MyTeamComponent {
             color: { r: 70, g: 120, b: 50 }
         }
     ];
-    partEditIndex: number = null;
+    partEditIndex: number = 0;
 
     constructor(
         private acc: AccountService,
@@ -131,6 +131,7 @@ export class MyTeamComponent {
     }
 
     editPart(i: number): void {
+        console.log('editing part')
         this.partEditIndex = i;
         this.picker = this.parts[i].color;
         this.colorChange();
