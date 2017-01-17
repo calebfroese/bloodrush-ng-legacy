@@ -122,10 +122,10 @@ export class GameDetailComponent implements OnInit {
             .then(() => { return this.loadImage('home4', `${Config.imgUrl}player/output/${this.home._id}-4.png`); })
             .then(() => { return this.loadImage('home7', `${Config.imgUrl}player/output/${this.home._id}-7.png`); })
             .then(() => { return this.loadImage('home7.4', `${Config.imgUrl}player/output/${this.home._id}-4.png`); })
-            .then(() => { return this.loadImage('away1', `${Config.imgUrl}player/output/${this.away._id}-1.png`); })
-            .then(() => { return this.loadImage('away4', `${Config.imgUrl}player/output/${this.away._id}-4.png`); })
-            .then(() => { return this.loadImage('away7', `${Config.imgUrl}player/output/${this.away._id}-7.png`); })
-            .then(() => { return this.loadImage('away7.4', `${Config.imgUrl}player/output/${this.away._id}-4.png`); })
+            .then(() => { return this.loadImage('away1', `${Config.imgUrl}player/output/${this.away._id}-1r.png`); })
+            .then(() => { return this.loadImage('away4', `${Config.imgUrl}player/output/${this.away._id}-4r.png`); })
+            .then(() => { return this.loadImage('away7', `${Config.imgUrl}player/output/${this.away._id}-7r.png`); })
+            .then(() => { return this.loadImage('away7.4', `${Config.imgUrl}player/output/${this.away._id}-4r.png`); })
             .then(() => {
                 // All images loaded
                 if (this.gameCanvas) {
