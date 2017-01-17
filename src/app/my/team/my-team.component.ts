@@ -36,27 +36,27 @@ export class MyTeamComponent {
         {
             name: 'shirt1',
             base: true,
-            color: {}
+            color: { r: 0, g: 120, b: 12 }
         },
         {
             name: 'leg1',
-            color: {},
+            color: { r: 0, g: 123, b: 255 },
             selected: false
         },
         {
             name: 'leg2',
-            color: {},
+            color: { r: 52, g: 120, b: 0 },
             selected: false
         },
         {
             name: 'lines',
             base: true,
-            color: {}
+            color: { r: 100, g: 120, b: 0 }
         },
         {
             name: 'face',
             base: true,
-            color: {}
+            color: { r: 70, g: 120, b: 50 }
         }
     ];
     partEditIndex: number = null;
@@ -127,4 +127,9 @@ export class MyTeamComponent {
         this.colorPreview.nativeElement.style.backgroundColor = '#' + this.convert.rgb.hex(this.picker.r, this.picker.g, this.picker.b);
     }
 
+    editPart(i: number): void {
+        this.partEditIndex = i
+        this.picker = this.parts[i].color;
+        this.colorChange();
+    }
 }
