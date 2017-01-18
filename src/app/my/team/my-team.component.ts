@@ -62,7 +62,7 @@ export class MyTeamComponent {
                 name: 'preset/flesh',
                 base: true,
                 hidden: true,
-                color: { r: 0, g: 0, b: 0 }
+                color: { r: 255, g: 220, b: 177 }
             },
             {
                 name: 'leg1',
@@ -140,6 +140,10 @@ export class MyTeamComponent {
                 color: { r: 0, g: 0, b: 0 }
             },
         ];
+        if (!this.team.style) {
+            console.log('Using entirely default parts');
+            this.team.style = defaultStyles
+        }
         let defaultStyleLen = defaultStyles.length;
         // Loaded
         this.team.style.forEach(savedStyle => {
