@@ -115,11 +115,6 @@ export class MyTeamComponent {
                 color: { r: 0, g: 0, b: 0 }
             },
             {
-                name: 'face',
-                base: true,
-                color: { r: 0, g: 0, b: 0 }
-            },
-            {
                 name: 'preset/face',
                 base: true,
                 hidden: true,
@@ -139,7 +134,7 @@ export class MyTeamComponent {
                 color: { r: 0, g: 0, b: 0 }
             },
             {
-                name: 'lines',
+                name: 'preset/lines',
                 base: true,
                 hidden: true,
                 color: { r: 0, g: 0, b: 0 }
