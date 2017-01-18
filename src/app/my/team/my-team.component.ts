@@ -49,9 +49,32 @@ export class MyTeamComponent {
         // Defaults
         let defaultStyles = [
             {
-                name: 'lines',
+                name: 'soles1',
+                base: true,
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'shoes1',
+                base: true,
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'preset/flesh',
                 base: true,
                 hidden: true,
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'leg1',
+                base: true,
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'leg2',
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'leg3',
                 color: { r: 0, g: 0, b: 0 }
             },
             {
@@ -60,43 +83,74 @@ export class MyTeamComponent {
                 color: { r: 0, g: 0, b: 0 }
             },
             {
-                name: 'leg1',
-                color: { r: 0, g: 0, b: 0 },
-                selected: false
+                name: 'shirt2',
+                color: { r: 0, g: 0, b: 0 }
             },
             {
-                name: 'leg2',
-                color: { r: 0, g: 0, b: 0 },
-                selected: false
+                name: 'shirt3',
+                color: { r: 0, g: 0, b: 0 }
             },
             {
-                name: 'leg3',
-                color: { r: 0, g: 0, b: 0 },
-                selected: false
+                name: 'shirt4',
+                color: { r: 0, g: 0, b: 0 }
             },
             {
-                name: 'leg4',
-                color: { r: 0, g: 0, b: 0 },
-                selected: false
+                name: 'shirt5',
+                color: { r: 0, g: 0, b: 0 }
             },
             {
-                name: 'lines',
-                base: true,
+                name: 'shirt6',
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'arm1',
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'arm2',
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'arm3',
                 color: { r: 0, g: 0, b: 0 }
             },
             {
                 name: 'face',
                 base: true,
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'preset/face',
+                base: true,
                 hidden: true,
                 color: { r: 0, g: 0, b: 0 }
-            }
+            },
+            {
+                name: 'helm1',
+                base: true,
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'helm2',
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'helm3',
+                color: { r: 0, g: 0, b: 0 }
+            },
+            {
+                name: 'lines',
+                base: true,
+                hidden: true,
+                color: { r: 0, g: 0, b: 0 }
+            },
         ];
         let defaultStyleLen = defaultStyles.length;
         // Loaded
         this.team.style.forEach(savedStyle => {
             for (let i = 0; i < defaultStyleLen; i++) {
                 // Increments for each default style
-                if(savedStyle.name === defaultStyles[i].name) {
+                if (savedStyle.name === defaultStyles[i].name) {
                     defaultStyles[i] = savedStyle;
                 }
             }
@@ -159,13 +213,17 @@ export class MyTeamComponent {
     }
 
     editPart(i: number): void {
-        console.log('editing part')
+        console.log(i)
         this.partEditIndex = i;
         this.picker = this.team.style[i].color;
         this.colorChange();
     }
 
-    onChangeObj(e: any): void {
-        console.log(e)
+    selectPart(i: number) {
+        if (!this.team.style[i].selected) {
+            this.team.style[i].selected = true;
+        } else {
+            this.team.style[i].selected = false;
+        }
     }
 }

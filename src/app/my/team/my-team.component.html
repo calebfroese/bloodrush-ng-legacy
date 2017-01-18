@@ -82,19 +82,19 @@
                         </p>
                     </div>
                 </div>
-                <table class="table">
-                    <tr *ngFor="let part of team.style; let i = index" (click)="editPart(i)">
-                        <ng-container *ngIf="!part.hidden">
-                            <td>{{part.name}}</td>
-                            <td [ngClass]="{'part-editing': partEditIndex === i}">{{part.color.r}}, {{part.color.g}}, {{part.color.b}}</td>
-                            <td class="has-text-right">
-                                <a *ngIf="!part.base">
-                                    <span *ngIf="part.selected" (click)="part.selected = !part.selected" class="icon"><i class="fa fa-remove is-success"></i></span>
-                                    <span *ngIf="!part.selected" (click)="part.selected = !part.selected" class="icon"><i class="fa fa-plus"></i></span>
-                                </a>
-                            </td>
-                        </ng-container>
+                <table *ngIf="team" class="table">
+                    <ng-container *ngFor="let part of team.style; let i = index">
+                    <tr *ngIf="!part.hidden">
+                        <td (click)="editPart(i)">{{part.name}} show: {{part.hidden}}</td>
+                        <td [ngClass]="{'part-editing': partEditIndex === i}">{{part.color.r}}, {{part.color.g}}, {{part.color.b}}</td>
+                        <td (click)="selectPart(i)" class="has-text-right">
+                            <a *ngIf="!part.base">
+                                <span *ngIf="part.selected" class="icon"><i class="fa fa-remove is-success"></i></span>
+                                <span *ngIf="!part.selected" class="icon"><i class="fa fa-plus"></i></span>
+                            </a>
+                        </td>
                     </tr>
+                    </ng-container>
                 </table>
             </div>
         </div>
