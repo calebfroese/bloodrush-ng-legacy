@@ -25,6 +25,8 @@ import { AccountService } from './../../shared/account.service';
 })
 export class MyTeamComponent {
     @ViewChild('colorPreview') colorPreview: ElementRef;
+    @ViewChild('playerPreviewCanvas') playerPreviewCanvas: ElementRef;
+    context: any;
     team: any;
     picker = {
         r: 0,
@@ -143,7 +145,7 @@ export class MyTeamComponent {
             },
         ];
         this.team.style = defaultStyles;
-        
+
         this.team.style.forEach(savedStyle => {
             for (let i = 0; i < defaultStyles.length; i++) {
                 // Increments for each default style
@@ -154,6 +156,7 @@ export class MyTeamComponent {
         });
         // Loaded
         this.team.style = defaultStyles;
+        this.initCanvas();
         // Image url
         this.imgUrl = Config.imgUrl;
     }
@@ -226,5 +229,51 @@ export class MyTeamComponent {
         } else {
             this.team.style[i].selected = false;
         }
+    }
+
+    // CANVAS RENDERING PLAYER
+    images: any[] = [];
+    updateCanvas(): void {
+        this.context.clearRect(0, 0, this.playerPreviewCanvas.nativeElement.width, this.playerPreviewCanvas.nativeElement.height);
+        console.log('drawing field');
+        this.drawPlayer(this.images['field']);
+        setTimeout(() => {
+            this.updateCanvas();
+        }, 200);
+    }
+
+    loadImage(name, src): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.images[name] = new Image();
+            this.images[name].onload = () => {
+                resolve();
+            };
+            this.images[name].src = src;
+        });
+    }
+
+    drawPlayer(image: any): void {
+        this.context.drawImage(image, 0, 0);
+    }
+
+    initCanvas(): void {
+        let loader = this.loadImage('field', '/assets/img/field.png');
+        // For each thingo
+        this.team.style.forEach(sty => {
+            console.log(sty.name)
+            loader.then(() => { return this.loadImage(sty.name, `${Config.imgUrl}player/gen/frame1/${sty.name}.png`); })
+        });
+        loader.then(() => {
+            // All images loaded
+            if (this.playerPreviewCanvas) {
+                this.context = CanvasRenderingContext2D = this.playerPreviewCanvas.nativeElement.getContext('2d');
+                // Play
+                this.updateCanvas();
+            } else {
+                setTimeout(() => {
+                    this.initCanvas();
+                }, 10);
+            }
+        });
     }
 }
