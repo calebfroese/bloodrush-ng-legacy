@@ -34,7 +34,7 @@ export class MyTeamComponent {
     convert = require('color-convert');
     partEditIndex: number = 0;
     imgUrl: string;
-    rndCache: string = new Date().toString();
+    rndCache: string = Math.random().toString();
 
     constructor(
         private acc: AccountService,
@@ -167,7 +167,7 @@ export class MyTeamComponent {
         if (data && data.response) {
             data = JSON.parse(data.response);
             this.uploadFile = data;
-            this.rndCache = new Date().toString();
+            this.rndCache = Math.random().toString();
         }
     }
 
