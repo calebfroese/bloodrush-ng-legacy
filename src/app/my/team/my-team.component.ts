@@ -33,6 +33,7 @@ export class MyTeamComponent {
     };
     convert = require('color-convert');
     partEditIndex: number = 0;
+    imgUrl: string;
 
     constructor(
         private acc: AccountService,
@@ -152,6 +153,8 @@ export class MyTeamComponent {
         });
         // Loaded
         this.team.style = defaultStyles;
+        // Image url
+        this.imgUrl = Config.imgUrl;
     }
 
     uploadFile: any;
