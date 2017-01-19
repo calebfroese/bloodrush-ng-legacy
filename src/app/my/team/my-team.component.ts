@@ -34,6 +34,7 @@ export class MyTeamComponent {
     convert = require('color-convert');
     partEditIndex: number = 0;
     imgUrl: string;
+    rndCache: string = new Date().toString();
 
     constructor(
         private acc: AccountService,
@@ -166,6 +167,7 @@ export class MyTeamComponent {
         if (data && data.response) {
             data = JSON.parse(data.response);
             this.uploadFile = data;
+            this.rndCache = new Date().toString();
         }
     }
 
