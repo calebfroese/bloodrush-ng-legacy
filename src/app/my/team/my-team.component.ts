@@ -10,8 +10,8 @@ import { AccountService } from './../../shared/account.service';
     templateUrl: './my-team.component.html',
     styles: [`
     .player-preview {
-        width: 100%;
-        height: 400px;
+        width: 280;
+        height: 430;
     }
     .picker-color {
         width: 100%;
@@ -235,8 +235,10 @@ export class MyTeamComponent {
     images: any[] = [];
     updateCanvas(): void {
         this.context.clearRect(0, 0, this.playerPreviewCanvas.nativeElement.width, this.playerPreviewCanvas.nativeElement.height);
-        console.log('drawing field');
-        this.drawPlayer(this.images['field']);
+        this.team.style.forEach(sty => {
+            if (sty.base || sty.selected)
+                this.drawPlayer(this.images[sty.name]);
+        });
         setTimeout(() => {
             this.updateCanvas();
         }, 200);
@@ -260,7 +262,6 @@ export class MyTeamComponent {
         let loader = this.loadImage('field', '/assets/img/field.png');
         // For each thingo
         this.team.style.forEach(sty => {
-            console.log(sty.name)
             loader.then(() => { return this.loadImage(sty.name, `${Config.imgUrl}player/gen/frame1/${sty.name}.png`); })
         });
         loader.then(() => {
@@ -268,6 +269,8 @@ export class MyTeamComponent {
             if (this.playerPreviewCanvas) {
                 this.context = CanvasRenderingContext2D = this.playerPreviewCanvas.nativeElement.getContext('2d');
                 // Play
+                this.playerPreviewCanvas.nativeElement.width = Config.playerImgWidth;
+                this.playerPreviewCanvas.nativeElement.height = Config.playerImgHeight;
                 this.updateCanvas();
             } else {
                 setTimeout(() => {
