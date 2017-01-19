@@ -234,14 +234,39 @@ export class MyTeamComponent {
     // CANVAS RENDERING PLAYER
     images: any[] = [];
     updateCanvas(): void {
-        this.context.clearRect(0, 0, this.playerPreviewCanvas.nativeElement.width, this.playerPreviewCanvas.nativeElement.height);
+        this.images = []; // empty the image stack
         this.team.style.forEach(sty => {
-            if (sty.base || sty.selected)
-                this.drawPlayer(this.images[sty.name]);
+            if (sty.base || sty.selected) {
+                // Send a request to the server
+                let partUrl = `${Config.imgUrl}temp/player/${this.team._id}/frame1/${sty.name}-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`;
+                this.mongo.run('images', 'createPart', { style: sty, teamId: this.team._id });
+                let img = new Image();
+                img.src = partUrl;
+                this.images.push(img);
+            }
         });
+        // TODO button update only not settimeout
         setTimeout(() => {
+            console.log('Drawing to canvas')
+            this.drawCanvas();
+        }, 3000);
+        setTimeout(() => {
+            console.log('Updating colors')
             this.updateCanvas();
-        }, 200);
+        }, 10000);
+    }
+
+    drawCanvas() {
+        console.log('drawing stack');
+        this.context.clearRect(0, 0, this.playerPreviewCanvas.nativeElement.width, this.playerPreviewCanvas.nativeElement.height);
+        // Draw the image stack
+        this.images.forEach(img => {
+            this.drawPlayer(img);
+        });
+    }
+
+    drawPlayer(image) {
+        this.context.drawImage(image, 0, 0);
     }
 
     loadImage(name, src): Promise<any> {
@@ -254,29 +279,21 @@ export class MyTeamComponent {
         });
     }
 
-    drawPlayer(image: any): void {
-        this.context.drawImage(image, 0, 0);
-    }
-
     initCanvas(): void {
-        let loader = this.loadImage('field', '/assets/img/field.png');
-        // For each thingo
-        this.team.style.forEach(sty => {
-            loader.then(() => { return this.loadImage(sty.name, `${Config.imgUrl}player/gen/frame1/${sty.name}.png`); })
-        });
-        loader.then(() => {
-            // All images loaded
-            if (this.playerPreviewCanvas) {
-                this.context = CanvasRenderingContext2D = this.playerPreviewCanvas.nativeElement.getContext('2d');
-                // Play
-                this.playerPreviewCanvas.nativeElement.width = Config.playerImgWidth;
-                this.playerPreviewCanvas.nativeElement.height = Config.playerImgHeight;
-                this.updateCanvas();
-            } else {
-                setTimeout(() => {
-                    this.initCanvas();
-                }, 10);
-            }
-        });
+        this.loadImage('field', '/assets/img/field.png')
+            .then(() => {
+                // All images loaded
+                if (this.playerPreviewCanvas) {
+                    this.context = CanvasRenderingContext2D = this.playerPreviewCanvas.nativeElement.getContext('2d');
+                    // Play
+                    this.playerPreviewCanvas.nativeElement.width = Config.playerImgWidth;
+                    this.playerPreviewCanvas.nativeElement.height = Config.playerImgHeight;
+                    this.updateCanvas();
+                } else {
+                    setTimeout(() => {
+                        this.initCanvas();
+                    }, 10);
+                }
+            });
     }
 }
