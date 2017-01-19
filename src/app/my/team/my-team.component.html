@@ -29,7 +29,7 @@
                 <p class="control">
                     <input type="file" ngFileSelect [options]="options" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)">
                 </p>
-                <img src="{{imgUrl}}/teamlogos/{{team._id}}.png">
+                <img class="image is-128x128" src="{{imgUrl}}/teamlogos/{{team._id}}.png">
                 <h3 class="title">Team Details</h3>
                 <label class="label">Acronym</label>
                 <p class="control has-icon has-icon-right">
