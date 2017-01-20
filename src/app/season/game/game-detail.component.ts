@@ -35,6 +35,7 @@ export class GameDetailComponent implements OnInit {
     timeStart = 0;
     timeCurrent = 0;
     timeElapsed = 0;
+    timeNextRound = null;
     qtr: any;
     qtrNum: number = 1; // round number
 
@@ -46,7 +47,6 @@ export class GameDetailComponent implements OnInit {
     x: number = 0;
     y: number = 0;
     images = {};
-    fps = 40;
     // Scaling
     ratio: number;
     maxWidth: number = 1152;
@@ -130,8 +130,8 @@ export class GameDetailComponent implements OnInit {
                 // All images loaded
                 if (this.gameCanvas) {
                     this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
-                    this.initVariables();
-                    this.playGame();
+                    this.checkRoundEnd();
+                    this.fullscreenify();
                     this.redrawCanvas();
                 } else {
                     setTimeout(() => {
@@ -141,7 +141,7 @@ export class GameDetailComponent implements OnInit {
             });
     }
 
-    initVariables(): void {
+    newRound(): void {
         // Calculate end point
         this.calcEndPoint = this.maxWidth - this.data.playerAttr.x;
         // Generate player positions
@@ -152,19 +152,29 @@ export class GameDetailComponent implements OnInit {
             this.awayPos.push({ x: this.calcEndPoint, y: (this.data.playerAttr.y / 1.54) * i, r: 0, recalc: 0, targetIndex: i, frame: 1, framecalc: 0 });
         }
         // Set a timeout to end the round
-        setTimeout(() => {
-            this.timeCurrent = this.timeElapsed = this.timeStart = 0;
-            if (this.qtrNum < 4) {
-                this.qtrNum++;
-                this.cachedQtrNum = this.qtrNum;
-                this.initVariables();
-            } else {
-            }
-        }, this.data.gameAttr.roundDuration);
+        console.log('ending round', this.qtrNum, 'at time', this.timeCurrent);
+        this.timeCurrent = this.timeElapsed = this.timeStart = this.timeNextRound = 0;
+        if (this.qtrNum < 4) {
+            console.log('End quarter', this.qtrNum)
+            console.log('Home:', this.homeScore)
+            console.log('Away:', this.awayScore)
+            this.qtrNum++;
+            this.cachedQtrNum = this.qtrNum;
+        } else {
+            console.log('GAME END!')
+            console.log('Home:', this.homeScore)
+            console.log('Away:', this.awayScore)
+        }
     }
 
-    playGame(): void {
-        this.fullscreenify();
+    checkRoundEnd() {
+        if (this.timeCurrent >= this.timeNextRound || !this.timeNextRound) {
+            if (this.qtrNum < 4) {
+                this.newRound();
+                console.log('next round at', this.timeCurrent + 8000)
+                this.timeNextRound = this.timeCurrent + 8000;
+            }
+        }
     }
 
     loadImage(name, src): Promise<any> {
@@ -219,8 +229,9 @@ export class GameDetailComponent implements OnInit {
 
         setTimeout(() => {
             this.timeCurrent += 1;
+            this.checkRoundEnd();
             this.redrawCanvas();
-        }, 1 / this.fps);
+        }, 1);
     }
 
     fullscreenify(): void {
@@ -280,7 +291,7 @@ export class GameDetailComponent implements OnInit {
                 }
             }
             // Reset the timer until next recalculation of target
-            playerPos.recalc = this.timeElapsed + 1000;
+            playerPos.recalc = this.timeElapsed + 100;
         }
 
         if (playerPos.targetIndex && oPlayers[playerPos.targetIndex].scored['qtr' + this.qtrNum] === true) {
