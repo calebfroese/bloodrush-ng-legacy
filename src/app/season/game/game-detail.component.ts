@@ -139,6 +139,16 @@ export class GameDetailComponent implements OnInit {
             .then(() => { return this.loadImage('away7.4', `${Config.imgUrl}player/output/${this.away._id}-4r.png`); })
     }
 
+    loadImage(name, src): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.images[name] = new Image();
+            this.images[name].onload = () => {
+                resolve();
+            };
+            this.images[name].src = src;
+        });
+    }
+
     initializeGame(): void {
         // This will start the game playing
         this.initializePlayers();
@@ -147,6 +157,7 @@ export class GameDetailComponent implements OnInit {
     }
 
     initializePlayers(): void {
+        this.data = this.season.games[this.gameId].data;
         this.qtr = this.season.games[this.gameId].qtr;
         for (let i = 0; i < 8; i++) {
             for (let j = 1; j <= 4; j++) {
@@ -167,11 +178,6 @@ export class GameDetailComponent implements OnInit {
             this.awayPos.push({ x: this.calcEndPoint, y: (this.data.playerAttr.y / 1.54) * i, r: 0, recalc: 0, targetIndex: i, frame: 1, framecalc: 0 });
         }
         this.timeCurrent = this.timeElapsed = this.timeStart = this.timeNextRound = 0;
-
-        console.log('Logic ran:', this.playerLogicRan)
-        console.log('End quarter', this.qtrNum)
-        console.log('Home:', this.homeScore)
-        console.log('Away:', this.awayScore)
         this.qtrNum++;
         this.cachedQtrNum = this.qtrNum;
 
@@ -181,20 +187,9 @@ export class GameDetailComponent implements OnInit {
         if (this.timeCurrent >= this.timeNextRound || !this.timeNextRound) {
             if (this.qtrNum < 4) {
                 this.newRound();
-                console.log('next round at', this.timeCurrent + 16000)
                 this.timeNextRound = this.timeCurrent + 16000;
             }
         }
-    }
-
-    loadImage(name, src): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.images[name] = new Image();
-            this.images[name].onload = () => {
-                resolve();
-            };
-            this.images[name].src = src;
-        });
     }
 
     cachedQtrNum = this.qtrNum;
@@ -269,9 +264,8 @@ export class GameDetailComponent implements OnInit {
         this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
         this.context.globalAlpha = 1;
     }
-    playerLogicRan: number = 0;
+    
     playerLogic(playerPos, team, i) {
-        this.playerLogicRan++;
         /**
          * Calculates the player logic
          * @param {x, y, r} playerPos
