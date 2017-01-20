@@ -233,10 +233,10 @@ export class GameDetailComponent implements OnInit {
         this.timeElapsed = this.timeCurrent - this.timeStart;
 
         setTimeout(() => {
-            this.timeCurrent += 30;
+            this.timeCurrent += this.data.gameAttr.fps ;
             this.checkRoundEnd();
             this.redrawCanvas();
-        }, 30);
+        }, this.data.gameAttr.fps );
     }
 
     fullscreenify(): void {
