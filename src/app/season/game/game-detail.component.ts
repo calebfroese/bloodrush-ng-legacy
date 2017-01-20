@@ -38,6 +38,7 @@ export class GameDetailComponent implements OnInit {
     timeElapsed = 0;
     timeNextRound = null;
     qtr: any;
+    cachedQtrNum = this.qtrNum;
     qtrNum: number = 0; // round number
 
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
@@ -192,7 +193,6 @@ export class GameDetailComponent implements OnInit {
         }
     }
 
-    cachedQtrNum = this.qtrNum;
     redrawCanvas() {
         if (this.cachedQtrNum !== this.qtrNum) {
             return;
@@ -264,7 +264,7 @@ export class GameDetailComponent implements OnInit {
         this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
         this.context.globalAlpha = 1;
     }
-    
+
     playerLogic(playerPos, team, i) {
         /**
          * Calculates the player logic
@@ -351,7 +351,7 @@ export class GameDetailComponent implements OnInit {
         }
         // Graphics
         if (this.timeElapsed > playerPos.framecalc) {
-            playerPos.framecalc = this.timeElapsed + 30;
+            playerPos.framecalc = this.timeElapsed + 100;
             if (playerPos.frame === 1) {
                 playerPos.frame = 4;
             } else if (playerPos.frame === 4) {
