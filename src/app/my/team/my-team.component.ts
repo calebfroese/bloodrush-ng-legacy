@@ -144,8 +144,7 @@ export class MyTeamComponent {
                 color: { r: 0, g: 0, b: 0 }
             },
         ];
-        this.team.style = defaultStyles;
-        this.team.style.forEach(savedStyle => {
+        if (this.team.style.length > 0) this.team.style.forEach(savedStyle => {
             for (let i = 0; i < defaultStyles.length; i++) {
                 // Increments for each default style
                 if (savedStyle.name === defaultStyles[i].name) {
