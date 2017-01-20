@@ -175,8 +175,8 @@ export class GameDetailComponent implements OnInit {
         this.homePos = [];
         this.awayPos = [];
         for (let i = 0; i < 8; i++) {
-            this.homePos.push({ x: 0, y: (this.data.playerAttr.y / 1.54) * i, r: 0, recalc: 0, targetIndex: i, frame: 1, framecalc: 0 });
-            this.awayPos.push({ x: this.calcEndPoint, y: (this.data.playerAttr.y / 1.54) * i, r: 0, recalc: 0, targetIndex: i, frame: 1, framecalc: 0 });
+            this.homePos.push({ x: 0, y: (this.data.playerAttr.y / this.data.playerAttr.playerYSpacing) * i, r: 0, recalc: 0, targetIndex: i, frame: 1, framecalc: 0 });
+            this.awayPos.push({ x: this.calcEndPoint, y: (this.data.playerAttr.y / this.data.playerAttr.playerYSpacing) * i, r: 0, recalc: 0, targetIndex: i, frame: 1, framecalc: 0 });
         }
         this.timeCurrent = this.timeElapsed = this.timeStart = this.timeNextRound = 0;
         this.qtrNum++;
