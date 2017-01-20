@@ -130,7 +130,6 @@ export class GameDetailComponent implements OnInit {
                 // All images loaded
                 if (this.gameCanvas) {
                     this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
-                    this.gameClock();
                     this.initVariables();
                     this.playGame();
                     this.redrawCanvas();
@@ -218,16 +217,18 @@ export class GameDetailComponent implements OnInit {
         this.timeElapsed = this.timeCurrent - this.timeStart;
 
         setTimeout(() => {
+            this.timeCurrent += 1000;
+            if (this.timeCurrent > 100000) {
+                for (var d = 0; d < 8; d++) {
+                    console.log('------------')
+                    console.log(d)
+                    console.log(this.homePos[d].x);
+                    console.log(this.awayPos[d].x);
+                }
+                return;
+            }
             this.redrawCanvas();
         }, 1000 / this.fps);
-    }
-
-    gameClock(): void {
-        // Runs every 0.01 seconds
-        setTimeout(() => {
-            this.timeCurrent += 19;
-            this.gameClock();
-        }, 10);
     }
 
     fullscreenify(): void {
