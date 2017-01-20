@@ -16,17 +16,13 @@ export class SignupComponent {
     team: any = {
         acronym: '',
         name: '',
-        style: '1',
-        col1: 'white',
-        col2: 'white',
-        col3: 'white'
     };
 
     constructor(private router: Router, private mongo: MongoService) { }
 
     onClickSubmit(): void {
         // When the user submits their signup form
-        // Validate stuff
+        // TODO Validate stuff
         if (this.user.username.length < 4) {
             alert('Username must be at least 4 characters');
             return;
@@ -45,11 +41,11 @@ export class SignupComponent {
         }
         // Team
         if (this.team.acronym.length < 2) {
-            alert('Password must be at least 2 characters');
+            alert('Acronym must be at least 2 characters');
             return;
         }
-        if (this.team.name.length < 8) {
-            alert('Team name must be at least 8 characters');
+        if (this.team.name.length < 3) {
+            alert('Team name must be at least 3 characters');
             return;
         }
         // Submit to mongo
