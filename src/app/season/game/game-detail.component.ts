@@ -20,6 +20,7 @@ export class GameDetailComponent implements OnInit {
     // Params
     gameId: number;
     seasonNumber: number;
+    season: any;
     // Teams
     home: any; // original unmodified team
     away: any; // original unmodified team
@@ -62,48 +63,49 @@ export class GameDetailComponent implements OnInit {
             this.seasonNumber = seasonNumber;
             let gameId: number = +params['gameId'];
             this.gameId = gameId;
-            this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber }).then(season => {
-                this.game = season.games[gameId];
-                if (season.games[gameId]) {
-                    // The game exists, load the teams
-                    this.mongo.run('teams', 'oneById', { _id: season.games[gameId].home }).then(teamHome => {
-                        if (teamHome && teamHome !== '') {
-                            this.home = teamHome;
-                        } else {
-                            this.home = { name: 'Bye' };
-                            this.bye = 'home';
-                        }
-                        return this.mongo.run('teams', 'oneById', { _id: season.games[gameId].away });
-                    })
-                        .then(awayTeam => {
-                            if (awayTeam && awayTeam !== '') {
-                                this.away = awayTeam;
-                            } else {
-                                this.away = { name: 'Bye' };
-                                this.bye = 'away';
-                            }
-                            if (season.games[gameId].round && season.games[gameId].qtr) {
-                                // Game has been played
-                                this.data = season.games[gameId].data;
-                                this.qtr = season.games[gameId].qtr;
-                                for (let i = 0; i < 8; i++) {
-                                    for (let j = 1; j <= 4; j++) {
-                                        this.qtr[j].homePlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
-                                        this.qtr[j].awayPlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
-                                    }
+            this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber })
+                .then(season => {
+                    this.season = season;
+                    this.game = season.games[gameId];
+                    if (season.games[gameId]) {
+                        // The game exists, load the teams
+                        this.mongo.run('teams', 'oneById', { _id: season.games[gameId].home })
+                            .then(teamHome => {
+                                if (teamHome && teamHome !== '') {
+                                    this.home = teamHome;
+                                } else {
+                                    this.home = { name: 'Bye' };
+                                    this.bye = 'home';
                                 }
-                                this.zone.run(() => { });
-                                this.initCanvas();
-                            }
-                        }).catch(err => {
-                        });
-                } else {
-                    // Game does not exist
-                    alert('Game does not exist!');
-                }
-            }).catch(err => {
-                debugger;
-            });
+                                return this.mongo.run('teams', 'oneById', { _id: season.games[gameId].away });
+                            })
+                            .then(awayTeam => {
+                                if (awayTeam && awayTeam !== '') {
+                                    this.away = awayTeam;
+                                } else {
+                                    this.away = { name: 'Bye' };
+                                    this.bye = 'away';
+                                }
+                                // Game has been played
+                                this.data = this.season.games[this.gameId].data;
+                                if (this.season.games[this.gameId].round && this.season.games[this.gameId].qtr) {
+                                    this.preloadImages()
+                                        .then(() => {
+                                            // Images are loaded
+                                            this.checkCanvasThenInit();
+                                        });
+                                }
+                            })
+                            .catch(err => {
+                                debugger;
+                            });
+                    } else {
+                        // Game does not exist
+                        alert('Game does not exist!');
+                    }
+                }).catch(err => {
+                    debugger;
+                });
         });
     }
 
@@ -111,9 +113,22 @@ export class GameDetailComponent implements OnInit {
         this.mongo.run('games', 'playGame', { 'seasonNumber': this.seasonNumber, 'gameNumber': this.gameId });
     }
 
+    checkCanvasThenInit(): void {
+        setTimeout(() => {
+            if (this.gameCanvas && this.cDiv) {
+                this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
+                console.log('STARTING GAME')
+                this.fullscreenify();
+                this.initializeGame();
+            } else {
+                this.checkCanvasThenInit();
+            }
+        }, 100);
+    }
+
     // CANVAS
-    initCanvas(): void {
-        this.loadImage('field', '/assets/img/field.png')
+    preloadImages(): Promise<void> {
+        return this.loadImage('field', '/assets/img/field.png')
             .then(() => { return this.loadImage('home1', `${Config.imgUrl}player/output/${this.home._id}-1.png`); })
             .then(() => { return this.loadImage('home4', `${Config.imgUrl}player/output/${this.home._id}-4.png`); })
             .then(() => { return this.loadImage('home7', `${Config.imgUrl}player/output/${this.home._id}-7.png`); })
@@ -122,19 +137,23 @@ export class GameDetailComponent implements OnInit {
             .then(() => { return this.loadImage('away4', `${Config.imgUrl}player/output/${this.away._id}-4r.png`); })
             .then(() => { return this.loadImage('away7', `${Config.imgUrl}player/output/${this.away._id}-7r.png`); })
             .then(() => { return this.loadImage('away7.4', `${Config.imgUrl}player/output/${this.away._id}-4r.png`); })
-            .then(() => {
-                // All images loaded
-                if (this.gameCanvas) {
-                    this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
-                    this.checkRoundEnd();
-                    this.fullscreenify();
-                    this.redrawCanvas();
-                } else {
-                    setTimeout(() => {
-                        this.initCanvas();
-                    }, 10);
-                }
-            });
+    }
+
+    initializeGame(): void {
+        // This will start the game playing
+        this.initializePlayers();
+        this.checkRoundEnd();
+        this.redrawCanvas();
+    }
+
+    initializePlayers(): void {
+        this.qtr = this.season.games[this.gameId].qtr;
+        for (let i = 0; i < 8; i++) {
+            for (let j = 1; j <= 4; j++) {
+                this.qtr[j].homePlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
+                this.qtr[j].awayPlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
+            }
+        }
     }
 
     newRound(): void {
