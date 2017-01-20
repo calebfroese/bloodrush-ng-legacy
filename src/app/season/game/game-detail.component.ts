@@ -153,6 +153,7 @@ export class GameDetailComponent implements OnInit {
         }
         // Set a timeout to end the round
         setTimeout(() => {
+            this.timeCurrent = this.timeElapsed = this.timeStart = 0;
             if (this.qtrNum < 4) {
                 this.qtrNum++;
                 this.cachedQtrNum = this.qtrNum;
@@ -218,15 +219,6 @@ export class GameDetailComponent implements OnInit {
 
         setTimeout(() => {
             this.timeCurrent += 1000;
-            if (this.timeCurrent > 100000) {
-                for (var d = 0; d < 8; d++) {
-                    console.log('------------')
-                    console.log(d)
-                    console.log(this.homePos[d].x);
-                    console.log(this.awayPos[d].x);
-                }
-                return;
-            }
             this.redrawCanvas();
         }, 1000 / this.fps);
     }
@@ -305,8 +297,17 @@ export class GameDetailComponent implements OnInit {
                 // ATTACK THE ENEMY
                 if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
                     let genNextTime: number = 800 + parseInt(Math.round(this.timeCurrent * playerPos.x).toString().substr(-2));
+                    console.log('created rounded num', Math.round(this.timeCurrent * playerPos.x), 'at', this.timeCurrent);
                     playerPos.atkTime = this.timeElapsed + genNextTime + teamPlayers[i].spd; // REMOVE ME
                     this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg -= 8 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 8;
+                    // if (this.timeCurrent > 100000) {
+                    //     for (var d = 0; d < 8; d++) {
+                    //         console.log('------------')
+                    //         console.log(d)
+                            // console.log(this.qtr[this.qtrNum]['homePlayers'][d].kg);
+                    //         console.log(this.qtr[this.qtrNum]['awayPlayers'][d].kg);
+                    //     }
+                    // }
                     if (this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
                         this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].down = true;
                     }
