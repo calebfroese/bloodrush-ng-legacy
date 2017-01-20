@@ -188,7 +188,7 @@ export class GameDetailComponent implements OnInit {
         if (this.timeCurrent >= this.timeNextRound || !this.timeNextRound) {
             if (this.qtrNum < 4) {
                 this.newRound();
-                this.timeNextRound = this.timeCurrent + 16000;
+                this.timeNextRound = this.timeCurrent + this.data.gameAttr.roundDuration;
             }
         }
     }
