@@ -37,7 +37,7 @@ export class GameDetailComponent implements OnInit {
     timeElapsed = 0;
     timeNextRound = null;
     qtr: any;
-    qtrNum: number = 1; // round number
+    qtrNum: number = 0; // round number
 
 
 
@@ -151,20 +151,14 @@ export class GameDetailComponent implements OnInit {
             this.homePos.push({ x: 0, y: (this.data.playerAttr.y / 1.54) * i, r: 0, recalc: 0, targetIndex: i, frame: 1, framecalc: 0 });
             this.awayPos.push({ x: this.calcEndPoint, y: (this.data.playerAttr.y / 1.54) * i, r: 0, recalc: 0, targetIndex: i, frame: 1, framecalc: 0 });
         }
-        // Set a timeout to end the round
-        console.log('ending round', this.qtrNum, 'at time', this.timeCurrent);
         this.timeCurrent = this.timeElapsed = this.timeStart = this.timeNextRound = 0;
-        if (this.qtrNum < 4) {
-            console.log('End quarter', this.qtrNum)
-            console.log('Home:', this.homeScore)
-            console.log('Away:', this.awayScore)
-            this.qtrNum++;
-            this.cachedQtrNum = this.qtrNum;
-        } else {
-            console.log('GAME END!')
-            console.log('Home:', this.homeScore)
-            console.log('Away:', this.awayScore)
-        }
+
+        console.log('End quarter', this.qtrNum)
+        console.log('Home:', this.homeScore)
+        console.log('Away:', this.awayScore)
+        this.qtrNum++;
+        this.cachedQtrNum = this.qtrNum;
+
     }
 
     checkRoundEnd() {
