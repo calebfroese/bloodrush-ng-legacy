@@ -144,6 +144,7 @@ export class MyTeamComponent {
                 color: { r: 0, g: 0, b: 0 }
             },
         ];
+        this.team.style = defaultStyles;
         this.team.style.forEach(savedStyle => {
             for (let i = 0; i < defaultStyles.length; i++) {
                 // Increments for each default style
@@ -186,22 +187,23 @@ export class MyTeamComponent {
 
     onClickSubmit(): void {
         // When the user submits their signup form
-        // Validate stuff
+        // TODO Validate stuff central form config
         // Team
         if (this.team.acronym.length < 2) {
             alert('Password must be at least 2 characters');
             return;
         }
-        if (this.team.name.length < 8) {
-            alert('Team name must be at least 8 characters');
+        if (this.team.name.length < 3) {
+            alert('Team name must be at least 3 characters');
             return;
         }
+        this.acc.loggedInAccount.team = this.team;
         // Submit to mongo
         this.mongo.run('teams', 'saveMyTeam', { team: this.team }).then(response => {
             if (response.error) {
                 alert(response.error);
             } else if (response.ok) {
-                alert('Successfully updated team details.')
+                alert('Successfully updated team details.');
             } else {
                 alert('No response');
             }
