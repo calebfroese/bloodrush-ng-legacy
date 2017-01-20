@@ -39,13 +39,9 @@ export class GameDetailComponent implements OnInit {
     qtr: any;
     qtrNum: number = 0; // round number
 
-
-
     @ViewChild('gameCanvas') gameCanvas: ElementRef;
     @ViewChild('cDiv') cDiv: ElementRef;
     context: any;
-    x: number = 0;
-    y: number = 0;
     images = {};
     // Scaling
     ratio: number;
