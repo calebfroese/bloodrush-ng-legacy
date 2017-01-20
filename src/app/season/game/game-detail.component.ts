@@ -372,7 +372,7 @@ export class GameDetailComponent implements OnInit {
         let homePlayers = this.qtr[this.qtrNum].homePlayers;
         let awayPlayers = this.qtr[this.qtrNum].awayPlayers;
 
-        let recoveryTime = 6000;
+        let recoveryTime = this.data.playerAttr.recoveryTime;
 
         if (team === 'home') {
             // Home team
@@ -381,6 +381,10 @@ export class GameDetailComponent implements OnInit {
                     homePlayers[playerIndex].down = false;
                     homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 6; // give hp back
                 }, recoveryTime);
+            } else if (homePlayers[playerIndex].knockdown === 'injury') {
+                console.log(team, 'player just got injured!!!!!!!');
+            } else if (homePlayers[playerIndex].knockdown === 'death') {
+                console.log(team, 'player just DIED');
             }
             homePlayers[playerIndex].knockdown = 'knockdown';
         } else {
@@ -390,6 +394,10 @@ export class GameDetailComponent implements OnInit {
                     awayPlayers[playerIndex].down = false;
                     awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 6; // give hp back
                 }, recoveryTime);
+            } else if (awayPlayers[playerIndex].knockdown === 'injury') {
+                console.log(team, 'player just got injured!!!!!!!');
+            } else if (awayPlayers[playerIndex].knockdown === 'death') {
+                console.log(team, 'player just DIED');
             }
             awayPlayers[playerIndex].knockdown = 'knockdown';
         }

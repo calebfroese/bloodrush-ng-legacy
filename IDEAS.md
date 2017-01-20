@@ -8,7 +8,6 @@
 -- Random stadium names
 -- Bigger venue = more capacity
 -- Fans to generate income
-* Use momentjs for date stuff
 
 # Training
 * Players can be put in 'training' to advance their stats
@@ -16,9 +15,6 @@
 * Max traininable stats (e.g. an extra X%)
 
 # Games
-* * Game 'ticks' every second
-* * Each tick a player has a coordinate (x, y)
-* * Front-end-wise, movement is smoothed between coordinates each tick
 * * (LATER ON) Medics take injured/dead off field, new players run onto field to replace them
 
 # Players
@@ -43,20 +39,10 @@ Generate an icon based on existing ones, or upload your own
 * * Chaser
 -- If no direct attacker, will go for any getaways
 
-## General Logic
-Ball should only be passed to BALANCED or EVADER
-
 # Player Market
 * Players can sell to the price of their choosing
 
 # End of Season - Player Lottery
 * Talk to jared about this
 
-# Injury / Death
-* Injury has a 80% chance for loss between 2 and 8
-* Injury has a 10% chance for loss between 0 and 2
-* Injury has a 10% chance for loss between 8 and 40
-
-# Misc
-* Strictly one player per team
-* Only show the game scores after the game has been played
+* Players who dont play will slowly decline in stats (?? maybe)
