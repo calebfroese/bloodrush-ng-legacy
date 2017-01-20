@@ -32,8 +32,8 @@ export class GameDetailComponent implements OnInit {
     calcEndPoint: number = 0;
     homeScore = 0;
     awayScore = 0;
-    timeStart = Date.now();
-    timeCurrent = this.timeStart;
+    timeStart = 0;
+    timeCurrent = 0;
     timeElapsed = 0;
     qtr: any;
     qtrNum: number = 1; // round number
@@ -130,6 +130,7 @@ export class GameDetailComponent implements OnInit {
                 // All images loaded
                 if (this.gameCanvas) {
                     this.context = CanvasRenderingContext2D = this.gameCanvas.nativeElement.getContext('2d');
+                    this.gameClock();
                     this.initVariables();
                     this.playGame();
                     this.redrawCanvas();
@@ -214,12 +215,19 @@ export class GameDetailComponent implements OnInit {
                 this.awayPos[i].x, this.awayPos[i].y, awayPlayers[i].first, awayPlayers[i].last, downText, this.away.col1);
         }
         // Update time
-        this.timeCurrent = Date.now();
         this.timeElapsed = this.timeCurrent - this.timeStart;
 
         setTimeout(() => {
             this.redrawCanvas();
         }, 1000 / this.fps);
+    }
+
+    gameClock(): void {
+        // Runs every 0.01 seconds
+        setTimeout(() => {
+            this.timeCurrent += 19;
+            this.gameClock();
+        }, 10);
     }
 
     fullscreenify(): void {
