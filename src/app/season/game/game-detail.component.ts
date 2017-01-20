@@ -218,9 +218,9 @@ export class GameDetailComponent implements OnInit {
         this.timeElapsed = this.timeCurrent - this.timeStart;
 
         setTimeout(() => {
-            this.timeCurrent += 1000;
+            this.timeCurrent += 1;
             this.redrawCanvas();
-        }, 1000 / this.fps);
+        }, 1 / this.fps);
     }
 
     fullscreenify(): void {
@@ -297,17 +297,8 @@ export class GameDetailComponent implements OnInit {
                 // ATTACK THE ENEMY
                 if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
                     let genNextTime: number = 800 + parseInt(Math.round(this.timeCurrent * playerPos.x).toString().substr(-2));
-                    console.log('created rounded num', Math.round(this.timeCurrent * playerPos.x), 'at', this.timeCurrent);
                     playerPos.atkTime = this.timeElapsed + genNextTime + teamPlayers[i].spd; // REMOVE ME
-                    this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg -= 8 + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * 8;
-                    // if (this.timeCurrent > 100000) {
-                    //     for (var d = 0; d < 8; d++) {
-                    //         console.log('------------')
-                    //         console.log(d)
-                            // console.log(this.qtr[this.qtrNum]['homePlayers'][d].kg);
-                    //         console.log(this.qtr[this.qtrNum]['awayPlayers'][d].kg);
-                    //     }
-                    // }
+                    this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg -= this.data.gameAttr.atkBase + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * this.data.gameAttr.atkMultiplier;
                     if (this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
                         this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].down = true;
                     }
@@ -344,7 +335,7 @@ export class GameDetailComponent implements OnInit {
         }
         // Graphics
         if (this.timeElapsed > playerPos.framecalc) {
-            playerPos.framecalc = this.timeElapsed + 135;
+            playerPos.framecalc = this.timeElapsed + 30;
             if (playerPos.frame === 1) {
                 playerPos.frame = 4;
             } else if (playerPos.frame === 4) {
@@ -355,11 +346,6 @@ export class GameDetailComponent implements OnInit {
                 playerPos.frame = 1;
             }
         }
-        // if (this.timeElapsed > playerPos.framecalc) {
-        //     playerPos.framecalc = this.timeElapsed + 70;
-        //     playerPos.frame++;
-        //     if (playerPos.frame > 9) playerPos.frame = 1;
-        // }
         return playerPos;
     }
 
