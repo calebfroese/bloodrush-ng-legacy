@@ -153,6 +153,7 @@ export class GameDetailComponent implements OnInit {
         }
         this.timeCurrent = this.timeElapsed = this.timeStart = this.timeNextRound = 0;
 
+        console.log('Logic ran:', this.playerLogicRan)
         console.log('End quarter', this.qtrNum)
         console.log('Home:', this.homeScore)
         console.log('Away:', this.awayScore)
@@ -165,8 +166,8 @@ export class GameDetailComponent implements OnInit {
         if (this.timeCurrent >= this.timeNextRound || !this.timeNextRound) {
             if (this.qtrNum < 4) {
                 this.newRound();
-                console.log('next round at', this.timeCurrent + 8000)
-                this.timeNextRound = this.timeCurrent + 8000;
+                console.log('next round at', this.timeCurrent + 16000)
+                this.timeNextRound = this.timeCurrent + 16000;
             }
         }
     }
@@ -222,10 +223,10 @@ export class GameDetailComponent implements OnInit {
         this.timeElapsed = this.timeCurrent - this.timeStart;
 
         setTimeout(() => {
-            this.timeCurrent += 1;
+            this.timeCurrent += 30;
             this.checkRoundEnd();
             this.redrawCanvas();
-        }, 1);
+        }, 30);
     }
 
     fullscreenify(): void {
@@ -253,8 +254,9 @@ export class GameDetailComponent implements OnInit {
         this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
         this.context.globalAlpha = 1;
     }
-
+    playerLogicRan: number = 0;
     playerLogic(playerPos, team, i) {
+        this.playerLogicRan++;
         /**
          * Calculates the player logic
          * @param {x, y, r} playerPos
@@ -301,8 +303,8 @@ export class GameDetailComponent implements OnInit {
             if (c <= this.data.playerAttr.attackRadius) {
                 // ATTACK THE ENEMY
                 if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
-                    let genNextTime: number = 800 + parseInt(Math.round(this.timeCurrent * playerPos.x).toString().substr(-2));
-                    playerPos.atkTime = this.timeElapsed + genNextTime + teamPlayers[i].spd; // REMOVE ME
+                    let genNextTime: number = 800 + parseInt(Math.round(this.timeCurrent * playerPos.x).toString().substr(0, 2));
+                    playerPos.atkTime = this.timeElapsed + genNextTime + teamPlayers[i].spd;
                     this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg -= this.data.gameAttr.atkBase + (teamPlayers[i].atk / oPlayers[playerPos.targetIndex].def) * this.data.gameAttr.atkMultiplier;
                     if (this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].kg <= 0) {
                         this.qtr[this.qtrNum][oTeam + 'Players'][playerPos.targetIndex].down = true;
