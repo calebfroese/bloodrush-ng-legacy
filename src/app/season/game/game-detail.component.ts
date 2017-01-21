@@ -421,6 +421,7 @@ export class GameDetailComponent implements OnInit {
         for (let needReplaceIndexC = 0; needReplaceIndexC < this.qtrDeadInjArray.home.length; needReplaceIndexC++) {
             // Replace out the unable to play player
             for (let qtrC = 1; qtrC <= 4; qtrC++) {
+                this.qtr[qtrC].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = null;
                 for (let k = 8; k < 12; k++) {
                     if (this.qtr[qtrC].homePlayers[k] && this.qtrDeadInjArray.home[needReplaceIndexC]) {
                         console.log('replacing', this.qtr[qtrC].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]], 'with', this.qtr[qtrC].homePlayers[k]);
@@ -434,6 +435,7 @@ export class GameDetailComponent implements OnInit {
         for (let needReplaceIndexC = 0; needReplaceIndexC < this.qtrDeadInjArray.away.length; needReplaceIndexC++) {
             // Replace out the unable to play player
             for (let qtrC = 1; qtrC <= 4; qtrC++) {
+                this.qtr[qtrC].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = null;
                 for (let k = 8; k < 12; k++) {
                     if (this.qtr[qtrC].awayPlayers[k] && this.qtrDeadInjArray.away[needReplaceIndexC]) {
                         console.log('replacing', this.qtr[qtrC].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]], 'with', this.qtr[qtrC].awayPlayers[k]);
@@ -441,22 +443,6 @@ export class GameDetailComponent implements OnInit {
                         this.qtr[qtrC].awayPlayers[k] = null;
                         break;
                     }
-                }
-            }
-        }
-    }
-
-    replaceHome(i) {
-        // Quarter
-        for (let qtrC = 1; qtrC <= 4; qtrC++) {
-
-            // Iterate through each sub
-            for (let k = 8; k < 12; k++) {
-                if (this.qtr[qtrC].homePlayers[k] && this.qtrDeadInjArray.home[i]) {
-                    console.log('replacing', this.qtr[qtrC].homePlayers[this.qtrDeadInjArray.home[i]], 'with', this.qtr[qtrC].homePlayers[k]);
-                    this.qtr[qtrC].homePlayers[this.qtrDeadInjArray.home[i]] = this.qtr[qtrC].homePlayers[k];
-                    this.qtr[qtrC].homePlayers[k] = null;
-                    break;
                 }
             }
         }
