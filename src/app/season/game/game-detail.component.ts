@@ -90,7 +90,7 @@ export class GameDetailComponent implements OnInit {
                                 }
                                 // Game has been played
                                 this.data = this.season.games[this.gameId].data;
-                                if (this.season.games[this.gameId].round && this.season.games[this.gameId].qtr) {
+                                if (this.season.games[this.gameId].data.live) {
                                     this.preloadImages()
                                         .then(() => {
                                             // Images are loaded
