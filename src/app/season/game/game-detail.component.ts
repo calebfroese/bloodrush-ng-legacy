@@ -166,9 +166,18 @@ export class GameDetailComponent implements OnInit {
                 this.qtr[j].awayPlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
             }
         }
+        for (let i = 8; i < 12; i++) {
+            for (let j = 1; j <= 4; j++) {
+                if (this.qtr[j].homePlayers[i])
+                    this.qtr[j].homePlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
+                if (this.qtr[j].awayPlayers[i])
+                    this.qtr[j].awayPlayers[i].scored = { qtr1: false, qtr2: false, qtr3: false, qtr4: false };
+            }
+        }
     }
 
     newRound(): void {
+        this.replaceWithSub();
         // Calculate end point
         this.calcEndPoint = this.maxWidth - this.data.playerAttr.x;
         // Generate player positions
@@ -208,7 +217,7 @@ export class GameDetailComponent implements OnInit {
         this.drawField();
 
         // Draw the home players
-        for (let i = 0; i < homePlayers.length; i++) {
+        for (let i = 0; i < 8; i++) {
             let downText = Math.round(homePlayers[i].kg);
             if (homePlayers[i].down) {
                 this.calculateRecovery('home', i);
@@ -219,7 +228,7 @@ export class GameDetailComponent implements OnInit {
                 this.homePos[i].x, this.homePos[i].y, homePlayers[i].first, homePlayers[i].last, downText, this.home.col1);
         }
         // Draw the away players
-        for (let i = 0; i < awayPlayers.length; i++) {
+        for (let i = 0; i < 8; i++) {
             let downText = Math.round(awayPlayers[i].kg);
             if (awayPlayers[i].down) {
                 this.calculateRecovery('away', i);
@@ -233,10 +242,10 @@ export class GameDetailComponent implements OnInit {
         this.timeElapsed = this.timeCurrent - this.timeStart;
 
         setTimeout(() => {
-            this.timeCurrent += this.data.gameAttr.fps ;
+            this.timeCurrent += this.data.gameAttr.fps;
             this.checkRoundEnd();
             this.redrawCanvas();
-        }, this.data.gameAttr.fps );
+        }, this.data.gameAttr.fps);
     }
 
     fullscreenify(): void {
@@ -276,12 +285,11 @@ export class GameDetailComponent implements OnInit {
         let teamPlayers = this.qtr[this.qtrNum][team + 'Players'];
         let oPlayers = this.qtr[this.qtrNum][oTeam + 'Players'];
         let oPos = this[oTeam + 'Pos'];
-
+        if (!teamPlayers[i]) return;
         // If down or scored
         if (teamPlayers[i].kg <= 0 || teamPlayers[i].scored['qtr' + this.qtrNum]) return playerPos;
-
         // Run through to find the closest enemy
-        if (this.timeElapsed > playerPos.recalc && oPlayers[i].down) {
+        if (this.timeElapsed > playerPos.recalc && !oPlayers[i] || this.timeElapsed > playerPos.recalc && oPlayers[i].down) {
             let lowestC = 1000000000; // unreasonably higher number that any player will be closer than
             playerPos.targetIndex = null;
             for (let x = 0; x < 8; x++) {
@@ -298,12 +306,11 @@ export class GameDetailComponent implements OnInit {
             // Reset the timer until next recalculation of target
             playerPos.recalc = this.timeElapsed + 100;
         }
-
-        if (playerPos.targetIndex && oPlayers[playerPos.targetIndex].scored['qtr' + this.qtrNum] === true) {
+        // If the player's target has scored/injured/dead, remove them as the target
+        if (playerPos.targetIndex && oPlayers[playerPos.targetIndex].scored['qtr' + this.qtrNum] === true || !oPlayers[playerPos.targetIndex]) {
             playerPos.targetIndex = null;
         }
-
-        if (playerPos.targetIndex !== null && !oPlayers[playerPos.targetIndex].down) {
+        if (playerPos.targetIndex !== null && oPlayers[playerPos.targetIndex] && !oPlayers[playerPos.targetIndex].down) {
             // Target is alive, check if nearby enough to attack
             let a = playerPos.x - oPos[playerPos.targetIndex].x;
             let b = playerPos.y - oPos[playerPos.targetIndex].y;
@@ -382,9 +389,11 @@ export class GameDetailComponent implements OnInit {
                     homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 6; // give hp back
                 }, recoveryTime);
             } else if (homePlayers[playerIndex].knockdown === 'injury') {
-                console.log(team, 'player just got injured!!!!!!!');
+                console.log(team, homePlayers[playerIndex].first, playerIndex, 'player just got injured!!!!!!!');
+                this.qtrDeadInjArray.home.push(playerIndex)
             } else if (homePlayers[playerIndex].knockdown === 'death') {
-                console.log(team, 'player just DIED');
+                console.log(team, homePlayers[playerIndex].first, playerIndex, 'player just DIED');
+                this.qtrDeadInjArray.home.push(playerIndex)
             }
             homePlayers[playerIndex].knockdown = 'knockdown';
         } else {
@@ -395,11 +404,61 @@ export class GameDetailComponent implements OnInit {
                     awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 6; // give hp back
                 }, recoveryTime);
             } else if (awayPlayers[playerIndex].knockdown === 'injury') {
-                console.log(team, 'player just got injured!!!!!!!');
+                console.log(team, awayPlayers[playerIndex].first, playerIndex, 'player just got injured!!!!!!!');
+                this.qtrDeadInjArray.away.push(playerIndex)
             } else if (awayPlayers[playerIndex].knockdown === 'death') {
-                console.log(team, 'player just DIED');
+                console.log(team, awayPlayers[playerIndex].first, playerIndex, 'player just DIED');
+                this.qtrDeadInjArray.away.push(playerIndex)
             }
             awayPlayers[playerIndex].knockdown = 'knockdown';
+        }
+    }
+
+    qtrDeadInjArray = { home: [], away: [] };
+    replaceWithSub(): void {
+        // Remove the local player in the game object
+        // Iterate for each game quarter
+        for (let needReplaceIndexC = 0; needReplaceIndexC < this.qtrDeadInjArray.home.length; needReplaceIndexC++) {
+            // Replace out the unable to play player
+            for (let qtrC = 1; qtrC <= 4; qtrC++) {
+                for (let k = 8; k < 12; k++) {
+                    if (this.qtr[qtrC].homePlayers[k] && this.qtrDeadInjArray.home[needReplaceIndexC]) {
+                        console.log('replacing', this.qtr[qtrC].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]], 'with', this.qtr[qtrC].homePlayers[k]);
+                        this.qtr[qtrC].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = this.qtr[qtrC].homePlayers[k];
+                        this.qtr[qtrC].homePlayers[k] = null;
+                        break;
+                    }
+                }
+            }
+        }
+        for (let needReplaceIndexC = 0; needReplaceIndexC < this.qtrDeadInjArray.away.length; needReplaceIndexC++) {
+            // Replace out the unable to play player
+            for (let qtrC = 1; qtrC <= 4; qtrC++) {
+                for (let k = 8; k < 12; k++) {
+                    if (this.qtr[qtrC].awayPlayers[k] && this.qtrDeadInjArray.away[needReplaceIndexC]) {
+                        console.log('replacing', this.qtr[qtrC].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]], 'with', this.qtr[qtrC].awayPlayers[k]);
+                        this.qtr[qtrC].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = this.qtr[qtrC].awayPlayers[k];
+                        this.qtr[qtrC].awayPlayers[k] = null;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    replaceHome(i) {
+        // Quarter
+        for (let qtrC = 1; qtrC <= 4; qtrC++) {
+
+            // Iterate through each sub
+            for (let k = 8; k < 12; k++) {
+                if (this.qtr[qtrC].homePlayers[k] && this.qtrDeadInjArray.home[i]) {
+                    console.log('replacing', this.qtr[qtrC].homePlayers[this.qtrDeadInjArray.home[i]], 'with', this.qtr[qtrC].homePlayers[k]);
+                    this.qtr[qtrC].homePlayers[this.qtrDeadInjArray.home[i]] = this.qtr[qtrC].homePlayers[k];
+                    this.qtr[qtrC].homePlayers[k] = null;
+                    break;
+                }
+            }
         }
     }
 }
