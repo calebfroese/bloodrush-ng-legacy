@@ -173,6 +173,8 @@ export class GameDetailComponent implements OnInit {
     drawPlayer(image: any, width: number, height: number, x, y, first: string, last: string, down: boolean, color: string): void {
         // Draws a single player
         if (down) this.context.globalAlpha = 0.3;
+        this.context.font = "30px Arial";
+        this.context.fillText(last, x / this.ratio, y / this.ratio);
         this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
         this.context.globalAlpha = 1;
     }
