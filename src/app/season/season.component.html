@@ -50,7 +50,16 @@
                         <table class="table">
                             <tr>
                                 <td class="title custom-third has-text-left">{{game.home.name}}</td>
-                                <td class="title custom-third has-text-centered">0 - 0</td>
+                                <td class="title custom-third has-text-centered">
+                                    <ng-container *ngIf="game.data.live">
+                                        {{game.data.live.homeScore}}
+                                        &nbsp;
+                                        <ng-container *ngIf="game.data.live.isLive"><span class="tag is-danger is-large">QUARTER {{game.data.live.quarter}}</span></ng-container>
+                                        <ng-container *ngIf="!game.data.live.isLive">-</ng-container>
+                                        &nbsp;
+                                        {{game.data.live.awayScore}}
+                                    </ng-container>
+                                </td>
                                 <td class="title custom-third has-text-right">{{game.away.name}}</td>
                             </tr>
                         </table>
