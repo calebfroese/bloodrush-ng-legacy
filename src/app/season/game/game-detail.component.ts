@@ -151,6 +151,34 @@ export class GameDetailComponent implements OnInit {
         });
     }
 
+    fullscreenify(): void {
+        this.resizeScreen();
+        window.addEventListener('resize', () => {
+            this.resizeScreen();
+        }, false);
+    }
+
+    resizeScreen(): void {
+        let containerWidth = this.cDiv.nativeElement.offsetWidth;
+        this.gameCanvas.nativeElement.width = (containerWidth);
+        this.gameCanvas.nativeElement.height = (containerWidth) / 1.4;
+        this.ratio = this.maxWidth / containerWidth;
+    }
+
+    drawField(): void {
+        // Draws the field
+        this.context.drawImage(this.images['field'], 0, 0, this.maxWidth / this.ratio, this.maxHeight / this.ratio);
+    }
+
+    drawPlayer(image: any, width: number, height: number, x, y, first: string, last: string, down: any, color: string): void {
+        // Draws a single player
+        if (!parseInt(down)) this.context.globalAlpha = 0.3;
+        this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
+        this.context.globalAlpha = 1;
+    }
+
+    // GAME
+
     initializeGame(): void {
         // This will start the game playing
         this.initializePlayers();
@@ -255,32 +283,6 @@ export class GameDetailComponent implements OnInit {
         }, this.data.gameAttr.fps);
     }
 
-    fullscreenify(): void {
-        this.resizeScreen();
-        window.addEventListener('resize', () => {
-            this.resizeScreen();
-        }, false);
-    }
-
-    resizeScreen(): void {
-        let containerWidth = this.cDiv.nativeElement.offsetWidth;
-        this.gameCanvas.nativeElement.width = (containerWidth);
-        this.gameCanvas.nativeElement.height = (containerWidth) / 1.4;
-        this.ratio = this.maxWidth / containerWidth;
-    }
-
-    drawField(): void {
-        // Draws the field
-        this.context.drawImage(this.images['field'], 0, 0, this.maxWidth / this.ratio, this.maxHeight / this.ratio);
-    }
-
-    drawPlayer(image: any, width: number, height: number, x, y, first: string, last: string, down: any, color: string): void {
-        // Draws a single player
-        if (!parseInt(down)) this.context.globalAlpha = 0.3;
-        this.context.drawImage(image, x / this.ratio, y / this.ratio, width / this.ratio, height / this.ratio);
-        this.context.globalAlpha = 1;
-    }
-
     playerLogic(playerPos, team, i) {
         /**
          * Calculates the player logic
@@ -291,7 +293,7 @@ export class GameDetailComponent implements OnInit {
         let oTeam = (team === 'home') ? 'away' : 'home'; // other team
         let teamPlayers = this.qtr[this.qtrNum][team + 'Players'];
         let oPlayers = this.qtr[this.qtrNum][oTeam + 'Players'];
-        let oPos = this[oTeam + 'Pos'];
+        let oPos = (team === 'home') ? this.awayPos : this.homePos;
         if (!teamPlayers[i]) return;
         // If down or scored
         if (teamPlayers[i].kg <= 0 || teamPlayers[i].scored['qtr' + this.qtrNum]) return playerPos;
@@ -317,7 +319,8 @@ export class GameDetailComponent implements OnInit {
         if (!oPlayers[playerPos.targetIndex] || playerPos.targetIndex && oPlayers[playerPos.targetIndex].scored['qtr' + this.qtrNum] === true) {
             playerPos.targetIndex = null;
         }
-        if (playerPos.targetIndex !== null && oPlayers[playerPos.targetIndex] && !oPlayers[playerPos.targetIndex].down) {
+        
+        if (playerPos.targetIndex !== null && oPos[playerPos.targetIndex] && oPlayers[playerPos.targetIndex] && !oPlayers[playerPos.targetIndex].down) {
             // Target is alive, check if nearby enough to attack
             let a = playerPos.x - oPos[playerPos.targetIndex].x;
             let b = playerPos.y - oPos[playerPos.targetIndex].y;
@@ -337,8 +340,8 @@ export class GameDetailComponent implements OnInit {
                 // MOVE TOWARDS ENEMY
 
                 // Calculate direction towards player
-                let calcX = this[oTeam + 'Pos'][playerPos.targetIndex].x - playerPos.x;
-                let calcY = this[oTeam + 'Pos'][playerPos.targetIndex].y - playerPos.y;
+                let calcX = oPos[playerPos.targetIndex].x - playerPos.x;
+                let calcY = oPos[playerPos.targetIndex].y - playerPos.y;
 
                 // Normalize
                 let toEnemyLength = Math.sqrt(calcX * calcX + calcY * calcY);
@@ -358,7 +361,8 @@ export class GameDetailComponent implements OnInit {
             if (playerPos.x >= this.calcEndPoint && moveDirection === 1 ||
                 playerPos.x <= 0 && moveDirection === -1) {
                 this.qtr[this.qtrNum][team + 'Players'][i].scored['qtr' + this.qtrNum] = true;
-                this[team + 'Score']++;
+                if (team === 'home') this.homeScore++;
+                if (team === 'away') this.awayScore++;
             } else {
                 playerPos.x += (teamPlayers[i].spd / this.data.gameAttr.speedMultiplier) * moveDirection;
             }
@@ -396,10 +400,8 @@ export class GameDetailComponent implements OnInit {
                     homePlayers[playerIndex].kg = homePlayers[playerIndex].def / 6; // give hp back
                 }, recoveryTime);
             } else if (homePlayers[playerIndex].knockdown === 'injury') {
-                console.log(team, homePlayers[playerIndex].first, playerIndex, 'player just got injured!!!!!!!');
                 this.qtrDeadInjArray.home.push(playerIndex)
             } else if (homePlayers[playerIndex].knockdown === 'death') {
-                console.log(team, homePlayers[playerIndex].first, playerIndex, 'player just DIED');
                 this.qtrDeadInjArray.home.push(playerIndex)
             }
             homePlayers[playerIndex].knockdown = 'knockdown';
@@ -411,10 +413,8 @@ export class GameDetailComponent implements OnInit {
                     awayPlayers[playerIndex].kg = awayPlayers[playerIndex].def / 6; // give hp back
                 }, recoveryTime);
             } else if (awayPlayers[playerIndex].knockdown === 'injury') {
-                console.log(team, awayPlayers[playerIndex].first, playerIndex, 'player just got injured!!!!!!!');
                 this.qtrDeadInjArray.away.push(playerIndex)
             } else if (awayPlayers[playerIndex].knockdown === 'death') {
-                console.log(team, awayPlayers[playerIndex].first, playerIndex, 'player just DIED');
                 this.qtrDeadInjArray.away.push(playerIndex)
             }
             awayPlayers[playerIndex].knockdown = 'knockdown';
@@ -425,16 +425,13 @@ export class GameDetailComponent implements OnInit {
         // Remove the local player in the game object
         // Iterate for each game quarter
         for (let needReplaceIndexC = 0; needReplaceIndexC < this.qtrDeadInjArray.home.length; needReplaceIndexC++) {
-            console.log('Replacinig home', this.qtrDeadInjArray.home[needReplaceIndexC]);
             // Replace out the unable to play player
             this.qtr[1].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = null;
             this.qtr[2].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = null;
             this.qtr[3].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = null;
             this.qtr[4].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = null;
             for (let k = 8; k < 12; k++) {
-                console.log('attempting to find replacement for index', this.qtrDeadInjArray.home[needReplaceIndexC], 'as', this.qtr[1].homePlayers[k]);
                 if (this.qtr[1].homePlayers[k] && this.qtrDeadInjArray.home[needReplaceIndexC]) {
-                    console.log('success')
                     this.qtr[1].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = this.qtr[1].homePlayers[k];
                     this.qtr[2].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = this.qtr[2].homePlayers[k];
                     this.qtr[3].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = this.qtr[3].homePlayers[k];
@@ -444,16 +441,13 @@ export class GameDetailComponent implements OnInit {
             }
         }
         for (let needReplaceIndexC = 0; needReplaceIndexC < this.qtrDeadInjArray.away.length; needReplaceIndexC++) {
-            console.log('Replacinig away', this.qtrDeadInjArray.home[needReplaceIndexC]);
             // Replace out the unable to play player
             this.qtr[1].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = null;
             this.qtr[2].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = null;
             this.qtr[3].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = null;
             this.qtr[4].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = null;
             for (let k = 8; k < 12; k++) {
-                console.log('attempting to find replacement for index', this.qtrDeadInjArray.away[needReplaceIndexC], 'as', this.qtr[1].awayPlayers[k]);
                 if (this.qtr[1].awayPlayers[k] && this.qtrDeadInjArray.away[needReplaceIndexC]) {
-                    console.log('success')
                     this.qtr[1].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = this.qtr[1].awayPlayers[k];
                     this.qtr[2].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = this.qtr[2].awayPlayers[k];
                     this.qtr[3].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = this.qtr[3].awayPlayers[k];
