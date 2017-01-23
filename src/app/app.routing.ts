@@ -9,6 +9,7 @@ import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';
 import { SignupComponent } from './account/signup/signup.component';
 import { HomeComponent } from './home/home.component';
+import { LeagueComponent } from './league/league.component';
 import { MyPlayersComponent } from './my/players/my-players.component';
 import { MyTeamComponent } from './my/team/my-team.component';
 import { MyOverviewComponent } from './my/my-overview.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
     { path: 'home/team/team', component: MyTeamComponent },
     { path: 'home/team', component: MyOverviewComponent },
     { path: 'about', component: AboutComponent },
+    { path: 'league', component: LeagueComponent },
     { path: 'market', component: MarketComponent },
     { path: 'login', component: LoginComponent },
     { path: 'logout', component: LogoutComponent },

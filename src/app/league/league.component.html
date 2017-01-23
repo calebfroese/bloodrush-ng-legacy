@@ -1,0 +1,27 @@
+<ng-container *ngIf="leagues">
+    <h1 class="title">Your Leagues</h1>
+    <section *ngFor="let league of leagues" class="section">
+        <div class="container">
+            <h1 class="title">League</h1>
+            <div class="columns">
+                <div class="column">
+                    {{league.name}}
+                </div>
+            </div>
+        </div>
+    </section>
+</ng-container>
+<hr>
+<ng-container *ngIf="allLeagues">
+    <h1 class="title">All Leagues</h1>
+    <section *ngFor="let league of allLeagues" class="section">
+        <div class="container">
+            <h1 class="title">League</h1>
+            <div class="columns">
+                <div class="column">
+                    {{league.name}}
+                </div>
+            </div>
+        </div>
+    </section>
+</ng-container>
