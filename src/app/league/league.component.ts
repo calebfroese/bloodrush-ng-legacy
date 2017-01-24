@@ -32,7 +32,7 @@ export class LeagueComponent implements OnInit {
         this.mongo.run('leagues', 'addTeam', { teamId: this.acc.loggedInAccount.team._id, leagueId: id })
             .then(() => {
                 console.log('Successfully enrolled!');
-                this.acc.loadLeagues(); // refresh the saved leagues
+                this.acc.loadLeagues(); // refresh the local saved leagues
             })
             .catch(err => {
                 debugger;
@@ -43,9 +43,8 @@ export class LeagueComponent implements OnInit {
      */
     create(isPublic: boolean, name: string): void {
         this.mongo.run('leagues', 'create', { name: name, public: isPublic, ownerId: this.acc.loggedInAccount.team._id })
-            .then(newLeague => {
-                console.log('Successfully created a league!');
-                this.acc.loadLeagues(); // refresh the saved leagues
+            .then(() => {
+                this.acc.loadLeagues(); // refresh the local saved leagues
             })
             .catch(err => {
                 debugger;

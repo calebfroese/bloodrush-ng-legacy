@@ -1,38 +1,40 @@
-<ng-container *ngIf="acc.loggedInAccount.leagues">
-    <h1 class="title">Enrolled Leagues</h1>
-    <section *ngFor="let league of acc.loggedInAccount.leagues" class="section">
-        <div class="container">
-            <h1 class="title">League</h1>
+<section class="section">
+    <div class="container">
+        <h1 class="title">Enrolled Leagues</h1>
+        <ng-container *ngFor="let league of acc.loggedInAccount.leagues">
+            <h2 class="title">{{league.name}}</h2>
             <div class="columns">
                 <div class="column">
-                    {{league.name}}
+                    Owner: {{league.ownerId}}
+                    <br> Public: {{league.public}}
                 </div>
             </div>
-        </div>
-    </section>
-</ng-container>
-<hr>
-<ng-container *ngIf="allLeagues">
-    <h1 class="title">All Leagues</h1>
-    <section *ngFor="let league of allLeagues" class="section">
-        <div class="container">
-            <h1 class="title">League</h1>
+        </ng-container>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <h1 class="title">All Leagues</h1>
+        <ng-container *ngFor="let league of allLeagues">
+            <h2 class="title">{{league.name}}</h2>
             <div class="columns">
                 <div class="column">
-                    {{league.name}}
+                    Owner: {{league.ownerId}}
+                    <br> Public: {{league.public}}
+                    <br>
                     <button (click)="enroll(league._id)">Enroll</button>
                 </div>
             </div>
-        </div>
-    </section>
-</ng-container>
+        </ng-container>
+    </div>
+</section>
 <section class="section">
     <div class="container">
         <div class="columns">
             <div class="column">
                 <input [(ngModel)]="newLeague.name" type="text">
                 <input [(ngModel)]="newLeague.public" type="checkbox">
-                    <button (click)="create(newLeague.public, newLeague.name)">Create</button>
+                <button (click)="create(newLeague.public, newLeague.name)">Create</button>
             </div>
         </div>
     </div>
