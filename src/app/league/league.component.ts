@@ -7,23 +7,45 @@ import { AccountService } from './../shared/account.service';
     templateUrl: './league.component.html'
 })
 export class LeagueComponent implements OnInit {
-    leagues: any;
     allLeagues: any;
+    newLeague = {
+        public: true,
+        name: ''
+    };
 
     constructor(private mongo: MongoService, private acc: AccountService) { }
 
     ngOnInit(): void {
-        this.mongo.run('leagues', 'allByTeam', { teamId: this.acc.loggedInAccount.team._id })
-            .then(leagues => {
-                this.leagues = leagues;
+        this.mongo.run('leagues', 'allPublic', {})
+            .then(allLeagues => {
+                console.log(allLeagues);
+                this.allLeagues = allLeagues;
             })
             .catch(err => {
                 debugger;
             });
-        this.mongo.run('leagues', 'all', {})
-            .then(allLeagues => {
-                console.log(allLeagues);
-                this.allLeagues = allLeagues;
+    }
+    /**
+     * Enrolls a user in a league
+     */
+    enroll(id: string): void {
+        this.mongo.run('leagues', 'addTeam', { teamId: this.acc.loggedInAccount.team._id, leagueId: id })
+            .then(() => {
+                console.log('Successfully enrolled!');
+                this.acc.loadLeagues(); // refresh the saved leagues
+            })
+            .catch(err => {
+                debugger;
+            });
+    }
+    /**
+     * Creates a league with you as the owner
+     */
+    create(isPublic: boolean, name: string): void {
+        this.mongo.run('leagues', 'create', { name: name, public: isPublic, ownerId: this.acc.loggedInAccount.team._id })
+            .then(newLeague => {
+                console.log('Successfully created a league!');
+                this.acc.loadLeagues(); // refresh the saved leagues
             })
             .catch(err => {
                 debugger;

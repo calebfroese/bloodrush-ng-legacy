@@ -1,6 +1,6 @@
-<ng-container *ngIf="leagues">
-    <h1 class="title">Your Leagues</h1>
-    <section *ngFor="let league of leagues" class="section">
+<ng-container *ngIf="acc.loggedInAccount.leagues">
+    <h1 class="title">Enrolled Leagues</h1>
+    <section *ngFor="let league of acc.loggedInAccount.leagues" class="section">
         <div class="container">
             <h1 class="title">League</h1>
             <div class="columns">
@@ -20,8 +20,20 @@
             <div class="columns">
                 <div class="column">
                     {{league.name}}
+                    <button (click)="enroll(league._id)">Enroll</button>
                 </div>
             </div>
         </div>
     </section>
 </ng-container>
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <input [(ngModel)]="newLeague.name" type="text">
+                <input [(ngModel)]="newLeague.public" type="checkbox">
+                    <button (click)="create(newLeague.public, newLeague.name)">Create</button>
+            </div>
+        </div>
+    </div>
+</section>

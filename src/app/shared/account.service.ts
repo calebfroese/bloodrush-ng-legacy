@@ -4,9 +4,9 @@ import { MongoService } from './../mongo/mongo.service';
 
 @Injectable()
 export class AccountService {
-    loggedInAccount: any = { };
+    loggedInAccount: any = {};
 
-    constructor(private mongo: MongoService) { 
+    constructor(private mongo: MongoService) {
         // If localstorage account, fetch it
         if (localStorage.getItem('_id')) {
             // TODO better auth than guessing an _id.......
@@ -34,6 +34,16 @@ export class AccountService {
             })
             .then(team => {
                 this.loggedInAccount.team = team;
+                this.loadLeagues();
+            })
+
+            .catch(err => { debugger; });
+    }
+    
+    loadLeagues(): void {
+        this.mongo.run('leagues', 'allByTeam', { teamId: this.loggedInAccount.team._id })
+            .then(leagues => {
+                this.loggedInAccount.leagues = leagues;
             })
             .catch(err => { debugger; });
     }
