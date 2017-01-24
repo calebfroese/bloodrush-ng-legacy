@@ -30,7 +30,7 @@ export class LeagueDetailComponent implements OnInit {
         });
     }
 
-  /**
+   /**
     * Enrolls a user in a league
     */
     enroll(id: string): void {
