@@ -7,6 +7,8 @@
                 <div class="column">
                     Owner: {{league.ownerId}}
                     <br> Public: {{league.public}}
+                    <br>
+                    <button (click)="view(league._id)" class="button is-primary">View</button>
                 </div>
             </div>
         </ng-container>
@@ -22,7 +24,9 @@
                     Owner: {{league.ownerId}}
                     <br> Public: {{league.public}}
                     <br>
-                    <button (click)="enroll(league._id)">Enroll</button>
+                    <button (click)="enroll(league._id)" class="button is-primary">Enroll</button>
+                    <br>
+                    <button (click)="view(league._id)" class="button is-primary">View</button>
                 </div>
             </div>
         </ng-container>
@@ -34,7 +38,7 @@
             <div class="column">
                 <input [(ngModel)]="newLeague.name" type="text">
                 <input [(ngModel)]="newLeague.public" type="checkbox">
-                <button (click)="create(newLeague.public, newLeague.name)">Create</button>
+                <button (click)="create(newLeague.public, newLeague.name)" class="button is-primary">Create</button>
             </div>
         </div>
     </div>

@@ -178,7 +178,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let team of teams; let i = index;" (click)="this.router.navigate(['/team/' + team._id]);">
+                        <tr *ngFor="let team of teams; let i = index;" (click)="this.router.navigate(['/teams/' + team._id]);">
                             <td>{{i + 1}}</td>
                             <td>{{team.acronym}}</td>
                             <td>{{team.name}}</td>

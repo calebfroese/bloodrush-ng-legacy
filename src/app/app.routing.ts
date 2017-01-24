@@ -10,6 +10,7 @@ import { LoginComponent } from './account/login/login.component';
 import { SignupComponent } from './account/signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { LeagueComponent } from './league/league.component';
+import { LeagueDetailComponent } from './league/league-detail.component';
 import { MyPlayersComponent } from './my/players/my-players.component';
 import { MyTeamComponent } from './my/team/my-team.component';
 import { MyOverviewComponent } from './my/my-overview.component';
@@ -23,13 +24,14 @@ const routes: Routes = [
     { path: 'home/team/team', component: MyTeamComponent },
     { path: 'home/team', component: MyOverviewComponent },
     { path: 'about', component: AboutComponent },
-    { path: 'league', component: LeagueComponent },
+    { path: 'leagues', component: LeagueComponent },
+    { path: 'leagues/:leagueId', component: LeagueDetailComponent },
     { path: 'market', component: MarketComponent },
     { path: 'login', component: LoginComponent },
     { path: 'logout', component: LogoutComponent },
     { path: 'signup', component: SignupComponent },
-    { path: 'season', component: SeasonComponent },
-    { path: 'team/:teamId', component: TeamDetailComponent },
+    { path: 'seasons', component: SeasonComponent },
+    { path: 'teams/:teamId', component: TeamDetailComponent },
     { path: 'season/:seasonNumber/:gameId', component: GameDetailComponent }
 ];
 @NgModule({

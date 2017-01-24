@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MongoService } from './../mongo/mongo.service';
 import { AccountService } from './../shared/account.service';
@@ -13,7 +14,7 @@ export class LeagueComponent implements OnInit {
         name: ''
     };
 
-    constructor(private mongo: MongoService, private acc: AccountService) { }
+    constructor(private mongo: MongoService, private acc: AccountService, private router: Router) { }
 
     ngOnInit(): void {
         this.mongo.run('leagues', 'allPublic', {})
@@ -25,6 +26,7 @@ export class LeagueComponent implements OnInit {
                 debugger;
             });
     }
+
     /**
      * Enrolls a user in a league
      */
@@ -38,6 +40,7 @@ export class LeagueComponent implements OnInit {
                 debugger;
             });
     }
+
     /**
      * Creates a league with you as the owner
      */
@@ -49,5 +52,9 @@ export class LeagueComponent implements OnInit {
             .catch(err => {
                 debugger;
             });
+    }
+
+    view(id: string): void {
+        this.router.navigate([`/leagues/${id}`]);
     }
 }

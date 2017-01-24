@@ -12,13 +12,14 @@ import { GameDetailComponent } from './season/game/game-detail.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { LeagueComponent } from './league/league.component';
+import { LeagueDetailComponent } from './league/league-detail.component';
+import { LogoutComponent } from './account/logout/logout.component';
+import { LoginComponent } from './account/login/login.component';
+import { MongoService } from './mongo/mongo.service';
 import { MyPlayersComponent } from './my/players/my-players.component';
 import { MyTeamComponent } from './my/team/my-team.component';
 import { MyOverviewComponent } from './my/my-overview.component';
 import { MarketComponent } from './market/market.component';
-import { LogoutComponent } from './account/logout/logout.component';
-import { LoginComponent } from './account/login/login.component';
-import { MongoService } from './mongo/mongo.service';
 import { TeamDetailComponent } from './team/team-detail.component';
 import { SeasonComponent } from './season/season.component';
 import { SignupComponent } from './account/signup/signup.component';
@@ -30,6 +31,7 @@ import { SignupComponent } from './account/signup/signup.component';
     FooterComponent,
     HomeComponent,
     LeagueComponent,
+    LeagueDetailComponent,
     MarketComponent,
     MyPlayersComponent,
     MyTeamComponent,
