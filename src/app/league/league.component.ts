@@ -28,20 +28,6 @@ export class LeagueComponent implements OnInit {
     }
 
     /**
-     * Enrolls a user in a league
-     */
-    enroll(id: string): void {
-        this.mongo.run('leagues', 'addTeam', { teamId: this.acc.loggedInAccount.team._id, leagueId: id })
-            .then(() => {
-                console.log('Successfully enrolled!');
-                this.acc.loadLeagues(); // refresh the local saved leagues
-            })
-            .catch(err => {
-                debugger;
-            });
-    }
-
-    /**
      * Creates a league with you as the owner
      */
     create(isPublic: boolean, name: string): void {

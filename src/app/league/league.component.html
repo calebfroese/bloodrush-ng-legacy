@@ -1,8 +1,9 @@
 <section class="section">
     <div class="container">
-        <h1 class="title">Enrolled Leagues</h1>
+        <h1 class="title">Leagues</h1>
+        <h2 class="title">Enrolled Leagues</h2>
         <ng-container *ngFor="let league of acc.loggedInAccount.leagues">
-            <h2 class="title">{{league.name}}</h2>
+            <h3 class="title">{{league.name}}</h3>
             <div class="columns">
                 <div class="column">
                     Owner: {{league.ownerId}}
@@ -16,9 +17,9 @@
 </section>
 <section class="section">
     <div class="container">
-        <h1 class="title">All Leagues</h1>
+        <h2 class="title">All Leagues</h2>
         <ng-container *ngFor="let league of allLeagues">
-            <h2 class="title">{{league.name}}</h2>
+            <h3 class="title">{{league.name}}</h3>
             <div class="columns">
                 <div class="column">
                     Owner: {{league.ownerId}}
@@ -36,6 +37,8 @@
     <div class="container">
         <div class="columns">
             <div class="column">
+                <hr>
+                <h2 class="title">Create League</h2>
                 <input [(ngModel)]="newLeague.name" type="text">
                 <input [(ngModel)]="newLeague.public" type="checkbox">
                 <button (click)="create(newLeague.public, newLeague.name)" class="button is-primary">Create</button>

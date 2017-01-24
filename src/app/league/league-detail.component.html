@@ -1,5 +1,21 @@
-MORE INFO ABVOUT LEAVE
-<br>
-Name: {{league.name}}
-<br>
-Public: {{league.public}}
+<section *ngIf="league" class="section">
+    <div class="container">
+        <h1 class="title">{{league.name}}</h1>
+        <div class="columns">
+            <div class="column">
+                Owner: {{league.ownerId}}
+                <br> Public: {{league.public}}
+                <br>
+                <h4 class="title">Teams</h4>
+                <div *ngFor="let team of league.teams">{{team}}</div>
+                <br>
+                <h4 class="title">Seasons</h4>
+                <ng-container *ngIf="seasons">
+                    <div *ngFor="let season of seasons">{{season}}</div>
+                </ng-container>
+                <br>
+                <button (click)="view(league._id)" class="button is-primary">View</button>
+            </div>
+        </div>
+    </div>
+</section>
