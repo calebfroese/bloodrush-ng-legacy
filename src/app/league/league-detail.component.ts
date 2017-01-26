@@ -48,4 +48,16 @@ export class LeagueDetailComponent implements OnInit {
                 debugger;
             });
     }
+
+    generateSeason(): void {
+        if(!this.leagueId) return;
+        this.mongo.run('leagues', 'generateSeason', {_id: this.leagueId})
+        .then(res => {
+            alert('Season generated');
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Error!' + err);
+        });
+    }
 }

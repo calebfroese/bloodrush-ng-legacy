@@ -8,8 +8,8 @@
                 <br>
                 <h4 class="title">Teams</h4>
                 <div *ngFor="let team of league.teams">
-                    {{team}}
-                    &nbsp;<b *ngIf="league.ownerId === team">OWNER</b>
+                    {{team}} &nbsp;
+                    <b *ngIf="league.ownerId === team">OWNER</b>
                 </div>
                 <br>
                 <h4 class="title">Seasons</h4>
@@ -17,7 +17,10 @@
                     <div *ngFor="let season of seasons">{{season}}</div>
                 </ng-container>
                 <br>
-                <button *ngIf="acc.loggedInAccount.team && league.teams.indexOf(acc.loggedInAccount.team._id) === -1" (click)="enroll(league._id)" class="button is-primary">Enroll</button>
+                <ng-container *ngIf="acc.loggedInAccount.team">
+                    <button *ngIf="league.teams.indexOf(acc.loggedInAccount.team._id) === -1" (click)="enroll(league._id)" class="button is-primary">Enroll</button>
+                    <button *ngIf="acc.loggedInAccount.team._id === league.ownerId" (click)="generateSeason()" class="button is-primary">Generate Season</button>
+                </ng-container>
             </div>
         </div>
     </div>
