@@ -23,7 +23,7 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let team of teams; let i = index;" (click)="router.navigate(['/teams/' + team._id]);">
-                                        <td>#1</td>
+                                        <td>{{i + 1}}</td>
                                         <td>{{team.team.acronym}}</td>
                                         <td>{{team.team.name}}</td>
                                         <td>{{team.pts}}</td>
