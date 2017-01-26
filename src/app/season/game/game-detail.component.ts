@@ -110,11 +110,7 @@ export class GameDetailComponent implements OnInit {
                 });
         });
     }
-
-    runGame() {
-        this.mongo.run('games', 'runGame', { 'seasonNumber': this.seasonNumber, 'gameNumber': this.gameId });
-    }
-
+    
     checkCanvasThenInit(): void {
         setTimeout(() => {
             if (this.gameCanvas && this.cDiv) {
