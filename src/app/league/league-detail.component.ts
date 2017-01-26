@@ -18,26 +18,32 @@ export class LeagueDetailComponent implements OnInit {
         // Load the league specified
         this.route.params.forEach((params: Params) => {
             this.leagueId = params['leagueId'];
-            this.mongo.run('leagues', 'oneById', { _id: this.leagueId })
-                .then(league => {
-                    this.league = league;
-                    return this.mongo.run('seasons', 'allByLeague', { leagueId: this.leagueId });
-                })
-                .then(seasons => this.seasons)
-                .catch(err => {
-                    debugger;
-                });
+            this.fetchLeague();
         });
     }
 
-   /**
-    * Enrolls a user in a league
-    */
+    fetchLeague(): void {
+        if(!this.leagueId) return;
+        this.mongo.run('leagues', 'oneById', { _id: this.leagueId })
+            .then(league => {
+                this.league = league;
+                return this.mongo.run('seasons', 'allByLeague', { leagueId: this.leagueId });
+            })
+            .then(seasons => this.seasons)
+            .catch(err => {
+                debugger;
+            });
+    }
+
+    /**
+     * Enrolls a user in a league
+     */
     enroll(id: string): void {
         this.mongo.run('leagues', 'addTeam', { teamId: this.acc.loggedInAccount.team._id, leagueId: id })
             .then(() => {
                 console.log('Successfully enrolled!');
                 this.acc.loadLeagues(); // refresh the local saved leagues
+                this.fetchLeague();
             })
             .catch(err => {
                 debugger;

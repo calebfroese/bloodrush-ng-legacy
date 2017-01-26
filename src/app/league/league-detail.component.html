@@ -14,7 +14,7 @@
                     <div *ngFor="let season of seasons">{{season}}</div>
                 </ng-container>
                 <br>
-                <button (click)="enroll(league._id)" class="button is-primary">Enroll</button>
+                <button *ngIf="acc.loggedInAccount.team && league.teams.indexOf(acc.loggedInAccount.team._id) === -1" (click)="enroll(league._id)" class="button is-primary">Enroll</button>
             </div>
         </div>
     </div>
