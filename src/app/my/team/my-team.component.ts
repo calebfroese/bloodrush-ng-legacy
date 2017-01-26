@@ -49,7 +49,6 @@ export class MyTeamComponent {
         this.options = {
             url: Config.imgUrl + 'file/' + this.acc.loggedInAccount.team._id
         };
-        console.log(this.acc.loggedInAccount.team);
         this.team = this.acc.loggedInAccount.team;
         // Defaults
         let defaultStyles = [
@@ -149,7 +148,6 @@ export class MyTeamComponent {
             for (let i = 0; i < defaultStyles.length; i++) {
                 // Increments for each default style
                 if (savedStyle.name === defaultStyles[i].name) {
-                    console.log('overwriting', defaultStyles[i].name)
                     defaultStyles[i] = savedStyle;
                 }
             }
@@ -218,7 +216,6 @@ export class MyTeamComponent {
     }
 
     editPart(i: number): void {
-        console.log(i)
         this.partEditIndex = i;
         this.picker = this.team.style[i].color;
         this.colorChange();
@@ -248,13 +245,11 @@ export class MyTeamComponent {
         });
         // TODO button update only not settimeout
         setTimeout(() => {
-            console.log('Drawing to canvas')
             this.drawCanvas();
         }, 8000);
     }
 
     drawCanvas() {
-        console.log('drawing stack');
         this.context.clearRect(0, 0, this.playerPreviewCanvas.nativeElement.width, this.playerPreviewCanvas.nativeElement.height);
         // Draw the image stack
         this.images.forEach(img => {
@@ -285,6 +280,7 @@ export class MyTeamComponent {
                     // Play
                     this.playerPreviewCanvas.nativeElement.width = Config.playerImgWidth;
                     this.playerPreviewCanvas.nativeElement.height = Config.playerImgHeight;
+                    this.updateCanvas();
                 } else {
                     setTimeout(() => {
                         this.initCanvas();

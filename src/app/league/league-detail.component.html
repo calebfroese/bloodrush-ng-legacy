@@ -7,7 +7,10 @@
                 <br> Public: {{league.public}}
                 <br>
                 <h4 class="title">Teams</h4>
-                <div *ngFor="let team of league.teams">{{team}}</div>
+                <div *ngFor="let team of league.teams">
+                    {{team}}
+                    &nbsp;<b *ngIf="league.ownerId === team">OWNER</b>
+                </div>
                 <br>
                 <h4 class="title">Seasons</h4>
                 <ng-container *ngIf="seasons">
