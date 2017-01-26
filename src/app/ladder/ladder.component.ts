@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 
 import { MongoService } from './../mongo/mongo.service';
 
@@ -11,7 +11,7 @@ export class LadderComponent implements OnInit {
     @Input() seasonNumber: string;
     teams: any = [];
 
-    constructor(private mongo: MongoService) { }
+    constructor(private mongo: MongoService, private zone: NgZone) { }
 
     ngOnInit(): void {
         // Load the teams
@@ -22,7 +22,6 @@ export class LadderComponent implements OnInit {
         if (!this.leagueId) return;
         this.mongo.run('leagues', 'oneById', { _id: this.leagueId })
             .then(league => {
-                console.log(league);
                 league.teams.forEach(teamId => {
                     this.mongo.run('teams', 'oneById', { _id: teamId })
                         .then(team => {
@@ -40,6 +39,7 @@ export class LadderComponent implements OnInit {
                                         pts: this.calculatePoints(teamScore)
                                     };
                                     this.teams.push(t);
+                                    this.sortByPoints();
                                 });
                         });
                 });
@@ -58,5 +58,20 @@ export class LadderComponent implements OnInit {
         if (!teamScore.t) teamScore.t = 0;
 
         return (teamScore.w * 2) + teamScore.t;
+    }
+
+    sortByPoints(): void {
+        // Sorts the array by points
+        let arr = this.teams;
+        arr.sort((a: any, b: any) => {
+            if (b.pts < a.pts) {
+                return -1;
+            } else if (b.pts > a.pts) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        this.teams = arr;
     }
 }

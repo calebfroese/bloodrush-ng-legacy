@@ -1,4 +1,4 @@
-<section *ngIf="teams" class="section">
+<section *ngIf="teams && teams.length > 0" class="section">
     <div class="container">
         <div class="columns">
             <div class="column">
@@ -23,7 +23,7 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let team of teams; let i = index;" (click)="router.navigate(['/teams/' + team._id]);">
-                                        <td>{{i + 1}}</td>
+                                        <td></td>
                                         <td>{{team.team.acronym}}</td>
                                         <td>{{team.team.name}}</td>
                                         <td>{{team.pts}}</td>
