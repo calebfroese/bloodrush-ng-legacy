@@ -1,44 +1,4 @@
-<section *ngIf="season" class="section">
-    <div class="container">
-        <h1 class="title">Season {{season.number}}</h1>
-        <div class="columns">
-            <div class="column">
-                <h2 class="title">Ladder</h2>
-                <hr>
-                <div class="container">
-                    <div class="columns">
-                        <div class="column">
-                            <table class="u-full-width">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th>Name</th>
-                                        <th>Wins</th>
-                                        <th>Losses</th>
-                                        <th>W/L Ratio</th>
-                                        <th>Games Played</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let team of teams; let i = index;" (click)="router.navigate(['/teams/' + team._id]);">
-                                        <td>{{i + 1}}</td>
-                                        <td>{{team.acronym}}</td>
-                                        <td>{{team.name}}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<bloodrush-ladder *ngIf="season" [leagueId]="season.leagueId"></bloodrush-ladder>
 <section *ngIf="season" class="section">
     <div class="container">
         <div class="columns">

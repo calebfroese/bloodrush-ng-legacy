@@ -1,0 +1,40 @@
+<section *ngIf="teams" class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h2 class="title">Ladder</h2>
+                <hr>
+                <div class="container">
+                    <div class="columns">
+                        <div class="column">
+                            <table class="u-full-width">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Wins</th>
+                                        <th>Losses</th>
+                                        <th>W/L Ratio</th>
+                                        <th>Games Played</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let team of teams; let i = index;" (click)="router.navigate(['/teams/' + team._id]);">
+                                        <td>#1</td>
+                                        <td>{{team.team.acronym}}</td>
+                                        <td>{{team.team.name}}</td>
+                                        <td>{{team.score.w}}</td>
+                                        <td>{{team.score.l}}</td>
+                                        <td>{{team.score.w / team.score.l}}</td>
+                                        <td>{{team.score.gp}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

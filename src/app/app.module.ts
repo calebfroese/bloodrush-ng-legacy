@@ -11,6 +11,7 @@ import { AppRouting } from './app.routing';
 import { GameDetailComponent } from './season/game/game-detail.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
+import { LadderComponent } from './ladder/ladder.component';
 import { LeagueComponent } from './league/league.component';
 import { LeagueDetailComponent } from './league/league-detail.component';
 import { LogoutComponent } from './account/logout/logout.component';
@@ -30,6 +31,7 @@ import { SignupComponent } from './account/signup/signup.component';
     AppComponent,
     FooterComponent,
     HomeComponent,
+    LadderComponent,
     LeagueComponent,
     LeagueDetailComponent,
     MarketComponent,

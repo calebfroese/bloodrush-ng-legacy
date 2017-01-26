@@ -159,37 +159,6 @@
     </div>
 </section>
 <!--Ladder-->
-<section *ngIf="season && teams" class="section">
-    <div class="container">
-        <h3 class="title">Ladder</h3>
-        <hr>
-        <div class="columns">
-            <div class="column">
-                <table class="u-full-width">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Wins</th>
-                            <th>Losses</th>
-                            <th>W/L Ratio</th>
-                            <th>Games Played</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let team of teams; let i = index;" (click)="this.router.navigate(['/teams/' + team._id]);">
-                            <td>{{i + 1}}</td>
-                            <td>{{team.acronym}}</td>
-                            <td>{{team.name}}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</section>
+<div *ngIf="acc.loggedInAccount.leagues && acc.loggedInAccount.leagues[0] && acc.loggedInAccount.leagues[0]._id">
+    <bloodrush-ladder [leagueId]="acc.loggedInAccount.leagues[0]._id" [seasonNumber]="1"></bloodrush-ladder>
+</div>
