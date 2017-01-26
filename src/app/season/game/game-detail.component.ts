@@ -15,6 +15,11 @@ import { MongoService } from './../../mongo/mongo.service';
     `]
 })
 export class GameDetailComponent implements OnInit {
+    // UI STUFF
+    gameTime: string;
+    startsIn: string;
+
+    // GAME STUFF
     isBye: boolean = false;
     nonByeTeam: string; // index of the team that is not null
     // Params
@@ -88,14 +93,17 @@ export class GameDetailComponent implements OnInit {
                                     this.away = { name: 'Bye' };
                                     this.bye = 'away';
                                 }
-                                // Game has been played
                                 this.data = this.season.games[this.gameId].data;
                                 if (this.season.games[this.gameId].data.live) {
+                                    // Game has been played
                                     this.preloadImages()
                                         .then(() => {
                                             // Images are loaded
                                             this.checkCanvasThenInit();
                                         });
+                                } else {
+                                    // Game has not been played
+                                    this.preGame();
                                 }
                             })
                             .catch(err => {
@@ -110,7 +118,25 @@ export class GameDetailComponent implements OnInit {
                 });
         });
     }
-    
+
+    preGame(): void {
+        let duration = moment.duration(moment(this.game.date).diff(moment()));
+        this.gameTime = moment(this.game.date).format('LLLL');
+        // Calculate the time it starts in
+        let seconds = duration.asSeconds();
+        if (seconds > 604800) {
+            this.startsIn = Math.floor(duration.asWeeks()).toString() + ' weeks';
+        } else if (seconds > 86400) {
+            this.startsIn = Math.floor(duration.asDays()).toString() + ' days';
+        } else if (seconds > 3600) {
+            this.startsIn = Math.floor(duration.asHours()).toString() + ' hours';
+        } else if (seconds > 60) {
+            this.startsIn = Math.floor(duration.asHours()).toString() + ' minutes';
+        } else {
+            this.startsIn = Math.floor(seconds) + ' seconds';
+        }
+    }
+
     checkCanvasThenInit(): void {
         setTimeout(() => {
             if (this.gameCanvas && this.cDiv) {
@@ -317,7 +343,7 @@ export class GameDetailComponent implements OnInit {
         if (!oPlayers[playerPos.targetIndex] || playerPos.targetIndex && oPlayers[playerPos.targetIndex].scored['qtr' + this.qtrNum] === true) {
             playerPos.targetIndex = null;
         }
-        
+
         if (playerPos.targetIndex !== null && oPos[playerPos.targetIndex] && oPlayers[playerPos.targetIndex] && !oPlayers[playerPos.targetIndex].down) {
             // Target is alive, check if nearby enough to attack
             let a = playerPos.x - oPos[playerPos.targetIndex].x;

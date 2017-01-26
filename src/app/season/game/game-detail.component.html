@@ -3,7 +3,13 @@
         <h1 class="title">{{home.name}} vs {{away.name}}</h1>
         <div class="columns">
             <div class="column is-12">
-                Round: #{{game.round}} <br> Date: {{game.date | date}} <br>
+                Round: #{{game.round}}
+                <div *ngIf="gameTime">
+                    Date: {{gameTime}}
+                </div>
+                <div *ngIf="gameTime">
+                    Starts in {{startsIn}}
+                </div>
             </div>
         </div>
     </div>
