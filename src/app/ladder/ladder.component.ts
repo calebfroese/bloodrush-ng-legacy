@@ -35,13 +35,20 @@ export class LadderComponent implements OnInit {
                                 .then(teamScore => {
                                     let t = {
                                         team: team,
-                                        score: teamScore
+                                        score: teamScore,
+                                        ratio: this.calculateRatio(teamScore)
                                     };
-                                    console.log(teamScore)
                                     this.teams.push(t);
                                 });
                         });
                 });
             });
+    }
+
+    calculateRatio(teamScore: any): number {
+        if (!teamScore.w) teamScore.w = 0;
+        if (!teamScore.t) teamScore.t = 0;
+        if (!teamScore.l) return (teamScore.w + (teamScore.t / 2));
+        return teamScore.w + (teamScore.t / 2) / teamScore.l;
     }
 }

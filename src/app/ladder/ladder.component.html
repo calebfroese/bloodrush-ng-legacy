@@ -15,6 +15,7 @@
                                         <th>Name</th>
                                         <th>Wins</th>
                                         <th>Losses</th>
+                                        <th>Ties</th>
                                         <th>W/L Ratio</th>
                                         <th>Games Played</th>
                                     </tr>
@@ -26,7 +27,8 @@
                                         <td>{{team.team.name}}</td>
                                         <td>{{team.score.w}}</td>
                                         <td>{{team.score.l}}</td>
-                                        <td>{{team.score.w / team.score.l}}</td>
+                                        <td>{{team.score.t}}</td>
+                                        <td>{{team.ratio}}</td>
                                         <td>{{team.score.gp}}</td>
                                     </tr>
                                 </tbody>
