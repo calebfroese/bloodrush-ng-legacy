@@ -250,11 +250,7 @@ export class MyTeamComponent {
         setTimeout(() => {
             console.log('Drawing to canvas')
             this.drawCanvas();
-        }, 3000);
-        setTimeout(() => {
-            console.log('Updating colors')
-            this.updateCanvas();
-        }, 10000);
+        }, 8000);
     }
 
     drawCanvas() {
@@ -289,7 +285,6 @@ export class MyTeamComponent {
                     // Play
                     this.playerPreviewCanvas.nativeElement.width = Config.playerImgWidth;
                     this.playerPreviewCanvas.nativeElement.height = Config.playerImgHeight;
-                    this.updateCanvas();
                 } else {
                     setTimeout(() => {
                         this.initCanvas();
