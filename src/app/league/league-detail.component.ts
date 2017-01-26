@@ -23,7 +23,7 @@ export class LeagueDetailComponent implements OnInit {
     }
 
     fetchLeague(): void {
-        if(!this.leagueId) return;
+        if (!this.leagueId) return;
         this.mongo.run('leagues', 'oneById', { _id: this.leagueId })
             .then(league => {
                 this.league = league;
@@ -45,19 +45,20 @@ export class LeagueDetailComponent implements OnInit {
                 this.fetchLeague(); // refresh the league to display the user as enrolled in
             })
             .catch(err => {
-                debugger;
+                console.error(err);
+                alert('Error!' + err);
             });
     }
 
     generateSeason(): void {
-        if(!this.leagueId) return;
-        this.mongo.run('leagues', 'generateSeason', {_id: this.leagueId})
-        .then(res => {
-            alert('Season generated');
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Error!' + err);
-        });
+        if (!this.leagueId) return;
+        this.mongo.run('leagues', 'generateSeason', { _id: this.leagueId })
+            .then(res => {
+                alert('Season generated');
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Error!' + err);
+            });
     }
 }
