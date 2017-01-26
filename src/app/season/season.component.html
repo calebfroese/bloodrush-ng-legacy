@@ -25,7 +25,7 @@
                         </table>
                         <div class="media">
                             <div class="media-left">
-                                <figure class="image is-128x128">
+                                <figure class="image is-64x64">
                                     <img *ngIf="game.home.hasImg === true && game.home._id" src="{{config.imgUrl}}teamlogos/{{game.home._id}}.png">
                                     <img *ngIf="!game.home._id" src="{{config.imgUrl}}teamlogos/bye.png">
                                     <img *ngIf="game.home.hasImg !== true && game.home._id" src="{{config.imgUrl}}teamlogos/default.png">
@@ -37,14 +37,15 @@
                                 <small>11:00 AM - {{game.date | date:['MMM d']}}</small>
                             </div>
                             <div class="media-right">
-                                <figure class="image is-128x128">
+                                <figure class="image is-64x64">
                                     <img *ngIf="game.away.hasImg === true && game.away._id" src="{{config.imgUrl}}teamlogos/{{game.away._id}}.png">
                                     <img *ngIf="!game.away._id" src="{{config.imgUrl}}teamlogos/bye.png">
                                     <img *ngIf="game.away.hasImg !== true && game.away._id" src="{{config.imgUrl}}teamlogos/default.png">
                                 </figure>
                             </div>
                         </div>
-                        <footer class="card-footer">
+                        <!--Display a view button if there is no byes-->
+                        <footer *ngIf="game.home._id && game.away._id" class="card-footer">
                             <a routerLink="/season/{{season.number}}/{{i}}" class="card-footer-item">View</a>
                         </footer>
                     </div>
