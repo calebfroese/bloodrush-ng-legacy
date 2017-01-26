@@ -41,9 +41,8 @@ export class LeagueDetailComponent implements OnInit {
     enroll(id: string): void {
         this.mongo.run('leagues', 'addTeam', { teamId: this.acc.loggedInAccount.team._id, leagueId: id })
             .then(() => {
-                console.log('Successfully enrolled!');
                 this.acc.loadLeagues(); // refresh the local saved leagues
-                this.fetchLeague();
+                this.fetchLeague(); // refresh the league to display the user as enrolled in
             })
             .catch(err => {
                 debugger;
