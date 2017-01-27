@@ -9,14 +9,14 @@ import { AccountService } from './../shared/account.service';
 })
 export class LeagueComponent implements OnInit {
     allLeagues: any = [];
-    enroledLeagues: any = [];
+    enrolledLeagues: any = [];
 
     constructor(private mongo: MongoService, private acc: AccountService, private router: Router) { }
 
     ngOnInit(): void {
         if (this.acc.loggedInAccount.leagues) {
-            this.enroledLeagues = this.acc.loggedInAccount.leagues;
-            this.getOwnerName(this.enroledLeagues, 'enroledLeagues');
+            this.enrolledLeagues = this.acc.loggedInAccount.leagues;
+            this.getOwnerName(this.enrolledLeagues, 'enrolledLeagues');
         } else {
             console.log('No acconts for leagues! on on')
         }
