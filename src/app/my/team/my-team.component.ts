@@ -46,6 +46,7 @@ export class MyTeamComponent {
     ) { }
 
     ngOnInit(): void {
+        if (!this.acc.loggedInAccount.team._id) return;
         // Upon page init, load the team data
         this.options = {
             url: Config[environment.envName].imgUrl + 'file/' + this.acc.loggedInAccount.team._id
@@ -197,7 +198,7 @@ export class MyTeamComponent {
             return;
         }
         this.team.init = true;
-        this.acc.loggedInAccount.team = this.team;
+        this.team = this.team;
         // Submit to mongo
         this.mongo.run('teams', 'saveMyTeam', { team: this.team }).then(response => {
             if (response.error) {
