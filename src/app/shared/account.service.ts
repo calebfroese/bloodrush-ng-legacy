@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, Headers } from '@angular/http';
 
 import { MongoService } from './../mongo/mongo.service';
 import { Config } from './../shared/config';
@@ -7,6 +7,9 @@ import { environment } from './../../environments/environment';
 
 @Injectable()
 export class AccountService {
+    sessionId: string;
+    userId: string;
+    user: any;
     loggedInAccount: any = {
         _id: null,
         team: {
@@ -25,10 +28,24 @@ export class AccountService {
         }
     }
 
+    auth(): string {
+        return '?access_token=' + this.sessionId;
+    }
+
     login(username: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${Config[environment.envName].apiUrl}/accounts/login`, { 'username': username, 'password': password }).subscribe(response => {
-                reject(response);
+            this.http.post(`${Config[environment.envName].apiUrl}/Users/login`, { username: username, password: password }).subscribe((response: any) => {
+                // Set the session id
+                this.sessionId = JSON.parse(response._body).id;
+                this.userId = JSON.parse(response._body).userId;
+                resolve(this.userId);
+            });
+        }).then(userId => {
+            return new Promise((resolve, reject) => {
+                this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}${this.auth()}`).subscribe((response: any) => {
+                    this.user = JSON.parse(response._body);
+                    resolve();
+                });
             });
         });
     }
@@ -43,13 +60,19 @@ export class AccountService {
 
     signup(user: any, team: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
-                'username': user.username,
-                'email': user.email,
-                'password': user.password
-            }).subscribe(response => {
-                console.log(response);
-                resolve(response);
+            // Create a team
+            this.http.post(`${Config[environment.envName].apiUrl}/teams`, {
+                name: team.name,
+                acronym: team.acronym
+            }).subscribe(() => {
+                // Create a user
+                this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
+                    username: user.username,
+                    email: user.email,
+                    password: user.password
+                }).subscribe(response => {
+                    resolve(response);
+                });
             });
         });
     }

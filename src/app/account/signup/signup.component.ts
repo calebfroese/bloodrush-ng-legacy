@@ -34,7 +34,7 @@ export class SignupComponent {
             email: val.email
         }, {
                 acronym: val.acronym,
-                teamName: val.teamName
+                name: val.teamName
             }).then(response => {
                 if (response.error) {
                     alert(response.error);
