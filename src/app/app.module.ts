@@ -21,9 +21,11 @@ import { MyPlayersComponent } from './my/players/my-players.component';
 import { MyTeamComponent } from './my/team/my-team.component';
 import { MyOverviewComponent } from './my/my-overview.component';
 import { MarketComponent } from './market/market.component';
+import { TeamStatsComponent } from './team-stats/team-stats.component';
 import { TeamDetailComponent } from './team/team-detail.component';
 import { SeasonComponent } from './season/season.component';
 import { SignupComponent } from './account/signup/signup.component';
+import { ScoreService } from './shared/score.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { SignupComponent } from './account/signup/signup.component';
     MyTeamComponent,
     MyOverviewComponent,
     GameDetailComponent,
+    TeamStatsComponent,
     TeamDetailComponent,
     SignupComponent,
     SeasonComponent,
@@ -55,7 +58,8 @@ import { SignupComponent } from './account/signup/signup.component';
   ],
   providers: [
     MongoService,
-    AccountService
+    AccountService,
+    ScoreService
   ],
   bootstrap: [
     AppComponent,
