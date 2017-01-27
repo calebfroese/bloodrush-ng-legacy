@@ -25,8 +25,9 @@ export class AccountService {
         return new Promise((resolve, reject) => {
             this.http.post(`${Config[environment.envName].apiUrl}/Users/login`, { username: username, password: password }).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((response: any) => {
                 // Set the session id
-                this.api.sessionId = JSON.parse(response).id;
-                this.userId = JSON.parse(response).userId;
+                this.api.sessionId = response.id;
+                this.userId = response.userId;
+                localStorage.setItem('userId', this.userId);
                 resolve(this.userId);
             });
         }).then(userId => {
@@ -36,6 +37,7 @@ export class AccountService {
                     this.user = user;
                     if (user.teamId) {
                         this.teamId = user.teamId;
+                        localStorage.setItem('teamId', this.teamId);
                         console.log('Team id found', this.teamId);
                     } else {
                         console.warn('No team id found for this user!');

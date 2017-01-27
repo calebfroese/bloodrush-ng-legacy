@@ -24,6 +24,7 @@ export class ApiService {
     }
 
     parseJSON(stringJSON: any): any {
+        console.log(JSON.parse(stringJSON));
         return JSON.parse(stringJSON);
     }
 }
