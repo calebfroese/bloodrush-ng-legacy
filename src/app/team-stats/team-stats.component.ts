@@ -12,12 +12,7 @@ export class TeamStatsComponent implements OnInit {
     @Input() leagueId?: string = null;
     @Input() seasonNumber?: number = null;
     @Input() teamId?: string = null;
-    score: any = {
-        w: 0,
-        l: 0,
-        t: 0,
-        gp: 0
-    };
+    score: any;
     ratio: number = 0;
 
 
