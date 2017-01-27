@@ -39,8 +39,8 @@ export class SignupComponent {
                 if (response.error) {
                     alert(response.error);
                 } else if (response.ok) {
-                    
                     alert(`Successfully created an account. Please verify your email address for ${val.teamName} to start playing.`);
+                    this.router.navigate(['/home']);
                 } else {
                     alert('No response');
                 }
