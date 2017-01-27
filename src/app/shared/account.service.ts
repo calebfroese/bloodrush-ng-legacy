@@ -10,7 +10,7 @@ export class AccountService {
             _id: null
         },
         leagues: {
-            
+
         }
     };
 
@@ -30,10 +30,10 @@ export class AccountService {
         });
     }
 
-    setLoginVariables(_id: string): void {
+    setLoginVariables(_id: string): Promise<any> {
         this.loggedInAccount._id = _id;
         // Fetch the rest of the account
-        this.mongo.run('users', 'oneById', { _id: _id })
+        return this.mongo.run('users', 'oneById', { _id: _id })
             .then(user => {
                 this.loggedInAccount = user;
                 localStorage.setItem('_id', _id);
@@ -42,14 +42,13 @@ export class AccountService {
             })
             .then(team => {
                 this.loggedInAccount.team = team;
-                this.loadLeagues();
+                return this.loadLeagues();
             })
-
             .catch(err => { debugger; });
     }
-    
-    loadLeagues(): void {
-        this.mongo.run('leagues', 'allByTeam', { teamId: this.loggedInAccount.team._id })
+
+    loadLeagues(): Promise<any> {
+        return this.mongo.run('leagues', 'allByTeam', { teamId: this.loggedInAccount.team._id })
             .then(leagues => {
                 this.loggedInAccount.leagues = leagues;
             })

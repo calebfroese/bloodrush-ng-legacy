@@ -18,12 +18,13 @@ export class LoginComponent {
 
     constructor(private mongo: MongoService, private router: Router, private acc: AccountService) { }
 
-    onClickSubmit(e: any): void {
-        if (e.value.username && e.value.password) {
-            this.mongo.login(e.value.username, e.value.password)
+    onClickSubmit(val: any): void {
+        if (val.username && val.password) {
+            this.mongo.login(val.username, val.password)
                 .then(response => {
-                    this.acc.setLoginVariables(response._id);
-                    this.router.navigate(['/home']);
+                    this.acc.setLoginVariables(response._id).then(() => {
+                        this.router.navigate(['/home']);
+                    })
                 }).catch(err => {
                     alert(err);
                 });
