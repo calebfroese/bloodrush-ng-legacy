@@ -80,6 +80,6 @@ export class SeasonComponent {
     }
 
     momentify(date: any): string {
-        return moment(date).format('LLLL');
+        return moment(date).format('LLL');
     }
 }
