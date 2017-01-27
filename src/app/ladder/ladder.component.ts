@@ -69,7 +69,22 @@ export class LadderComponent implements OnInit {
             } else if (b.pts > a.pts) {
                 return 1;
             } else {
-                return 0;
+                // Sort by least ties
+                if (b.score.t > a.score.t) {
+                    return -1;
+                } else if (b.score.t < a.score.t) {
+                    return 1;
+                } else {
+                    // Sort by least games played
+                    if (b.score.gp > a.score.gp) {
+                        return -1;
+                    } else if (b.score.gp < a.score.gp) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+
             }
         });
         this.teams = arr;
