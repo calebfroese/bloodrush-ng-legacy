@@ -1,4 +1,4 @@
-<section *ngIf="acc.loggedInAccount.leagues && acc.loggedInAccount.leagues.length > 0" class="section">
+<section *ngIf="enroledLeagues && enroledLeagues.length > 0" class="section">
     <div class="container">
         <h1 class="title">Leagues</h1>
         <h2 class="title">Enrolled Leagues</h2>
@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let league of acc.loggedInAccount.leagues">
+                <tr *ngFor="let league of enroledLeagues">
                     <td>{{league.name}}</td>
                     <td>{{league.public || 'false'}}</td>
                     <td>{{league.ownerName || league.ownerId}}</td>

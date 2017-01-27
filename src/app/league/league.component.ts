@@ -9,13 +9,20 @@ import { AccountService } from './../shared/account.service';
 })
 export class LeagueComponent implements OnInit {
     allLeagues: any = [];
-    
+    enroledLeagues: any = [];
+
     constructor(private mongo: MongoService, private acc: AccountService, private router: Router) { }
 
     ngOnInit(): void {
+        if (this.acc.loggedInAccount.leagues) {
+            this.enroledLeagues = this.acc.loggedInAccount.leagues;
+            this.getOwnerName(this.enroledLeagues, 'enroledLeagues');
+        } else {
+            console.log('No acconts for leagues! on on')
+        }
         this.mongo.run('leagues', 'allPublic', {})
             .then(allLeagues => {
-                this.getOwnerName(allLeagues);
+                this.getOwnerName(allLeagues, 'allLeagues');
                 this.allLeagues = allLeagues;
             })
             .catch(err => {
@@ -27,11 +34,11 @@ export class LeagueComponent implements OnInit {
         this.router.navigate([`/leagues/${id}`]);
     }
 
-    getOwnerName(leagueArr: any[]): void {
-        for (let i = 0; i < leagueArr.length; i++) {
+    getOwnerName(leagueArr: any[], ref: string): void {
+        for(let i = 0; i < leagueArr.length; i++) {
             this.mongo.run('teams', 'oneById', { _id: leagueArr[i].ownerId })
                 .then(team => {
-                    this.allLeagues[i].ownerName = team.name;
+                    this[ref][i].ownerName = team.name;
                 });
         }
     }
