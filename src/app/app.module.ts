@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgUploaderModule } from 'ngx-uploader';
 
+import { ApiService } from './shared/api/api.service';
 import { AboutComponent } from './about/about.component';
 import { AccountService } from './shared/account.service';
 import { AppComponent } from './app.component';
@@ -67,6 +68,7 @@ import { VerifyComponent } from './account/verify/verify.component';
     NgUploaderModule
   ],
   providers: [
+    ApiService,
     MongoService,
     AccountService,
     ScoreService,

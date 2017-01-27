@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
+import 'rxjs/add/operator/map';
 
 import { ApiService } from './api/api.service';
 import { Config } from './../shared/config';
@@ -22,30 +23,32 @@ export class AccountService {
 
     login(username: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${Config[environment.envName].apiUrl}/Users/login`, { username: username, password: password }).subscribe((response: any) => {
+            this.http.post(`${Config[environment.envName].apiUrl}/Users/login`, { username: username, password: password }).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((response: any) => {
                 // Set the session id
-                this.api.sessionId = JSON.parse(response._body).id;
-                this.userId = JSON.parse(response._body).userId;
+                this.api.sessionId = JSON.parse(response).id;
+                this.userId = JSON.parse(response).userId;
                 resolve(this.userId);
             });
         }).then(userId => {
             return new Promise((resolve, reject) => {
                 // Get the user
-                this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}${this.api.auth()}`).subscribe((response: any) => {
-                    this.user = JSON.parse(response._body);
-                    if (response._body.teamId) this.teamId = JSON.parse(response._body.teamId);
+                this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}${this.api.auth()}`).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((user: any) => {
+                    this.user = user;
+                    if (user.teamId) {
+                        this.teamId = user.teamId;
+                        console.log('Team id found', this.teamId);
+                    } else {
+                        console.warn('No team id found for this user!');
+                    }
                     resolve();
                 });
             });
         }).then(() => {
             if (this.teamId) {
-                return new Promise((resolve, reject) => {
-                    // Get the team
-                    this.http.get(`${Config[environment.envName].apiUrl}/teams/${this.teamId}${this.api.auth()}`).subscribe((response: any) => {
-                        this.team = JSON.parse(response._body);
-                        console.log('team is', this.team);
-                        resolve();
-                    });
+                let sub = this.api.run('get', `/teams/${this.teamId}`, {});
+                sub.subscribe((response: any) => {
+                    console.log('Team is', response);
+                    this.team = response._body;
                 });
             }
         });
