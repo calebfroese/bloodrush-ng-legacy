@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import * as moment from 'moment';
 import { environment } from './../../environments/environment';
 import { MongoService } from './../mongo/mongo.service';
 import { Config } from './../shared/config';
@@ -8,15 +9,25 @@ import { Config } from './../shared/config';
 @Component({
     templateUrl: './season.component.html',
     styles: [`
-        .custom-third {
-            width: 33.333%;
+        .team-icon {
+            display: inline-block;
+            vertical-align: middle;
         }
-        .custom-margin {
-            margin-bottom: 20px;
+        .team-icon-parent {
+            margin: 0px 12px 0px 0px;
         }
-        .is-64x64" {
-            width: 64px;
-            height: 64px;
+        table .small {
+            width:auto;
+            text-align:right;
+            white-space: nowrap
+        }
+        table  {
+            border-collapse:collapse;
+            border-spacing:0;
+            width:100%;
+        }
+        .tag {
+            float: right;
         }
     `]
 })
@@ -66,5 +77,9 @@ export class SeasonComponent {
         }).catch(err => {
             debugger;
         });
+    }
+
+    momentify(date: any): string {
+        return moment(date).format('LLLL');
     }
 }

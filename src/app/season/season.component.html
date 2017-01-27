@@ -5,51 +5,48 @@
             <div class="column">
                 <h2 class="title">Games</h2>
                 <hr>
-                <div *ngFor="let game of season.games; let i = index" class="custom-margin">
-                    <div class="card">
-                        <table class="table">
-                            <tr>
-                                <td class="title custom-third has-text-left">{{game.home.name}}</td>
-                                <td class="title custom-third has-text-centered">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Round</th>
+                            <th>Home</th>
+                            <th></th>
+                            <th>Away</th>
+                            <th>Date</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let game of season.games; let i = index">
+                            <tr routerLink="/season/{{season.number}}/{{i}}">
+                                <td class="small">{{game.round}}</td>
+                                <td>
+                                    <figure class="image is-32x32 team-icon-parent team-icon">
+                                        <img *ngIf="game.away.hasImg === true && game.away._id" src="{{config[envName].imgUrl}}teamlogos/{{game.away._id}}.png" class="team-icon">
+                                        <img *ngIf="!game.away._id" src="{{config[envName].imgUrl}}teamlogos/bye.png" class="team-icon">
+                                        <img *ngIf="game.away.hasImg !== true && game.away._id" src="{{config[envName].imgUrl}}teamlogos/default.png" class="team-icon">
+                                    </figure>{{game.away.name}}
+                                </td>
+                                <td class="small">@</td>
+                                <td>
+                                    <figure class="image is-32x32 team-icon-parent team-icon">
+                                        <img *ngIf="game.home.hasImg === true && game.home._id" src="{{config[envName].imgUrl}}teamlogos/{{game.home._id}}.png" class="team-icon">
+                                        <img *ngIf="!game.home._id" src="{{config[envName].imgUrl}}teamlogos/bye.png" class="team-icon">
+                                        <img *ngIf="game.home.hasImg !== true && game.home._id" src="{{config[envName].imgUrl}}teamlogos/default.png" class="team-icon">
+                                    </figure>{{game.home.name}}
+                                </td>
+                                <td>{{momentify(game.date)}}</td>
+                                <td>
                                     <ng-container *ngIf="game.data.live">
-                                        {{game.data.live.homeScore}}
-                                        &nbsp;
-                                        <ng-container *ngIf="game.data.live.isLive"><span class="tag is-danger is-large">QUARTER {{game.data.live.quarter}}</span></ng-container>
-                                        <ng-container *ngIf="!game.data.live.isLive">-</ng-container>
-                                        &nbsp;
-                                        {{game.data.live.awayScore}}
+                                        {{game.data.live.homeScore}} &nbsp;-
+                                        &nbsp; {{game.data.live.awayScore}}&nbsp;
+                                        <ng-container *ngIf="game.data.live.isLive"><span class="tag is-danger is-medium">QTR {{game.data.live.quarter}}</span></ng-container>
                                     </ng-container>
                                 </td>
-                                <td class="title custom-third has-text-right">{{game.away.name}}</td>
                             </tr>
-                        </table>
-                        <div class="media">
-                            <div class="media-left">
-                                <figure class="image is-64x64">
-                                    <img *ngIf="game.home.hasImg === true && game.home._id" src="{{config[envName].imgUrl}}teamlogos/{{game.home._id}}.png">
-                                    <img *ngIf="!game.home._id" src="{{config[envName].imgUrl}}teamlogos/bye.png">
-                                    <img *ngIf="game.home.hasImg !== true && game.home._id" src="{{config[envName].imgUrl}}teamlogos/default.png">
-                                </figure>
-                            </div>
-                            <div class="media-content">
-                                Round #{{game.round}}
-                                <br>
-                                <small>11:00 AM - {{game.date | date:['MMM d']}}</small>
-                            </div>
-                            <div class="media-right">
-                                <figure class="image is-64x64">
-                                    <img *ngIf="game.away.hasImg === true && game.away._id" src="{{config[envName].imgUrl}}teamlogos/{{game.away._id}}.png">
-                                    <img *ngIf="!game.away._id" src="{{config[envName].imgUrl}}teamlogos/bye.png">
-                                    <img *ngIf="game.away.hasImg !== true && game.away._id" src="{{config[envName].imgUrl}}teamlogos/default.png">
-                                </figure>
-                            </div>
-                        </div>
-                        <!--Display a view button if there is no byes-->
-                        <footer *ngIf="game.home._id && game.away._id" class="card-footer">
-                            <a routerLink="/season/{{season.number}}/{{i}}" class="card-footer-item">View</a>
-                        </footer>
-                    </div>
-                </div>
+                        </ng-container>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
