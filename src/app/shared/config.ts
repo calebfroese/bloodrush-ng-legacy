@@ -1,6 +1,6 @@
 import { environment } from './../../environments/environment';
 
-export var Config = {
+export const Config = {
     dev: {
         apiUrl: 'http://localhost:3000/query',
         imgUrl: 'http://localhost:3000/',
@@ -8,8 +8,8 @@ export var Config = {
         playerImgHeight: 430
     },
     prod: {
-        apiUrl: 'http://bloodrush.xyz:3000/query',
-        imgUrl: 'http://bloodrush.xyz:3000/',
+        apiUrl: 'http://api.bloodrush.xyz:3000/query',
+        imgUrl: 'http://api.bloodrush.xyz:3000/',
         playerImgWidth: 280,
         playerImgHeight: 430
     }
