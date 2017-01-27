@@ -22,10 +22,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let team of teams; let i = index;" (click)="router.navigate(['/teams/' + team._id]);">
+                                    <tr *ngFor="let team of teams; let i = index;">
                                         <td>{{i + 1}}</td>
                                         <td>{{team.team.acronym}}</td>
-                                        <td>{{team.team.name}}</td>
+                                        <td>
+                                            <a routerLink="/teams/{{team.team._id}}">
+                                            {{team.team.name}}
+                                            </a>
+                                        </td>
                                         <td>{{team.pts}}</td>
                                         <td>{{team.score.w}}</td>
                                         <td>{{team.score.l}}</td>

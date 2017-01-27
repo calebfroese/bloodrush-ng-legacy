@@ -1,19 +1,21 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { MongoService } from './../mongo/mongo.service';
 import { ScoreService } from './../shared/score.service';
 
 @Component({
     selector: 'bloodrush-ladder',
-    templateUrl: './ladder.component.html'
+    templateUrl: './ladder.component.html',
+    styles: [`
+        .team { cursor: pointer }
+    `]
 })
 export class LadderComponent implements OnInit {
     @Input() leagueId: string;
     @Input() seasonNumber: string;
     teams: any = [];
 
-    constructor(private mongo: MongoService, private zone: NgZone, private scoreService: ScoreService, private router: Router) { }
+    constructor(private mongo: MongoService, private zone: NgZone, private scoreService: ScoreService) { }
 
     ngOnInit(): void {
         // Load the teams
