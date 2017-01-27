@@ -12,11 +12,11 @@
         </div>
     </div>
 </section>
-<bloodrush-team-stats></bloodrush-team-stats>
-<ng-container *ngIf="acc.loggedInAccount.leagues && acc.loggedInAccount.leagues[0] && acc.loggedInAccount.leagues[0]._id">
-    <bloodrush-ladder [leagueId]="acc.loggedInAccount.leagues[0]._id" [seasonNumber]="1"></bloodrush-ladder>
-    <bloodrush-team-players [teamId]="acc.loggedInAccount.team._id"></bloodrush-team-players>
-</ng-container>
+<!--<bloodrush-team-stats></bloodrush-team-stats>
+<ng-container *ngIf="acc.team.leagues && acc.team.leagues[0] && acc.team.leagues[0].id">
+    <bloodrush-ladder [leagueId]="acc.team.leagues[0].id" [seasonNumber]="1"></bloodrush-ladder>
+    <bloodrush-team-players [teamId]="acc.team.id"></bloodrush-team-players>
+</ng-container>-->
 <!--Recent and upcoming games-->
 <!--<section *ngIf="season" class="section">
     <div class="container">

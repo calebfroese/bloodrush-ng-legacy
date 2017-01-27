@@ -24,14 +24,14 @@ export class LeagueCreateComponent {
      * Creates a league with you as the owner
      */
     create(val: any): void {
-        this.mongo.run('leagues', 'create', { name: val.name, public: val.public, ownerId: this.acc.loggedInAccount.team._id })
-            .then(() => {
-                this.acc.loadLeagues(); // refresh the local saved leagues
-                console.log('Successfully created league!');
-                this.router.navigate(['/leagues']);
-            })
-            .catch(err => {
-                debugger;
-            });
+        // this.mongo.run('leagues', 'create', { name: val.name, public: val.public, ownerId: this.acc.team.id })
+        //     .then(() => {
+        //         this.acc.loadLeagues(); // refresh the local saved leagues
+        //         console.log('Successfully created league!');
+        //         this.router.navigate(['/leagues']);
+        //     })
+        //     .catch(err => {
+        //         debugger;
+        //     });
     }
 }

@@ -19,13 +19,13 @@ export class TeamStatsComponent implements OnInit {
     constructor(private mongo: MongoService, private acc: AccountService, private scoreService: ScoreService) { }
 
     ngOnInit(): void {
-        if (!this.acc.loggedInAccount.leagues || !this.acc.loggedInAccount.leagues[0]) return;
+        if (!this.acc.team.leagues || !this.acc.team.leagues[0]) return;
         // Defaults
         if (!this.leagueId) {
-            this.leagueId = this.acc.loggedInAccount.leagues[0]._id;
+            this.leagueId = this.acc.team.leagues[0].id;
         }
         if (!this.teamId) {
-            this.teamId = this.acc.loggedInAccount.team._id;
+            this.teamId = this.acc.team.id;
         }
 
         // Load the team stats

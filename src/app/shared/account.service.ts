@@ -48,7 +48,7 @@ export class AccountService {
                     // Get the team
                     this.http.get(`${Config[environment.envName].apiUrl}/teams/${this.teamId}${this.auth()}`).subscribe((response: any) => {
                         this.team = JSON.parse(response._body);
-                        console.log('team is', this.team)
+                        console.log('team is', this.team);
                         resolve();
                     });
                 });

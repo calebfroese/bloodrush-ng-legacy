@@ -46,12 +46,12 @@ export class MyTeamComponent {
     ) { }
 
     ngOnInit(): void {
-        if (!this.acc.loggedInAccount.team._id) return;
+        if (!this.acc.team.id) return;
         // Upon page init, load the team data
         this.options = {
-            url: Config[environment.envName].imgUrl + 'file/' + this.acc.loggedInAccount.team._id
+            url: Config[environment.envName].imgUrl + 'file/' + this.acc.team.id
         };
-        this.team = this.acc.loggedInAccount.team;
+        this.team = this.acc.team;
         // Defaults
         let defaultStyles = [
             {

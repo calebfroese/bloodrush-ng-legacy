@@ -14,8 +14,8 @@ export class LeagueComponent implements OnInit {
     constructor(private mongo: MongoService, private acc: AccountService, private router: Router) { }
 
     ngOnInit(): void {
-        if (this.acc.loggedInAccount.leagues) {
-            this.enrolledLeagues = this.acc.loggedInAccount.leagues;
+        if (this.acc.team.leagues) {
+            this.enrolledLeagues = this.acc.team.leagues;
             this.getOwnerName(this.enrolledLeagues, 'enrolledLeagues');
         } else {
             console.log('No acconts for leagues! on on')
