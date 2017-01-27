@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
 
 import { MongoService } from './../mongo/mongo.service';
+import { Config } from './../shared/config';
+import { environment } from './../../environments/environment';
 
 @Injectable()
 export class AccountService {
@@ -14,7 +17,7 @@ export class AccountService {
         }
     };
 
-    constructor(private mongo: MongoService) {
+    constructor(private mongo: MongoService, private http: Http) {
         // If localstorage account, fetch it
         if (localStorage.getItem('_id')) {
             // TODO better auth than guessing an _id.......
@@ -22,11 +25,32 @@ export class AccountService {
         }
     }
 
+    login(username: string, password: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post(`${Config[environment.envName].apiUrl}/accounts/login`, { 'username': username, 'password': password }).subscribe(response => {
+                reject(response);
+            });
+        });
+    }
+
     logout(): Promise<any> {
         return new Promise((resolve, reject) => {
             localStorage.clear();
             this.loggedInAccount = {};
             resolve(true);
+        });
+    }
+
+    signup(user: any, team: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
+                'username': user.username,
+                'email': user.email,
+                'password': user.password
+            }).subscribe(response => {
+                console.log(response);
+                resolve(response);
+            });
         });
     }
 

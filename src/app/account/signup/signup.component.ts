@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 
 import { FormService } from './../../shared/forms/form.service';
-import { MongoService } from './../../mongo/mongo.service';
+import { AccountService } from './../../shared/account.service';
 import { CustomValidators } from './../../shared/forms/custom-validators';
 
 @Component({
@@ -22,13 +22,13 @@ export class SignupComponent {
         name: '',
     };
 
-    constructor(private router: Router, private mongo: MongoService, private formService: FormService) {
+    constructor(private router: Router, private formService: FormService, private acc: AccountService) {
         this.form = this.formService.signupForm();
     }
 
     onClickSubmit(val: any): void {
         // Submit to mongo
-        this.mongo.signup({
+        this.acc.signup({
             username: val.username,
             password: val.password,
             email: val.email
