@@ -1,5 +1,5 @@
 <bloodrush-my-team-nav></bloodrush-my-team-nav>
-<section class="section">
+<section *ngIf="acc.loggedInAccount.team" class="section">
     <div class="container">
         <h1 class="title">Team</h1>
         <div class="columns">
@@ -9,15 +9,15 @@
                 <p class="control">
                     <input type="file" ngFileSelect [options]="options" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)">
                 </p>
-                <img class="image is-128x128" src="{{imgUrl}}/teamlogos/{{team._id}}.png?a={{rndCache}}">
+                <img class="image is-128x128" src="{{imgUrl}}/teamlogos/{{team._id}}.png?a={{rndCache}}" onError="this.src='/assets/img/logo.png';">
                 <h3 class="title">Team Details</h3>
                 <label class="label">Acronym</label>
                 <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="acc.loggedInAccount.team.acronym" class="input" type="text" placeholder="e.g. ADEL" id="acronym" maxlength="4">
+                    <input [(ngModel)]="acc.loggedInAccount.team.acronym" class="input" type="text" placeholder="e.g. ADEL" maxlength="4">
                 </p>
                 <label class="label">Name</label>
                 <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="acc.loggedInAccount.team.name" class="input" type="text" placeholder="enter a team name" id="teamName"
+                    <input [(ngModel)]="acc.loggedInAccount.team.name" class="input" type="text" placeholder="enter a team name"
                         maxlength="20">
                 </p>
             </div>
