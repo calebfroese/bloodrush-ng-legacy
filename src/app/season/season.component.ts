@@ -14,6 +14,10 @@ import { Config } from './../shared/config';
         .custom-margin {
             margin-bottom: 20px;
         }
+        .is-64x64" {
+            width: 64px;
+            height: 64px;
+        }
     `]
 })
 export class SeasonComponent {
