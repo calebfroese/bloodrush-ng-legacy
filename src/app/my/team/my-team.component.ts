@@ -196,6 +196,7 @@ export class MyTeamComponent {
             alert('Team name must be at least 3 characters');
             return;
         }
+        this.team.init = true;
         this.acc.loggedInAccount.team = this.team;
         // Submit to mongo
         this.mongo.run('teams', 'saveMyTeam', { team: this.team }).then(response => {

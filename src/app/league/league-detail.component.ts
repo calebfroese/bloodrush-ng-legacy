@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute } from '@angular/router';
 
+import { environment } from './../../environments/environment';
+import { Config } from './../shared/config';
 import { MongoService } from './../mongo/mongo.service';
 import { AccountService } from './../shared/account.service';
 
@@ -39,6 +41,12 @@ export class LeagueDetailComponent implements OnInit {
      * Enrolls a user in a league
      */
     enroll(id: string): void {
+        // Make sure the user cannot enrol if they have not yet created team colours
+        if (!this.acc.loggedInAccount.team.init) {
+            alert('You cannot enrol in a league until you have set your team colors and logo.');
+            return;
+        }
+
         this.mongo.run('leagues', 'addTeam', { teamId: this.acc.loggedInAccount.team._id, leagueId: id })
             .then(() => {
                 this.acc.loadLeagues(); // refresh the local saved leagues
