@@ -239,6 +239,7 @@ export class MyTeamComponent {
             if (sty.base || sty.selected) {
                 // Send a request to the server
                 this.mongo.run('images', 'createPart', { style: sty, teamId: this.team._id });
+                tempSrcImgs.push(`${Config[environment.envName].imgUrl}temp/player/${this.team._id}/frame1/${sty.name}-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`);
             }
         });
         setTimeout(() => {
@@ -248,7 +249,10 @@ export class MyTeamComponent {
                 this.images.push(i);
             });
             this.drawCanvas();
-        }, 4000);
+            setTimeout(() => {
+                this.drawCanvas();
+            }, 100);
+        }, 2000);
     }
 
     drawCanvas() {
