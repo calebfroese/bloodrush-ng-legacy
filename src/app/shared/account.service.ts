@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Rx';
 
 import { ApiService } from './api/api.service';
 import { Config } from './../shared/config';
@@ -59,27 +61,24 @@ export class AccountService {
     logout(): Promise<any> {
         return new Promise((resolve, reject) => {
             localStorage.clear();
+            this.team = this.user = this.userId = this.teamId = null;
             resolve(true);
         });
     }
 
-    signup(user: any, team: any): Promise<any> {
-        return new Promise((resolve, reject) => {
-            // Create a team
-            this.http.post(`${Config[environment.envName].apiUrl}/teams`, {
-                name: team.name,
-                acronym: team.acronym
-            }).subscribe(() => {
-                // Create a user
-                this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
-                    username: user.username,
-                    email: user.email,
-                    password: user.password
-                }).subscribe(response => {
-                    resolve(response);
-                });
+    signup(user: any, team: any): Observable<any> {
+        // Create a team
+        return this.http.post(`${Config[environment.envName].apiUrl}/teams`, {
+            name: team.name,
+            acronym: team.acronym
+        }).switchMap(() => {
+            // Create a user
+            return this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
+                username: user.username,
+                email: user.email,
+                password: user.password
             });
-        });
+        }).map(() => { return null; });
     }
 
     // setLoginVariables(_id: string): Promise<any> {
