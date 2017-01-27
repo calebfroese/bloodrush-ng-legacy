@@ -1,34 +1,48 @@
-<section class="section">
+<section *ngIf="acc.loggedInAccount.leagues && acc.loggedInAccount.leagues.length > 0" class="section">
     <div class="container">
         <h1 class="title">Leagues</h1>
         <h2 class="title">Enrolled Leagues</h2>
-        <ng-container *ngFor="let league of acc.loggedInAccount.leagues">
-            <h3 class="title">{{league.name}}</h3>
-            <div class="columns">
-                <div class="column">
-                    Owner: {{league.ownerId}}
-                    <br> Public: {{league.public}}
-                    <br>
-                    <button (click)="view(league._id)" class="button is-primary">View</button>
-                </div>
-            </div>
-        </ng-container>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Public</th>
+                    <th>Owner</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let league of acc.loggedInAccount.leagues">
+                    <td>{{league.name}}</td>
+                    <td>{{league.public || 'false'}}</td>
+                    <td>{{league.ownerName || league.ownerId}}</td>
+                    <td style="text-align: right;"><button (click)="view(league._id)" class="button is-primary">View</button></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </section>
-<section class="section">
+<section *ngIf="allLeagues && allLeagues.length > 0" class="section">
     <div class="container">
         <h2 class="title">All Leagues</h2>
-        <ng-container *ngFor="let league of allLeagues">
-            <h3 class="title">{{league.name}}</h3>
-            <div class="columns">
-                <div class="column">
-                    Owner: {{league.ownerId}}
-                    <br> Public: {{league.public}}                    
-                    <br>
-                    <button (click)="view(league._id)" class="button is-primary">View</button>
-                </div>
-            </div>
-        </ng-container>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Public</th>
+                    <th>Owner</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let league of allLeagues">
+                    <td>{{league.name}}</td>
+                    <td>{{league.public || 'false'}}</td>
+                    <td>{{league.ownerName || league.ownerId}}</td>
+                    <td style="text-align: right;"><button (click)="view(league._id)" class="button is-primary">View</button></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </section>
 <section class="section">

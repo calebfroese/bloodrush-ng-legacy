@@ -8,7 +8,7 @@ import { AccountService } from './../shared/account.service';
     templateUrl: './league.component.html'
 })
 export class LeagueComponent implements OnInit {
-    allLeagues: any;
+    allLeagues: any = [];
     newLeague = {
         public: true,
         name: ''
@@ -19,7 +19,7 @@ export class LeagueComponent implements OnInit {
     ngOnInit(): void {
         this.mongo.run('leagues', 'allPublic', {})
             .then(allLeagues => {
-                console.log(allLeagues);
+                this.getOwnerName(allLeagues);
                 this.allLeagues = allLeagues;
             })
             .catch(err => {
@@ -42,5 +42,14 @@ export class LeagueComponent implements OnInit {
 
     view(id: string): void {
         this.router.navigate([`/leagues/${id}`]);
+    }
+
+    getOwnerName(leagueArr: any[]): void {
+        for (let i = 0; i < leagueArr.length; i++) {
+            this.mongo.run('teams', 'oneById', { _id: leagueArr[i].ownerId })
+                .then(team => {
+                    this.allLeagues[i].ownerName = team.name;
+                });
+        }
     }
 }
