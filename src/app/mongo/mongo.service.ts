@@ -18,7 +18,6 @@ export class MongoService {
     }
 
     signup(user: any, team: any): Promise<any> {
-        console.log('signing up with', `${Config[environment.envName].apiUrl}/accounts/login`)
         return new Promise((resolve, reject) => {
             this.http.post(`${Config[environment.envName].apiUrl}/accounts/signup`, { 'user': user, 'team': team }).subscribe(response => {
                 let reply = this.extractData(response);

@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
 import { GameDetailComponent } from './season/game/game-detail.component';
 import { FooterComponent } from './footer/footer.component';
+import { FormService } from './shared/forms/form.service';
+import { FormConfig } from './shared/forms/form.config';
 import { HomeComponent } from './home/home.component';
 import { LadderComponent } from './ladder/ladder.component';
 import { LeagueComponent } from './league/league.component';
@@ -27,6 +29,7 @@ import { TeamDetailComponent } from './team/team-detail.component';
 import { SeasonComponent } from './season/season.component';
 import { SignupComponent } from './account/signup/signup.component';
 import { ScoreService } from './shared/score.service';
+import { VerifyComponent } from './account/verify/verify.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,8 @@ import { ScoreService } from './shared/score.service';
     SignupComponent,
     SeasonComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    VerifyComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +65,9 @@ import { ScoreService } from './shared/score.service';
   providers: [
     MongoService,
     AccountService,
-    ScoreService
+    ScoreService,
+    FormService,
+    FormConfig
   ],
   bootstrap: [
     AppComponent,

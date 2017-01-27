@@ -3,33 +3,39 @@
         <h1 class="title">Signup</h1>
         <div class="columns">
             <div class="column is-12">
-                <label class="label">Username</label>
-                <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="user.username" class="input" type="text" placeholder="enter a username" id="username" maxlength="20">
-                </p>
-                <label class="label">Email</label>
-                <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="user.email" class="input" type="email" placeholder="enter a email" id="email" maxlength="40">
-                </p>
-                <label class="label">Password</label>
-                <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="user.password" class="input" type="password" placeholder="enter a password" id="password" maxlength="40">
-                </p>
-                <label class="label">Confirm Password</label>
-                <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="user.passwordconf" class="input" type="password" placeholder="confirm password" id="passwordconf" maxlength="40">
-                </p>
-                <h3 class="title">Team Details</h3>
-                <label class="label">Acronym</label>
-                <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="team.acronym" class="input" type="text" placeholder="e.g. ADEL" id="acronym" maxlength="4">
-                </p>
-                <label class="label">Name</label>
-                <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="team.name" class="input" type="text" placeholder="enter a team name" id="teamName" maxlength="20">
-                </p>
-                <input class="button is-primary" (click)="onClickSubmit()" type="button" value="Submit">
-                <input class="button" (click)="this.router.navigate(['/home'])" type="button" value="Cancel">
+                <form [formGroup]="form" (ngSubmit)="onClickSubmit(form.value)">
+                    <label class="label">Username</label>
+                    <p class="control has-icon has-icon-right">
+                        <input formControlName="username" class="input" type="text" placeholder="enter a username" maxlength="20">
+                    </p>
+                    <label class="label">Email</label>
+                    <p class="control has-icon has-icon-right">
+                        <input formControlName="email" class="input" type="email" placeholder="enter a email" maxlength="40">
+                    </p>
+                    <label class="label">Confirm Email</label>
+                    <p class="control has-icon has-icon-right">
+                        <input formControlName="emailConf" class="input" type="email" placeholder="enter a email" maxlength="40">
+                    </p>
+                    <label class="label">Password</label>
+                    <p class="control has-icon has-icon-right">
+                        <input formControlName="password" class="input" type="password" placeholder="enter a password" maxlength="40">
+                    </p>
+                    <label class="label">Confirm Password</label>
+                    <p class="control has-icon has-icon-right">
+                        <input formControlName="passwordConf" class="input" type="password" placeholder="confirm password" maxlength="40">
+                    </p>
+                    <h3 class="title">Team Details</h3>
+                    <label class="label">Acronym</label>
+                    <p class="control has-icon has-icon-right">
+                        <input formControlName="acronym" class="input" type="text" placeholder="e.g. ADEL" maxlength="4">
+                    </p>
+                    <label class="label">Name</label>
+                    <p class="control has-icon has-icon-right">
+                        <input formControlName="teamName" class="input" type="text" placeholder="enter a team name" maxlength="20">
+                    </p>
+                    <input class="button is-primary" type="submit" value="Submit" [disabled]="!form.valid">
+                    <input class="button" (click)="this.router.navigate(['/home'])" type="button" value="Cancel">
+                </form>
             </div>
         </div>
     </div>

@@ -16,6 +16,7 @@ import { MyTeamComponent } from './my/team/my-team.component';
 import { MyOverviewComponent } from './my/my-overview.component';
 import { TeamDetailComponent } from './team/team-detail.component';
 import { SeasonComponent } from './season/season.component';
+import { VerifyComponent } from './account/verify/verify.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -31,6 +32,7 @@ const routes: Routes = [
     { path: 'logout', component: LogoutComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'seasons', component: SeasonComponent },
+    { path: 'verify/:token', component: VerifyComponent },
     { path: 'teams/:teamId', component: TeamDetailComponent },
     { path: 'season/:seasonNumber/:gameId', component: GameDetailComponent }
 ];
