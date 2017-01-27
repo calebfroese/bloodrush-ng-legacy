@@ -135,14 +135,25 @@ export class GameDetailComponent implements OnInit {
         let seconds = duration.asSeconds();
         if (seconds > 604800) {
             this.startsIn = Math.floor(duration.asWeeks()).toString() + ' weeks';
+            setTimeout(this.preGame, 604800);
         } else if (seconds > 86400) {
-            this.startsIn = Math.floor(duration.asDays()).toString() + ' days';
+            this.startsIn = Math.floor(duration.asSeconds()).toString() + ' days';
+            setTimeout(this.preGame, 60);
         } else if (seconds > 3600) {
             this.startsIn = Math.floor(duration.asHours()).toString() + ' hours';
+            setTimeout(this.preGame, 3600);
         } else if (seconds > 60) {
             this.startsIn = Math.floor(duration.asHours()).toString() + ' minutes';
+            setTimeout(this.preGame, 60);
         } else {
-            this.startsIn = Math.floor(seconds) + ' seconds';
+            if (seconds < 0) {
+                // Start the game!
+                console.log('STARTING THE GAME!!!!');
+                this.ngOnInit();
+            } else {
+                this.startsIn = Math.floor(seconds) + ' seconds';
+                setTimeout(this.preGame(), 60);
+            }
         }
     }
 
