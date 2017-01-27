@@ -15,6 +15,7 @@ import { FormConfig } from './shared/forms/form.config';
 import { HomeComponent } from './home/home.component';
 import { LadderComponent } from './ladder/ladder.component';
 import { LeagueComponent } from './league/league.component';
+import { LeagueCreateComponent } from './league/create/league-create.component';
 import { LeagueDetailComponent } from './league/league-detail.component';
 import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';
@@ -39,6 +40,7 @@ import { VerifyComponent } from './account/verify/verify.component';
     HomeComponent,
     LadderComponent,
     LeagueComponent,
+    LeagueCreateComponent,
     LeagueDetailComponent,
     MarketComponent,
     MyPlayersComponent,

@@ -1,0 +1,14 @@
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h1 class="title">Create League</h1>
+                <form [formGroup]="form" (ngSubmit)="onClickSubmit(form.value)">
+                    <input formControlName="name" type="text">
+                    <input formControlName="public" type="checkbox">
+                    <button type="submit" class="button is-primary">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

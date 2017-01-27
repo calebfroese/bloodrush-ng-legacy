@@ -9,11 +9,7 @@ import { AccountService } from './../shared/account.service';
 })
 export class LeagueComponent implements OnInit {
     allLeagues: any = [];
-    newLeague = {
-        public: true,
-        name: ''
-    };
-
+    
     constructor(private mongo: MongoService, private acc: AccountService, private router: Router) { }
 
     ngOnInit(): void {
@@ -21,19 +17,6 @@ export class LeagueComponent implements OnInit {
             .then(allLeagues => {
                 this.getOwnerName(allLeagues);
                 this.allLeagues = allLeagues;
-            })
-            .catch(err => {
-                debugger;
-            });
-    }
-
-    /**
-     * Creates a league with you as the owner
-     */
-    create(isPublic: boolean, name: string): void {
-        this.mongo.run('leagues', 'create', { name: name, public: isPublic, ownerId: this.acc.loggedInAccount.team._id })
-            .then(() => {
-                this.acc.loadLeagues(); // refresh the local saved leagues
             })
             .catch(err => {
                 debugger;

@@ -1,6 +1,6 @@
 // Angular imports
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 // Custom imports
 import { FormConfig } from './form.config';
@@ -47,13 +47,22 @@ export class FormService {
             Validators.maxLength(this.formConfig.teamName.max)
         ])
     ];
+    // League
+    leagueName = ['',
+        Validators.compose([
+            Validators.required,
+            Validators.minLength(this.formConfig.leagueName.min),
+            Validators.maxLength(this.formConfig.leagueName.max)
+        ])
+    ];
+    leaguePublic = [{ value: true, disabled: false }];
 
     constructor(
         private fb: FormBuilder,
         private formConfig: FormConfig
     ) { }
 
-    signupForm(): any {
+    signupForm(): FormGroup {
         return this.fb.group(
             {
                 email: this.email,
@@ -69,6 +78,15 @@ export class FormService {
                     CustomValidators.fieldsMatch('email', 'emailConf'),
                     CustomValidators.fieldsMatch('password', 'passwordConf')
                 ])
+            }
+        );
+    }
+
+    leagueCreate(): FormGroup {
+        return this.fb.group(
+            {
+                name: this.leagueName,
+                public: this.leaguePublic
             }
         );
     }

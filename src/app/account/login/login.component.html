@@ -3,7 +3,7 @@
         <h1 class="title">Login</h1>
         <div class="columns">
             <div class="column is-12">
-                <form [formGroup]="form" (ngSubmit)="onClickSubmit(form)">
+                <form [formGroup]="form" (ngSubmit)="onClickSubmit(form.value)">
                     <label class="label">Username</label>
                     <p class="control has-icon has-icon-right">
                         <input formControlName="username" class="input" type="text" placeholder="enter username">

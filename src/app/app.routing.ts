@@ -10,6 +10,7 @@ import { LoginComponent } from './account/login/login.component';
 import { SignupComponent } from './account/signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { LeagueComponent } from './league/league.component';
+import { LeagueCreateComponent } from './league/create/league-create.component';
 import { LeagueDetailComponent } from './league/league-detail.component';
 import { MyPlayersComponent } from './my/players/my-players.component';
 import { MyTeamComponent } from './my/team/my-team.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
     { path: 'home/team', component: MyOverviewComponent },
     { path: 'about', component: AboutComponent },
     { path: 'leagues', component: LeagueComponent },
+    { path: 'leagues/create', component: LeagueCreateComponent },
     { path: 'leagues/:leagueId', component: LeagueDetailComponent },
     { path: 'market', component: MarketComponent },
     { path: 'login', component: LoginComponent },

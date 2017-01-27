@@ -8,14 +8,18 @@ export class FormConfig {
     };
     username = {
         min: 3,
-        max: 15
+        max: 25
     };
     teamName = {
         min: 3,
-        max: 15
+        max: 25
     };
     acronym = {
         min: 2,
         max: 4
+    };
+    leagueName = {
+        min: 4,
+        max: 25
     };
 }

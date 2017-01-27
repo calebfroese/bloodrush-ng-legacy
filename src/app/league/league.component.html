@@ -45,16 +45,3 @@
         </table>
     </div>
 </section>
-<section class="section">
-    <div class="container">
-        <div class="columns">
-            <div class="column">
-                <hr>
-                <h2 class="title">Create League</h2>
-                <input [(ngModel)]="newLeague.name" type="text">
-                <input [(ngModel)]="newLeague.public" type="checkbox">
-                <button (click)="create(newLeague.public, newLeague.name)" class="button is-primary">Create</button>
-            </div>
-        </div>
-    </div>
-</section>
