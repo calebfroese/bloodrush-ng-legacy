@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 
-import { MongoService } from './../mongo/mongo.service';
+import { ApiService } from './api/api.service';
 import { Config } from './../shared/config';
 import { environment } from './../../environments/environment';
 
 @Injectable()
 export class AccountService {
-    sessionId: string;
     userId: string;
     teamId: string;
     user: any;
     team: any;
 
-    constructor(private mongo: MongoService, private http: Http) {
+    constructor(private api: ApiService, private http: Http) {
         // If localstorage account, fetch it
         // if (localStorage.getItem('_id')) {
         //     // TODO better auth than guessing an _id.......
@@ -21,22 +20,18 @@ export class AccountService {
         // }
     }
 
-    auth(): string {
-        return '?access_token=' + this.sessionId;
-    }
-
     login(username: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
             this.http.post(`${Config[environment.envName].apiUrl}/Users/login`, { username: username, password: password }).subscribe((response: any) => {
                 // Set the session id
-                this.sessionId = JSON.parse(response._body).id;
+                this.api.sessionId = JSON.parse(response._body).id;
                 this.userId = JSON.parse(response._body).userId;
                 resolve(this.userId);
             });
         }).then(userId => {
             return new Promise((resolve, reject) => {
                 // Get the user
-                this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}${this.auth()}`).subscribe((response: any) => {
+                this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}${this.api.auth()}`).subscribe((response: any) => {
                     this.user = JSON.parse(response._body);
                     if (response._body.teamId) this.teamId = JSON.parse(response._body.teamId);
                     resolve();
@@ -46,7 +41,7 @@ export class AccountService {
             if (this.teamId) {
                 return new Promise((resolve, reject) => {
                     // Get the team
-                    this.http.get(`${Config[environment.envName].apiUrl}/teams/${this.teamId}${this.auth()}`).subscribe((response: any) => {
+                    this.http.get(`${Config[environment.envName].apiUrl}/teams/${this.teamId}${this.api.auth()}`).subscribe((response: any) => {
                         this.team = JSON.parse(response._body);
                         console.log('team is', this.team);
                         resolve();
