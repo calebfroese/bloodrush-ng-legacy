@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
 
 import { MongoService } from './../mongo/mongo.service';
+import { ScoreService } from './../shared/score.service';
 
 @Component({
     selector: 'bloodrush-ladder',
@@ -11,7 +12,7 @@ export class LadderComponent implements OnInit {
     @Input() seasonNumber: string;
     teams: any = [];
 
-    constructor(private mongo: MongoService, private zone: NgZone) { }
+    constructor(private mongo: MongoService, private zone: NgZone, private scoreService: ScoreService) { }
 
     ngOnInit(): void {
         // Load the teams
@@ -35,8 +36,8 @@ export class LadderComponent implements OnInit {
                                     let t = {
                                         team: team,
                                         score: teamScore,
-                                        ratio: this.calculateRatio(teamScore),
-                                        pts: this.calculatePoints(teamScore)
+                                        ratio: this.scoreService.calculateRatio(teamScore),
+                                        pts: this.scoreService.calculatePoints(teamScore)
                                     };
                                     this.teams.push(t);
                                     this.sortByPoints();
@@ -44,20 +45,6 @@ export class LadderComponent implements OnInit {
                         });
                 });
             });
-    }
-
-    calculateRatio(teamScore: any): number {
-        if (!teamScore.w) teamScore.w = 0;
-        if (!teamScore.t) teamScore.t = 0;
-        if (!teamScore.l) return (teamScore.w + (teamScore.t / 2));
-        return teamScore.w + (teamScore.t / 2) / teamScore.l;
-    }
-
-    calculatePoints(teamScore: any): number {
-        if (!teamScore.w) teamScore.w = 0;
-        if (!teamScore.t) teamScore.t = 0;
-
-        return (teamScore.w * 2) + teamScore.t;
     }
 
     sortByPoints(): void {

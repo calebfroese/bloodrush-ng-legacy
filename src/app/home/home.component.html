@@ -12,29 +12,7 @@
         </div>
     </div>
 </section>
-<!--Team stats-->
-<section *ngIf="acc.loggedInAccount._id" class="section">
-    <div class="container">
-        <div class="columns">
-            <div class="column is-one-quarter has-text-centered">
-                <h5 class="title">Wins</h5>
-                {{teamWins}}
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-                <h5 class="title">Losses</h5>
-                {{teamWins}}
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-                <h5 class="title">Ratio</h5>
-                {{teamWins / teamLosses}}
-            </div>
-            <div class="column is-one-quarter has-text-centered">
-                <h5 class="title">Games Played</h5>
-                {{gamesPlayed}}
-            </div>
-        </div>
-    </div>
-</section>
+<bloodrush-team-stats></bloodrush-team-stats>
 <!--Recent and upcoming games-->
 <section *ngIf="season" class="section">
     <div class="container">

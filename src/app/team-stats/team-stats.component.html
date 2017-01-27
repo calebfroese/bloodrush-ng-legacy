@@ -1,0 +1,23 @@
+<!--Team stats-->
+<section *ngIf="score" class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-one-quarter has-text-centered">
+                <h5 class="title">Wins</h5>
+                {{score.w}}
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+                <h5 class="title">Losses</h5>
+                {{score.l}}
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+                <h5 class="title">Ratio</h5>
+                {{ratio}}
+            </div>
+            <div class="column is-one-quarter has-text-centered">
+                <h5 class="title">Games Played</h5>
+                {{score.gp}}
+            </div>
+        </div>
+    </div>
+</section>
