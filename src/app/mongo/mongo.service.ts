@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
 import { Config } from './../shared/config';
+import { environment } from './../../environments/environment';
 
 @Injectable()
 export class MongoService {
@@ -10,15 +11,16 @@ export class MongoService {
 
     run(collection: string, queryname: string, params: any): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${Config.apiUrl}/${collection}/${queryname}`, params).subscribe(response => {
+            this.http.post(`${Config[environment.envName].apiUrl}/${collection}/${queryname}`, params).subscribe(response => {
                 resolve(this.extractData(response));
             });
         });
     }
 
     signup(user: any, team: any): Promise<any> {
+        console.log('signing up with', `${Config[environment.envName].apiUrl}/accounts/login`)
         return new Promise((resolve, reject) => {
-            this.http.post(`${Config.apiUrl}/accounts/signup`, { 'user': user, 'team': team }).subscribe(response => {
+            this.http.post(`${Config[environment.envName].apiUrl}/accounts/signup`, { 'user': user, 'team': team }).subscribe(response => {
                 let reply = this.extractData(response);
                 if (reply.error) {
                     reject(reply.error);
@@ -31,7 +33,7 @@ export class MongoService {
 
     login(username: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${Config.apiUrl}/accounts/login`, { 'username': username, 'password': password }).subscribe(response => {
+            this.http.post(`${Config[environment.envName].apiUrl}/accounts/login`, { 'username': username, 'password': password }).subscribe(response => {
                 let reply = this.extractData(response);
                 if (reply.error) {
                     reject(reply.error);

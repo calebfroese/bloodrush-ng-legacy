@@ -26,9 +26,9 @@
                         <div class="media">
                             <div class="media-left">
                                 <figure class="image is-64x64">
-                                    <img *ngIf="game.home.hasImg === true && game.home._id" src="{{config.imgUrl}}teamlogos/{{game.home._id}}.png">
-                                    <img *ngIf="!game.home._id" src="{{config.imgUrl}}teamlogos/bye.png">
-                                    <img *ngIf="game.home.hasImg !== true && game.home._id" src="{{config.imgUrl}}teamlogos/default.png">
+                                    <img *ngIf="game.home.hasImg === true && game.home._id" src="{{config[envName].imgUrl}}teamlogos/{{game.home._id}}.png">
+                                    <img *ngIf="!game.home._id" src="{{config[envName].imgUrl}}teamlogos/bye.png">
+                                    <img *ngIf="game.home.hasImg !== true && game.home._id" src="{{config[envName].imgUrl}}teamlogos/default.png">
                                 </figure>
                             </div>
                             <div class="media-content">
@@ -38,9 +38,9 @@
                             </div>
                             <div class="media-right">
                                 <figure class="image is-64x64">
-                                    <img *ngIf="game.away.hasImg === true && game.away._id" src="{{config.imgUrl}}teamlogos/{{game.away._id}}.png">
-                                    <img *ngIf="!game.away._id" src="{{config.imgUrl}}teamlogos/bye.png">
-                                    <img *ngIf="game.away.hasImg !== true && game.away._id" src="{{config.imgUrl}}teamlogos/default.png">
+                                    <img *ngIf="game.away.hasImg === true && game.away._id" src="{{config[envName].imgUrl}}teamlogos/{{game.away._id}}.png">
+                                    <img *ngIf="!game.away._id" src="{{config[envName].imgUrl}}teamlogos/bye.png">
+                                    <img *ngIf="game.away.hasImg !== true && game.away._id" src="{{config[envName].imgUrl}}teamlogos/default.png">
                                 </figure>
                             </div>
                         </div>

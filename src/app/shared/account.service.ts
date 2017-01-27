@@ -4,7 +4,15 @@ import { MongoService } from './../mongo/mongo.service';
 
 @Injectable()
 export class AccountService {
-    loggedInAccount: any = {};
+    loggedInAccount: any = {
+        _id: null,
+        team: {
+            _id: null
+        },
+        leagues: {
+            
+        }
+    };
 
     constructor(private mongo: MongoService) {
         // If localstorage account, fetch it

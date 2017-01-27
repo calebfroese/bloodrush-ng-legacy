@@ -57,6 +57,6 @@ export class SignupComponent {
             } else {
                 alert('No response');
             }
-        }).catch(() => alert('Unable to sign up'));
+        }).catch(err => alert(err));
     }
 }

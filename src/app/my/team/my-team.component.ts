@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgUploaderOptions } from 'ngx-uploader';
 
+import { environment } from './../../../environments/environment';
 import { Config } from './../../shared/config';
 import { MongoService } from './../../mongo/mongo.service';
 import { AccountService } from './../../shared/account.service';
@@ -47,7 +48,7 @@ export class MyTeamComponent {
     ngOnInit(): void {
         // Upon page init, load the team data
         this.options = {
-            url: Config.imgUrl + 'file/' + this.acc.loggedInAccount.team._id
+            url: Config[environment.envName].imgUrl + 'file/' + this.acc.loggedInAccount.team._id
         };
         this.team = this.acc.loggedInAccount.team;
         // Defaults
@@ -156,7 +157,7 @@ export class MyTeamComponent {
         this.team.style = defaultStyles;
         this.initCanvas();
         // Image url
-        this.imgUrl = Config.imgUrl;
+        this.imgUrl = Config[environment.envName].imgUrl;
     }
 
     uploadFile: any;
@@ -236,7 +237,7 @@ export class MyTeamComponent {
         this.team.style.forEach(sty => {
             if (sty.base || sty.selected) {
                 // Send a request to the server
-                let partUrl = `${Config.imgUrl}temp/player/${this.team._id}/frame1/${sty.name}-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`;
+                let partUrl = `${Config[environment.envName].imgUrl}temp/player/${this.team._id}/frame1/${sty.name}-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`;
                 this.mongo.run('images', 'createPart', { style: sty, teamId: this.team._id });
                 let img = new Image();
                 img.src = partUrl;
@@ -278,8 +279,8 @@ export class MyTeamComponent {
                 if (this.playerPreviewCanvas) {
                     this.context = CanvasRenderingContext2D = this.playerPreviewCanvas.nativeElement.getContext('2d');
                     // Play
-                    this.playerPreviewCanvas.nativeElement.width = Config.playerImgWidth;
-                    this.playerPreviewCanvas.nativeElement.height = Config.playerImgHeight;
+                    this.playerPreviewCanvas.nativeElement.width = Config[environment.envName].playerImgWidth;
+                    this.playerPreviewCanvas.nativeElement.height = Config[environment.envName].playerImgHeight;
                     this.updateCanvas();
                 } else {
                     setTimeout(() => {

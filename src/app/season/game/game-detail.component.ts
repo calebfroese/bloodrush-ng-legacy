@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
 
+import { environment } from './../../../environments/environment';
 import { Config } from './../../shared/config';
 import { MongoService } from './../../mongo/mongo.service';
 
@@ -153,14 +154,14 @@ export class GameDetailComponent implements OnInit {
     // CANVAS
     preloadImages(): Promise<void> {
         return this.loadImage('field', '/assets/img/field.png')
-            .then(() => { return this.loadImage('home1', `${Config.imgUrl}player/output/${this.home._id}-1.png`); })
-            .then(() => { return this.loadImage('home4', `${Config.imgUrl}player/output/${this.home._id}-4.png`); })
-            .then(() => { return this.loadImage('home7', `${Config.imgUrl}player/output/${this.home._id}-7.png`); })
-            .then(() => { return this.loadImage('home7.4', `${Config.imgUrl}player/output/${this.home._id}-4.png`); })
-            .then(() => { return this.loadImage('away1', `${Config.imgUrl}player/output/${this.away._id}-1r.png`); })
-            .then(() => { return this.loadImage('away4', `${Config.imgUrl}player/output/${this.away._id}-4r.png`); })
-            .then(() => { return this.loadImage('away7', `${Config.imgUrl}player/output/${this.away._id}-7r.png`); })
-            .then(() => { return this.loadImage('away7.4', `${Config.imgUrl}player/output/${this.away._id}-4r.png`); })
+            .then(() => { return this.loadImage('home1', `${Config[environment.envName].imgUrl}player/output/${this.home._id}-1.png`); })
+            .then(() => { return this.loadImage('home4', `${Config[environment.envName].imgUrl}player/output/${this.home._id}-4.png`); })
+            .then(() => { return this.loadImage('home7', `${Config[environment.envName].imgUrl}player/output/${this.home._id}-7.png`); })
+            .then(() => { return this.loadImage('home7.4', `${Config[environment.envName].imgUrl}player/output/${this.home._id}-4.png`); })
+            .then(() => { return this.loadImage('away1', `${Config[environment.envName].imgUrl}player/output/${this.away._id}-1r.png`); })
+            .then(() => { return this.loadImage('away4', `${Config[environment.envName].imgUrl}player/output/${this.away._id}-4r.png`); })
+            .then(() => { return this.loadImage('away7', `${Config[environment.envName].imgUrl}player/output/${this.away._id}-7r.png`); })
+            .then(() => { return this.loadImage('away7.4', `${Config[environment.envName].imgUrl}player/output/${this.away._id}-4r.png`); })
     }
 
     loadImage(name, src): Promise<any> {

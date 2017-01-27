@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { environment } from './../../environments/environment';
 import { MongoService } from './../mongo/mongo.service';
 import { Config } from './../shared/config';
 
@@ -19,6 +20,7 @@ export class SeasonComponent {
     season: any;
     teams: any;
     config = Config;
+    envName = environment.envName;
 
     constructor(private mongo: MongoService, private router: Router) {
         this.loadSeason();
@@ -30,6 +32,7 @@ export class SeasonComponent {
                 let season = seasons[0];
                 this.season = season;
                 if (!this.season) return;
+                console.log(this.season)
                 for (let i = 0; i < this.season.games.length; i++) {
                     if (this.season.games[i]['round'] === parseInt(this.season.games[i]['round'], 10)) {
                         if (this.season.games[i]['home']) {
