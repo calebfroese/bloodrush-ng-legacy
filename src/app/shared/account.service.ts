@@ -9,23 +9,16 @@ import { environment } from './../../environments/environment';
 export class AccountService {
     sessionId: string;
     userId: string;
+    teamId: string;
     user: any;
-    loggedInAccount: any = {
-        _id: null,
-        team: {
-            _id: null
-        },
-        leagues: {
-
-        }
-    };
+    team: any;
 
     constructor(private mongo: MongoService, private http: Http) {
         // If localstorage account, fetch it
-        if (localStorage.getItem('_id')) {
-            // TODO better auth than guessing an _id.......
-            this.setLoginVariables(localStorage.getItem('_id'));
-        }
+        // if (localStorage.getItem('_id')) {
+        //     // TODO better auth than guessing an _id.......
+        //     // this.setLoginVariables(localStorage.getItem('_id'));
+        // }
     }
 
     auth(): string {
@@ -42,18 +35,30 @@ export class AccountService {
             });
         }).then(userId => {
             return new Promise((resolve, reject) => {
+                // Get the user
                 this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}${this.auth()}`).subscribe((response: any) => {
                     this.user = JSON.parse(response._body);
+                    if (response._body.teamId) this.teamId = JSON.parse(response._body.teamId);
                     resolve();
                 });
             });
+        }).then(() => {
+            if (this.teamId) {
+                return new Promise((resolve, reject) => {
+                    // Get the team
+                    this.http.get(`${Config[environment.envName].apiUrl}/teams/${this.teamId}${this.auth()}`).subscribe((response: any) => {
+                        this.team = JSON.parse(response._body);
+                        console.log('team is', this.team)
+                        resolve();
+                    });
+                });
+            }
         });
     }
 
     logout(): Promise<any> {
         return new Promise((resolve, reject) => {
             localStorage.clear();
-            this.loggedInAccount = {};
             resolve(true);
         });
     }
@@ -77,28 +82,28 @@ export class AccountService {
         });
     }
 
-    setLoginVariables(_id: string): Promise<any> {
-        this.loggedInAccount._id = _id;
-        // Fetch the rest of the account
-        return this.mongo.run('users', 'oneById', { _id: _id })
-            .then(user => {
-                this.loggedInAccount = user;
-                localStorage.setItem('_id', _id);
-                // Load local team
-                return this.mongo.run('teams', 'oneByOwner', { ownerId: _id });
-            })
-            .then(team => {
-                this.loggedInAccount.team = team;
-                return this.loadLeagues();
-            })
-            .catch(err => { debugger; });
-    }
+    // setLoginVariables(_id: string): Promise<any> {
+    //     this.loggedInAccount._id = _id;
+    //     // Fetch the rest of the account
+    //     return this.mongo.run('users', 'oneById', { _id: _id })
+    //         .then(user => {
+    //             this.loggedInAccount = user;
+    //             localStorage.setItem('_id', _id);
+    //             // Load local team
+    //             return this.mongo.run('teams', 'oneByOwner', { ownerId: _id });
+    //         })
+    //         .then(team => {
+    //             this.loggedInAccount.team = team;
+    //             return this.loadLeagues();
+    //         })
+    //         .catch(err => { debugger; });
+    // }
 
-    loadLeagues(): Promise<any> {
-        return this.mongo.run('leagues', 'allByTeam', { teamId: this.loggedInAccount.team._id })
-            .then(leagues => {
-                this.loggedInAccount.leagues = leagues;
-            })
-            .catch(err => { debugger; });
-    }
+    // loadLeagues(): Promise<any> {
+    //     return this.mongo.run('leagues', 'allByTeam', { teamId: this.loggedInAccount.team._id })
+    //         .then(leagues => {
+    //             this.loggedInAccount.leagues = leagues;
+    //         })
+    //         .catch(err => { debugger; });
+    // }
 }

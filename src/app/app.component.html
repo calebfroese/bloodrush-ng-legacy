@@ -14,8 +14,8 @@
   </span>
   <!--Nav links-->
   <div class="nav-right nav-menu" [ngClass]="{'is-active': showMobileNav}">
-    <a *ngIf="acc.loggedInAccount.team" routerLink="/home/team" class="nav-item">
-      {{acc.loggedInAccount.team.name}}
+    <a *ngIf="acc.team" routerLink="/home/team" class="nav-item">
+      {{acc.team.name}}
     </a>
     <a routerLink="/leagues" class="nav-item">
       League
@@ -27,12 +27,12 @@
       Market
     </a>
     <!--Nav buttons-->
-    <span *ngIf="acc.loggedInAccount.username" class="nav-item">
+    <span *ngIf="acc.user" class="nav-item">
       <a class="button" >
         <span class="icon">
           <i class="fa fa-user-circle"></i>
         </span>
-    <span>{{acc.loggedInAccount.username}}</span>
+    <span>{{acc.user.username}}</span>
     </a>
     <a (click)="this.router.navigate(['/logout'])" class="button is-primary">
       <span class="icon">
@@ -41,7 +41,7 @@
       <span>Logout</span>
     </a>
     </span>
-    <span *ngIf="!acc.loggedInAccount.username" class="nav-item">
+    <span *ngIf="!acc.user" class="nav-item">
       <a (click)="this.router.navigate(['/login'])" class="button">
         <span class="icon">
             <i class="fa fa-sign-in"></i>
