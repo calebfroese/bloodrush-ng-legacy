@@ -234,21 +234,21 @@ export class MyTeamComponent {
     // CANVAS RENDERING PLAYER
     images: any[] = [];
     updateCanvas(): void {
-        this.images = []; // empty the image stack
+        let tempSrcImgs = []; // empty the image stack
         this.team.style.forEach(sty => {
             if (sty.base || sty.selected) {
                 // Send a request to the server
-                let partUrl = `${Config[environment.envName].imgUrl}temp/player/${this.team._id}/frame1/${sty.name}-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`;
                 this.mongo.run('images', 'createPart', { style: sty, teamId: this.team._id });
-                let img = new Image();
-                img.src = partUrl;
-                this.images.push(img);
             }
         });
-        // TODO button update only not settimeout
         setTimeout(() => {
+            tempSrcImgs.forEach(src => {
+                let i = new Image();
+                i.src = src;
+                this.images.push(i);
+            });
             this.drawCanvas();
-        }, 8000);
+        }, 4000);
     }
 
     drawCanvas() {
