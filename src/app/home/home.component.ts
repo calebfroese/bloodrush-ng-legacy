@@ -20,8 +20,9 @@ export class HomeComponent implements OnInit {
     constructor(private mongo: MongoService, private router: Router, private acc: AccountService) { }
 
     ngOnInit(): void {
-        this.mongo.run('seasons', 'allActive', {})
+        this.mongo.run('get', '/seasons', {})
             .then(seasons => {
+                debugger;
                 let season = seasons[0];
                 this.season = season;
                 if (!this.season) return;
@@ -49,11 +50,11 @@ export class HomeComponent implements OnInit {
             }).catch(err => {
                 debugger;
             });
-        this.mongo.run('teams', 'all', {}).then(teamsArray => {
-            this.teams = teamsArray;
-        }).catch(err => {
-            debugger;
-        });
+        // this.mongo.run('teams', 'all', {}).then(teamsArray => {
+        //     this.teams = teamsArray;
+        // }).catch(err => {
+        //     debugger;
+        // });
     }
 
     viewGame(gameId: number): void {
