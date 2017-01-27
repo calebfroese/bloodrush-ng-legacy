@@ -50,7 +50,7 @@ export class AccountService {
                 let sub = this.api.run('get', `/teams/${this.teamId}`, {});
                 sub.subscribe((response: any) => {
                     console.log('Team is', response);
-                    this.team = response._body;
+                    this.team = response;
                 });
             }
         });
