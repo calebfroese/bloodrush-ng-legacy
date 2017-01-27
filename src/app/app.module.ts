@@ -18,6 +18,7 @@ import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';
 import { MongoService } from './mongo/mongo.service';
 import { MyPlayersComponent } from './my/players/my-players.component';
+import { MyTeamNavComponent } from './my/team/my-team-nav.component';
 import { MyTeamComponent } from './my/team/my-team.component';
 import { MyOverviewComponent } from './my/my-overview.component';
 import { MarketComponent } from './market/market.component';
@@ -37,6 +38,7 @@ import { SignupComponent } from './account/signup/signup.component';
     MarketComponent,
     MyPlayersComponent,
     MyTeamComponent,
+    MyTeamNavComponent,
     MyOverviewComponent,
     GameDetailComponent,
     TeamDetailComponent,
