@@ -120,6 +120,14 @@ export class GameDetailComponent implements OnInit {
         });
     }
 
+    runGame(): void {
+        // Manually runs the game. TODO remove this
+        this.mongo.run('seasons', 'generateGame', {
+            seasonNumber: this.seasonNumber,
+            gameNumber: this.gameId
+        });
+    }
+
     preGame(): void {
         let duration = moment.duration(moment(this.game.date).diff(moment()));
         this.gameTime = moment(this.game.date).format('LLLL');
