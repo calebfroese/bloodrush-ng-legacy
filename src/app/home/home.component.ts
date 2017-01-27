@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
                 let season = seasons[0];
                 this.season = season;
                 if (!this.season) return;
-                this.loadMyTeam();
                 for (let i = 0; i < this.season.games.length; i++) {
                     if (this.season.games[i]['round'] === parseInt(this.season.games[i]['round'], 10)) {
                         if (this.season.games[i]['home']) {
@@ -59,21 +58,6 @@ export class HomeComponent implements OnInit {
 
     viewGame(gameId: number): void {
         this.router.navigate(['/season/' + this.season.number + '/' + gameId]);
-    }
-
-    loadMyTeam(): void {
-        if (!this.acc.loggedInAccount._id) {
-            return;
-        }
-
-        this.mongo.run('teams', 'oneByOwner', { ownerId: this.acc.loggedInAccount._id })
-            .then(myTeam => {
-                this.myTeam = myTeam;
-                this.getStats(myTeam);
-            })
-            .catch(err => {
-                debugger;
-            });
     }
 
     /**

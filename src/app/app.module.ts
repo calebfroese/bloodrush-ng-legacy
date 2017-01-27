@@ -26,6 +26,7 @@ import { MyTeamComponent } from './my/team/my-team.component';
 import { MyOverviewComponent } from './my/my-overview.component';
 import { MarketComponent } from './market/market.component';
 import { TeamStatsComponent } from './team-stats/team-stats.component';
+import { TeamPlayersComponent } from './players/team-players.component';
 import { TeamDetailComponent } from './team/team-detail.component';
 import { SeasonComponent } from './season/season.component';
 import { SignupComponent } from './account/signup/signup.component';
@@ -49,6 +50,7 @@ import { VerifyComponent } from './account/verify/verify.component';
     MyOverviewComponent,
     GameDetailComponent,
     TeamStatsComponent,
+    TeamPlayersComponent,
     TeamDetailComponent,
     SignupComponent,
     SeasonComponent,

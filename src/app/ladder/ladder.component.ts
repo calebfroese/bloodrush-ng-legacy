@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MongoService } from './../mongo/mongo.service';
 import { ScoreService } from './../shared/score.service';
@@ -12,7 +13,7 @@ export class LadderComponent implements OnInit {
     @Input() seasonNumber: string;
     teams: any = [];
 
-    constructor(private mongo: MongoService, private zone: NgZone, private scoreService: ScoreService) { }
+    constructor(private mongo: MongoService, private zone: NgZone, private scoreService: ScoreService, private router: Router) { }
 
     ngOnInit(): void {
         // Load the teams

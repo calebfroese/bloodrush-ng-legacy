@@ -13,8 +13,14 @@
     </div>
 </section>
 <bloodrush-team-stats></bloodrush-team-stats>
+<ng-container *ngIf="acc.loggedInAccount.leagues && acc.loggedInAccount.leagues[0] && acc.loggedInAccount.leagues[0]._id">
+    <!--Ladder-->
+    <bloodrush-ladder [leagueId]="acc.loggedInAccount.leagues[0]._id" [seasonNumber]="1"></bloodrush-ladder>
+    <!--My team-->
+    <bloodrush-team-players [teamId]="acc.loggedInAccount.team._id"></bloodrush-team-players>
+</ng-container>
 <!--Recent and upcoming games-->
-<section *ngIf="season" class="section">
+<!--<section *ngIf="season" class="section">
     <div class="container">
         <h3 class="title">Recent &amp; Upcoming Games</h3>
         <hr>
@@ -100,43 +106,4 @@
             </div>
         </div>
     </div>
-</section>
-<!--My team-->
-<section *ngIf="myTeam" class="section">
-    <div class="container">
-        <h3 class="title">Players</h3>
-        <hr>
-        <div class="columns">
-            <div class="column">
-                <table class="u-full-width">
-                    <thead>
-                        <tr>
-                            <th>Player</th>
-                            <th>ATK</th>
-                            <th>DEF</th>
-                            <th>SPD</th>
-                            <th>KG</th>
-                            <th>REC</th>
-                            <th>STY</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let player of myTeam.players">
-                            <td>{{player.first}} {{player.last}}</td>
-                            <td>{{player.atk}}</td>
-                            <td>{{player.def}}</td>
-                            <td>{{player.spd}}</td>
-                            <td>{{player.kg}}</td>
-                            <td>{{player.rec}}</td>
-                            <td>{{player.sty}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</section>
-<!--Ladder-->
-<div *ngIf="acc.loggedInAccount.leagues && acc.loggedInAccount.leagues[0] && acc.loggedInAccount.leagues[0]._id">
-    <bloodrush-ladder [leagueId]="acc.loggedInAccount.leagues[0]._id" [seasonNumber]="1"></bloodrush-ladder>
-</div>
+</section>-->
