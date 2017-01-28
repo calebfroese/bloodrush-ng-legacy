@@ -1,21 +1,19 @@
 import { Component } from '@angular/core';
 import { Params, Router, ActivatedRoute } from '@angular/router';
 
-import { MongoService } from './../../mongo/mongo.service';
+import { ApiService } from './../../shared/api/api.service';
 
 @Component({
     template: `Verifying...`
 })
 export class VerifyComponent {
-    constructor(private mongo: MongoService, private route: ActivatedRoute, private router: Router) {
+    constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {
         // Activate the token
         this.route.params.forEach((params: Params) => {
-            if (params['token']) {
-                this.mongo.run('accounts', 'validateToken', {
-                    token: params['token']
-                }).then(res => {
-                    this.router.navigate(['/login']);
-                }).catch(err => {
+            let token = params['token'];
+            if (token) {
+                this.api.run('post', '/emails/verifyEmail', `&token=${token}`, {}).subscribe(res => {
+                    alert('Successfully validated your account.');
                     this.router.navigate(['/login']);
                 });
             } else {
