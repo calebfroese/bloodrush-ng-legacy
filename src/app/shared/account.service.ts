@@ -71,14 +71,29 @@ export class AccountService {
         return this.http.post(`${Config[environment.envName].apiUrl}/teams`, {
             name: team.name,
             acronym: team.acronym
-        }).switchMap(() => {
-            // Create a user
-            return this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
-                username: user.username,
-                email: user.email,
-                password: user.password
+        })
+            .map((res: any) => { return this.api.parseJSON(res._body) })
+            .switchMap((t: any) => {
+                // Ctest5@example.comreate a user
+                this.teamId = t.id;
+                return this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
+                    username: user.username,
+                    email: user.email,
+                    password: user.password
+                });
+            })
+            .map((User: any) => {
+                this.verifyTeam(user.email, this.teamId);
+                return null;
             });
-        }).map(() => { return null; });
+    }
+
+    verifyTeam(email: string, teamId: string): void {
+        console.log(email, teamId);
+        let req = this.api.run('post', '/emails/sendActivation', { email: email, teamId: teamId })
+        req.subscribe(res => {
+            debugger;
+        })
     }
 
     // setLoginVariables(_id: string): Promise<any> {
