@@ -70,11 +70,13 @@ export class SeasonComponent {
                     }
                 }
             }).catch(err => {
+                console.error(err);
                 debugger;
             });
         this.mongo.run('teams', 'all', {}).then(teamsArray => {
             this.teams = teamsArray;
         }).catch(err => {
+            console.error(err);
             debugger;
         });
     }

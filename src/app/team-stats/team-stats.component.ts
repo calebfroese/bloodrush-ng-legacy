@@ -35,6 +35,7 @@ export class TeamStatsComponent implements OnInit {
             this.score = score;
         })
         .catch(err => {
+            console.error(err);
             debugger;
         })
     }

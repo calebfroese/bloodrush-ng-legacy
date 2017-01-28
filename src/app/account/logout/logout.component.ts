@@ -13,6 +13,7 @@ export class LogoutComponent {
             this.router.navigate(['/home']);
         })
         .catch(err => {
+            console.error(err);
             debugger;
         });
     }

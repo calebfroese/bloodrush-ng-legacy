@@ -28,6 +28,7 @@ export class MyPlayersComponent {
     saveTeam(): void {
         // Saves the team to the current listing of players
         // TODO: Server-side protection of meddling
+        console.error('save team!');
         debugger;
         // this.mongo.run('teams', 'saveMyTeam', { team: this.acc.team })
         //     .then(res => {

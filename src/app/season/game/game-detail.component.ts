@@ -108,6 +108,7 @@ export class GameDetailComponent implements OnInit {
                                 }
                             })
                             .catch(err => {
+                                console.error(err);
                                 debugger;
                             });
                     } else {
@@ -115,6 +116,7 @@ export class GameDetailComponent implements OnInit {
                         alert('Game does not exist!');
                     }
                 }).catch(err => {
+                    console.error(err);
                     debugger;
                 });
         });
