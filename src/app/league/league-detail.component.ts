@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 
 import { environment } from './../../environments/environment';
 import { Config } from './../shared/config';
-import { MongoService } from './../mongo/mongo.service';
+import { ApiService } from './../shared/api/api.service';
 import { AccountService } from './../shared/account.service';
 
 @Component({
@@ -14,27 +15,32 @@ export class LeagueDetailComponent implements OnInit {
     league: any;
     seasons: any[];
 
-    constructor(private mongo: MongoService, private route: ActivatedRoute, private acc: AccountService) { }
+    constructor(private api: ApiService, private route: ActivatedRoute, private acc: AccountService) { }
 
     ngOnInit(): void {
         // Load the league specified
         this.route.params.forEach((params: Params) => {
             this.leagueId = params['leagueId'];
-            this.fetchLeague();
+            this.fetchLeague()
+                .switchMap(() => { return this.fetchSeasons(); })
+                .subscribe(() => {
+                    console.log('all fethced and set')
+                });
         });
     }
 
-    fetchLeague(): void {
+    fetchLeague(): Observable<any> {
         if (!this.leagueId) return;
-        this.mongo.run('leagues', 'oneById', { _id: this.leagueId })
-            .then(league => {
+        return this.api.run('get', `/leagues/${this.leagueId}`, '', {})
+            .map(league => {
                 this.league = league;
-                return this.mongo.run('seasons', 'allByLeague', { leagueId: this.leagueId });
             })
-            .then(seasons => this.seasons)
-            .catch(err => {
-                debugger;
-            });
+    }
+
+    fetchSeasons(): Observable<any> {
+        if (!this.leagueId) return;
+        return this.api.run('get', `/leagues/${this.leagueId}/seasons`, '', {})
+            .map(seasons => this.seasons)
     }
 
     /**
@@ -59,14 +65,14 @@ export class LeagueDetailComponent implements OnInit {
     }
 
     generateSeason(): void {
-        if (!this.leagueId) return;
-        this.mongo.run('leagues', 'generateSeason', { _id: this.leagueId })
-            .then(res => {
-                alert('Season generated');
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Error!' + err);
-            });
+        // if (!this.leagueId) return;
+        // this.mongo.run('leagues', 'generateSeason', { _id: this.leagueId })
+        //     .then(res => {
+        //         alert('Season generated');
+        //     })
+        //     .catch(err => {
+        //         console.error(err);
+        //         alert('Error!' + err);
+        //     });
     }
 }
