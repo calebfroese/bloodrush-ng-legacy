@@ -35,7 +35,7 @@ export class AccountService {
         }).then(userId => {
             return new Promise((resolve, reject) => {
                 // Get the user
-                this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}${this.api.auth()}`).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((user: any) => {
+                this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}?${this.api.auth()}`).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((user: any) => {
                     this.user = user;
                     if (user.teamId) {
                         this.teamId = user.teamId;
@@ -74,12 +74,13 @@ export class AccountService {
         })
             .map((res: any) => { return this.api.parseJSON(res._body) })
             .switchMap((t: any) => {
-                // Ctest5@example.comreate a user
+                // Create a user
                 this.teamId = t.id;
                 return this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
                     username: user.username,
                     email: user.email,
-                    password: user.password
+                    password: user.password,
+                    teamId: this.teamId
                 });
             })
             .map((User: any) => {
@@ -93,31 +94,6 @@ export class AccountService {
         let req = this.api.run('post', `/emails/sendActivation`, `&email=${email}&teamId=${teamId}`, {})
         req.subscribe(res => {
             debugger;
-        })
+        });
     }
-
-    // setLoginVariables(_id: string): Promise<any> {
-    //     this.loggedInAccount._id = _id;
-    //     // Fetch the rest of the account
-    //     return this.mongo.run('users', 'oneById', { _id: _id })
-    //         .then(user => {
-    //             this.loggedInAccount = user;
-    //             localStorage.setItem('_id', _id);
-    //             // Load local team
-    //             return this.mongo.run('teams', 'oneByOwner', { ownerId: _id });
-    //         })
-    //         .then(team => {
-    //             this.loggedInAccount.team = team;
-    //             return this.loadLeagues();
-    //         })
-    //         .catch(err => { debugger; });
-    // }
-
-    // loadLeagues(): Promise<any> {
-    //     return this.mongo.run('leagues', 'allByTeam', { teamId: this.loggedInAccount.team._id })
-    //         .then(leagues => {
-    //             this.loggedInAccount.leagues = leagues;
-    //         })
-    //         .catch(err => { debugger; });
-    // }
 }
