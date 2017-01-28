@@ -24,37 +24,16 @@ export class AccountService {
     }
 
     login(username: string, password: string): Promise<any> {
+        console.log('logging in as', username, 'with', password);
         return new Promise((resolve, reject) => {
             this.http.post(`${Config[environment.envName].apiUrl}/Users/login`, { username: username, password: password }).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((response: any) => {
                 // Set the session id
                 this.api.sessionId = response.id;
                 this.userId = response.userId;
                 localStorage.setItem('userId', this.userId);
+                this.loadAccount(this.userId);
                 resolve(this.userId);
             });
-        }).then(userId => {
-            return new Promise((resolve, reject) => {
-                // Get the user
-                this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}?${this.api.auth()}`).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((user: any) => {
-                    this.user = user;
-                    if (user.teamId) {
-                        this.teamId = user.teamId;
-                        localStorage.setItem('teamId', this.teamId);
-                        console.log('Team id found', this.teamId);
-                    } else {
-                        console.warn('No team id found for this user!');
-                    }
-                    resolve();
-                });
-            });
-        }).then(() => {
-            if (this.teamId) {
-                let sub = this.api.run('get', `/teams/${this.teamId}`, '', {});
-                sub.subscribe((response: any) => {
-                    console.log('Team is', response);
-                    this.team = response;
-                });
-            }
         });
     }
 
@@ -67,23 +46,31 @@ export class AccountService {
     }
 
     signup(user: any, team: any): Observable<any> {
-        // Create a team
-        return this.http.post(`${Config[environment.envName].apiUrl}/teams`, {
-            name: team.name,
-            acronym: team.acronym
+        // Create a user
+        return this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
+            username: user.username,
+            email: user.email,
+            password: user.password,
+            teamId: this.teamId
         })
-            .map((res: any) => { return this.api.parseJSON(res._body) })
-            .switchMap((t: any) => {
+            .map((res: any) => { return this.api.parseJSON(res._body); })
+            .switchMap((usr: any) => {
+                return Observable.fromPromise(
+                    this.login(user.username, user.password)
+                );
+            })
+            .switchMap(() => {
+                console.log('generating a team!!!!!!');
                 // Create a user
-                this.teamId = t.id;
-                return this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
-                    username: user.username,
-                    email: user.email,
-                    password: user.password,
-                    teamId: this.teamId
+                return this.api.run('post', `/teams/generate`, '', {
+                    userId: this.userId,
+                    name: team.name,
+                    acronym: team.acronym,
+                    access_token: this.api.sessionId
                 });
             })
-            .map((User: any) => {
+            .map((response: any) => {
+                this.teamId = response.data.teamId;
                 this.verifyTeam(user.email, this.teamId);
                 return null;
             });
@@ -94,6 +81,26 @@ export class AccountService {
         let req = this.api.run('post', `/emails/sendActivation`, `&email=${email}&teamId=${teamId}`, {})
         req.subscribe(res => {
             debugger;
+        });
+    }
+
+    loadAccount(userId: string): void {
+        // Get the user
+        this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}?${this.api.auth()}`).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((user: any) => {
+            this.user = user;
+            if (user.teamId) {
+                this.teamId = user.teamId;
+                localStorage.setItem('teamId', this.teamId);
+                console.log('Team id found', this.teamId);
+                // Get the team
+                let sub = this.api.run('get', `/teams/${this.teamId}`, '', {});
+                sub.subscribe((response: any) => {
+                    console.log('Team is', response);
+                    this.team = response;
+                });
+            } else {
+                console.warn('No team id found for this user!');
+            }
         });
     }
 }
