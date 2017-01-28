@@ -70,41 +70,48 @@ export class AccountService {
                     access_token: this.api.sessionId
                 });
             })
-            .map((response: any) => {
+            .switchMap((response: any) => {
                 this.teamId = response.data.teamId;
+                // Verify the email
                 return this.verifyTeam(user.email, this.teamId);
+            })
+            .switchMap(() => {
+                // Load players
+                return this.loadTeam(this.userId);
             });
     }
 
     verifyTeam(email: string, teamId: string): Observable<any> {
         console.log(email, teamId);
-        return this.api.run('post', `/emails/sendActivation`, `&email=${email}&teamId=${teamId}`, {})
-        
+        return this.api.run('post', `/emails/sendActivation`, `&email=${email}&teamId=${teamId}`, {});
     }
 
-    loadTeam(userId: string): void {
+    loadTeam(userId: string): Observable<any> {
         // Get the user
-        this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}?${this.api.auth()}`).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((user: any) => {
-            this.user = user;
-            if (user.teamId) {
-                this.teamId = user.teamId;
-                localStorage.setItem('teamId', this.teamId);
-                console.log('Team id found', this.teamId);
-                // Get the team
-                let sub = this.api.run('get', `/teams/${this.teamId}`, '', {});
-                sub.subscribe((team: any) => {
-                    this.team = team;
-                    this.loadPlayers(team.id);
-                });
-            } else {
-                console.warn('No team id found for this user!');
-            }
-        });
+        return this.api.run('get', `/Users/${userId}`, '', {})
+            .switchMap((user: any) => {
+                return this.api.run('get', `/teams/${this.teamId}`, '', {});
+                // this.user = user;
+                // if (user.teamId) {
+                //     this.teamId = user.teamId;
+                //     localStorage.setItem('teamId', this.teamId);
+                //     console.log('Team id found', this.teamId);
+                //     // Get the team
+                //     return this.api.run('get', `/teams/${this.teamId}`, '', {});
+                // } else {
+                //     console.warn('No team id found for this user!');
+                //     return;
+                // }
+            }).switchMap((team: any) => {
+                console.log('TEAM IS', team);
+                this.team = team;
+                return this.loadPlayers(this.teamId);
+            });
     }
 
-    loadPlayers(teamId: string): void {
+    loadPlayers(teamId: string): Observable<any> {
         // Get the players
-        this.api.run('get', `/teams/${teamId}/players`, '', {})
-            .subscribe(players => { this.players = players; console.log('PLAYERS SET'); })
+        return this.api.run('get', `/teams/${teamId}/players`, '', {})
+            .map(players => { this.players = players; console.log('PLAYERS SET'); });
     }
 }
