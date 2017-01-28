@@ -187,20 +187,14 @@ export class MyTeamComponent {
 
     onClickSubmit(): void {
         // When the user submits their signup form
-        // TODO Validate stuff central form config
-        // Team
-        // if (this.team.acronym.length < 2) {
-        //     alert('Password must be at least 2 characters');
-        //     return;
-        // }
-        // if (this.team.name.length < 3) {
-        //     alert('Team name must be at least 3 characters');
-        //     return;
-        // }
+        // TODO validate form
         this.team.init = true;
         // Submit to the server and update the team
         console.log('updating with new team of', this.team);
-        // this.api.run('patch', `/teams/${this.acc.team.id}`, '', { team: this.team }).subscribe(response => {
+        this.api.run('patch', `/teams/${this.acc.team.id}`, '', this.team).subscribe(response => {
+            console.log(response);
+            debugger;
+        });
         //     console.log(response);
         //     if (response.error) {
         //         alert(response.error);
