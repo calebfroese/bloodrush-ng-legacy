@@ -4,7 +4,7 @@ import { NgUploaderOptions } from 'ngx-uploader';
 
 import { environment } from './../../../environments/environment';
 import { Config } from './../../shared/config';
-import { MongoService } from './../../mongo/mongo.service';
+import { ApiService } from './../../shared/api/api.service';
 import { AccountService } from './../../shared/account.service';
 
 @Component({
@@ -41,7 +41,7 @@ export class MyTeamComponent {
 
     constructor(
         private acc: AccountService,
-        private mongo: MongoService,
+        private api: ApiService,
         private router: Router
     ) { }
 
@@ -189,26 +189,27 @@ export class MyTeamComponent {
         // When the user submits their signup form
         // TODO Validate stuff central form config
         // Team
-        if (this.team.acronym.length < 2) {
-            alert('Password must be at least 2 characters');
-            return;
-        }
-        if (this.team.name.length < 3) {
-            alert('Team name must be at least 3 characters');
-            return;
-        }
+        // if (this.team.acronym.length < 2) {
+        //     alert('Password must be at least 2 characters');
+        //     return;
+        // }
+        // if (this.team.name.length < 3) {
+        //     alert('Team name must be at least 3 characters');
+        //     return;
+        // }
         this.team.init = true;
-        this.team = this.team;
-        // Submit to mongo
-        this.mongo.run('teams', 'saveMyTeam', { team: this.team }).then(response => {
-            if (response.error) {
-                alert(response.error);
-            } else if (response.ok) {
-                alert('Successfully updated team details.');
-            } else {
-                alert('No response');
-            }
-        }).catch(() => alert('Unable to sign up'));
+        // Submit to the server and update the team
+        console.log('updating with new team of', this.team);
+        // this.api.run('patch', `/teams/${this.acc.team.id}`, '', { team: this.team }).subscribe(response => {
+        //     console.log(response);
+        //     if (response.error) {
+        //         alert(response.error);
+        //     } else if (response.ok) {
+        //         alert('Successfully updated team details.');
+        //     } else {
+        //         alert('No response');
+        //     }
+        // });
     }
 
     colorChange(): void {
@@ -239,8 +240,10 @@ export class MyTeamComponent {
         this.team.style.forEach(sty => {
             if (sty.base || sty.selected) {
                 // Send a request to the server
-                this.mongo.run('images', 'createPart', { style: sty, teamId: this.team._id });
-                tempSrcImgs.push(`${Config[environment.envName].imgUrl}temp/player/${this.team._id}/frame1/${sty.name}-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`);
+                this.api.run('post', '/images/createPart', '', { style: sty, teamId: this.team.id })
+                    .subscribe(() => {
+                        tempSrcImgs.push(`${Config[environment.envName].imgUrl}temp/player/${this.team.id}/frame1/${sty.name}-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`);
+                    });
             }
         });
         setTimeout(() => {
