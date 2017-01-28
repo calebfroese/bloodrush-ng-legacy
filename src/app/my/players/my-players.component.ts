@@ -7,7 +7,7 @@ import { AccountService } from './../../shared/account.service';
     templateUrl: './my-players.component.html'
 })
 export class MyPlayersComponent {
-    
+
     constructor(
         private acc: AccountService,
         private api: ApiService
