@@ -13,6 +13,7 @@ export class AccountService {
     userId: string;
     teamId: string;
     user: any;
+    players: any;
     team: any;
 
     constructor(private api: ApiService, private http: Http) {
@@ -31,7 +32,7 @@ export class AccountService {
                 this.api.sessionId = response.id;
                 this.userId = response.userId;
                 localStorage.setItem('userId', this.userId);
-                this.loadAccount(this.userId);
+                this.loadTeam(this.userId);
                 resolve(this.userId);
             });
         });
@@ -84,7 +85,7 @@ export class AccountService {
         });
     }
 
-    loadAccount(userId: string): void {
+    loadTeam(userId: string): void {
         // Get the user
         this.http.get(`${Config[environment.envName].apiUrl}/Users/${userId}?${this.api.auth()}`).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((user: any) => {
             this.user = user;
@@ -94,13 +95,18 @@ export class AccountService {
                 console.log('Team id found', this.teamId);
                 // Get the team
                 let sub = this.api.run('get', `/teams/${this.teamId}`, '', {});
-                sub.subscribe((response: any) => {
-                    console.log('Team is', response);
-                    this.team = response;
+                sub.subscribe((team: any) => {
+                    this.team = team;
+                    this.loadPlayers(team.id);
                 });
             } else {
                 console.warn('No team id found for this user!');
             }
         });
+    }
+
+    loadPlayers(teamId: string): void {
+        // Get the players
+        this.api.run('get', `/teams/${teamId}/players`, '', {}).subscribe(players => { this.players = players; console.log('PLAERS SET'); })
     }
 }
