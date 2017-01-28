@@ -72,17 +72,14 @@ export class AccountService {
             })
             .map((response: any) => {
                 this.teamId = response.data.teamId;
-                this.verifyTeam(user.email, this.teamId);
-                return null;
+                return this.verifyTeam(user.email, this.teamId);
             });
     }
 
-    verifyTeam(email: string, teamId: string): void {
+    verifyTeam(email: string, teamId: string): Observable<any> {
         console.log(email, teamId);
-        let req = this.api.run('post', `/emails/sendActivation`, `&email=${email}&teamId=${teamId}`, {})
-        req.subscribe(res => {
-            debugger;
-        });
+        return this.api.run('post', `/emails/sendActivation`, `&email=${email}&teamId=${teamId}`, {})
+        
     }
 
     loadTeam(userId: string): void {
@@ -107,6 +104,7 @@ export class AccountService {
 
     loadPlayers(teamId: string): void {
         // Get the players
-        this.api.run('get', `/teams/${teamId}/players`, '', {}).subscribe(players => { this.players = players; console.log('PLAERS SET'); })
+        this.api.run('get', `/teams/${teamId}/players`, '', {})
+            .subscribe(players => { this.players = players; console.log('PLAYERS SET'); })
     }
 }
