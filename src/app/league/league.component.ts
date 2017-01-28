@@ -23,8 +23,9 @@ export class LeagueComponent implements OnInit {
         this.api.run('get', '/leagues', '', {})
             .subscribe(allLeagues => {
                 console.log(allLeagues);
-                // this.getOwnerName(allLeagues, 'allLeagues');
+                this.getOwnerName(allLeagues, 'allLeagues');
                 this.allLeagues = allLeagues;
+                console.log('all leagues found!');
             });
     }
 
