@@ -1,4 +1,4 @@
-<section *ngIf="enrolledLeagues && enrolledLeagues.length > 0" class="section">
+<section *ngIf="enrolledLeagues" class="section">
     <div class="container">
         <h1 class="title">Leagues</h1>
         <h2 class="title">Enrolled Leagues</h2>
@@ -22,7 +22,7 @@
         </table>
     </div>
 </section>
-<section *ngIf="allLeagues && allLeagues.length > 0" class="section">
+<section *ngIf="allLeagues" class="section">
     <div class="container">
         <h2 class="title">All Leagues</h2>
         <table class="table">

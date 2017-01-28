@@ -19,10 +19,19 @@ export class AccountService {
 
     constructor(private api: ApiService, private http: Http, private zone: NgZone) {
         // If localstorage account, fetch it
-        // if (localStorage.getItem('_id')) {
-        //     // TODO better auth than guessing an _id.......
-        //     // this.setLoginVariables(localStorage.getItem('_id'));
-        // }
+        let sessionId = localStorage.getItem('sessionId');
+        let userId = localStorage.getItem('userId');
+        if (userId && sessionId) {
+            // Can log in
+            this.api.sessionId = sessionId;
+            this.userId = userId;
+            this.loadTeam()
+                .subscribe(() => {
+                    this.zone.run(() => {});
+                })
+        } else {
+            console.log('Not logging in.', userId, sessionId)
+        }
     }
 
     login(username: string, password: string): Promise<any> {
@@ -30,6 +39,7 @@ export class AccountService {
             this.http.post(`${Config[environment.envName].apiUrl}/Users/login`, { username: username, password: password }).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((response: any) => {
                 // Set the session id
                 this.api.sessionId = response.id;
+                localStorage.setItem('sessionId', this.api.sessionId);
                 this.userId = response.userId;
                 localStorage.setItem('userId', this.userId);
                 resolve();
@@ -61,7 +71,6 @@ export class AccountService {
             })
             .switchMap(() => {
                 // Create a user
-                console.log('about toe generate team');
                 return this.api.run('post', `/teams/generate`, '', {
                     userId: this.userId,
                     name: team.name,
@@ -71,8 +80,6 @@ export class AccountService {
             })
             .switchMap(cb => {
                 // Load players
-                console.log('cb', cb);
-                console.log('about to laod team')
                 return this.loadTeam();
             })
             .switchMap(() => {
@@ -105,14 +112,12 @@ export class AccountService {
 
     loadPlayers(teamId: string): Observable<any> {
         // Get the players
-        console.log('loading players for team', teamId);
         return this.api.run('get', `/teams/${teamId}/players`, '', {})
             .switchMap(players => { this.players = players; return this.loadLeagues(this.teamId); })
     }
 
     loadLeagues(teamId: string): Observable<any> {
         // Get the leagues
-        console.log('loading leagues for team', teamId);
         return this.api.run('get', `/teams/${teamId}/leagues`, '', {})
             .map(leagues => { this.leagues = leagues; });
     }

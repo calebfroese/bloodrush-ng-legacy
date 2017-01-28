@@ -33,11 +33,13 @@ export class LeagueComponent implements OnInit {
     }
 
     getOwnerName(leagueArr: any[], ref: string): void {
-        // for(let i = 0; i < leagueArr.length; i++) {
-        //     this.api.run('teams', 'oneById', { _id: leagueArr[i].ownerId })
-        //         .then(team => {
-        //             this[ref][i].ownerName = team.name;
-        //         });
-        // }
+        for (let i = 0; i < leagueArr.length; i++) {
+            if (leagueArr[i].ownerId) {
+                this.api.run('get', `/teams/${leagueArr[i].ownerId}`, '', {})
+                    .subscribe(team => {
+                        this[ref][i].ownerName = team.name;
+                    });
+            }
+        }
     }
 }

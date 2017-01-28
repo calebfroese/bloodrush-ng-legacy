@@ -24,13 +24,13 @@ export class ApiService {
      * @param {string} queryString beginning with & e.g. &email=test@example.com&password=123
      */
     run(method: string, modelUrl: string, queryString: string, params: any): Observable<any> {
-        let req = {
-            method: method,
-            uri: `${apiURL}${modelUrl}?${this.auth()}${queryString}`,
-            json: true,
-            body: params
-        };
         return new Observable(observer => {
+            let req = {
+                method: method,
+                uri: `${apiURL}${modelUrl}?${this.auth()}${queryString}`,
+                json: true,
+                body: params
+            };
             request(req, (error, response, body) => {
                 if (error) {
                     return console.log('Error:', error);

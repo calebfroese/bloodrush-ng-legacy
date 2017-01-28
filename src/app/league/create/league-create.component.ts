@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 
 import { FormService } from './../../shared/forms/form.service';
-import { MongoService } from './../../mongo/mongo.service';
+import { ApiService } from './../../shared/api/api.service';
 import { AccountService } from './../../shared/account.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class LeagueCreateComponent {
         name: ''
     };
 
-    constructor(private mongo: MongoService, private acc: AccountService, private router: Router, private formService: FormService) {
+    constructor(private api: ApiService, private acc: AccountService, private router: Router, private formService: FormService) {
         this.form = this.formService.leagueCreate();
     }
 
@@ -24,14 +24,18 @@ export class LeagueCreateComponent {
      * Creates a league with you as the owner
      */
     create(val: any): void {
-        // this.mongo.run('leagues', 'create', { name: val.name, public: val.public, ownerId: this.acc.team.id })
-        //     .then(() => {
-        //         this.acc.loadLeagues(); // refresh the local saved leagues
-        //         console.log('Successfully created league!');
-        //         this.router.navigate(['/leagues']);
-        //     })
-        //     .catch(err => {
-        //         debugger;
-        //     });
+        if (!this.acc.teamId) {
+            console.error('No teamid!');
+            return;
+        }
+        this.api.run('patch', `/leagues`, '', {
+            name: val.name,
+            public: val.public,
+            ownerId: this.acc.teamId
+        }).subscribe(() => {
+            alert('League added');
+            this.acc.loadLeagues(this.acc.teamId); // refresh the leagues
+            this.router.navigate(['/leagues']);
+        });
     }
 }
