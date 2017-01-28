@@ -21,7 +21,10 @@ export class LoginComponent {
         if (val.username && val.password) {
             this.acc.login(val.username, val.password)
                 .then(response => {
-                    this.router.navigate(['/home']);
+                    this.acc.loadTeam()
+                        .subscribe(() => {
+                            this.router.navigate(['/home']);
+                        });
                 })
                 .catch(err => {
                     alert(err);

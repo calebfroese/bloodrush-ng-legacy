@@ -24,24 +24,24 @@ export class ApiService {
      * @param {string} queryString beginning with & e.g. &email=test@example.com&password=123
      */
     run(method: string, modelUrl: string, queryString: string, params: any): Observable<any> {
-        return Observable.fromPromise(
-            new Promise((resolve, reject) => {
-                let req = {
-                    method: method,
-                    uri: `${apiURL}${modelUrl}?${this.auth()}${queryString}`,
-                    json: true,
-                    body: params
-                };
-                request(req, (error, response, body) => {
-                    if (error) {
-                        return console.log('Error:', error);
-                    }
-                    if (response.statusCode !== 200) {
-                        return console.log('Invalid Status Code Returned:', response.statusCode);
-                    }
-                    resolve(body);
-                });
-            }));
+        let req = {
+            method: method,
+            uri: `${apiURL}${modelUrl}?${this.auth()}${queryString}`,
+            json: true,
+            body: params
+        };
+        return new Observable(observer => {
+            request(req, (error, response, body) => {
+                if (error) {
+                    return console.log('Error:', error);
+                }
+                if (response.statusCode !== 200) {
+                    return console.log('Invalid Status Code Returned:', response.statusCode);
+                }
+                observer.next(body);
+                observer.complete();
+            });
+        });
     }
 
     parseJSON(stringJSON: any): any {

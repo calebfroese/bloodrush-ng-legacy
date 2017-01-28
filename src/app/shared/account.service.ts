@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
@@ -16,7 +16,7 @@ export class AccountService {
     players: any;
     team: any;
 
-    constructor(private api: ApiService, private http: Http) {
+    constructor(private api: ApiService, private http: Http, private zone: NgZone) {
         // If localstorage account, fetch it
         // if (localStorage.getItem('_id')) {
         //     // TODO better auth than guessing an _id.......
@@ -31,8 +31,7 @@ export class AccountService {
                 this.api.sessionId = response.id;
                 this.userId = response.userId;
                 localStorage.setItem('userId', this.userId);
-                this.loadTeam(this.userId);
-                resolve(this.userId);
+                resolve();
             });
         });
     }
@@ -61,6 +60,7 @@ export class AccountService {
             })
             .switchMap(() => {
                 // Create a user
+                console.log('about toe generate team');
                 return this.api.run('post', `/teams/generate`, '', {
                     userId: this.userId,
                     name: team.name,
@@ -68,14 +68,17 @@ export class AccountService {
                     access_token: this.api.sessionId
                 });
             })
-            .switchMap((response: any) => {
-                this.teamId = response.data.teamId;
-                // Verify the email
-                return this.verifyTeam(user.email, this.teamId);
+            .switchMap(cb => {
+                // Load players
+                console.log('cb', cb);
+                console.log('about to laod team')
+                return this.loadTeam();
             })
             .switchMap(() => {
-                // Load players
-                return this.loadTeam(this.userId);
+                // Verify the email
+                console.log('about to verify team')
+                this.zone.run(() => {});
+                return this.verifyTeam(user.email, this.teamId);
             });
     }
 
@@ -83,19 +86,25 @@ export class AccountService {
         return this.api.run('post', `/emails/sendActivation`, `&email=${email}&teamId=${teamId}`, {});
     }
 
-    loadTeam(userId: string): Observable<any> {
+    loadTeam(): Observable<any> {
         // Get the user
-        return this.api.run('get', `/Users/${userId}`, '', {})
+        return this.api.run('get', `/Users/${this.userId}`, '', {})
             .switchMap((user: any) => {
+                this.user = user;
+                console.log('user is', user);
+                this.teamId = user.teamId;
+                console.log('found teamid', this.teamId);
                 return this.api.run('get', `/teams/${this.teamId}`, '', {});
             }).switchMap((team: any) => {
                 this.team = team;
+                console.log('setting team', team);
                 return this.loadPlayers(this.teamId);
             });
     }
 
     loadPlayers(teamId: string): Observable<any> {
         // Get the players
+        console.log('loading players for team', teamId);
         return this.api.run('get', `/teams/${teamId}/players`, '', {})
             .map(players => { this.players = players; });
     }
