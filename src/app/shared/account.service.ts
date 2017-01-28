@@ -49,7 +49,7 @@ export class AccountService {
             });
         }).then(() => {
             if (this.teamId) {
-                let sub = this.api.run('get', `/teams/${this.teamId}`, {});
+                let sub = this.api.run('get', `/teams/${this.teamId}`, '', {});
                 sub.subscribe((response: any) => {
                     console.log('Team is', response);
                     this.team = response;
@@ -90,7 +90,7 @@ export class AccountService {
 
     verifyTeam(email: string, teamId: string): void {
         console.log(email, teamId);
-        let req = this.api.run('post', '/emails/sendActivation', { email: email, teamId: teamId })
+        let req = this.api.run('post', `/emails/sendActivation`, `&email=${email}&teamId=${teamId}`, {})
         req.subscribe(res => {
             debugger;
         })
