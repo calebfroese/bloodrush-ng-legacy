@@ -13,8 +13,9 @@ export class AccountService {
     userId: string;
     teamId: string;
     user: any;
-    players: any;
+    players: any = [];
     team: any;
+    leagues: any = [];
 
     constructor(private api: ApiService, private http: Http, private zone: NgZone) {
         // If localstorage account, fetch it
@@ -77,7 +78,7 @@ export class AccountService {
             .switchMap(() => {
                 // Verify the email
                 console.log('about to verify team')
-                this.zone.run(() => {});
+                this.zone.run(() => { });
                 return this.verifyTeam(user.email, this.teamId);
             });
     }
@@ -106,6 +107,13 @@ export class AccountService {
         // Get the players
         console.log('loading players for team', teamId);
         return this.api.run('get', `/teams/${teamId}/players`, '', {})
-            .map(players => { this.players = players; });
+            .switchMap(players => { this.players = players; return this.loadLeagues(this.teamId); })
+    }
+
+    loadLeagues(teamId: string): Observable<any> {
+        // Get the leagues
+        console.log('loading leagues for team', teamId);
+        return this.api.run('get', `/teams/${teamId}/leagues`, '', {})
+            .map(leagues => { this.leagues = leagues; });
     }
 }

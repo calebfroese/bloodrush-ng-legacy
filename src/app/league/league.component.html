@@ -16,7 +16,7 @@
                     <td>{{league.name}}</td>
                     <td>{{league.public || 'false'}}</td>
                     <td>{{league.ownerName || league.ownerId}}</td>
-                    <td style="text-align: right;"><button (click)="view(league._id)" class="button is-primary">View</button></td>
+                    <td style="text-align: right;"><button (click)="view(league.id)" class="button is-primary">View</button></td>
                 </tr>
             </tbody>
         </table>
@@ -39,7 +39,7 @@
                     <td>{{league.name}}</td>
                     <td>{{league.public || 'false'}}</td>
                     <td>{{league.ownerName || league.ownerId}}</td>
-                    <td style="text-align: right;"><button (click)="view(league._id)" class="button is-primary">View</button></td>
+                    <td style="text-align: right;"><button (click)="view(league.id)" class="button is-primary">View</button></td>
                 </tr>
             </tbody>
         </table>
