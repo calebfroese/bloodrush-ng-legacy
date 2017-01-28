@@ -25,7 +25,6 @@ export class AccountService {
     }
 
     login(username: string, password: string): Promise<any> {
-        console.log('logging in as', username, 'with', password);
         return new Promise((resolve, reject) => {
             this.http.post(`${Config[environment.envName].apiUrl}/Users/login`, { username: username, password: password }).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((response: any) => {
                 // Set the session id
@@ -61,7 +60,6 @@ export class AccountService {
                 );
             })
             .switchMap(() => {
-                console.log('generating a team!!!!!!');
                 // Create a user
                 return this.api.run('post', `/teams/generate`, '', {
                     userId: this.userId,
@@ -82,7 +80,6 @@ export class AccountService {
     }
 
     verifyTeam(email: string, teamId: string): Observable<any> {
-        console.log(email, teamId);
         return this.api.run('post', `/emails/sendActivation`, `&email=${email}&teamId=${teamId}`, {});
     }
 
@@ -91,19 +88,7 @@ export class AccountService {
         return this.api.run('get', `/Users/${userId}`, '', {})
             .switchMap((user: any) => {
                 return this.api.run('get', `/teams/${this.teamId}`, '', {});
-                // this.user = user;
-                // if (user.teamId) {
-                //     this.teamId = user.teamId;
-                //     localStorage.setItem('teamId', this.teamId);
-                //     console.log('Team id found', this.teamId);
-                //     // Get the team
-                //     return this.api.run('get', `/teams/${this.teamId}`, '', {});
-                // } else {
-                //     console.warn('No team id found for this user!');
-                //     return;
-                // }
             }).switchMap((team: any) => {
-                console.log('TEAM IS', team);
                 this.team = team;
                 return this.loadPlayers(this.teamId);
             });
@@ -112,6 +97,6 @@ export class AccountService {
     loadPlayers(teamId: string): Observable<any> {
         // Get the players
         return this.api.run('get', `/teams/${teamId}/players`, '', {})
-            .map(players => { this.players = players; console.log('PLAYERS SET'); });
+            .map(players => { this.players = players; });
     }
 }

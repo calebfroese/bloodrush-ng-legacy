@@ -32,25 +32,19 @@ export class ApiService {
                     json: true,
                     body: params
                 };
-                console.log('About to request with req', req);
                 request(req, (error, response, body) => {
-                    //Check for error
                     if (error) {
                         return console.log('Error:', error);
                     }
-
-                    //Check for right status code
                     if (response.statusCode !== 200) {
                         return console.log('Invalid Status Code Returned:', response.statusCode);
                     }
-
                     resolve(body);
                 });
             }));
     }
 
     parseJSON(stringJSON: any): any {
-        console.log(JSON.parse(stringJSON));
         return JSON.parse(stringJSON);
     }
 }
