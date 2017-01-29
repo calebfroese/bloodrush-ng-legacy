@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Rx';
 import { Config } from './../../shared/config';
 import { environment } from './../../../environments/environment';
 
-const apiURL = 'http://0.0.0.0:3000/api';
 const request = require('request');
 
 @Injectable()
@@ -27,7 +26,7 @@ export class ApiService {
         return new Observable(observer => {
             let req = {
                 method: method,
-                uri: `${apiURL}${modelUrl}?${this.auth()}${queryString}`,
+                uri: `${Config[environment.envName].apiUrl}${modelUrl}?${this.auth()}${queryString}`,
                 json: true,
                 body: params
             };
