@@ -34,6 +34,7 @@ import { Config } from './../shared/config';
 })
 export class SeasonComponent {
     season: any;
+    league: any;
     games: any;
     teams: any = {};
     config = Config;
@@ -52,10 +53,14 @@ export class SeasonComponent {
             .switchMap(() => {
                 return this.api.run('get', `/seasons/${this.season.id}/games`, '', {})
             })
-            .map(games => {
+            .switchMap(games => {
                 this.games = games;
                 this.zone.run(() => {});
-            });
+                return this.api.run('get', `/leagues/${this.season.leagueId}`, '', {})
+            })
+            .map(league => {
+                this.league = league;
+            })
     }
 
     loadTeams() {

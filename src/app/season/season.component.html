@@ -1,4 +1,6 @@
-<!--<bloodrush-ladder *ngIf="season"></bloodrush-ladder>-->
+<ng-container *ngIf="season && league">
+    <bloodrush-ladder [league]="league" [season]="season"></bloodrush-ladder>
+</ng-container>
 <section *ngIf="season" class="section">
     <div class="container">
         <div class="columns">
