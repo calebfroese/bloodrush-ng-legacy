@@ -31,7 +31,8 @@ export class LeagueCreateComponent {
         this.api.run('patch', `/leagues`, '', {
             name: val.name,
             public: val.public,
-            ownerId: this.acc.teamId
+            ownerId: this.acc.teamId,
+            teams: [ this.acc.teamId ]
         }).subscribe(() => {
             alert('League added');
             this.acc.loadLeagues(this.acc.teamId); // refresh the leagues
