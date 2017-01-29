@@ -171,6 +171,10 @@ export class MyTeamComponent {
             data = JSON.parse(data.response);
             this.uploadFile = data;
             this.rndCache = Math.random().toString();
+            // Assuming the file is done uploading now, set the teamlogos to true
+            this.api.run('patch', `/teams/${this.acc.team.id}`, '', {
+                hasImg: true
+            });
         }
     }
 
@@ -190,20 +194,10 @@ export class MyTeamComponent {
         // TODO validate form
         this.team.init = true;
         // Submit to the server and update the team
-        console.log('updating with new team of', this.team);
         this.api.run('patch', `/teams/${this.acc.team.id}`, '', this.team).subscribe(response => {
             console.log(response);
             debugger;
         });
-        //     console.log(response);
-        //     if (response.error) {
-        //         alert(response.error);
-        //     } else if (response.ok) {
-        //         alert('Successfully updated team details.');
-        //     } else {
-        //         alert('No response');
-        //     }
-        // });
     }
 
     colorChange(): void {

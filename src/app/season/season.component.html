@@ -22,18 +22,20 @@
                                 <td class="small">{{game.round}}</td>
                                 <td>
                                     <figure class="image is-32x32 team-icon-parent team-icon">
-                                        <img *ngIf="teams[game.awayId].hasImg === true && teams[game.awayId].id" src="{{config[envName].imgUrl}}teamlogos/{{teams[game.awayId].id}}.png" class="team-icon">
-                                        <img *ngIf="!teams[game.awayId].id" src="{{config[envName].imgUrl}}teamlogos/bye.png" class="team-icon">
-                                        <img *ngIf="teams[game.awayId].hasImg !== true && teams[game.awayId].id" src="{{config[envName].imgUrl}}teamlogos/default.png" class="team-icon">
-                                    </figure>{{teams[game.awayId].name}}
+                                        <img *ngIf="game.awayId && teams[game.awayId] && teams[game.awayId].hasImg === true" src="{{config[envName].imgUrl}}teamlogos/{{game.awayId}}.png" class="team-icon">
+                                        <img *ngIf="!game.awayId" src="{{config[envName].imgUrl}}teamlogos/bye.png" class="team-icon">
+                                        <img *ngIf="game.awayId && teams[game.awayId] && teams[game.awayId].hasImg !== true" src="{{config[envName].imgUrl}}teamlogos/default.png" class="team-icon">
+                                    </figure>
+                                    <ng-container *ngIf="teams[game.awayId]">{{teams[game.awayId].name}}</ng-container>
                                 </td>
                                 <td class="small">@</td>
                                 <td>
                                     <figure class="image is-32x32 team-icon-parent team-icon">
-                                        <img *ngIf="teams[game.awayId].hasImg === true && teams[game.awayId].id" src="{{config[envName].imgUrl}}teamlogos/{{teams[game.awayId].id}}.png" class="team-icon">
-                                        <img *ngIf="!teams[game.awayId].id" src="{{config[envName].imgUrl}}teamlogos/bye.png" class="team-icon">
-                                        <img *ngIf="teams[game.awayId].hasImg !== true && teams[game.awayId].id" src="{{config[envName].imgUrl}}teamlogos/default.png" class="team-icon">
-                                    </figure>{{teams[game.homeId].name}}
+                                        <img *ngIf="game.homeId && teams[game.homeId] && teams[game.homeId].hasImg === true" src="{{config[envName].imgUrl}}teamlogos/{{game.homeId}}.png" class="team-icon">
+                                        <img *ngIf="!game.homeId" src="{{config[envName].imgUrl}}teamlogos/bye.png" class="team-icon">
+                                        <img *ngIf="game.homeId && teams[game.homeId] && teams[game.homeId].hasImg !== true" src="{{config[envName].imgUrl}}teamlogos/default.png" class="team-icon">
+                                    </figure>
+                                    <ng-container *ngIf="teams[game.homeId]">{{teams[game.homeId].name}}</ng-container>
                                 </td>
                                 <td>{{momentify(game.date)}}</td>
                                 <td>
