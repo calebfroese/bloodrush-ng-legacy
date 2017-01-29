@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { Params, ActivatedRoute } from '@angular/router';
+import { Params, ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { environment } from './../../environments/environment';
@@ -16,7 +16,7 @@ export class LeagueDetailComponent implements OnInit {
     teams: any[] = []; // teams belonging to the league
     seasons: any[] = [];
 
-    constructor(private api: ApiService, private route: ActivatedRoute, private acc: AccountService, private zone: NgZone) { }
+    constructor(private api: ApiService, private route: ActivatedRoute, private acc: AccountService, private zone: NgZone, private router: Router) { }
 
     ngOnInit(): void {
         // Load the league specified
@@ -55,6 +55,7 @@ export class LeagueDetailComponent implements OnInit {
         // Make sure the user cannot enrol if they have not yet created team colours
         if (!this.acc.team.init) {
             alert('You cannot enrol in a league until you have set your team colors and logo.');
+            this.router.navigate(['/home/team/team']);
             return;
         }
         console.log('enrolling')

@@ -26,7 +26,7 @@ export class LeagueCreateComponent {
     create(val: any): void {
         if (!this.acc.team.init) {
             alert('You cannot create a team until you have set your team colors and style.');
-            this.router.navigate(['/home']);
+            this.router.navigate(['/home/team/team']);
             return;
         }
         this.api.run('patch', `/leagues`, '', {
