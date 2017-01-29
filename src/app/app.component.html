@@ -13,7 +13,7 @@
   <span></span>
   </span>
   <!--Nav links-->
-  <div class="nav-right nav-menu" [ngClass]="{'is-active': showMobileNav}">
+  <div class="nav-right nav-menu" [ngClass]="{'is-active': showMobileNav}" (click)="showMobileNav = !showMobileNav">
     <a *ngIf="acc.team" routerLink="/home/team" class="nav-item">
       {{acc.team.name}}
     </a>
