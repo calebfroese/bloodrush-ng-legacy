@@ -452,15 +452,19 @@ export class GameDetailComponent implements OnInit {
     }
 
     replaceWithSub(): void {
+        console.log('reaplceWithSub: home replacements:', this.qtrDeadInjArray.home.length);
+        console.log('reaplceWithSub: away replacements:', this.qtrDeadInjArray.away.length);
         // Remove the local player in the game object
         // Iterate for each game quarter
         for (let needReplaceIndexC = 0; needReplaceIndexC < this.qtrDeadInjArray.home.length; needReplaceIndexC++) {
             // Replace out the unable to play player
+            console.log('home going through dead array')
             this.qtr[1].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = null;
             this.qtr[2].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = null;
             this.qtr[3].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = null;
             this.qtr[4].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = null;
             for (let k = 8; k < 12; k++) {
+                console.log('home finding a replacement')
                 if (this.qtr[1].homePlayers[k] && this.qtrDeadInjArray.home[needReplaceIndexC]) {
                     this.qtr[1].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = this.qtr[1].homePlayers[k];
                     this.qtr[2].homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] = this.qtr[2].homePlayers[k];
@@ -472,12 +476,15 @@ export class GameDetailComponent implements OnInit {
         }
         for (let needReplaceIndexC = 0; needReplaceIndexC < this.qtrDeadInjArray.away.length; needReplaceIndexC++) {
             // Replace out the unable to play player
+            console.log('nulling out player index', this.qtrDeadInjArray.away[needReplaceIndexC]);
             this.qtr[1].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = null;
             this.qtr[2].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = null;
             this.qtr[3].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = null;
             this.qtr[4].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = null;
             for (let k = 8; k < 12; k++) {
+                console.log('possible replacement of', this.qtr[1].awayPlayers);
                 if (this.qtr[1].awayPlayers[k] && this.qtrDeadInjArray.away[needReplaceIndexC]) {
+                    console.log('away fouind a replacement', this.qtr[1].awayPlayers[k])
                     this.qtr[1].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = this.qtr[1].awayPlayers[k];
                     this.qtr[2].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = this.qtr[2].awayPlayers[k];
                     this.qtr[3].awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] = this.qtr[3].awayPlayers[k];
