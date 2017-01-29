@@ -67,8 +67,11 @@ export class LeagueDetailComponent implements OnInit {
                         .subscribe(leag => {
                             console.log('league updated')
                             console.log(leag)
+                            this.zone.run(() => { });
                             this.acc.loadLeagues(this.acc.teamId); // refresh the local saved leagues
-                            this.fetchLeague(); // refresh the league to display the user as enrolled in
+                            this.fetchLeague().subscribe(() => {
+                                this.fetchTeams();
+                            }); // refresh the league to display the user as enrolled in
                         });
                 } else {
                     alert('You are already enrolled to this league');

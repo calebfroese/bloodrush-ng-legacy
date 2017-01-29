@@ -27,6 +27,7 @@ export class AccountService {
             this.userId = userId;
             this.loadTeam()
                 .subscribe(() => {
+                    console.log('UPDATING ZONE')
                     this.zone.run(() => { });
                 })
         } else {
@@ -119,6 +120,6 @@ export class AccountService {
     loadLeagues(teamId: string): Observable<any> {
         // Get the leagues
         return this.api.run('get', `/teams/${teamId}/leagues`, '', {})
-            .map(leagues => { this.leagues = leagues; });
+            .map(leagues => { this.leagues = leagues; console.log('leagues have been loged!'); return; });
     }
 }
