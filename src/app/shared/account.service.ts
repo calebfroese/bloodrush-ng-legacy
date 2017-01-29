@@ -129,7 +129,8 @@ export class AccountService {
     getMySeasonId(teamId: string): Observable<any> {
         // Get the latest season for the league that the user is enroled in
         // TODO fetch the primary league's latest season
-        console.log(this.leagues);
+        if (!this.leagues || this.leagues.length < 1) return this.api.run('get', `/leagues`, '', {}); // do nothing with the data
+        
         return this.api.run('get', `/leagues/${this.leagues[0].id}/seasons`, '', {})
             .map(seasons => {
                 console.log(seasons);

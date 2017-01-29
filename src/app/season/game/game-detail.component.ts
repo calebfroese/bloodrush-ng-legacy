@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
 
@@ -24,8 +24,8 @@ export class GameDetailComponent implements OnInit {
     isBye: boolean = false;
     nonByeTeam: string; // index of the team that is not null
     // Params
-    gameId: number;
-    seasonId: number;
+    gameId: string;
+    seasonId: string;
     // season: any;
     // Teams
     home: any; // original unmodified team
@@ -59,6 +59,7 @@ export class GameDetailComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private location: Location,
         private api: ApiService,
         private zone: NgZone
@@ -81,7 +82,7 @@ export class GameDetailComponent implements OnInit {
                         })
                         .subscribe(teamAway => {
                             this.away = teamAway;
-                            this.zone.run(() => {});
+                            this.zone.run(() => { });
                             if (this.data.live) {
                                 // Game has been played
                                 this.preloadImages()
@@ -109,6 +110,9 @@ export class GameDetailComponent implements OnInit {
     }
 
     preGame(): void {
+        if (this.router.url.indexOf(this.gameId) === -1) {
+            return;
+        }
         let duration = moment.duration(moment(this.game.date).diff(moment()));
         this.gameTime = moment(this.game.date).format('LLLL');
         // Calculate the time it starts in
@@ -388,7 +392,7 @@ export class GameDetailComponent implements OnInit {
                 this.qtr[this.qtrNum][team + 'Players'][i].scored['qtr' + this.qtrNum] = true;
                 if (team === 'home') this.homeScore++;
                 if (team === 'away') this.awayScore++;
-                this.zone.run(() => {})
+                this.zone.run(() => { })
             } else {
                 playerPos.x += (teamPlayers[i].spd / this.data.gameAttr.speedMultiplier) * moveDirection;
             }
