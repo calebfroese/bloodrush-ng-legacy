@@ -9,9 +9,9 @@
                     <thead>
                         <tr>
                             <th>Round</th>
-                            <th>Home</th>
-                            <th></th>
                             <th>Away</th>
+                            <th></th>
+                            <th>Home</th>
                             <th>Date</th>
                             <th>Score</th>
                         </tr>
@@ -40,8 +40,8 @@
                                 <td>{{momentify(game.date)}}</td>
                                 <td>
                                     <ng-container *ngIf="game.data.live">
-                                        {{game.data.live.homeScore}} &nbsp;-
-                                        &nbsp; {{game.data.live.awayScore}}&nbsp;
+                                        {{game.data.live.awayScore}} &nbsp;-
+                                        &nbsp; {{game.data.live.homeScore}}&nbsp;
                                         <ng-container *ngIf="game.data.live.isLive"><span class="tag is-danger is-medium">QTR {{game.data.live.quarter}}</span></ng-container>
                                     </ng-container>
                                 </td>
