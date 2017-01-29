@@ -19,7 +19,7 @@
                     <tbody>
                         <ng-container *ngFor="let game of games; let i = index">
                             <tr routerLink="/seasons/{{season.id}}/{{i}}">
-                                <td class="small">{{game.round}}</td>
+                                <td class="small">{{(game.tag !== 'regular') ? game.tag : game.round}}</td>
                                 <td>
                                     <figure class="image is-32x32 team-icon-parent team-icon">
                                         <img *ngIf="game.awayId && teams[game.awayId] && teams[game.awayId].hasImg === true" src="{{config[envName].imgUrl}}teamlogos/{{game.awayId}}.png" class="team-icon">
