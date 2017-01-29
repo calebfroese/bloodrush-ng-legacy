@@ -13,6 +13,7 @@ import { GameDetailComponent } from './season/game/game-detail.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormService } from './shared/forms/form.service';
 import { FormConfig } from './shared/forms/form.config';
+import { GamePipe } from './season/game/game.pipe';
 import { HomeComponent } from './home/home.component';
 import { LadderComponent } from './ladder/ladder.component';
 import { LeagueComponent } from './league/league.component';
@@ -48,6 +49,7 @@ import { VerifyComponent } from './account/verify/verify.component';
     MyTeamComponent,
     MyTeamNavComponent,
     MyOverviewComponent,
+    GamePipe,
     GameDetailComponent,
     TeamStatsComponent,
     TeamPlayersComponent,

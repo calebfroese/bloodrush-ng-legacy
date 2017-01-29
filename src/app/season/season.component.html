@@ -17,7 +17,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <ng-container *ngFor="let game of games">
+                        <ng-container *ngFor="let game of games | gamePipe">
                             <tr routerLink="/seasons/{{season.id}}/games/{{game.id}}">
                                 <td class="small">{{(game.tag !== 'regular') ? game.tag : game.round}}</td>
                                 <td>
