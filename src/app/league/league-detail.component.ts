@@ -25,6 +25,7 @@ export class LeagueDetailComponent implements OnInit {
             if (this.leagueId) this.fetchLeague()
                 .switchMap(() => { return this.fetchSeasons(); })
                 .subscribe(() => {
+                    this.zone.run(() => {});
                     this.fetchTeams();
                 });
         });
@@ -43,7 +44,7 @@ export class LeagueDetailComponent implements OnInit {
     fetchTeams(): void {
         this.league.teamIds.forEach(teamId => {
             return this.api.run('get', `/teams/${teamId}`, '', {})
-                .subscribe(team => { this.teams.push(team); this.zone.run(() => { }); console.log(team); });
+                .subscribe(team => { this.teams.push(team); this.zone.run(() => { }); });
         });
     }
 
