@@ -25,8 +25,8 @@ export class GameDetailComponent implements OnInit {
     nonByeTeam: string; // index of the team that is not null
     // Params
     gameId: number;
-    seasonNumber: number;
-    season: any;
+    seasonId: number;
+    // season: any;
     // Teams
     home: any; // original unmodified team
     away: any; // original unmodified team
@@ -65,61 +65,39 @@ export class GameDetailComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        // this.route.params.subscribe((params: Params) => {
-        //     // Fetch the season
-        //     let seasonNumber: number = +params['seasonNumber'];
-        //     this.seasonNumber = seasonNumber;
-        //     let gameId: number = +params['gameId'];
-        //     this.gameId = gameId;
-        //     this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber })
-        //         .then(season => {
-        //             this.season = season;
-        //             this.game = season.games[gameId];
-        //             if (season.games[gameId]) {
-        //                 // The game exists, load the teams
-        //                 this.mongo.run('teams', 'oneById', { _id: season.games[gameId].home })
-        //                     .then(teamHome => {
-        //                         if (teamHome && teamHome !== '') {
-        //                             this.home = teamHome;
-        //                         } else {
-        //                             this.home = { name: 'Bye' };
-        //                             this.bye = 'home';
-        //                         }
-        //                         return this.mongo.run('teams', 'oneById', { _id: season.games[gameId].away });
-        //                     })
-        //                     .then(awayTeam => {
-        //                         if (awayTeam && awayTeam !== '') {
-        //                             this.away = awayTeam;
-        //                         } else {
-        //                             this.away = { name: 'Bye' };
-        //                             this.bye = 'away';
-        //                         }
-        //                         this.data = this.season.games[this.gameId].data;
-        //                         if (this.season.games[this.gameId].data.live) {
-        //                             // Game has been played
-        //                             this.preloadImages()
-        //                                 .then(() => {
-        //                                     // Images are loaded
-        //                                     this.checkCanvasThenInit();
-        //                                 });
-        //                         } else {
-        //                             // Game has not been played
-        //                             this.preGame();
-        //                         }
-        //                     })
-        //                     .catch(err => {
-        //                         console.error(err);
-        //                         debugger;
-        //                     });
-        //             } else {
-        //                 // Game does not exist
-        //                 alert('Game does not exist!');
-        //             }
-        //         }).catch(err => {
-        //             console.error(err);
-        //             debugger;
-        //         });
-        // });
+        this.route.params.subscribe((params: Params) => {
+            // Fetch the season
+            let seasonId: string = this.seasonId = params['seasonId'];
+            let gameId: number = this.gameId = params['gameId'];
+            this.api.run('get', `/games/${gameId}`, '', {})
+                .subscribe(game => {
+                    this.game = game;
+                    this.data = game.data;
+                    console.log(game);
+                    this.api.run('get', `/teams/${game.homeId}`, '', {})
+                        .switchMap(teamHome => {
+                            this.home = teamHome;
+                            return this.api.run('get', `/teams/${game.awayId}`, '', {})
+                        })
+                        .subscribe(teamAway => {
+                            this.away = teamAway;
+                            console.log('EVERYTHING LOADED AND READY TO PLAY');
+                            //     if (this.data.live) {
+                            //         // Game has been played
+                            //         this.preloadImages()
+                            //             .then(() => {
+                            //                 // Images are loaded
+                            //                 this.checkCanvasThenInit();
+                            //             });
+                            //     } else {
+                            //         // Game has not been played
+                            //         this.preGame();
+                            //     }
+                        });
+
+                });
+        });
+
     }
 
     runGame(): void {
@@ -233,8 +211,8 @@ export class GameDetailComponent implements OnInit {
     }
 
     initializePlayers(): void {
-        this.data = this.season.games[this.gameId].data;
-        this.qtr = this.season.games[this.gameId].qtr;
+        this.data = this.game.data;
+        this.qtr = this.game.qtr;
         for (let i = 0; i < 8; i++) {
             for (let j = 1; j <= 4; j++) {
                 if (this.qtr[j].homePlayers[i])
