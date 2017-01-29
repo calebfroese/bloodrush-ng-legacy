@@ -81,7 +81,7 @@ export class GameDetailComponent implements OnInit {
                         })
                         .subscribe(teamAway => {
                             this.away = teamAway;
-                            console.log('EVERYTHING LOADED AND READY TO PLAY');
+                            this.zone.run(() => {});
                             if (this.data.live) {
                                 // Game has been played
                                 this.preloadImages()

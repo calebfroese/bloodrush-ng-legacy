@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
@@ -39,10 +39,10 @@ export class SeasonComponent {
     config = Config;
     envName = environment.envName;
 
-    constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {
+    constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private zone: NgZone) {
         this.route.params.forEach((params: Params) => {
             this.loadSeason(params['seasonId'])
-                .subscribe(() => { console.log('DONE! SEASON FETCHED'); this.loadTeams() })
+                .subscribe(() => { this.loadTeams(); this.zone.run(() => {}); })
         });
     }
 
@@ -54,6 +54,7 @@ export class SeasonComponent {
             })
             .map(games => {
                 this.games = games;
+                this.zone.run(() => {});
             });
     }
 
@@ -63,6 +64,7 @@ export class SeasonComponent {
                 teams.forEach(t => {
                     this.teams[t.id] = t;
                 });
+                this.zone.run(() => {});
             });
     }
 
