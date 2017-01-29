@@ -11,18 +11,22 @@ export class MyPlayersComponent {
     constructor(
         private acc: AccountService,
         private api: ApiService
-    ) { }
+    ) {
+        this.players = this.acc.players;
+    }
+
+    players: any[] = [];
 
     moveTo(old_index, new_index) {
-        if (!this.acc.players[new_index]) return;
+        if (!this.players[new_index]) return;
 
-        if (new_index >= this.acc.players.length) {
-            let k = new_index - this.acc.players.length;
+        if (new_index >= this.players.length) {
+            let k = new_index - this.players.length;
             while ((k--) + 1) {
-                this.acc.players.push(undefined);
+                this.players.push(undefined);
             }
         }
-        this.acc.players.splice(new_index, 0, this.acc.players.splice(old_index, 1)[0]);
+        this.players.splice(new_index, 0, this.players.splice(old_index, 1)[0]);
     }
 
     saveTeam(): void {
