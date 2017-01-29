@@ -195,8 +195,10 @@ export class MyTeamComponent {
         this.team.init = true;
         // Submit to the server and update the team
         this.api.run('patch', `/teams/${this.acc.team.id}`, '', this.team).subscribe(response => {
-            console.log(response);
-            debugger;
+            // Save the player style too
+            this.api.run('post', `/images/createPlayers`, '', { style: this.team.style, teamId: this.team.id }).subscribe(response => {
+                debugger;
+            });
         });
     }
 
