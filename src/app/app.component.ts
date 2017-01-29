@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Config } from './shared/config';
 import { AccountService } from './shared/account.service';
 
 @Component({
@@ -8,9 +9,12 @@ import { AccountService } from './shared/account.service';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  constructor(private router: Router, private acc: AccountService) { }
 
-showMobileNav = false;
+  showMobileNav = false;
+  config = Config;
+
+  constructor(private router: Router, private acc: AccountService) { }
+  
   toggleMobNav(): void {
 
   }

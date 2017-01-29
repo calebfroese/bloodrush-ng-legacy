@@ -12,5 +12,6 @@ export const Config = {
         imgUrl: 'http://bloodrush.xyz:3000/',
         playerImgWidth: 280,
         playerImgHeight: 430
-    }
-}
+    },
+    versionNumber: '0.1.2'
+};
