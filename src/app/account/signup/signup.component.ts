@@ -36,9 +36,12 @@ export class SignupComponent {
                 acronym: val.acronym,
                 name: val.teamName
             }).subscribe(() => {
-                console.log('done');
-                alert(`Successfully created an account. Please verify your email address for ${val.teamName} to start playing.`);
-                this.router.navigate(['/home']);
+                if (this.acc.team.verified !== true) {
+                    this.acc.logout().then(() => {
+                        alert(`Successfully created an account. Please verify your email address for ${val.teamName} to start playing.`);
+                        this.router.navigate(['/home']);
+                    });
+                }
             });
     }
 }

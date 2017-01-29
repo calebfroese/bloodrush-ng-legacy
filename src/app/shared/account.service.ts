@@ -27,7 +27,7 @@ export class AccountService {
             this.userId = userId;
             this.loadTeam()
                 .subscribe(() => {
-                    this.zone.run(() => {});
+                    this.zone.run(() => { });
                 })
         } else {
             console.log('Not logging in.', userId, sessionId)
@@ -36,7 +36,7 @@ export class AccountService {
 
     login(username: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.http.post(`${Config[environment.envName].apiUrl}/Users/login`, { username: username, password: password }).map((res: any) => { return this.api.parseJSON(res._body) }).subscribe((response: any) => {
+            this.api.run('post', `/Users/login`, '', { username: username, password: password }).subscribe((response: any) => {
                 // Set the session id
                 this.api.sessionId = response.id;
                 localStorage.setItem('sessionId', this.api.sessionId);
@@ -51,19 +51,19 @@ export class AccountService {
         return new Promise((resolve, reject) => {
             localStorage.clear();
             this.team = this.user = this.userId = this.teamId = null;
+            this.zone.run(() => {});
             resolve(true);
         });
     }
 
     signup(user: any, team: any): Observable<any> {
         // Create a user
-        return this.http.post(`${Config[environment.envName].apiUrl}/Users`, {
+        return this.api.run('post', `/Users`, '', {
             username: user.username,
             email: user.email,
             password: user.password,
             teamId: this.teamId
         })
-            .map((res: any) => { return this.api.parseJSON(res._body); })
             .switchMap((usr: any) => {
                 return Observable.fromPromise(
                     this.login(user.username, user.password)
