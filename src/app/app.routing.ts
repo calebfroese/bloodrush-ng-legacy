@@ -35,9 +35,9 @@ const routes: Routes = [
     { path: 'signup', component: SignupComponent },
     { path: 'seasons', component: SeasonComponent },
     { path: 'seasons/:seasonId', component: SeasonComponent },
+    { path: 'seasons/:seasonNumber/games/:gameId', component: GameDetailComponent },
     { path: 'verify/:token', component: VerifyComponent },
     { path: 'teams/:teamId', component: TeamDetailComponent },
-    { path: 'season/:seasonNumber/:gameId', component: GameDetailComponent }
 ];
 @NgModule({
     imports: [RouterModule.forRoot(routes)],

@@ -17,8 +17,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <ng-container *ngFor="let game of games; let i = index">
-                            <tr routerLink="/seasons/{{season.id}}/{{i}}">
+                        <ng-container *ngFor="let game of games">
+                            <tr routerLink="/seasons/{{season.id}}/games/{{game.id}}">
                                 <td class="small">{{(game.tag !== 'regular') ? game.tag : game.round}}</td>
                                 <td>
                                     <figure class="image is-32x32 team-icon-parent team-icon">
