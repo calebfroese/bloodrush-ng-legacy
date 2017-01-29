@@ -8,8 +8,8 @@ export const Config = {
         playerImgHeight: 430
     },
     prod: {
-        apiUrl: 'http://api.bloodrush.xyz:3000/api',
-        imgUrl: 'http://api.bloodrush.xyz:3000/',
+        apiUrl: 'http://bloodrush.xyz:3000/api',
+        imgUrl: 'http://bloodrush.xyz:3000/',
         playerImgWidth: 280,
         playerImgHeight: 430
     }
