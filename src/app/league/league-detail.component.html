@@ -14,7 +14,7 @@
                 <br>
                 <h4 class="title">Seasons</h4>
                 <ng-container *ngIf="seasons">
-                    <div *ngFor="let season of seasons">{{season}}</div>
+                    <button *ngFor="let season of seasons" routerLink="/seasons/{{season.id}}">Season #{{season.number}}</button>
                 </ng-container>
                 <br>
                 <ng-container *ngIf="acc.team">
