@@ -34,7 +34,7 @@ export class SignupComponent {
             password: val.password,
             email: val.email
         }, {
-                acronym: val.acronym,
+                acronym: val.acronym.toUpperCase(),
                 name: val.teamName
             }).subscribe(() => {
                 if (this.acc.team.verified !== true && environment.envName === 'prod') {

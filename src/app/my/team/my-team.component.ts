@@ -194,6 +194,7 @@ export class MyTeamComponent {
         // TODO validate form
         this.team.init = true;
         // Submit to the server and update the team
+        this.team.acronym = this.team.acronym.toUpperCase();
         this.api.run('patch', `/teams/${this.acc.team.id}`, '', this.team).subscribe(response => {
             // Save the player style too
             this.api.run('post', `/images/createPlayers`, '', { style: this.team.style, teamId: this.team.id }).subscribe(response => {
