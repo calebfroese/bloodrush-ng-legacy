@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 
 import * as moment from 'moment';
 import { environment } from './../../environments/environment';
-import { MongoService } from './../mongo/mongo.service';
+import { ApiService } from './../shared/api/api.service';
 import { Config } from './../shared/config';
 
 @Component({
@@ -33,52 +34,61 @@ import { Config } from './../shared/config';
 })
 export class SeasonComponent {
     season: any;
+    games: any;
     teams: any;
     config = Config;
     envName = environment.envName;
 
-    constructor(private mongo: MongoService, private router: Router) {
-        this.loadSeason();
+    constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {
+        this.route.params.forEach((params: Params) => {
+            this.loadSeason(params['seasonId'])
+                .subscribe(() => { console.log('DONE! SEASON FETCHED') })
+            // .map(() => {
+            // Fetch the games
+
+            // }).switchMap(games => {
+            //     console.log('GAMES ARE', games);
+            // for (let i = 0; i < this.season.games.length; i++) {
+            //     if (this.season.games[i]['round'] === parseInt(this.season.games[i]['round'], 10)) {
+            //         if (this.season.games[i]['home']) {
+            //             this.mongo.run('teams', 'oneById', { _id: this.season.games[i]['home'] }).then(teamHome => {
+            //                 this.season.games[i]['home'] = teamHome;
+            //             });
+            //         } else {
+            //             this.season.games[i]['home'] = { name: 'Bye' };
+            //         }
+            //         if (this.season.games[i]['away']) {
+            //             this.mongo.run('teams', 'oneById', { _id: this.season.games[i]['away'] }).then(teamAway => {
+            //                 this.season.games[i]['away'] = teamAway;
+
+            //             });
+            //         } else {
+            //             this.season.games[i]['away'] = { name: 'Bye' };
+            //         }
+            //     } else {
+            //         // Playoffs, leave names as are
+            //     }
+            // }
+            // })
+            // .subscribe(games => {console.log(games)});
+        });
     }
 
-    loadSeason(): void {
-        this.mongo.run('seasons', 'allActive', {})
-            .then(seasons => {
-                let season = seasons[0];
-                this.season = season;
-                if (!this.season) return;
-                console.log(this.season)
-                for (let i = 0; i < this.season.games.length; i++) {
-                    if (this.season.games[i]['round'] === parseInt(this.season.games[i]['round'], 10)) {
-                        if (this.season.games[i]['home']) {
-                            this.mongo.run('teams', 'oneById', { _id: this.season.games[i]['home'] }).then(teamHome => {
-                                this.season.games[i]['home'] = teamHome;
-                            });
-                        } else {
-                            this.season.games[i]['home'] = { name: 'Bye' };
-                        }
-                        if (this.season.games[i]['away']) {
-                            this.mongo.run('teams', 'oneById', { _id: this.season.games[i]['away'] }).then(teamAway => {
-                                this.season.games[i]['away'] = teamAway;
-
-                            });
-                        } else {
-                            this.season.games[i]['away'] = { name: 'Bye' };
-                        }
-                    } else {
-                        // Playoffs, leave names as are
-                    }
-                }
-            }).catch(err => {
-                console.error(err);
-                debugger;
-            });
-        this.mongo.run('teams', 'all', {}).then(teamsArray => {
-            this.teams = teamsArray;
-        }).catch(err => {
-            console.error(err);
-            debugger;
-        });
+    loadSeason(seasonId): Observable<any> {
+        return this.api.run('get', `/seasons/${seasonId}`, '', {})
+            .map(season => { this.season = season; return; })
+            .switchMap(() => {
+                return this.api.run('get', `/seasons/${this.season.id}/games`, '', {})
+            })
+            .map(games => {
+                this.games = games;
+            })
+        // this.mongo.run('teams', 'all', {}).then(teamsArray => {
+        //     this.teams = teamsArray;
+        // }).catch(err => {
+        //     console.error(err);
+        //     debugger;
+        // });
     }
 
     momentify(date: any): string {

@@ -5,7 +5,7 @@ import * as moment from 'moment';
 
 import { environment } from './../../../environments/environment';
 import { Config } from './../../shared/config';
-import { MongoService } from './../../mongo/mongo.service';
+import { ApiService } from './../../shared/api/api.service';
 
 @Component({
     templateUrl: './game-detail.component.html',
@@ -60,74 +60,74 @@ export class GameDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private location: Location,
-        private mongo: MongoService,
+        private api: ApiService,
         private zone: NgZone
     ) { }
 
     ngOnInit(): void {
-        this.route.params.subscribe((params: Params) => {
-            // Fetch the season
-            let seasonNumber: number = +params['seasonNumber'];
-            this.seasonNumber = seasonNumber;
-            let gameId: number = +params['gameId'];
-            this.gameId = gameId;
-            this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber })
-                .then(season => {
-                    this.season = season;
-                    this.game = season.games[gameId];
-                    if (season.games[gameId]) {
-                        // The game exists, load the teams
-                        this.mongo.run('teams', 'oneById', { _id: season.games[gameId].home })
-                            .then(teamHome => {
-                                if (teamHome && teamHome !== '') {
-                                    this.home = teamHome;
-                                } else {
-                                    this.home = { name: 'Bye' };
-                                    this.bye = 'home';
-                                }
-                                return this.mongo.run('teams', 'oneById', { _id: season.games[gameId].away });
-                            })
-                            .then(awayTeam => {
-                                if (awayTeam && awayTeam !== '') {
-                                    this.away = awayTeam;
-                                } else {
-                                    this.away = { name: 'Bye' };
-                                    this.bye = 'away';
-                                }
-                                this.data = this.season.games[this.gameId].data;
-                                if (this.season.games[this.gameId].data.live) {
-                                    // Game has been played
-                                    this.preloadImages()
-                                        .then(() => {
-                                            // Images are loaded
-                                            this.checkCanvasThenInit();
-                                        });
-                                } else {
-                                    // Game has not been played
-                                    this.preGame();
-                                }
-                            })
-                            .catch(err => {
-                                console.error(err);
-                                debugger;
-                            });
-                    } else {
-                        // Game does not exist
-                        alert('Game does not exist!');
-                    }
-                }).catch(err => {
-                    console.error(err);
-                    debugger;
-                });
-        });
+        // this.route.params.subscribe((params: Params) => {
+        //     // Fetch the season
+        //     let seasonNumber: number = +params['seasonNumber'];
+        //     this.seasonNumber = seasonNumber;
+        //     let gameId: number = +params['gameId'];
+        //     this.gameId = gameId;
+        //     this.mongo.run('seasons', 'oneByNumber', { number: seasonNumber })
+        //         .then(season => {
+        //             this.season = season;
+        //             this.game = season.games[gameId];
+        //             if (season.games[gameId]) {
+        //                 // The game exists, load the teams
+        //                 this.mongo.run('teams', 'oneById', { _id: season.games[gameId].home })
+        //                     .then(teamHome => {
+        //                         if (teamHome && teamHome !== '') {
+        //                             this.home = teamHome;
+        //                         } else {
+        //                             this.home = { name: 'Bye' };
+        //                             this.bye = 'home';
+        //                         }
+        //                         return this.mongo.run('teams', 'oneById', { _id: season.games[gameId].away });
+        //                     })
+        //                     .then(awayTeam => {
+        //                         if (awayTeam && awayTeam !== '') {
+        //                             this.away = awayTeam;
+        //                         } else {
+        //                             this.away = { name: 'Bye' };
+        //                             this.bye = 'away';
+        //                         }
+        //                         this.data = this.season.games[this.gameId].data;
+        //                         if (this.season.games[this.gameId].data.live) {
+        //                             // Game has been played
+        //                             this.preloadImages()
+        //                                 .then(() => {
+        //                                     // Images are loaded
+        //                                     this.checkCanvasThenInit();
+        //                                 });
+        //                         } else {
+        //                             // Game has not been played
+        //                             this.preGame();
+        //                         }
+        //                     })
+        //                     .catch(err => {
+        //                         console.error(err);
+        //                         debugger;
+        //                     });
+        //             } else {
+        //                 // Game does not exist
+        //                 alert('Game does not exist!');
+        //             }
+        //         }).catch(err => {
+        //             console.error(err);
+        //             debugger;
+        //         });
+        // });
     }
 
     runGame(): void {
         // Manually runs the game. TODO remove this
-        this.mongo.run('seasons', 'generateGame', {
-            seasonNumber: this.seasonNumber,
-            gameNumber: this.gameId
-        });
+        // this.mongo.run('seasons', 'generateGame', {
+        //     seasonNumber: this.seasonNumber,
+        //     gameNumber: this.gameId
+        // });
     }
 
     preGame(): void {

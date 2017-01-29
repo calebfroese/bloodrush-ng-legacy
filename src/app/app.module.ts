@@ -20,7 +20,6 @@ import { LeagueCreateComponent } from './league/create/league-create.component';
 import { LeagueDetailComponent } from './league/league-detail.component';
 import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';
-import { MongoService } from './mongo/mongo.service';
 import { MyPlayersComponent } from './my/players/my-players.component';
 import { MyTeamNavComponent } from './my/team/my-team-nav.component';
 import { MyTeamComponent } from './my/team/my-team.component';
@@ -69,7 +68,6 @@ import { VerifyComponent } from './account/verify/verify.component';
   ],
   providers: [
     ApiService,
-    MongoService,
     AccountService,
     ScoreService,
     FormService,

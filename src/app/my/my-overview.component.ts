@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-import { MongoService } from './../mongo/mongo.service';
 import { AccountService } from './../shared/account.service';
 
 @Component({
@@ -9,7 +8,6 @@ import { AccountService } from './../shared/account.service';
 export class MyOverviewComponent {
 
     constructor(
-        private acc: AccountService,
-        private mongo: MongoService
+        private acc: AccountService
     ) { }
 }

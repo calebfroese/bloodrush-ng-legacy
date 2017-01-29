@@ -1,4 +1,4 @@
-<bloodrush-ladder *ngIf="season" [leagueId]="season.leagueId"></bloodrush-ladder>
+<!--<bloodrush-ladder *ngIf="season"></bloodrush-ladder>-->
 <section *ngIf="season" class="section">
     <div class="container">
         <div class="columns">
@@ -17,22 +17,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <ng-container *ngFor="let game of season.games; let i = index">
-                            <tr routerLink="/season/{{season.number}}/{{i}}">
+                        <ng-container *ngFor="let game of games; let i = index">
+                            <tr routerLink="/seasons/{{season.id}}/{{i}}">
                                 <td class="small">{{game.round}}</td>
                                 <td>
                                     <figure class="image is-32x32 team-icon-parent team-icon">
-                                        <img *ngIf="game.away.hasImg === true && game.away._id" src="{{config[envName].imgUrl}}teamlogos/{{game.away._id}}.png" class="team-icon">
-                                        <img *ngIf="!game.away._id" src="{{config[envName].imgUrl}}teamlogos/bye.png" class="team-icon">
-                                        <img *ngIf="game.away.hasImg !== true && game.away._id" src="{{config[envName].imgUrl}}teamlogos/default.png" class="team-icon">
+                                        <img *ngIf="game.away.hasImg === true && game.away.id" src="{{config[envName].imgUrl}}teamlogos/{{game.away.id}}.png" class="team-icon">
+                                        <img *ngIf="!game.away.id" src="{{config[envName].imgUrl}}teamlogos/bye.png" class="team-icon">
+                                        <img *ngIf="game.away.hasImg !== true && game.away.id" src="{{config[envName].imgUrl}}teamlogos/default.png" class="team-icon">
                                     </figure>{{game.away.name}}
                                 </td>
                                 <td class="small">@</td>
                                 <td>
                                     <figure class="image is-32x32 team-icon-parent team-icon">
-                                        <img *ngIf="game.home.hasImg === true && game.home._id" src="{{config[envName].imgUrl}}teamlogos/{{game.home._id}}.png" class="team-icon">
-                                        <img *ngIf="!game.home._id" src="{{config[envName].imgUrl}}teamlogos/bye.png" class="team-icon">
-                                        <img *ngIf="game.home.hasImg !== true && game.home._id" src="{{config[envName].imgUrl}}teamlogos/default.png" class="team-icon">
+                                        <img *ngIf="game.home.hasImg === true && game.home.id" src="{{config[envName].imgUrl}}teamlogos/{{game.home.id}}.png" class="team-icon">
+                                        <img *ngIf="!game.home.id" src="{{config[envName].imgUrl}}teamlogos/bye.png" class="team-icon">
+                                        <img *ngIf="game.home.hasImg !== true && game.home.id" src="{{config[envName].imgUrl}}teamlogos/default.png" class="team-icon">
                                     </figure>{{game.home.name}}
                                 </td>
                                 <td>{{momentify(game.date)}}</td>

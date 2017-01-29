@@ -27,7 +27,7 @@ export class SignupComponent {
     }
 
     onClickSubmit(val: any): void {
-        // Submit to mongo
+        // Submit
         this.acc.signup({
             username: val.username,
             password: val.password,

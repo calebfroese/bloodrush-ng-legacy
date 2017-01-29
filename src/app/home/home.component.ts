@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AccountService } from './../shared/account.service';
-import { MongoService } from './../mongo/mongo.service';
 
 @Component({
     selector: 'app-home',
@@ -17,44 +16,44 @@ export class HomeComponent implements OnInit {
     teams: any; // array of teams in the league sorted by points
     myTeam: any;
 
-    constructor(private mongo: MongoService, private router: Router, private acc: AccountService) { }
+    constructor(private router: Router, private acc: AccountService) { }
 
     ngOnInit(): void {
         // Fetch the 
-        this.mongo.run('get', '/seasons', {})
-            .then(seasons => {
-                let season = seasons[0];
-                this.season = season;
-                if (!this.season || !this.season.games) return;
-                for (let i = 0; i < this.season.games.length; i++) {
-                    if (this.season.games[i]['round'] === parseInt(this.season.games[i]['round'], 10)) {
-                        if (this.season.games[i]['home']) {
-                            this.mongo.run('teams', 'oneById', { _id: this.season.games[i]['home'] }).then(teamHome => {
-                                this.season.games[i]['home'] = teamHome;
-                            });
-                        } else {
-                            this.season.games[i]['home'] = { name: 'Bye' };
-                        }
-                        if (this.season.games[i]['away']) {
-                            this.mongo.run('teams', 'oneById', { _id: this.season.games[i]['away'] }).then(teamAway => {
-                                this.season.games[i]['away'] = teamAway;
+        // this.mongo.run('get', '/seasons', {})
+        //     .then(seasons => {
+        //         let season = seasons[0];
+        //         this.season = season;
+        //         if (!this.season || !this.season.games) return;
+        //         for (let i = 0; i < this.season.games.length; i++) {
+        //             if (this.season.games[i]['round'] === parseInt(this.season.games[i]['round'], 10)) {
+        //                 if (this.season.games[i]['home']) {
+        //                     this.mongo.run('teams', 'oneById', { _id: this.season.games[i]['home'] }).then(teamHome => {
+        //                         this.season.games[i]['home'] = teamHome;
+        //                     });
+        //                 } else {
+        //                     this.season.games[i]['home'] = { name: 'Bye' };
+        //                 }
+        //                 if (this.season.games[i]['away']) {
+        //                     this.mongo.run('teams', 'oneById', { _id: this.season.games[i]['away'] }).then(teamAway => {
+        //                         this.season.games[i]['away'] = teamAway;
 
-                            });
-                        } else {
-                            this.season.games[i]['away'] = { name: 'Bye' };
-                        }
-                    } else {
-                        // Playoffs, leave names as are
-                    }
-                }
-            }).catch(err => {
-                debugger;
-            });
-        this.mongo.run('get', '/teams', {}).then(teamsArray => {
-            this.teams = teamsArray;
-        }).catch(err => {
-            debugger;
-        });
+        //                     });
+        //                 } else {
+        //                     this.season.games[i]['away'] = { name: 'Bye' };
+        //                 }
+        //             } else {
+        //                 // Playoffs, leave names as are
+        //             }
+        //         }
+        //     }).catch(err => {
+        //         debugger;
+        //     });
+        // this.mongo.run('get', '/teams', {}).then(teamsArray => {
+        //     this.teams = teamsArray;
+        // }).catch(err => {
+        //     debugger;
+        // });
     }
 
     viewGame(gameId: number): void {

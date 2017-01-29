@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
 
-import { MongoService } from './../mongo/mongo.service';
 import { ScoreService } from './../shared/score.service';
 
 @Component({
@@ -15,7 +14,7 @@ export class LadderComponent implements OnInit {
     @Input() seasonNumber: string;
     teams: any = [];
 
-    constructor(private mongo: MongoService, private zone: NgZone, private scoreService: ScoreService) { }
+    constructor(private zone: NgZone, private scoreService: ScoreService) { }
 
     ngOnInit(): void {
         // Load the teams
@@ -23,31 +22,31 @@ export class LadderComponent implements OnInit {
     }
 
     loadTeams(): void {
-        if (!this.leagueId) return;
-        this.mongo.run('leagues', 'oneById', { _id: this.leagueId })
-            .then(league => {
-                league.teams.forEach(teamId => {
-                    this.mongo.run('teams', 'oneById', { _id: teamId })
-                        .then(team => {
-                            // Get the score
-                            this.mongo.run('seasons', 'getScore', {
-                                teamId: teamId,
-                                seasonNumber: this.seasonNumber,
-                                leagueId: this.leagueId
-                            })
-                                .then(teamScore => {
-                                    let t = {
-                                        team: team,
-                                        score: teamScore,
-                                        ratio: this.scoreService.calculateRatio(teamScore),
-                                        pts: this.scoreService.calculatePoints(teamScore)
-                                    };
-                                    this.teams.push(t);
-                                    this.sortByPoints();
-                                });
-                        });
-                });
-            });
+        // if (!this.leagueId) return;
+        // this.mongo.run('leagues', 'oneById', { _id: this.leagueId })
+        //     .then(league => {
+        //         league.teams.forEach(teamId => {
+        //             this.mongo.run('teams', 'oneById', { _id: teamId })
+        //                 .then(team => {
+        //                     // Get the score
+        //                     this.mongo.run('seasons', 'getScore', {
+        //                         teamId: teamId,
+        //                         seasonNumber: this.seasonNumber,
+        //                         leagueId: this.leagueId
+        //                     })
+        //                         .then(teamScore => {
+        //                             let t = {
+        //                                 team: team,
+        //                                 score: teamScore,
+        //                                 ratio: this.scoreService.calculateRatio(teamScore),
+        //                                 pts: this.scoreService.calculatePoints(teamScore)
+        //                             };
+        //                             this.teams.push(t);
+        //                             this.sortByPoints();
+        //                         });
+        //                 });
+        //         });
+        //     });
     }
 
     sortByPoints(): void {

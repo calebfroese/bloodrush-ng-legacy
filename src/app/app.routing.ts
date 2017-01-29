@@ -34,6 +34,7 @@ const routes: Routes = [
     { path: 'logout', component: LogoutComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'seasons', component: SeasonComponent },
+    { path: 'seasons/:seasonId', component: SeasonComponent },
     { path: 'verify/:token', component: VerifyComponent },
     { path: 'teams/:teamId', component: TeamDetailComponent },
     { path: 'season/:seasonNumber/:gameId', component: GameDetailComponent }

@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { AccountService } from './../shared/account.service';
-import { MongoService } from './../mongo/mongo.service';
+import { ApiService } from './../shared/api/api.service';
 
 @Component({
     templateUrl: './team-detail.component.html'
@@ -14,16 +14,16 @@ export class TeamDetailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private location: Location,
-        private mongo: MongoService,
+        private api: ApiService,
         private acc: AccountService
     ) { }
 
     ngOnInit(): void {
-        this.route.params.subscribe((params: Params) => {
-            let teamId = params['teamId'];
-            this.mongo.run('teams', 'oneById', { _id: teamId }).then(team => {
-                this.team = team;
-            });
-        });
+        // this.route.params.subscribe((params: Params) => {
+        //     let teamId = params['teamId'];
+        //     this.mongo.run('teams', 'oneById', { _id: teamId }).then(team => {
+        //         this.team = team;
+        //     });
+        // });
     }
 }
