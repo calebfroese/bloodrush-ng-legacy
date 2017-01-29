@@ -12,6 +12,7 @@ import { environment } from './../../environments/environment';
 export class AccountService {
     userId: string;
     teamId: string;
+    seasonId: string;
     user: any;
     players: any = [];
     team: any;
@@ -52,7 +53,7 @@ export class AccountService {
         return new Promise((resolve, reject) => {
             localStorage.clear();
             this.team = this.user = this.userId = this.teamId = null;
-            this.zone.run(() => {});
+            this.zone.run(() => { });
             resolve(true);
         });
     }
@@ -108,6 +109,8 @@ export class AccountService {
                 this.team = team;
                 console.log('setting team', team);
                 return this.loadPlayers(this.teamId);
+            }).switchMap(() => {
+                return this.getMySeasonId(this.teamId);
             });
     }
 
@@ -119,7 +122,28 @@ export class AccountService {
 
     loadLeagues(teamId: string): Observable<any> {
         // Get the leagues
-        return this.api.run('get', `/teams/${teamId}/leagues`, '', {})
-            .map(leagues => { this.leagues = leagues; console.log('leagues have been loged!'); return; });
+        return this.api.run('get', `/leagues`, '', {})
+            .map(leagues => { this.leagues = leagues; console.log('ALL leagues have been loged!'); return; });
+    }
+
+    getMySeasonId(teamId: string): Observable<any> {
+        // Get the latest season for the league that the user is enroled in
+        // TODO fetch the primary league's latest season
+        console.log(this.leagues);
+        return this.api.run('get', `/leagues/${this.leagues[0].id}/seasons`, '', {})
+            .map(seasons => {
+                console.log(seasons);
+                // Find the highest number season
+                let highestSeason = 0;
+                console.log('season id finding')
+                seasons.forEach(s => {
+                    if (s.number > highestSeason) {
+                        highestSeason = s.number;
+                        this.seasonId = s.id;
+                        console.log('season id set')
+                    }
+                });
+                return;
+            });
     }
 }

@@ -18,11 +18,11 @@
       {{acc.team.name}}
     </a>
     <a routerLink="/leagues" class="nav-item">
-      League
+      Leagues
     </a>
-    <!--<a routerLink="/seasons" class="nav-item">
+    <a *ngIf="acc.seasonId" routerLink="/seasons/{{acc.seasonId}}" class="nav-item">
       Season
-    </a>-->
+    </a>
     <a routerLink="/market" class="nav-item">
       Market
     </a>
