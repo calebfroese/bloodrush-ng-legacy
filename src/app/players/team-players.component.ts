@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 
+import { ApiService } from './../shared/api/api.service';
 
 @Component({
     selector: 'bloodrush-team-players',
@@ -7,18 +8,16 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TeamPlayersComponent implements OnInit {
     @Input() teamId: string;
-    team: any;
+    players: any;
 
-    constructor() { }
+    constructor(private api: ApiService, private zone: NgZone) { }
 
     ngOnInit(): void {
-        // if (!this.teamId) return;
-        // this.mongo.run('teams', 'oneById', {_id: this.teamId})
-        // .then(team => {
-        //     this.team = team;
-        // })
-        // .catch(err => {
-        //     debugger;
-        // })
+        if (!this.teamId) return;
+        this.api.run('get', `/teams/${this.teamId}/players`, '', {})
+            .subscribe(players => {
+                this.players = players;
+                this.zone.run(() => { });
+            });
     }
 }

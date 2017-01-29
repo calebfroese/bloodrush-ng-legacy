@@ -10,35 +10,4 @@
         </div>
     </div>
 </section>
-<section *ngIf="team && players" class="section">
-    <div class="container">
-        <h2 class="title">Players</h2>
-        <hr>
-        <div class="columns">
-            <div class="column">
-                <table class="u-full-width">
-                    <thead>
-                        <tr>
-                            <th>Player</th>
-                            <th>ATK</th>
-                            <th>DEF</th>
-                            <th>SPD</th>
-                            <th>KG</th>
-                            <th>REC</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let player of players">
-                            <td>{{player.first}} {{player.last}}</td>
-                            <td>{{player.atk}}</td>
-                            <td>{{player.def}}</td>
-                            <td>{{player.spd}}</td>
-                            <td>{{player.kg}}</td>
-                            <td>{{player.rec}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</section>
+<bloodrush-team-players *ngIf="team" [teamId]="team.id"></bloodrush-team-players>

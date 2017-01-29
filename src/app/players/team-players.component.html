@@ -1,4 +1,4 @@
-<section *ngIf="team" class="section">
+<section *ngIf="players" class="section">
     <div class="container">
         <h3 class="title">Players</h3>
         <hr>
@@ -17,7 +17,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let player of team.players">
+                        <tr *ngFor="let player of players">
                             <td>{{player.first}} {{player.last}}</td>
                             <td>{{player.atk}}</td>
                             <td>{{player.def}}</td>
