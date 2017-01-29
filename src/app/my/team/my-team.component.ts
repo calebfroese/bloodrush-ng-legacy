@@ -197,7 +197,7 @@ export class MyTeamComponent {
         this.api.run('patch', `/teams/${this.acc.team.id}`, '', this.team).subscribe(response => {
             // Save the player style too
             this.api.run('post', `/images/createPlayers`, '', { style: this.team.style, teamId: this.team.id }).subscribe(response => {
-                debugger;
+                alert('Team saved');
             });
         });
     }

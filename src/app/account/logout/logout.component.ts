@@ -14,7 +14,7 @@ export class LogoutComponent {
         })
         .catch(err => {
             console.error(err);
-            debugger;
+            this.router.navigate(['/home']);
         });
     }
 }
