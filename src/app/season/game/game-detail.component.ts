@@ -388,6 +388,7 @@ export class GameDetailComponent implements OnInit {
                 this.qtr[this.qtrNum][team + 'Players'][i].scored['qtr' + this.qtrNum] = true;
                 if (team === 'home') this.homeScore++;
                 if (team === 'away') this.awayScore++;
+                this.zone.run(() => {})
             } else {
                 playerPos.x += (teamPlayers[i].spd / this.data.gameAttr.speedMultiplier) * moveDirection;
             }
