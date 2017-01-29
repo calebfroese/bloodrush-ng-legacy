@@ -2,11 +2,14 @@
     <div class="hero-body">
         <div class="container">
             <div class="columns has-text-centered">
-                <div *ngIf="season" class="column">
+                <div class="column">
                     <img src="assets/img/logowithtext.png" alt="Bloodrush">
-                    <h1 class="title is-2">
-                        Season {{season.number}}
-                    </h1>
+                    <h3 *ngIf="acc.leagues && acc.leagues[0]" class="title is-2">
+                        {{acc.leagues[0].name}}
+                    </h3>
+                    <h2 *ngIf="acc.season" class="title is-1">
+                        Season {{acc.season.number}}
+                    </h2>
                 </div>
             </div>
         </div>

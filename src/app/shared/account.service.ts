@@ -13,6 +13,7 @@ export class AccountService {
     userId: string;
     teamId: string;
     seasonId: string;
+    season: any;
     user: any;
     players: any = [];
     team: any;
@@ -130,9 +131,9 @@ export class AccountService {
         // Get the latest season for the league that the user is enroled in
         // TODO fetch the primary league's latest season
         if (!this.leagues || this.leagues.length < 1) return this.api.run('get', `/leagues`, '', {}); // do nothing with the data
-        
+
         return this.api.run('get', `/leagues/${this.leagues[0].id}/seasons`, '', {})
-            .map(seasons => {
+            .switchMap(seasons => {
                 console.log(seasons);
                 // Find the highest number season
                 let highestSeason = 0;
@@ -144,7 +145,8 @@ export class AccountService {
                         console.log('season id set')
                     }
                 });
-                return;
-            });
+                return this.api.run('get', `/seasons/${this.seasonId}`, '', {})
+            })
+            .map(season => { this.season = season; console.log('set season', season); return; });
     }
 }
