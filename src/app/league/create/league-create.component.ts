@@ -24,15 +24,15 @@ export class LeagueCreateComponent {
      * Creates a league with you as the owner
      */
     create(val: any): void {
-        if (!this.acc.teamId) {
-            console.error('No teamid!');
+        if (!this.acc.team.init) {
+            alert('You cannot create a team until you have set your team colors and style.');
+            this.router.navigate(['/home']);
             return;
         }
         this.api.run('patch', `/leagues`, '', {
             name: val.name,
             public: val.public,
             ownerId: this.acc.teamId,
-            teams: [ this.acc.teamId ]
         }).subscribe(() => {
             alert('League added');
             this.acc.loadLeagues(this.acc.teamId); // refresh the leagues
