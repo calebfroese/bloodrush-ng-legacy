@@ -55,6 +55,7 @@ export class MyPlayersComponent implements OnInit {
             playerIdsAtPos: playerIdsAtPos
         })
             .subscribe(team => {
+                alert('Player mapping saved.');
                 console.log(team);
             });
     }
