@@ -3,9 +3,14 @@
         <h1 class="title">{{team.name}}</h1>
         <hr>
         <div class="columns">
-            <div class="column is-12">
+            <div class="column is-11">
                 <b>Name: </b> {{team.name}}
                 <br> <b>Acronym: </b> {{team.acronym}}
+            </div>
+            <div class="column is-1">
+                <figure class="image team-icon">
+                    <img src="{{config[envName].imgUrl}}teamlogos/{{team.id}}.png" onError="this.src='/assets/img/logo.png';" class="team-icon">
+                </figure>
             </div>
         </div>
     </div>
