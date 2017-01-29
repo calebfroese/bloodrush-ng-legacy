@@ -82,17 +82,17 @@ export class GameDetailComponent implements OnInit {
                         .subscribe(teamAway => {
                             this.away = teamAway;
                             console.log('EVERYTHING LOADED AND READY TO PLAY');
-                            //     if (this.data.live) {
-                            //         // Game has been played
-                            //         this.preloadImages()
-                            //             .then(() => {
-                            //                 // Images are loaded
-                            //                 this.checkCanvasThenInit();
-                            //             });
-                            //     } else {
-                            //         // Game has not been played
-                            //         this.preGame();
-                            //     }
+                            if (this.data.live) {
+                                // Game has been played
+                                this.preloadImages()
+                                    .then(() => {
+                                        // Images are loaded
+                                        this.checkCanvasThenInit();
+                                    });
+                            } else {
+                                // Game has not been played
+                                this.preGame();
+                            }
                         });
 
                 });
@@ -102,10 +102,10 @@ export class GameDetailComponent implements OnInit {
 
     runGame(): void {
         // Manually runs the game. TODO remove this
-        // this.mongo.run('seasons', 'generateGame', {
-        //     seasonNumber: this.seasonNumber,
-        //     gameNumber: this.gameId
-        // });
+        this.api.run('post', `/games/generate`, `&gameId=${this.gameId}`, {})
+            .subscribe(() => {
+                console.log('game is generated');
+            });
     }
 
     preGame(): void {
@@ -118,21 +118,22 @@ export class GameDetailComponent implements OnInit {
             setTimeout(this.preGame, 604800);
         } else if (seconds > 86400) {
             this.startsIn = Math.floor(duration.asSeconds()).toString() + ' days';
-            setTimeout(this.preGame, 60);
+            setTimeout(this.preGame, 86400);
         } else if (seconds > 3600) {
             this.startsIn = Math.floor(duration.asHours()).toString() + ' hours';
-            setTimeout(this.preGame, 3600);
+            setTimeout(this.preGame, 60000);
         } else if (seconds > 60) {
             this.startsIn = Math.floor(duration.asHours()).toString() + ' minutes';
-            setTimeout(this.preGame, 60);
+            setTimeout(this.preGame, 60000);
         } else {
             if (seconds < 0) {
                 // Start the game!
-                console.log('STARTING THE GAME!!!!');
-                this.ngOnInit();
+                setTimeout(() => {
+                    this.ngOnInit();
+                }, 1000);
             } else {
                 this.startsIn = Math.floor(seconds) + ' seconds';
-                setTimeout(this.preGame(), 60);
+                setTimeout(this.preGame(), 1000);
             }
         }
     }
