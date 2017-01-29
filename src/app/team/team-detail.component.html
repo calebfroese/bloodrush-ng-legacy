@@ -6,15 +6,11 @@
             <div class="column is-12">
                 <b>Name: </b> {{team.name}}
                 <br> <b>Acronym: </b> {{team.acronym}}
-                <br> <b>Style: </b> {{team.style}}
-                <br>
-                <br>
-                <button *ngIf="acc.loggedInAccount.team && team._id === acc.loggedInAccount.team._id" routerLink="/home/team" class="button is-primary">Manage Team</button>
             </div>
         </div>
     </div>
 </section>
-<section *ngIf="team && team.players" class="section">
+<section *ngIf="team && players" class="section">
     <div class="container">
         <h2 class="title">Players</h2>
         <hr>
@@ -29,18 +25,16 @@
                             <th>SPD</th>
                             <th>KG</th>
                             <th>REC</th>
-                            <th>STY</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let player of team.players">
+                        <tr *ngFor="let player of players">
                             <td>{{player.first}} {{player.last}}</td>
                             <td>{{player.atk}}</td>
                             <td>{{player.def}}</td>
                             <td>{{player.spd}}</td>
                             <td>{{player.kg}}</td>
                             <td>{{player.rec}}</td>
-                            <td>{{player.sty}}</td>
                         </tr>
                     </tbody>
                 </table>
