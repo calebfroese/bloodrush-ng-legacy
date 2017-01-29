@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
@@ -13,66 +13,74 @@ import { AccountService } from './../shared/account.service';
 export class LeagueDetailComponent implements OnInit {
     leagueId: string;
     league: any;
-    seasons: any[];
+    teams: any[] = []; // teams belonging to the league
+    seasons: any[] = [];
 
-    constructor(private api: ApiService, private route: ActivatedRoute, private acc: AccountService) { }
+    constructor(private api: ApiService, private route: ActivatedRoute, private acc: AccountService, private zone: NgZone) { }
 
     ngOnInit(): void {
         // Load the league specified
         this.route.params.forEach((params: Params) => {
             this.leagueId = params['leagueId'];
-            this.fetchLeague()
+            if (this.leagueId) this.fetchLeague()
                 .switchMap(() => { return this.fetchSeasons(); })
                 .subscribe(() => {
-                    console.log('all fethced and set')
+                    this.fetchTeams();
                 });
         });
     }
 
     fetchLeague(): Observable<any> {
-        if (!this.leagueId) return;
         return this.api.run('get', `/leagues/${this.leagueId}`, '', {})
-            .map(league => {
-                this.league = league;
-            })
+            .map(league => { this.league = league; });
     }
 
     fetchSeasons(): Observable<any> {
-        if (!this.leagueId) return;
         return this.api.run('get', `/leagues/${this.leagueId}/seasons`, '', {})
-            .map(seasons => this.seasons)
+            .map(seasons => { this.seasons = seasons; });
+    }
+
+    fetchTeams(): void {
+        this.league.teamIds.forEach(teamId => {
+            return this.api.run('get', `/teams/${teamId}`, '', {})
+                .subscribe(team => { this.teams.push(team); this.zone.run(() => { }); console.log(team); });
+        });
     }
 
     /**
      * Enrolls a user in a league
      */
     enroll(id: string): void {
-        // // Make sure the user cannot enrol if they have not yet created team colours
-        // if (!this.acc.team.init) {
-        //     alert('You cannot enrol in a league until you have set your team colors and logo.');
-        //     return;
-        // }
-
-        // this.mongo.run('leagues', 'addTeam', { teamId: this.acc.team.id, leagueId: id })
-        //     .then(() => {
-        //         // this.acc.loadLeagues(); // refresh the local saved leagues
-        //         this.fetchLeague(); // refresh the league to display the user as enrolled in
-        //     })
-        //     .catch(err => {
-        //         console.error(err);
-        //         alert('Error!' + err);
-        //     });
+        // Make sure the user cannot enrol if they have not yet created team colours
+        if (!this.acc.team.init) {
+            alert('You cannot enrol in a league until you have set your team colors and logo.');
+            return;
+        }
+        console.log('enrolling')
+        this.api.run('get', `/leagues/${id}`, '', {})
+            .subscribe(league => {
+                console.log('league found')
+                if (league.teamIds.indexOf(this.acc.team.id) === -1) {
+                    league.teamIds.push(this.acc.team.id);
+                    this.api.run('patch', `/leagues/${id}`, '', league)
+                        .subscribe(leag => {
+                            console.log('league updated')
+                            console.log(leag)
+                            this.acc.loadLeagues(this.acc.teamId); // refresh the local saved leagues
+                            this.fetchLeague(); // refresh the league to display the user as enrolled in
+                        });
+                } else {
+                    alert('You are already enrolled to this league');
+                }
+            });
     }
 
     generateSeason(): void {
-        // if (!this.leagueId) return;
-        // this.mongo.run('leagues', 'generateSeason', { _id: this.leagueId })
-        //     .then(res => {
-        //         alert('Season generated');
-        //     })
-        //     .catch(err => {
-        //         console.error(err);
-        //         alert('Error!' + err);
-        //     });
+        if (!this.leagueId) return;
+        this.api.run('post', `/leagues/generateSeason`, `&id=${this.leagueId}`, {})
+            .subscribe(res => {
+                console.log(res);
+                // alert(res);
+            });
     }
 }
