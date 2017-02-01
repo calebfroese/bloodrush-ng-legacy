@@ -13,5 +13,5 @@ export const Config = {
         playerImgWidth: 280,
         playerImgHeight: 430
     },
-    versionNumber: '0.1.2'
+    versionNumber: '2.1.3'
 };
