@@ -23,7 +23,7 @@ export class LadderComponent implements OnInit {
     }
 
     loadTeams(): void {
-        this.league.teamIds.forEach(teamId => {
+        this.season.teamIds.forEach(teamId => {
             console.log('found team', teamId)
             let team = null;
             this.api.run('get', `/teams/${teamId}`, '', {})
