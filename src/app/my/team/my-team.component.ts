@@ -245,8 +245,9 @@ export class MyTeamComponent {
             });
             this.drawCanvas();
             setTimeout(() => {
+                console.log('drawing the canvas');
                 this.drawCanvas();
-            }, 100);
+            }, 500);
         }, 2000);
     }
 
@@ -254,7 +255,7 @@ export class MyTeamComponent {
         this.context.clearRect(0, 0, this.playerPreviewCanvas.nativeElement.width, this.playerPreviewCanvas.nativeElement.height);
         // Draw the image stack
         this.images.forEach(img => {
-            this.drawPlayer(img);
+            setTimeout(() => { this.drawPlayer(img); }, 20);
         });
     }
 
