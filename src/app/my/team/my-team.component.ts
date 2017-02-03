@@ -228,15 +228,16 @@ export class MyTeamComponent {
     images: any[] = [];
     updateCanvas(): void {
         let tempSrcImgs = []; // empty the image stack
-        this.team.style.forEach(sty => {
+        for (let i = 0; i < this.team.style.length; i++) {
+            let sty = this.team.style[i];
             if (sty.base || sty.selected) {
                 // Send a request to the server
                 this.api.run('post', '/images/createPart', '', { style: sty, teamId: this.team.id })
                     .subscribe(() => {
-                        tempSrcImgs.push(`${Config[environment.envName].imgUrl}temp/player/${this.team.id}/frame1/${sty.name}-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`);
+                        tempSrcImgs[i] = `${Config[environment.envName].imgUrl}temp/player/${this.team.id}/frame1/${sty.name}-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`;
                     });
             }
-        });
+        }
         setTimeout(() => {
             tempSrcImgs.forEach(src => {
                 let i = new Image();
@@ -244,10 +245,6 @@ export class MyTeamComponent {
                 this.images.push(i);
             });
             this.drawCanvas();
-            setTimeout(() => {
-                console.log('drawing the canvas');
-                this.drawCanvas();
-            }, 500);
         }, 2000);
     }
 
@@ -255,7 +252,7 @@ export class MyTeamComponent {
         this.context.clearRect(0, 0, this.playerPreviewCanvas.nativeElement.width, this.playerPreviewCanvas.nativeElement.height);
         // Draw the image stack
         this.images.forEach(img => {
-            setTimeout(() => { this.drawPlayer(img); }, 20);
+            setTimeout(() => { this.drawPlayer(img);}, 50);
         });
     }
 
@@ -282,7 +279,7 @@ export class MyTeamComponent {
                     // Play
                     this.playerPreviewCanvas.nativeElement.width = Config[environment.envName].playerImgWidth;
                     this.playerPreviewCanvas.nativeElement.height = Config[environment.envName].playerImgHeight;
-                    this.updateCanvas();
+                    if (this.team.hasInit) this.updateCanvas();
                 } else {
                     setTimeout(() => {
                         this.initCanvas();
