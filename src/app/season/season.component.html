@@ -24,16 +24,16 @@
                                 <td class="small">{{(game.tag !== 'regular') ? game.tag : game.round}}</td>
                                 <td>
                                     <figure class="image is-32x32 team-icon-parent team-icon">
-                                        <img src="{{config[envName].imgUrl}}teamlogos/{{game.awayId}}.png" onError="this.src='/assets/img/logo.png';" class="team-icon">
+                                        <img src="{{config[envName].imgUrl}}teamlogos/{{game.awayId || 'bye'}}.png" onError="this.src='/assets/img/logo.png';" class="team-icon">
                                     </figure>
-                                    <ng-container *ngIf="teams[game.awayId]">{{teams[game.awayId].name}}</ng-container>
+                                    {{teams[game.awayId] ? teams[game.awayId].name : 'Bye'}}
                                 </td>
                                 <td class="small">@</td>
                                 <td>
                                     <figure class="image is-32x32 team-icon-parent team-icon">
-                                        <img src="{{config[envName].imgUrl}}teamlogos/{{game.homeId}}.png" onError="this.src='/assets/img/logo.png';" class="team-icon">
+                                        <img src="{{config[envName].imgUrl}}teamlogos/{{game.homeId || 'bye'}}.png" onError="this.src='/assets/img/logo.png';" class="team-icon">
                                     </figure>
-                                    <ng-container *ngIf="teams[game.homeId]">{{teams[game.homeId].name}}</ng-container>
+                                    {{teams[game.homeId] ? teams[game.homeId].name : 'Bye'}}
                                 </td>
                                 <td>{{momentify(game.date)}}</td>
                                 <td>
