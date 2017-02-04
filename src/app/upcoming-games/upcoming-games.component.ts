@@ -10,10 +10,14 @@ import * as moment from 'moment';
         .card-content {
             height: 150px;
         }
+        .see-more {
+            cursor: pointer;
+        }
     `]
 })
 export class UpcomingGamesComponent implements OnInit {
     @Input() season: any;
+    teams: any = {};
     public gamesToday: any[] = [];
 
     constructor(private api: ApiService) { }
@@ -23,6 +27,7 @@ export class UpcomingGamesComponent implements OnInit {
         for (let i = 0; i < 31; i++) {
             this.getGames(moment().add(i, 'days').toDate())
         }
+        this.loadTeams();
     }
 
     getGames(date): void {
@@ -31,6 +36,15 @@ export class UpcomingGamesComponent implements OnInit {
             .then(res => {
                 let games = res.games;
                 this.gamesToday = this.gamesToday.concat(games);
+            });
+    }
+
+    loadTeams() {
+        return this.api.run('get', `/teams`, '', {})
+            .then(teams => {
+                teams.forEach(t => {
+                    this.teams[t.id] = t;
+                });
             });
     }
 }
