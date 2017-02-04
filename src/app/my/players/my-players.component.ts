@@ -105,4 +105,21 @@ export class MyPlayersComponent implements OnInit {
       askingPrice: 0
     })
   }
+
+  sellForDefault(): void {
+    // Sells the player for the default price
+    this.api
+          .run('put', `/players/sellForDefault`, `&playerId=${this.modalPlayer.id}&teamId=${this.acc.team.id}`, {})
+          .then(() => {
+            this.resetForm();
+            this.modalPlayer = null;
+            alert('Player sold');
+          })
+          .catch(err => {
+            this.resetForm();
+            this.modalPlayer = null;
+            console.error(err);
+            alert(err);
+          });
+  }
 }
