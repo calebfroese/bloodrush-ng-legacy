@@ -111,8 +111,8 @@
                 <bloodrush-player-info [player]="modalPlayer"></bloodrush-player-info>
             </section>
             <footer class="modal-card-foot">
-                    <button class="button is-success" type="button" (click)="modalSellForm.submit()" [disabled]="!modalSellForm.valid">Place On Market</button>
-                <button type="button" (click)="sellForDefault()" class="button is-success">Sell For $20</button>
+                    <button class="button is-success" type="button" (click)="modalSellForm.submit" [disabled]="!modalSellForm.valid">Place On Market</button>
+                <button type="submit" class="button is-success">Sell For $20</button>
             </footer>
         </form>
     </div>
