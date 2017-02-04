@@ -1,14 +1,14 @@
 <section class="section">
     <h1 class="title is-1">Market</h1>
-    <div class="container">
+    <div *ngIf="myPlayers" class="container">
         <div class="columns">
             <div class="column">
                 <h2 class="title is-4">My Listings</h2>
-                <bloodrush-market-listings (viewPlayer)="viewPlayer($event)" [players]="players" [isMine]="true"></bloodrush-market-listings>
+                <bloodrush-market-listings (viewPlayer)="viewPlayer($event)" [players]="myPlayers" [isMine]="true"></bloodrush-market-listings>
             </div>
         </div>
     </div>
-    <div class="container">
+    <div *ngIf="players" class="container">
         <div class="columns">
             <div class="column">
                 <h2 class="title is-4">Public Listings</h2>
