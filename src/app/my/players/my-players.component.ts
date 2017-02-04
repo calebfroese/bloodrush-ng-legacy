@@ -88,13 +88,21 @@ export class MyPlayersComponent implements OnInit {
           .run('patch', `/players/${this.modalPlayer.id}`, '', this.modalPlayer)
           .then(savedPlayer => {
             console.log(savedPlayer);
+            this.resetForm();
             this.modalPlayer = null;
           })
           .catch(err => {
+            this.resetForm();
             this.modalPlayer = null;
           });
     } else {
         console.error('You cannot market a player that is not playable!');
     }
+  }
+
+  resetForm(): void {
+    this.modalSellForm.patchValue({
+      askingPrice: 0
+    })
   }
 }

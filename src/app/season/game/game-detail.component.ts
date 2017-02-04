@@ -13,12 +13,16 @@ import {Config} from './../../shared/config';
         .c-div {
             width: 100%;
         }
+        .message {
+          margin: 0px;
+        }
     `]
 })
 export class GameDetailComponent implements OnInit {
   // UI STUFF
   gameTime: string;
   startsIn: string;
+  live: boolean = false;
 
   // GAME STUFF
   isBye: boolean = false;
@@ -136,7 +140,8 @@ export class GameDetailComponent implements OnInit {
     } else {
       if (seconds < 0) {
         // Start the game!
-        this.startsIn = 'STARTING NOW';
+        this.startsIn = 'LIVE';
+        this.live = true;
         this.ngOnInit();
       } else {
         this.startsIn = Math.floor(seconds).toString();
