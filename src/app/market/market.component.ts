@@ -33,18 +33,23 @@ export class MarketComponent implements OnInit {
         });
   }
 
-  viewPlayer(player): void {
+  viewPlayer(player: any, i: number): void {
     this.modalPlayer = player;
+    this.modalPlayer.localIndex = i;
     // Fetch the team that is selling the player
   }
 
   purchasePlayer(player: any): void {
     // Purchases a player
-    this.api.run('patch', `/players/purchase`, `&playerId=${player.id}&teamId=${this.acc.team.id}`, {})
+    this.api
+        .run(
+            'patch', `/players/purchase`,
+            `&playerId=${player.id}&teamId=${this.acc.team.id}`, {})
         .then(res => {
-          console.log(res);
+          alert('Successfully purchased ' + player.first + ' ' + player.last);
         })
         .catch(err => {
+          alert(err);
           console.error(err);
         })
   }

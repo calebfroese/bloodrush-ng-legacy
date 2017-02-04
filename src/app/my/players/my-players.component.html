@@ -101,7 +101,7 @@
         <form [formGroup]="modalSellForm" (ngSubmit)="placeOnMarket(modalSellForm.value)">
             <header class="modal-card-head">
                 <p class="modal-card-title">Sell {{modalPlayer.first}} {{modalPlayer.last}}</p>
-                <button (click)="modalPlayer = null" class="delete"></button>
+                <button type="button" (click)="modalPlayer = null" class="delete"></button>
             </header>
             <section class="modal-card-body">
                 <label class="label">Price</label>
@@ -111,7 +111,7 @@
                 <bloodrush-player-info [player]="modalPlayer"></bloodrush-player-info>
             </section>
             <footer class="modal-card-foot">
-                    <button class="button is-success" type="submit" [disabled]="!modalSellForm.valid">Place On Market</button>
+                    <button class="button is-success" type="button" (click)="modalSellForm.submit()" [disabled]="!modalSellForm.valid">Place On Market</button>
                 <button type="button" class="button is-success">Sell For $20</button>
             </footer>
         </form>
