@@ -114,7 +114,7 @@ export class MyPlayersComponent implements OnInit {
         .then(() => {
           this.resetForm();
           this.modalPlayer = null;
-          alert('Player sold');
+          this.ngOnInit();
         })
         .catch(err => {
           this.resetForm();
