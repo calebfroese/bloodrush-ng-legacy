@@ -32,7 +32,7 @@
             <bloodrush-player-info [player]="modalPlayer"></bloodrush-player-info>
         </section>
         <footer class="modal-card-foot">
-            <button (click)="purchasePlayer(player)" [disabled]="(acc.team.money < modalPlayer.askingPrice)" class="button is-success">Purchase</button>
+            <button (click)="purchasePlayer(modalPlayer)" [disabled]="(acc.team.money < modalPlayer.askingPrice)" class="button is-success">Purchase</button>
             <h2 class="title is-2"><span class="icon is-large">
                     <i class="fa fa-money"></i>
                 </span> {{modalPlayer.askingPrice}}</h2>

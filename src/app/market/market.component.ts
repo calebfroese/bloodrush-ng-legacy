@@ -1,40 +1,51 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { ApiService } from './../shared/api/api.service';
-import { AccountService } from './../shared/account.service';
+import {AccountService} from './../shared/account.service';
+import {ApiService} from './../shared/api/api.service';
 
-@Component({
-    templateUrl: './market.component.html'
-})
+@Component({templateUrl: './market.component.html'})
 export class MarketComponent implements OnInit {
-    players: any[];
-    myPlayers: any[];
-    modalPlayer: any; // the player being viewed in a modal
+  players: any[];
+  myPlayers: any[];
+  modalPlayer: any;  // the player being viewed in a modal
 
-    constructor(private api: ApiService, private acc: AccountService) { }
+  constructor(private api: ApiService, private acc: AccountService) {}
 
-    ngOnInit(): void {
-        // Load the players
-        this.api.run('get', `/players`, '&filter={"where": {"state": "market"}}', {})
-            .then(playersForSale => {
-                this.players = playersForSale;
-            }).catch(err => {
-                debugger;
-            });
-        this.api.run('get', `/teams/${this.acc.team.id}/players`, '&filter={"where": {"state": "market"}}', {})
-            .then(playersForSale => {
-                this.myPlayers = playersForSale;
-            }).catch(err => {
-                debugger;
-            });
-    }
+  ngOnInit(): void {
+    // Load the players
+    this.api
+        .run('get', `/players`, '&filter={"where": {"state": "market"}}', {})
+        .then(playersForSale => {
+          this.players = playersForSale;
+        })
+        .catch(err => {
+          debugger;
+        });
+    this.api
+        .run(
+            'get', `/teams/${this.acc.team.id}/players`,
+            '&filter={"where": {"state": "market"}}', {})
+        .then(playersForSale => {
+          this.myPlayers = playersForSale;
+        })
+        .catch(err => {
+          debugger;
+        });
+  }
 
-    viewPlayer(player): void {
-        this.modalPlayer = player;
-        // Fetch the team that is selling the player
-    }
+  viewPlayer(player): void {
+    this.modalPlayer = player;
+    // Fetch the team that is selling the player
+  }
 
-    purchasePlayer(player: any): void {
-        // Purchases a player
-    }
+  purchasePlayer(player: any): void {
+    // Purchases a player
+    this.api.run('patch', `/players/purchase`, `&playerId=${player.id}&teamId=${this.acc.team.id}`, {})
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.error(err);
+        })
+  }
 }
