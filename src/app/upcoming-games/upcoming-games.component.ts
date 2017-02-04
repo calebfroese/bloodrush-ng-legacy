@@ -5,7 +5,12 @@ import * as moment from 'moment';
 
 @Component({
     selector: 'bloodrush-upcoming-games',
-    templateUrl: './upcoming-games.component.html'
+    templateUrl: './upcoming-games.component.html',
+    styles: [`
+        .card-content {
+            height: 150px;
+        }
+    `]
 })
 export class UpcomingGamesComponent implements OnInit {
     @Input() season: any;
