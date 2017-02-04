@@ -4,13 +4,30 @@
             <td>Name</td>
             <td>Price</td>
             <td>Date Listed</td>
+            <td></td>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let player of players">
             <td>{{player.first}} {{player.last}}</td>
-            <td>{{player.price}}</td>
+            <td>
+                <span class="icon">
+                    <i class="fa fa-money"></i>
+                </span> {{player.price}}
+            </td>
             <td>{{mockTime}}</td>
+            <td>
+                <button *ngIf="isMine" class="button listing-button is-light">
+                    <span class="icon">
+                        <i class="fa fa-close"></i>
+                    </span>
+                </button>
+                <button class="button listing-button is-light">
+                    <span class="icon">
+                        <i class="fa fa-info"></i>
+                    </span>
+                </button>
+            </td>
         </tr>
     </tbody>
 </table>
