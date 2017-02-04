@@ -23,6 +23,7 @@ export class GameDetailComponent implements OnInit {
   gameTime: string;
   startsIn: string;
   live: boolean = false;
+  roundPercent: number = 0;
 
   // GAME STUFF
   isBye: boolean = false;
@@ -345,6 +346,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   redrawCanvas() {
+    this.roundPercent = 1000 - Math.round((this.timeElapsed / this.timeNextRound) * 1000);
     if (this.cachedQtrNum !== this.qtrNum) {
       return;
     }

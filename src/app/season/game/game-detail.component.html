@@ -26,7 +26,7 @@
                         <div class="level-right">{{awayScore}}&nbsp;-&nbsp;<b>AWAY</b></div>
                     </div>
                     <div class="level is-marginless">
-                        <progress class="progress is-primary is-marginless" value="30" max="100">30%</progress>
+                        <progress class="progress is-primary is-marginless" [value]="roundPercent" max="1000"></progress>
                     </div>
                 </article>
                 <div #cDiv class="c-div">
