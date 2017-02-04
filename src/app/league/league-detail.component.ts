@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 
 import { environment } from './../../environments/environment';
@@ -15,7 +15,7 @@ export class LeagueDetailComponent implements OnInit {
     teams: any[] = []; // teams belonging to the league
     seasons: any[] = [];
 
-    constructor(private api: ApiService, private route: ActivatedRoute, private acc: AccountService, private zone: NgZone, private router: Router) { }
+    constructor(private api: ApiService, private route: ActivatedRoute, private acc: AccountService, private router: Router) { }
 
     ngOnInit(): void {
         // Load the league specified
@@ -24,7 +24,6 @@ export class LeagueDetailComponent implements OnInit {
             if (this.leagueId) this.fetchLeague()
                 .then(() => { return this.fetchSeasons(); })
                 .then(() => {
-                    this.zone.run(() => {});
                     this.fetchTeams();
                 });
         });
@@ -65,9 +64,6 @@ export class LeagueDetailComponent implements OnInit {
                     league.teamIds.push(this.acc.team.id);
                     this.api.run('patch', `/leagues/${id}`, '', league)
                         .then(leag => {
-                            console.log('league updated')
-                            console.log(leag)
-                            this.zone.run(() => { });
                             this.acc.loadLeagues(this.acc.teamId); // refresh the local saved leagues
                             this.fetchLeague().then(() => {
                                 this.fetchTeams();

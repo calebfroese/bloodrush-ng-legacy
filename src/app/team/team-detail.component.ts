@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -26,8 +26,7 @@ export class TeamDetailComponent implements OnInit {
         private route: ActivatedRoute,
         private location: Location,
         private api: ApiService,
-        private acc: AccountService,
-        private zone: NgZone
+        private acc: AccountService
     ) { }
 
     ngOnInit(): void {
@@ -40,8 +39,7 @@ export class TeamDetailComponent implements OnInit {
                 })
                 .then(players => {
                     this.players = players;
-                    this.zone.run(() => { });
-                })
+                });
         });
     }
 }

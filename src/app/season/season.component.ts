@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import * as moment from 'moment';
@@ -39,10 +39,10 @@ export class SeasonComponent {
     config = Config;
     envName = environment.envName;
 
-    constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private zone: NgZone) {
+    constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {
         this.route.params.forEach((params: Params) => {
             this.loadSeason(params['seasonId'])
-                .then(() => { this.loadTeams(); this.zone.run(() => { }); })
+                .then(() => { this.loadTeams(); })
         });
     }
 
@@ -54,7 +54,6 @@ export class SeasonComponent {
             })
             .then(games => {
                 this.games = games;
-                this.zone.run(() => { });
                 return this.api.run('get', `/leagues/${this.season.leagueId}`, '', {})
             })
             .then(league => {
@@ -68,7 +67,6 @@ export class SeasonComponent {
                 teams.forEach(t => {
                     this.teams[t.id] = t;
                 });
-                this.zone.run(() => { });
             });
     }
 

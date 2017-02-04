@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, NgZone } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { ApiService } from './../shared/api/api.service';
 import { ScoreService } from './../shared/score.service';
@@ -15,7 +15,7 @@ export class LadderComponent implements OnInit {
     @Input() season: any;
     teams: any = [];
 
-    constructor(private zone: NgZone, private scoreService: ScoreService, private api: ApiService) { }
+    constructor(private scoreService: ScoreService, private api: ApiService) { }
 
     ngOnInit(): void {
         // Load the teams
@@ -77,6 +77,5 @@ export class LadderComponent implements OnInit {
             }
         });
         this.teams = arr;
-        this.zone.run(() => {});
     }
 }

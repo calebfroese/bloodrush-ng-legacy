@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ApiService } from './../shared/api/api.service';
@@ -11,7 +11,7 @@ export class LeagueComponent implements OnInit {
     allLeagues: any = [];
     enrolledLeagues: any = [];
 
-    constructor(private api: ApiService, private acc: AccountService, private router: Router, private zone: NgZone) { }
+    constructor(private api: ApiService, private acc: AccountService, private router: Router) { }
 
     ngOnInit(): void {
         if (this.acc.leagues) {
@@ -25,7 +25,6 @@ export class LeagueComponent implements OnInit {
                 this.getOwnerName(allLeagues, 'allLeagues');
                 this.allLeagues = allLeagues;
                 console.log(this.allLeagues);
-                this.zone.run(() => {});
             });
     }
 
@@ -39,7 +38,6 @@ export class LeagueComponent implements OnInit {
                 this.api.run('get', `/teams/${leagueArr[i].ownerId}`, '', {})
                     .then(team => {
                         this[ref][i].ownerName = team.name;
-                        this.zone.run(() => {});
                     });
             }
         }

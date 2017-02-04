@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -17,7 +17,7 @@ export class AccountService {
     team: any;
     leagues: any = [];
 
-    constructor(private api: ApiService, private http: Http, private zone: NgZone) {
+    constructor(private api: ApiService, private http: Http) {
         // If localstorage account, fetch it
         let sessionId = localStorage.getItem('sessionId');
         let userId = localStorage.getItem('userId');
@@ -25,11 +25,7 @@ export class AccountService {
             // Can log in
             this.api.sessionId = sessionId;
             this.userId = userId;
-            this.loadTeam()
-                .then(() => {
-                    console.log('UPDATING ZONE')
-                    this.zone.run(() => { });
-                });
+            this.loadTeam();
         } else {
             console.log('Not logging in.', userId, sessionId)
         }
@@ -53,7 +49,6 @@ export class AccountService {
         return new Promise((resolve, reject) => {
             localStorage.clear();
             this.team = this.user = this.userId = this.teamId = null;
-            this.zone.run(() => { });
             resolve(true);
         });
     }
@@ -84,8 +79,6 @@ export class AccountService {
             })
             .then(() => {
                 // Verify the email
-                console.log('about to verify team')
-                this.zone.run(() => { });
                 return this.verifyTeam(user.email, this.teamId);
             });
     }
