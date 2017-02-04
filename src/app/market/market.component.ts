@@ -45,7 +45,10 @@ export class MarketComponent implements OnInit {
         .run(
             'patch', `/players/purchase`,
             `&playerId=${player.id}&teamId=${this.acc.team.id}`, {})
-        .then(res => {
+        .then(() => {
+          return this.acc.loadTeam();
+        })
+        .then(() => {
           alert('Successfully purchased ' + player.first + ' ' + player.last);
         })
         .catch(err => {

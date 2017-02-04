@@ -96,30 +96,31 @@ export class MyPlayersComponent implements OnInit {
             this.modalPlayer = null;
           });
     } else {
-        console.error('You cannot market a player that is not playable!');
+      console.error('You cannot market a player that is not playable!');
     }
   }
 
   resetForm(): void {
-    this.modalSellForm.patchValue({
-      askingPrice: 0
-    })
+    this.modalSellForm.patchValue({askingPrice: 0})
   }
 
   sellForDefault(): void {
     // Sells the player for the default price
     this.api
-          .run('put', `/players/sellForDefault`, `&playerId=${this.modalPlayer.id}&teamId=${this.acc.team.id}`, {})
-          .then(() => {
-            this.resetForm();
-            this.modalPlayer = null;
-            alert('Player sold');
-          })
-          .catch(err => {
-            this.resetForm();
-            this.modalPlayer = null;
-            console.error(err);
-            alert(err);
-          });
+        .run(
+            'put', `/players/sellForDefault`,
+            `&playerId=${this.modalPlayer.id}&teamId=${this.acc.team.id}`, {})
+        .then(() => {return this.acc.loadTeam();})
+        .then(() => {
+          this.resetForm();
+          this.modalPlayer = null;
+          alert('Player sold');
+        })
+        .catch(err => {
+          this.resetForm();
+          this.modalPlayer = null;
+          console.error(err);
+          alert(err);
+        });
   }
 }
