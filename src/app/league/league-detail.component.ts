@@ -1,6 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
 
 import { environment } from './../../environments/environment';
 import { Config } from './../shared/config';
@@ -23,28 +22,28 @@ export class LeagueDetailComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.leagueId = params['leagueId'];
             if (this.leagueId) this.fetchLeague()
-                .switchMap(() => { return this.fetchSeasons(); })
-                .subscribe(() => {
+                .then(() => { return this.fetchSeasons(); })
+                .then(() => {
                     this.zone.run(() => {});
                     this.fetchTeams();
                 });
         });
     }
 
-    fetchLeague(): Observable<any> {
+    fetchLeague(): Promise<any> {
         return this.api.run('get', `/leagues/${this.leagueId}`, '', {})
-            .map(league => { this.league = league; });
+            .then(league => { this.league = league; });
     }
 
-    fetchSeasons(): Observable<any> {
+    fetchSeasons(): Promise<any> {
         return this.api.run('get', `/leagues/${this.leagueId}/seasons`, '', {})
-            .map(seasons => { this.seasons = seasons; });
+            .then(seasons => { this.seasons = seasons; });
     }
 
     fetchTeams(): void {
         this.league.teamIds.forEach(teamId => {
             return this.api.run('get', `/teams/${teamId}`, '', {})
-                .subscribe(team => { this.teams.push(team); this.zone.run(() => { }); });
+                .then(team => { this.teams.push(team); this.zone.run(() => { }); });
         });
     }
 
@@ -60,17 +59,17 @@ export class LeagueDetailComponent implements OnInit {
         }
         console.log('enrolling')
         this.api.run('get', `/leagues/${id}`, '', {})
-            .subscribe(league => {
+            .then(league => {
                 console.log('league found')
                 if (league.teamIds.indexOf(this.acc.team.id) === -1) {
                     league.teamIds.push(this.acc.team.id);
                     this.api.run('patch', `/leagues/${id}`, '', league)
-                        .subscribe(leag => {
+                        .then(leag => {
                             console.log('league updated')
                             console.log(leag)
                             this.zone.run(() => { });
                             this.acc.loadLeagues(this.acc.teamId); // refresh the local saved leagues
-                            this.fetchLeague().subscribe(() => {
+                            this.fetchLeague().then(() => {
                                 this.fetchTeams();
                             }); // refresh the league to display the user as enrolled in
                         });
@@ -83,7 +82,7 @@ export class LeagueDetailComponent implements OnInit {
     generateSeason(): void {
         if (!this.leagueId) return;
         this.api.run('post', `/leagues/generateSeason`, `&id=${this.leagueId}`, {})
-            .subscribe(res => {
+            .then(res => {
                 console.log(res);
                 // alert(res);
             });

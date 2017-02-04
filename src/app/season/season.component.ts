@@ -1,6 +1,5 @@
 import { Component, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
 
 import * as moment from 'moment';
 import { environment } from './../../environments/environment';
@@ -43,33 +42,33 @@ export class SeasonComponent {
     constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private zone: NgZone) {
         this.route.params.forEach((params: Params) => {
             this.loadSeason(params['seasonId'])
-                .subscribe(() => { this.loadTeams(); this.zone.run(() => {}); })
+                .then(() => { this.loadTeams(); this.zone.run(() => { }); })
         });
     }
 
-    loadSeason(seasonId): Observable<any> {
+    loadSeason(seasonId): Promise<any> {
         return this.api.run('get', `/seasons/${seasonId}`, '', {})
-            .map(season => { this.season = season; return; })
-            .switchMap(() => {
+            .then(season => { this.season = season; return; })
+            .then(() => {
                 return this.api.run('get', `/seasons/${this.season.id}/games`, '', {})
             })
-            .switchMap(games => {
+            .then(games => {
                 this.games = games;
-                this.zone.run(() => {});
+                this.zone.run(() => { });
                 return this.api.run('get', `/leagues/${this.season.leagueId}`, '', {})
             })
-            .map(league => {
+            .then(league => {
                 this.league = league;
-            })
+            });
     }
 
     loadTeams() {
         return this.api.run('get', `/teams`, '', {})
-            .subscribe(teams => {
+            .then(teams => {
                 teams.forEach(t => {
                     this.teams[t.id] = t;
                 });
-                this.zone.run(() => {});
+                this.zone.run(() => { });
             });
     }
 

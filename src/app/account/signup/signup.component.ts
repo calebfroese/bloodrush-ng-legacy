@@ -36,7 +36,7 @@ export class SignupComponent {
         }, {
                 acronym: val.acronym.toUpperCase(),
                 name: val.teamName
-            }).subscribe(() => {
+            }).then(() => {
                 if (this.acc.team.verified !== true && environment.envName === 'prod') {
                     this.acc.logout().then(() => {
                         alert(`Successfully created an account. Please verify your email address for ${val.teamName} to start playing.`);

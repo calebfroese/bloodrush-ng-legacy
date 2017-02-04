@@ -1,8 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import { Observable } from 'rxjs/Rx';
 
 import { ApiService } from './api/api.service';
 import { Config } from './../shared/config';
@@ -28,10 +26,10 @@ export class AccountService {
             this.api.sessionId = sessionId;
             this.userId = userId;
             this.loadTeam()
-                .subscribe(() => {
+                .then(() => {
                     console.log('UPDATING ZONE')
                     this.zone.run(() => { });
-                })
+                });
         } else {
             console.log('Not logging in.', userId, sessionId)
         }
@@ -39,14 +37,15 @@ export class AccountService {
 
     login(username: string, password: string): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.api.run('post', `/Users/login`, '', { username: username, password: password }).subscribe((response: any) => {
-                // Set the session id
-                this.api.sessionId = response.id;
-                localStorage.setItem('sessionId', this.api.sessionId);
-                this.userId = response.userId;
-                localStorage.setItem('userId', this.userId);
-                resolve();
-            });
+            this.api.run('post', `/Users/login`, '', { username: username, password: password })
+                .then((response: any) => {
+                    // Set the session id
+                    this.api.sessionId = response.id;
+                    localStorage.setItem('sessionId', this.api.sessionId);
+                    this.userId = response.userId;
+                    localStorage.setItem('userId', this.userId);
+                    resolve();
+                });
         });
     }
 
@@ -59,7 +58,7 @@ export class AccountService {
         });
     }
 
-    signup(user: any, team: any): Observable<any> {
+    signup(user: any, team: any): Promise<any> {
         // Create a user
         return this.api.run('post', `/Users`, '', {
             username: user.username,
@@ -67,12 +66,10 @@ export class AccountService {
             password: user.password,
             teamId: this.teamId
         })
-            .switchMap((usr: any) => {
-                return Observable.fromPromise(
-                    this.login(user.username, user.password)
-                );
+            .then((usr: any) => {
+                return this.login(user.username, user.password)
             })
-            .switchMap(() => {
+            .then(() => {
                 // Create a user
                 return this.api.run('post', `/teams/generate`, '', {
                     userId: this.userId,
@@ -81,11 +78,11 @@ export class AccountService {
                     access_token: this.api.sessionId
                 });
             })
-            .switchMap(cb => {
+            .then(cb => {
                 // Load players
                 return this.loadTeam();
             })
-            .switchMap(() => {
+            .then(() => {
                 // Verify the email
                 console.log('about to verify team')
                 this.zone.run(() => { });
@@ -93,47 +90,47 @@ export class AccountService {
             });
     }
 
-    verifyTeam(email: string, teamId: string): Observable<any> {
+    verifyTeam(email: string, teamId: string): Promise<any> {
         return this.api.run('post', `/emails/sendActivation`, `&email=${email}&teamId=${teamId}`, {});
     }
 
-    loadTeam(): Observable<any> {
+    loadTeam(): Promise<any> {
         // Get the user
         return this.api.run('get', `/Users/${this.userId}`, '', {})
-            .switchMap((user: any) => {
+            .then((user: any) => {
                 this.user = user;
                 console.log('user is', user);
                 this.teamId = user.teamId;
                 console.log('found teamid', this.teamId);
                 return this.api.run('get', `/teams/${this.teamId}`, '', {});
-            }).switchMap((team: any) => {
+            }).then((team: any) => {
                 this.team = team;
                 console.log('setting team', team);
                 return this.loadPlayers(this.teamId);
-            }).switchMap(() => {
+            }).then(() => {
                 return this.getMySeasonId(this.teamId);
             });
     }
 
-    loadPlayers(teamId: string): Observable<any> {
+    loadPlayers(teamId: string): Promise<any> {
         // Get the players
         return this.api.run('get', `/teams/${teamId}/players`, '', {})
-            .switchMap(players => { this.players = players; return this.loadLeagues(this.teamId); })
+            .then(players => { this.players = players; return this.loadLeagues(this.teamId); })
     }
 
-    loadLeagues(teamId: string): Observable<any> {
+    loadLeagues(teamId: string): Promise<any> {
         // Get the leagues
         return this.api.run('get', `/leagues`, `&filter={"where": {"teamIds": {"in": ["${teamId}"] }}}`, {})
-            .map(leagues => { this.leagues = leagues; console.log('ALL leagues have been loged!', leagues); return; });
+            .then(leagues => { this.leagues = leagues; console.log('ALL leagues have been loged!', leagues); return; });
     }
 
-    getMySeasonId(teamId: string): Observable<any> {
+    getMySeasonId(teamId: string): Promise<any> {
         // Get the latest season for the league that the user is enroled in
         // TODO fetch the primary league's latest season
         if (!this.leagues || this.leagues.length < 1) return this.api.run('get', `/leagues`, '', {}); // do nothing with the data
 
         return this.api.run('get', `/leagues/${this.leagues[0].id}/seasons`, '', {})
-            .switchMap(seasons => {
+            .then(seasons => {
                 console.log(seasons);
                 // Find the highest number season
                 let highestSeason = 0;
@@ -147,6 +144,6 @@ export class AccountService {
                 });
                 return this.api.run('get', `/seasons/${this.seasonId}`, '', {})
             })
-            .map(season => { this.season = season; console.log('set season', season); return; });
+            .then(season => { this.season = season; console.log('set season', season); return; });
     }
 }

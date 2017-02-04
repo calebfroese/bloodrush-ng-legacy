@@ -33,7 +33,7 @@ export class LeagueCreateComponent {
             name: val.name,
             public: val.public,
             ownerId: this.acc.teamId,
-        }).subscribe(() => {
+        }).then(() => {
             alert('League added');
             this.acc.loadLeagues(this.acc.teamId); // refresh the leagues
             this.router.navigate(['/leagues']);

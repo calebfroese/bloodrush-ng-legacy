@@ -195,9 +195,9 @@ export class MyTeamComponent {
         this.team.init = true;
         // Submit to the server and update the team
         this.team.acronym = this.team.acronym.toUpperCase();
-        this.api.run('patch', `/teams/${this.acc.team.id}`, '', this.team).subscribe(response => {
+        this.api.run('patch', `/teams/${this.acc.team.id}`, '', this.team).then(response => {
             // Save the player style too
-            this.api.run('post', `/images/createPlayers`, '', { style: this.team.style, teamId: this.team.id }).subscribe(response => {
+            this.api.run('post', `/images/createPlayers`, '', { style: this.team.style, teamId: this.team.id }).then(response => {
                 alert('Team saved');
             });
         });
@@ -233,7 +233,7 @@ export class MyTeamComponent {
             if (sty.base || sty.selected) {
                 // Send a request to the server
                 this.api.run('post', '/images/createPart', '', { style: sty, teamId: this.team.id })
-                    .subscribe(() => {
+                    .then(() => {
                         tempSrcImgs[i] = `${Config[environment.envName].imgUrl}temp/player/${this.team.id}/frame1/${sty.name}-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`;
                     });
             }

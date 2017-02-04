@@ -15,7 +15,7 @@ export class TeamPlayersComponent implements OnInit {
     ngOnInit(): void {
         if (!this.teamId) return;
         this.api.run('get', `/teams/${this.teamId}/players`, '', {})
-            .subscribe(players => {
+            .then(players => {
                 this.players = players;
                 this.zone.run(() => { });
             });

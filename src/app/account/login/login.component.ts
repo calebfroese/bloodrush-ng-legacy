@@ -22,7 +22,7 @@ export class LoginComponent {
             this.acc.login(val.username, val.password)
                 .then(response => {
                     this.acc.loadTeam()
-                        .subscribe(() => {
+                        .then(() => {
                             console.log('LOGINCOMP', this.acc.team);
                             this.zone.run(() => {});
                             this.router.navigate(['/home']);

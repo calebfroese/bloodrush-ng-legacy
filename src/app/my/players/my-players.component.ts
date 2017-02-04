@@ -54,7 +54,7 @@ export class MyPlayersComponent implements OnInit {
         this.api.run('patch', `/teams/${this.acc.team.id}`, '', {
             playerIdsAtPos: playerIdsAtPos
         })
-            .subscribe(team => {
+            .then(team => {
                 alert('Player mapping saved.');
                 console.log(team);
             });

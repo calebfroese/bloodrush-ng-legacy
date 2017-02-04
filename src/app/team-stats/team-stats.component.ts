@@ -24,7 +24,7 @@ export class TeamStatsComponent implements OnInit {
         }
         // Load the team stats
         this.api.run('get', `/teams/score`, `&leagueId=${this.leagueId}&seasonId=${this.seasonId}&teamId=${this.teamId}`, {})
-            .subscribe(response => {
+            .then(response => {
                 let teamScore = response.score;
                 this.score = response.score;
                 console.log('score', teamScore);

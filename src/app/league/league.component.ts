@@ -21,7 +21,7 @@ export class LeagueComponent implements OnInit {
             console.log('No acconts for leagues! on on')
         }
         this.api.run('get', '/leagues', '', {})
-            .subscribe(allLeagues => {
+            .then(allLeagues => {
                 this.getOwnerName(allLeagues, 'allLeagues');
                 this.allLeagues = allLeagues;
                 console.log(this.allLeagues);
@@ -37,7 +37,7 @@ export class LeagueComponent implements OnInit {
         for (let i = 0; i < leagueArr.length; i++) {
             if (leagueArr[i].ownerId) {
                 this.api.run('get', `/teams/${leagueArr[i].ownerId}`, '', {})
-                    .subscribe(team => {
+                    .then(team => {
                         this[ref][i].ownerName = team.name;
                         this.zone.run(() => {});
                     });

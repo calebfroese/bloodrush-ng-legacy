@@ -27,13 +27,13 @@ export class LadderComponent implements OnInit {
             console.log('found team', teamId)
             let team = null;
             this.api.run('get', `/teams/${teamId}`, '', {})
-                .switchMap(t => {
+                .then(t => {
                     team = t;
                     // Get the score
                     console.log('about to query score')
                     return this.api.run('get', `/teams/score`, `&leagueId=${this.league.id}&seasonId=${this.season.id}&teamId=${teamId}`, {})
                 })
-                .map(response => {
+                .then(response => {
                     let teamScore = response.score;
                     console.log('score', teamScore);
                     let t = {
@@ -45,7 +45,7 @@ export class LadderComponent implements OnInit {
                     this.teams.push(t);
                     this.sortByPoints();
                     return;
-                }).subscribe(() => {});
+                }).then(() => {});
         });
     }
 

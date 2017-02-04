@@ -34,11 +34,11 @@ export class TeamDetailComponent implements OnInit {
         this.route.params.subscribe((params: Params) => {
             let teamId = params['teamId'];
             this.api.run('get', `/teams/${teamId}`, '', {})
-                .switchMap(team => {
+                .then(team => {
                     this.team = team;
                     return this.api.run('get', `/teams/${teamId}/players`, '', {})
                 })
-                .subscribe(players => {
+                .then(players => {
                     this.players = players;
                     this.zone.run(() => { });
                 })

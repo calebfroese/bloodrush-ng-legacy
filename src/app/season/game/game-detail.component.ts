@@ -71,16 +71,16 @@ export class GameDetailComponent implements OnInit {
             let seasonId: string = this.seasonId = params['seasonId'];
             let gameId: number = this.gameId = params['gameId'];
             this.api.run('get', `/games/${gameId}`, '', {})
-                .subscribe(game => {
+                .then(game => {
                     this.game = game;
                     this.data = game.data;
                     console.log(game);
                     this.api.run('get', `/teams/${game.homeId}`, '', {})
-                        .switchMap(teamHome => {
+                        .then(teamHome => {
                             this.home = teamHome;
                             return this.api.run('get', `/teams/${game.awayId}`, '', {})
                         })
-                        .subscribe(teamAway => {
+                        .then(teamAway => {
                             this.away = teamAway;
                             this.zone.run(() => { });
                             if (this.data.live) {
@@ -104,7 +104,7 @@ export class GameDetailComponent implements OnInit {
     runGame(): void {
         // Manually runs the game. TODO remove this
         this.api.run('post', `/games/generate`, `&gameId=${this.gameId}`, {})
-            .subscribe(() => {
+            .then(() => {
                 console.log('game is generated');
             });
     }

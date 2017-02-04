@@ -12,7 +12,7 @@ export class VerifyComponent {
         this.route.params.forEach((params: Params) => {
             let token = params['token'];
             if (token) {
-                this.api.run('post', '/emails/verifyEmail', `&token=${token}`, {}).subscribe(res => {
+                this.api.run('post', '/emails/verifyEmail', `&token=${token}`, {}).then(res => {
                     alert('Successfully validated your account.');
                     this.router.navigate(['/login']);
                 });
