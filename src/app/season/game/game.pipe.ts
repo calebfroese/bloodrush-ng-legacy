@@ -5,6 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class GamePipe implements PipeTransform {
     transform(array: Array<string>, args: string): Array<string> {
+        if (!array) return;
         array.sort((a: any, b: any) => {
             if (!a.round) return 1;
             if (!b.round) return -1;
