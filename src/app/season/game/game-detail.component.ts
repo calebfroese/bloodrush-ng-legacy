@@ -13,8 +13,8 @@ import {Config} from './../../shared/config';
         .c-div {
             width: 100%;
         }
-        .message {
-          margin: 0px;
+        progress {
+          border-radius: 0px;
         }
     `]
 })

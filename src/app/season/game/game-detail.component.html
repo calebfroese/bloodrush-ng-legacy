@@ -19,11 +19,14 @@
         <h3 class="title is-3">Game</h3>
         <div class="columns">
             <div class="column is-12">
-                <article class="message" [ngClass]="{'is-primary': (live)}">
-                    <div class="message-header level">
+                <article class="message is-marginless" [ngClass]="{'is-primary': (live)}">
+                    <div class="level message-header is-marginless">
                         <div class="level-left"><b>HOME</b>&nbsp;-&nbsp;{{homeScore}}</div>
                         {{live ? 'LIVE' : 'REPLAY'}} [QTR {{qtrNum}}]
                         <div class="level-right">{{awayScore}}&nbsp;-&nbsp;<b>AWAY</b></div>
+                    </div>
+                    <div class="level is-marginless">
+                        <progress class="progress is-primary is-marginless" value="30" max="100">30%</progress>
                     </div>
                 </article>
                 <div #cDiv class="c-div">
