@@ -17,8 +17,8 @@ import { GamePipe } from './season/game/game.pipe';
 import { HomeComponent } from './home/home.component';
 import { LadderComponent } from './ladder/ladder.component';
 import { LeagueComponent } from './league/league.component';
-import { LeagueCreateComponent } from './league/create/league-create.component';
 import { LeagueDetailComponent } from './league/league-detail.component';
+import { LeagueCreateComponent } from './league/create/league-create.component';
 import { LogoutComponent } from './account/logout/logout.component';
 import { LoginComponent } from './account/login/login.component';
 import { MyPlayersComponent } from './my/players/my-players.component';
@@ -32,6 +32,7 @@ import { TeamDetailComponent } from './team/team-detail.component';
 import { SeasonComponent } from './season/season.component';
 import { SignupComponent } from './account/signup/signup.component';
 import { ScoreService } from './shared/score.service';
+import { UpcomingGamesComponent } from './upcoming-games/upcoming-games.component';
 import { VerifyComponent } from './account/verify/verify.component';
 
 @NgModule({
@@ -58,6 +59,7 @@ import { VerifyComponent } from './account/verify/verify.component';
     SeasonComponent,
     LoginComponent,
     LogoutComponent,
+    UpcomingGamesComponent,
     VerifyComponent
   ],
   imports: [

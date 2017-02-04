@@ -1,0 +1,87 @@
+<section *ngIf="gamesToday" class="section">
+    <div class="container">
+        <h3 class="title">Recent &amp; Upcoming Games</h3>
+        <hr>
+        <div class="columns">
+            <div *ngIf="gamesToday[0]" class="column is-one-quarter">
+                <div class="card custom-card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            {{gamesToday[0].date | date:['MMM d']}}
+                        </p>
+                        <a class="card-header-icon" routerLink="/season/{{season.number}}/0">
+                            <span class="icon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        Home: {{gamesToday[0].home ? gamesToday[0].home.name : 'Bye'}}
+                        <br> Away: {{gamesToday[0].away ? gamesToday[0].away.name : 'Bye'}}
+                        <br> Round #{{gamesToday[0].round}}
+                        <div class="content">
+                            <small>{{gamesToday[0].date | date:'MMM d'}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="gamesToday[1]" class="column is-one-quarter">
+                <div class="card custom-card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            {{gamesToday[1].date | date:['MMM d']}}
+                        </p>
+                        <a class="card-header-icon" routerLink="/season/{{season.number}}/1">
+                            <span class="icon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        Home: {{gamesToday[1].home ? gamesToday[1].home.name : 'Bye'}}
+                        <br> Away: {{gamesToday[1].away ? gamesToday[1].away.name : 'Bye'}}
+                        <br> Round #{{gamesToday[1].round}}
+                        <div class="content">
+                            <small>{{gamesToday[1].date | date:'MMM d'}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="gamesToday[2]" class="column is-one-quarter">
+                <div class="card custom-card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            {{gamesToday[2].date | date:['MMM d']}}
+                        </p>
+                        <a class="card-header-icon" routerLink="/season/{{season.number}}/2">
+                            <span class="icon">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        Home: {{gamesToday[2].home ? gamesToday[2].home.name : 'Bye'}}
+                        <br> Away: {{gamesToday[2].away ? gamesToday[2].away.name : 'Bye'}}
+                        <br> Round #{{gamesToday[2].round}}
+                        <div class="content">
+                            <small>{{gamesToday[2].date | date:'MMM d'}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="gamesToday[3]" class="column is-one-quarter">
+                <div class="card custom-card">
+                    <div class="card-content">
+                        <div class="content has-text-centered">
+                            <br>
+                            <p>See More</p>
+                            <span class="icon is-large">
+                                <i class="fa fa-plus-square"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
