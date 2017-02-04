@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 // Custom imports
-import { FormConfig } from './form.config';
+import { USER, TEAM, LEAGUE } from './form.config';
 import { CustomValidators } from './custom-validators';
 
 @Injectable()
@@ -22,44 +22,43 @@ export class FormService {
     password = ['',
         Validators.compose([
             Validators.required,
-            Validators.minLength(this.formConfig.password.min)
+            Validators.minLength(USER.PASSWORD.MIN)
         ])
     ];
     username = ['',
         Validators.compose([
             Validators.required,
-            Validators.minLength(this.formConfig.username.min),
-            Validators.maxLength(this.formConfig.username.max)
+            Validators.minLength(USER.USERNAME.MIN),
+            Validators.maxLength(USER.USERNAME.MAX)
         ])
     ];
     // Team
     acronym = ['',
         Validators.compose([
             Validators.required,
-            Validators.minLength(this.formConfig.acronym.min),
-            Validators.maxLength(this.formConfig.acronym.max)
+            Validators.minLength(TEAM.ACRONYM.MIN),
+            Validators.maxLength(TEAM.ACRONYM.MAX)
         ])
     ];
     teamName = ['',
         Validators.compose([
             Validators.required,
-            Validators.minLength(this.formConfig.teamName.min),
-            Validators.maxLength(this.formConfig.teamName.max)
+            Validators.minLength(TEAM.NAME.MIN),
+            Validators.maxLength(TEAM.NAME.MAX)
         ])
     ];
     // League
     leagueName = ['',
         Validators.compose([
             Validators.required,
-            Validators.minLength(this.formConfig.leagueName.min),
-            Validators.maxLength(this.formConfig.leagueName.max)
+            Validators.minLength(LEAGUE.NAME.MIN),
+            Validators.maxLength(LEAGUE.NAME.MAX)
         ])
     ];
     leaguePublic = [{ value: true, disabled: false }];
 
     constructor(
-        private fb: FormBuilder,
-        private formConfig: FormConfig
+        private fb: FormBuilder
     ) { }
 
     signupForm(): FormGroup {

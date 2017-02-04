@@ -12,7 +12,6 @@ import { AppRouting } from './app.routing';
 import { GameDetailComponent } from './season/game/game-detail.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormService } from './shared/forms/form.service';
-import { FormConfig } from './shared/forms/form.config';
 import { GamePipe } from './season/game/game.pipe';
 import { HomeComponent } from './home/home.component';
 import { LadderComponent } from './ladder/ladder.component';
@@ -78,8 +77,7 @@ import { VerifyComponent } from './account/verify/verify.component';
     ApiService,
     AccountService,
     ScoreService,
-    FormService,
-    FormConfig
+    FormService
   ],
   bootstrap: [
     AppComponent,
