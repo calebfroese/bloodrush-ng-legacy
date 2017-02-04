@@ -1,6 +1,6 @@
 <section *ngIf="league" class="section">
     <div class="container">
-        <h1 class="title">{{league.name}}</h1>
+        <h1 class="title is-1">{{league.name}}</h1>
         <div class="columns">
             <div class="column">
                 Public: {{league.public}}
@@ -12,13 +12,13 @@
                 </ng-container>
                 <br>
                 <br>
-                <h4 class="title">Teams</h4>
+                <h4 class="title is-4">Teams</h4>
                 <div *ngFor="let team of teams">
                     {{team.name}} &nbsp;
                     <b *ngIf="league.ownerId === team.id">OWNER</b>
                 </div>
                 <br>
-                <h4 class="title">Seasons</h4>
+                <h4 class="title is-4">Seasons</h4>
                 <ng-container *ngIf="seasons">
                     <button *ngFor="let season of seasons" routerLink="/seasons/{{season.id}}" class="button is-default">Season #{{season.number}}</button>
                 </ng-container>

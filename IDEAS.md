@@ -17,16 +17,6 @@
 # Games
 * * (LATER ON) Medics take injured/dead off field, new players run onto field to replace them
 
-# Players
-* Player numbers
-* * When a new player joins the team, they get a random number between 1-99 that is not currently assigned
-
-# Signup
-* (VALIDATION) Acronym may only include the letters in the team name
-
-# Team Icon Generator
-Generate an icon based on existing ones, or upload your own
-
 # Game Movement and Logic
 * Default move across the field
 * Player Types
@@ -53,3 +43,16 @@ Generate an icon based on existing ones, or upload your own
 * * training
 * * dead
 * * market
+
+
+# Money and Economy
+Winning Game: 100
+Tie Game: 50 (each)
+Losing Game: 25
+Season 1st: 350
+Season 2nd: 250
+Season 3rd: 150
+Average Player Cost: 80
+Market Default Sale: 20
+Basic Training (2 days): 10 - less stats
+Advanced Training (7 days): 35 - more stats

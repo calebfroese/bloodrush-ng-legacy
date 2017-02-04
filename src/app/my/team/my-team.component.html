@@ -1,7 +1,7 @@
 <bloodrush-my-team-nav></bloodrush-my-team-nav>
 <section *ngIf="acc.team && acc.team.id" class="section">
     <div class="container">
-        <h1 class="title">Team</h1>
+        <h1 class="title is-1">Team</h1>
         <div class="columns">
             <div class="column">
                 <hr>
@@ -10,7 +10,7 @@
                     <input type="file" ngFileSelect [options]="options" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)">
                 </p>
                 <img class="image is-128x128" src="{{imgUrl}}/teamlogos/{{team.id}}.png?a={{rndCache}}" onError="this.src='/assets/img/logo.png';">
-                <h3 class="title">Team Details</h3>
+                <h3 class="title is-3">Team Details</h3>
                 <label class="label">Acronym</label>
                 <p class="control has-icon has-icon-right">
                     <input [(ngModel)]="team.acronym" class="input" type="text" placeholder="e.g. ADEL" maxlength="4">
@@ -26,7 +26,7 @@
 </section>
 <section class="section">
     <div class="container">
-        <h4 class="title">Players</h4>
+        <h4 class="title is-4">Players</h4>
         <div class="columns">
             <div class="column">
                 <canvas #playerPreviewCanvas class="player-preview"></canvas>

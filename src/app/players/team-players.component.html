@@ -1,6 +1,6 @@
 <section *ngIf="players" class="section">
     <div class="container">
-        <h3 class="title">Players</h3>
+        <h3 class="title is-3">Players</h3>
         <hr>
         <div class="columns">
             <div class="column">
@@ -13,18 +13,18 @@
                             <th>SPD</th>
                             <th>KG</th>
                             <th>REC</th>
-                            <th>STY</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let player of players">
-                            <td>{{player.first}} {{player.last}}</td>
+                            <td>{{player.first}} {{player.last}}
+                                <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png"/>
+                            </td>
                             <td>{{player.atk}}</td>
                             <td>{{player.def}}</td>
                             <td>{{player.spd}}</td>
                             <td>{{player.kg}}</td>
                             <td>{{player.rec}}</td>
-                            <td>{{player.sty}}</td>
                         </tr>
                     </tbody>
                 </table>

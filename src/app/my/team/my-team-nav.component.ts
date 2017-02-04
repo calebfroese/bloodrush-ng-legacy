@@ -9,7 +9,7 @@ import { AccountService } from './../../shared/account.service';
     <!-- Hero content: will be in the middle -->
     <div class="hero-body">
         <div class="container has-text-centered">
-            <h1 class="title">{{acc.team.name}}</h1>
+            <h1 class="title is-1">{{acc.team.name}}</h1>
             <h2 class="subtitle">{{acc.team.id}}</h2>
         </div>
     </div>

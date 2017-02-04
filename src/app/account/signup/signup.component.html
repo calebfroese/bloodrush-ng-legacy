@@ -1,6 +1,6 @@
 <section class="section">
     <div class="container">
-        <h1 class="title">Signup</h1>
+        <h1 class="title is-1">Signup</h1>
         <div class="columns">
             <div class="column is-12">
                 <form [formGroup]="form" (ngSubmit)="onClickSubmit(form.value)">
@@ -24,7 +24,7 @@
                     <p class="control has-icon has-icon-right">
                         <input formControlName="passwordConf" class="input" type="password" placeholder="confirm password" maxlength="40">
                     </p>
-                    <h3 class="title">Team Details</h3>
+                    <h3 class="title is-3">Team Details</h3>
                     <label class="label">Acronym</label>
                     <p class="control has-icon has-icon-right">
                         <input formControlName="acronym" class="input" type="text" placeholder="e.g. ADEL" maxlength="4">

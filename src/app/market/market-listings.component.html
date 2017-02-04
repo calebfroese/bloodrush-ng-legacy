@@ -1,0 +1,16 @@
+<table class="table" *ngIf="players">
+    <thead>
+        <tr>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Date Listed</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let player of players">
+            <td>{{player.first}} {{player.last}}</td>
+            <td>{{player.price}}</td>
+            <td>{{mockTime}}</td>
+        </tr>
+    </tbody>
+</table>

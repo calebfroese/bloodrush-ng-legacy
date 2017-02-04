@@ -4,7 +4,13 @@ import { ApiService } from './../shared/api/api.service';
 
 @Component({
     selector: 'bloodrush-team-players',
-    templateUrl: './team-players.component.html'
+    templateUrl: './team-players.component.html',
+    styles: [`
+        .is-16x16 {
+            width: 16px;
+            height: 16px;
+        }
+    `]
 })
 export class TeamPlayersComponent implements OnInit {
     @Input() teamId: string;

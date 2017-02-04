@@ -155,7 +155,7 @@ export class GameDetailComponent implements OnInit {
 
     // CANVAS
     preloadImages(): Promise<void> {
-        return this.loadImage('field', '/assets/img/field.png')
+        return this.loadImage('field', '/assets/img/fields/field3.png')
             .then(() => { return this.loadImage('home1', `${Config[environment.envName].imgUrl}player/output/${this.home.id}-1.png`); })
             .then(() => { return this.loadImage('home4', `${Config[environment.envName].imgUrl}player/output/${this.home.id}-4.png`); })
             .then(() => { return this.loadImage('home7', `${Config[environment.envName].imgUrl}player/output/${this.home.id}-7.png`); })
