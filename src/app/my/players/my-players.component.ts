@@ -20,7 +20,7 @@ export class MyPlayersComponent implements OnInit {
           '',
           [
             CustomValidators.required,
-            CustomValidators.isRaw('isInt', {min: 20, max: 9999})
+            CustomValidators.isRaw('isInt', {min: PLAYER_SELL_PRICE.MIN, max: PLAYER_SELL_PRICE.MAX})
           ])
     });
   }

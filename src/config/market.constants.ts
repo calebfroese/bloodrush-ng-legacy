@@ -1,5 +1,5 @@
 export const PLAYER_SELL_DEFAULT = 20;
 export const PLAYER_SELL_PRICE = {
-    MIN: 20,
+    MIN: PLAYER_SELL_DEFAULT,
     MAX: 9999
 };
