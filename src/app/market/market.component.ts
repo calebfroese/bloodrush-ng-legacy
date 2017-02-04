@@ -29,8 +29,12 @@ export class MarketComponent implements OnInit {
             });
     }
 
-    viewPlayer(player) {
+    viewPlayer(player): void {
         this.modalPlayer = player;
         // Fetch the team that is selling the player
+    }
+
+    purchasePlayer(player: any): void {
+        // Purchases a player
     }
 }

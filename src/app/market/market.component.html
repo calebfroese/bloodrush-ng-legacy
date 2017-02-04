@@ -2,7 +2,8 @@
     <h1 class="title is-1">Market</h1>
     <span class="icon is-large">
                     <i class="fa fa-money"></i>
-                </span>&nbsp;<font class="title is-3">{{acc.team.money}}</font>
+                </span>&nbsp;&nbsp;<font class="title is-3">{{acc.team.money}}</font>
+                <hr>
     <div *ngIf="myPlayers && myPlayers.length > 0" class="container">
         <div class="columns">
             <div class="column">
@@ -31,7 +32,7 @@
             <bloodrush-player-info [player]="modalPlayer"></bloodrush-player-info>
         </section>
         <footer class="modal-card-foot">
-            <a class="button is-success">Purchase</a>
+            <button (click)="purchasePlayer(player)" [disabled]="(acc.team.money < modalPlayer.askingPrice)" class="button is-success">Purchase</button>
             <h2 class="title is-2"><span class="icon is-large">
                     <i class="fa fa-money"></i>
                 </span> {{modalPlayer.askingPrice}}</h2>
