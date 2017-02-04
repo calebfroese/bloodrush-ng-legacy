@@ -42,7 +42,7 @@ export class LeagueDetailComponent implements OnInit {
     fetchTeams(): void {
         this.league.teamIds.forEach(teamId => {
             return this.api.run('get', `/teams/${teamId}`, '', {})
-                .then(team => { this.teams.push(team); this.zone.run(() => { }); });
+                .then(team => { this.teams.push(team); });
         });
     }
 
