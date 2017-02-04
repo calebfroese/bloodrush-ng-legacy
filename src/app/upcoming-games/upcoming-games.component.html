@@ -9,7 +9,7 @@
                         <p class="card-header-title">
                             {{gamesToday[0].date | date:['MMM d']}}
                         </p>
-                        <a class="card-header-icon" routerLink="/season/{{season.number}}/0">
+                        <a class="card-header-icon" routerLink="/seasons/{{season.number}}/0">
                             <span class="icon">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -31,7 +31,7 @@
                         <p class="card-header-title">
                             {{gamesToday[1].date | date:['MMM d']}}
                         </p>
-                        <a class="card-header-icon" routerLink="/season/{{season.number}}/1">
+                        <a class="card-header-icon" routerLink="/seasons/{{season.number}}/1">
                             <span class="icon">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -53,7 +53,7 @@
                         <p class="card-header-title">
                             {{gamesToday[2].date | date:['MMM d']}}
                         </p>
-                        <a class="card-header-icon" routerLink="/season/{{season.number}}/2">
+                        <a class="card-header-icon" routerLink="/seasons/{{season.number}}/2">
                             <span class="icon">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="gamesToday[3]" class="column is-one-quarter" routerLink="/season">
+            <div *ngIf="gamesToday[3]" class="column is-one-quarter" routerLink="/seasons">
                 <div class="card custom-card">
                     <header class="card-header">
                         <p class="card-header-title">
