@@ -123,8 +123,8 @@ export class AccountService {
 
     loadLeagues(teamId: string): Observable<any> {
         // Get the leagues
-        return this.api.run('get', `/leagues`, '', {})
-            .map(leagues => { this.leagues = leagues; console.log('ALL leagues have been loged!'); return; });
+        return this.api.run('get', `/leagues`, `&filter={"where": {"teamIds": {"in": ["${teamId}"] }}}`, {})
+            .map(leagues => { this.leagues = leagues; console.log('ALL leagues have been loged!', leagues); return; });
     }
 
     getMySeasonId(teamId: string): Observable<any> {
