@@ -112,7 +112,7 @@ export class GameDetailComponent implements OnInit {
     let duration = moment.duration(moment(this.game.date).diff(moment()));
     this.gameTime = moment(this.game.date).format('LLLL');
     // Calculate the time it starts in
-    let seconds = duration.asSeconds();
+    let seconds = duration.asSeconds() + 3;
     if (duration.asWeeks() >= 2) {
       this.startsIn = Math.floor(duration.asWeeks()).toString() + ' weeks';
       setTimeout(() => {
@@ -137,9 +137,7 @@ export class GameDetailComponent implements OnInit {
       if (seconds < 0) {
         // Start the game!
         this.startsIn = 'STARTING NOW';
-        setTimeout(() => {
-          this.ngOnInit();
-        }, 1500);
+        this.ngOnInit();
       } else {
         this.startsIn = Math.floor(seconds).toString();
         setTimeout(() => {
