@@ -46,3 +46,10 @@ Generate an icon based on existing ones, or upload your own
 * Talk to jared about this
 
 * Players who dont play will slowly decline in stats (?? maybe)
+
+* player.state
+* * ok
+* * injured
+* * training
+* * dead
+* * market
