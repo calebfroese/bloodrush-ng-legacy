@@ -122,7 +122,7 @@ export class AccountService {
         // TODO fetch the primary league's latest season
         if (!this.leagues || this.leagues.length < 1) return this.api.run('get', `/leagues`, '', {}); // do nothing with the data
 
-        return this.api.run('get', `/leagues/${this.leagues[0].id}/seasons`, '', {})
+        return this.api.run('get', `/leagues/${this.leagues[0].id}/seasons`, `&filter={"where": {"teamIds": {"in": ["${teamId}"] }}}`, {})
             .then(seasons => {
                 console.log(seasons);
                 // Find the highest number season
