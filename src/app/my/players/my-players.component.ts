@@ -20,7 +20,9 @@ export class MyPlayersComponent implements OnInit {
           '',
           [
             CustomValidators.required,
-            CustomValidators.isRaw('isInt', {min: PLAYER_SELL_PRICE.MIN, max: PLAYER_SELL_PRICE.MAX})
+            CustomValidators.isRaw(
+                'isInt',
+                {min: PLAYER_SELL_PRICE.MIN, max: PLAYER_SELL_PRICE.MAX})
           ])
     });
   }
@@ -75,5 +77,24 @@ export class MyPlayersComponent implements OnInit {
   openSellModal(player: any): void {
     // Opens the sell player modal
     this.modalPlayer = player;
+  }
+
+  placeOnMarket(val: any): void {
+    // Puts the place on the market for the asking price
+    if (this.modalPlayer.state === 'ok') {
+      this.modalPlayer.state = 'market';
+      this.modalPlayer.askingPrice = val.askingPrice;
+      this.api
+          .run('patch', `/players/${this.modalPlayer.id}`, '', this.modalPlayer)
+          .then(savedPlayer => {
+            console.log(savedPlayer);
+            this.modalPlayer = null;
+          })
+          .catch(err => {
+            this.modalPlayer = null;
+          });
+    } else {
+        console.error('You cannot market a player that is not playable!');
+    }
   }
 }
