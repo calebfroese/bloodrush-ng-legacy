@@ -27,6 +27,7 @@ import { MyTeamComponent } from './my/team/my-team.component';
 import { MyOverviewComponent } from './my/my-overview.component';
 import { MarketComponent } from './market/market.component';
 import { MarketListingsComponent } from './market/market-listings.component';
+import { PlayerCardComponent } from './players/card/player-card.component';
 import { TeamStatsComponent } from './team-stats/team-stats.component';
 import { TeamPlayersComponent } from './players/team-players.component';
 import { TeamDetailComponent } from './team/team-detail.component';
@@ -48,6 +49,7 @@ import { VerifyComponent } from './account/verify/verify.component';
     LeagueDetailComponent,
     MarketComponent,
     MarketListingsComponent,
+    PlayerCardComponent,
     MyPlayersComponent,
     MyTeamComponent,
     MyTeamNavComponent,

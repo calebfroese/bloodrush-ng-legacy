@@ -7,8 +7,8 @@ import { AccountService } from './../../shared/account.service';
     templateUrl: './my-players.component.html'
 })
 export class MyPlayersComponent implements OnInit {
-
     players: any[] = [];
+    modalPlayer: any;
 
     constructor(
         private acc: AccountService,
@@ -58,5 +58,10 @@ export class MyPlayersComponent implements OnInit {
                 alert('Player mapping saved.');
                 console.log(team);
             });
+    }
+
+    openSellModal(player: any): void {
+        // Opens the sell player modal
+        this.modalPlayer = player;
     }
 }

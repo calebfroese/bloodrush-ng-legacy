@@ -1,0 +1,30 @@
+<div class="container has-text-centered">
+    <div class="columns">
+        <div class="column is-one-third">
+            <p class="heading">Attack</p>
+            <p class="title">{{player.atk}}</p>
+        </div>
+        <div class="column is-one-third">
+            <p class="heading">Defence</p>
+            <p class="title">{{player.def}}</p>
+        </div>
+        <div class="column is-one-third">
+            <p class="heading">Speed</p>
+            <p class="title">{{player.spd}}</p>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column is-one-third">
+            <p class="heading">Weight</p>
+            <p class="title">{{player.kg}}kg</p>
+        </div>
+        <div class="column is-one-third">
+            <p class="heading">Recovery Rate</p>
+            <p class="title">{{player.rec}}%</p>
+        </div>
+        <div class="column is-one-third">
+            <p class="heading">Seller</p>
+            <p class="title">{{player?.team?.name}}</p>
+        </div>
+    </div>
+</div>
