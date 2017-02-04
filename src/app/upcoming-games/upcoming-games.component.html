@@ -9,7 +9,7 @@
                         <p class="card-header-title">
                             {{gamesToday[0].date | date:['MMM d']}}
                         </p>
-                        <a class="card-header-icon" routerLink="/seasons/{{season.number}}/0">
+                        <a class="card-header-icon" routerLink="/seasons/{{season.id}}/games/{{gamesToday[0].id}}">
                             <span class="icon">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -31,7 +31,7 @@
                         <p class="card-header-title">
                             {{gamesToday[1].date | date:['MMM d']}}
                         </p>
-                        <a class="card-header-icon" routerLink="/seasons/{{season.number}}/1">
+                        <a class="card-header-icon" routerLink="/seasons/{{season.id}}/games/{{gamesToday[1].id}}">
                             <span class="icon">
                                 <i class="fa fa-search"></i>
                             </span>
@@ -53,7 +53,7 @@
                         <p class="card-header-title">
                             {{gamesToday[2].date | date:['MMM d']}}
                         </p>
-                        <a class="card-header-icon" routerLink="/seasons/{{season.number}}/2">
+                        <a class="card-header-icon" routerLink="/seasons/{{season.id}}/games/{{gamesToday[2].id}}">
                             <span class="icon">
                                 <i class="fa fa-search"></i>
                             </span>
