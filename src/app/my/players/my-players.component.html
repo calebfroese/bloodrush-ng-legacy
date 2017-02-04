@@ -16,9 +16,9 @@
                             <td></td>
                         </tr>
                     </thead>
-                    <tr *ngFor="let player of players; let i = index;">
+                    <tr *ngFor="let player of players; let i = index;" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
                         <ng-container *ngIf="i < 8">
-                            <td>{{player.first}} {{player.last}}</td>
+                            <td>{{player.first}} {{player.last}}&nbsp;<img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png"/></td>
                             <td>{{player.atk}}</td>
                             <td>{{player.def}}</td>
                             <td>{{player.spd}}</td>
@@ -45,9 +45,9 @@
                             <td></td>
                         </tr>
                     </thead>
-                    <tr *ngFor="let player of players; let i = index;">
+                    <tr *ngFor="let player of players; let i = index;" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
                         <ng-container *ngIf="i >= 8 && i < 12">
-                            <td>{{player.first}} {{player.last}}</td>
+                            <td>{{player.first}} {{player.last}}&nbsp;<img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png"/></td>
                             <td>{{player.atk}}</td>
                             <td>{{player.def}}</td>
                             <td>{{player.spd}}</td>
@@ -74,9 +74,9 @@
                             <td></td>
                         </tr>
                     </thead>
-                    <tr *ngFor="let player of players; let i = index;">
+                    <tr *ngFor="let player of players; let i = index;" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
                         <ng-container *ngIf="i >= 12">
-                            <td>{{player.first}} {{player.last}}</td>
+                            <td>{{player.first}} {{player.last}}&nbsp;<img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png"/></td>
                             <td>{{player.atk}}</td>
                             <td>{{player.def}}</td>
                             <td>{{player.spd}}</td>

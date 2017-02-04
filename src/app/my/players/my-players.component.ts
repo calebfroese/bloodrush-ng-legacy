@@ -6,7 +6,18 @@ import {AccountService} from './../../shared/account.service';
 import {ApiService} from './../../shared/api/api.service';
 import {CustomValidators} from './../../shared/forms/custom-validators';
 
-@Component({templateUrl: './my-players.component.html'})
+@Component({
+  templateUrl: './my-players.component.html',
+  styles: [`
+        .is-16x16 {
+            width: 16px;
+            height: 16px;
+        }
+        .player-not-ok {
+          color: red;
+        }
+    `]
+})
 export class MyPlayersComponent implements OnInit {
   players: any[] = [];
   modalPlayer: any;
@@ -110,7 +121,9 @@ export class MyPlayersComponent implements OnInit {
         .run(
             'put', `/players/sellForDefault`,
             `&playerId=${this.modalPlayer.id}&teamId=${this.acc.team.id}`, {})
-        .then(() => {return this.acc.loadTeam();})
+        .then(() => {
+          return this.acc.loadTeam();
+        })
         .then(() => {
           this.resetForm();
           this.modalPlayer = null;
