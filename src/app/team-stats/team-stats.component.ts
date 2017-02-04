@@ -10,7 +10,7 @@ import { ScoreService } from './../shared/score.service';
 })
 export class TeamStatsComponent implements OnInit {
     @Input() leagueId?: string = null;
-    @Input() seasonNumber?: number = null;
+    @Input() seasonId?: number = null;
     @Input() teamId?: string = null;
     score: any;
     ratio: number = 0;
@@ -19,24 +19,24 @@ export class TeamStatsComponent implements OnInit {
     constructor(private api: ApiService, private acc: AccountService, private scoreService: ScoreService) { }
 
     ngOnInit(): void {
-        // if (!this.acc.team.leagues || !this.acc.team.leagues[0]) return;
-        // // Defaults
-        // if (!this.leagueId) {
-        //     this.leagueId = this.acc.team.leagues[0].id;
-        // }
-        // if (!this.teamId) {
-        //     this.teamId = this.acc.team.id;
-        // }
-
-        // // Load the team stats
-        // this.mongo.run('seasons', 'getScore', {leagueId: this.leagueId, seasonNumber: this.seasonNumber, teamId: this.teamId})
-        // .then(score => {
-        //     this.ratio = this.scoreService.calculateRatio(score);
-        //     this.score = score;
-        // })
-        // .catch(err => {
-        //     console.error(err);
-        //     debugger;
-        // })
+        if (!this.teamId) {
+            this.teamId = this.acc.team.id;
+        }
+        // Load the team stats
+        this.api.run('get', `/teams/score`, `&leagueId=${this.leagueId}&seasonId=${this.seasonId}&teamId=${this.teamId}`, {})
+            .subscribe(response => {
+                let teamScore = response.score;
+                this.score = response.score;
+                console.log('score', teamScore);
+                // let t = {
+                //     team: team,
+                //     score: teamScore,
+                //     ratio: this.scoreService.calculateRatio(teamScore),
+                //     pts: this.scoreService.calculatePoints(teamScore)
+                // };
+                // this.teams.push(t);
+                // this.sortByPoints();
+                // return;
+            });
     }
 }

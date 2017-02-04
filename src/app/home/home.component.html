@@ -15,8 +15,8 @@
         </div>
     </div>
 </section>
-<bloodrush-team-stats></bloodrush-team-stats>
 <ng-container *ngIf="acc.leagues && acc.leagues[0] && acc.season">
+    <bloodrush-team-stats [leagueId]="acc.leagues[0].id" [seasonId]="acc.season.id"></bloodrush-team-stats>
     <bloodrush-ladder [league]="acc.leagues[0]" [season]="acc.season"></bloodrush-ladder>
     <!--<bloodrush-team-players [teamId]="acc.team.id"></bloodrush-team-players>-->
 </ng-container>
