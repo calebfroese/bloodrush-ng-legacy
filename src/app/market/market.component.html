@@ -4,7 +4,7 @@
         <div class="columns">
             <div class="column">
                 <h2 class="title is-4">My Listings</h2>
-                <bloodrush-market-listings [players]="players" [isMine]="true"></bloodrush-market-listings>
+                <bloodrush-market-listings (viewPlayer)="viewPlayer($event)" [players]="players" [isMine]="true"></bloodrush-market-listings>
             </div>
         </div>
     </div>
@@ -12,8 +12,55 @@
         <div class="columns">
             <div class="column">
                 <h2 class="title is-4">Public Listings</h2>
-                <bloodrush-market-listings [players]="players"></bloodrush-market-listings>
+                <bloodrush-market-listings (viewPlayer)="viewPlayer($event)" [players]="players"></bloodrush-market-listings>
             </div>
         </div>
     </div>
 </section>
+<div class="modal" [ngClass]="{'is-active': modalPlayer}" *ngIf="modalPlayer">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">{{modalPlayer.first}} {{modalPlayer.last}}</p>
+            <button (click)="modalPlayer = null" class="delete"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="container has-text-centered">
+                <div class="columns">
+                    <div class="column is-one-third">
+                        <p class="heading">Attack</p>
+                        <p class="title">{{modalPlayer.atk}}</p>
+                    </div>
+                    <div class="column is-one-third">
+                        <p class="heading">Defence</p>
+                        <p class="title">{{modalPlayer.def}}</p>
+                    </div>
+                    <div class="column is-one-third">
+                        <p class="heading">Speed</p>
+                        <p class="title">{{modalPlayer.spd}}</p>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column is-one-third">
+                        <p class="heading">Weight</p>
+                        <p class="title">{{modalPlayer.kg}}kg</p>
+                    </div>
+                    <div class="column is-one-third">
+                        <p class="heading">Recovery Rate</p>
+                        <p class="title">{{modalPlayer.rec}}%</p>
+                    </div>
+                    <div class="column is-one-third">
+                        <p class="heading">Seller</p>
+                        <p class="title">{{modalPlayer?.team?.name}}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <a class="button is-success">Purchase</a>
+            <h2 class="title is-2"><span class="icon is-large">
+                    <i class="fa fa-money"></i>
+                </span> {{modalPlayer.price}}</h2>
+        </footer>
+    </div>
+</div>

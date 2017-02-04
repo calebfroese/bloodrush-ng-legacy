@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import * as moment from 'moment';
 
@@ -16,5 +16,7 @@ import * as moment from 'moment';
 export class MarketListingsComponent {
     @Input() players: any[];
     @Input() isMine: boolean;
+    @Output() viewPlayer = new EventEmitter();
     mockTime: string = moment().format('DD/MM/YYYY');
+
 }
