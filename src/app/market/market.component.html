@@ -30,7 +30,7 @@
             <button (click)="modalPlayer = null" class="delete"></button>
         </header>
         <section class="modal-card-body">
-            <bloodrush-player-info [player]="modalPlayer"></bloodrush-player-info>
+            <bloodrush-player-card [player]="modalPlayer"></bloodrush-player-card>
         </section>
         <footer class="modal-card-foot">
             <button type="button" (click)="purchasePlayer(modalPlayer)" [disabled]="(acc.team.money < modalPlayer.askingPrice)" class="button is-success">Purchase</button>

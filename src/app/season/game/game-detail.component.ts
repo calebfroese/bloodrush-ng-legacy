@@ -571,16 +571,16 @@ export class GameDetailComponent implements OnInit {
         this.events.push({
           team: 'home',
           text:
-              `${homePlayers[playerIndex].first} ${homePlayers[playerIndex].last
-              } was injured`
+              `<a href="/players/${homePlayers[playerIndex].id}">${homePlayers[playerIndex].first} ${homePlayers[playerIndex].last
+              }</a> was injured`
         });
       } else if (homePlayers[playerIndex].knockdown === 'dead') {
         this.qtrDeadInjArray.home.push(playerIndex);
         this.events.push({
           team: 'home',
           text:
-              `${homePlayers[playerIndex].first} ${homePlayers[playerIndex].last
-              } died`
+              `<a href="/players/${homePlayers[playerIndex].id}">${homePlayers[playerIndex].first} ${homePlayers[playerIndex].last
+              }</a> died`
         });
       }
       homePlayers[playerIndex].knockdown = 'knockdown';
@@ -597,16 +597,16 @@ export class GameDetailComponent implements OnInit {
         this.events.push({
           team: 'away',
           text:
-              `${awayPlayers[playerIndex].first} ${awayPlayers[playerIndex].last
-              } was injured`
+              `<a href="/players/${awayPlayers[playerIndex].id}">${awayPlayers[playerIndex].first} ${awayPlayers[playerIndex].last
+              }</a> was injured`
         });
       } else if (awayPlayers[playerIndex].knockdown === 'dead') {
         this.qtrDeadInjArray.away.push(playerIndex);
         this.events.push({
           team: 'away',
           text:
-              `${awayPlayers[playerIndex].first} ${awayPlayers[playerIndex].last
-              } died`
+              `<a href="/players/${awayPlayers[playerIndex].id}">${awayPlayers[playerIndex].first} ${awayPlayers[playerIndex].last
+              }</a> died`
         });
       }
       awayPlayers[playerIndex].knockdown = 'knockdown';

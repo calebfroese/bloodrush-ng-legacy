@@ -43,7 +43,7 @@
                     <a *ngFor="let event of events" class="panel-block is-active">
                         <span class="panel-icon">
                             <img src="{{imgUrl}}/teamlogos/{{self[event.team]?.id}}.png?a={{rndCache}}" onError="this.src='/assets/img/logo.png';">
-                        </span> {{event.text}}
+                        </span><p [innerHTML]="event.text"></p>
                     </a>
                 </nav>
             </div>

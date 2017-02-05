@@ -17,7 +17,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let player of players">
-                            <td>{{player.first}} {{player.last}}
+                            <td><a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a>
                                 <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png"/>
                             </td>
                             <td>{{player.atk}}</td>

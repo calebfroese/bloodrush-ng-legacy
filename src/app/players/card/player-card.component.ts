@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'bloodrush-player-info',
+    selector: 'bloodrush-player-card',
     templateUrl: './player-card.component.html'
 })
 export class PlayerCardComponent {

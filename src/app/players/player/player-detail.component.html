@@ -1,0 +1,7 @@
+<section *ngIf="player" class="section">
+    <div class="container">
+        <h1 class="title is-1">{{player.first}} {{player.last}}</h1>
+        <hr>
+        <bloodrush-player-card [player]="player"></bloodrush-player-card>
+    </div>
+</section>

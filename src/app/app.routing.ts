@@ -17,6 +17,7 @@ import {MyOverviewComponent} from './my/my-overview.component';
 import {MyPlayersComponent} from './my/players/my-players.component';
 import {MyTeamComponent} from './my/team/my-team.component';
 import {GameDetailComponent} from './season/game/game-detail.component';
+import {PlayerDetailComponent} from './players/player/player-detail.component';
 import {SeasonComponent} from './season/season.component';
 import {LoggedInGuard} from './shared/guards/loggedin.guard';
 import {TeamDetailComponent} from './team/team-detail.component';
@@ -57,6 +58,7 @@ const routes: Routes = [
   {path: 'seasons/:seasonId/games/:gameId', component: GameDetailComponent},
   {path: 'verify/:token', component: VerifyComponent},
   {path: 'teams/:teamId', component: TeamDetailComponent},
+  {path: 'players/:playerId', component: PlayerDetailComponent},
 ];
 @NgModule({imports: [RouterModule.forRoot(routes)], exports: [RouterModule]})
 export class AppRouting {

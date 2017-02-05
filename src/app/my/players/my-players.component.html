@@ -18,7 +18,9 @@
                     </thead>
                     <tr *ngFor="let player of players; let i = index;" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
                         <ng-container *ngIf="i < 8">
-                            <td>{{player.first}} {{player.last}}&nbsp;<img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png"/></td>
+                            <td>
+                                <a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a> &nbsp;
+                                <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png" /></td>
                             <td>{{player.atk}}</td>
                             <td>{{player.def}}</td>
                             <td>{{player.spd}}</td>
@@ -47,7 +49,9 @@
                     </thead>
                     <tr *ngFor="let player of players; let i = index;" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
                         <ng-container *ngIf="i >= 8 && i < 12">
-                            <td>{{player.first}} {{player.last}}&nbsp;<img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png"/></td>
+                            <td>
+                                <a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a> &nbsp;
+                                <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png" /></td>
                             <td>{{player.atk}}</td>
                             <td>{{player.def}}</td>
                             <td>{{player.spd}}</td>
@@ -76,7 +80,9 @@
                     </thead>
                     <tr *ngFor="let player of players; let i = index;" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
                         <ng-container *ngIf="i >= 12">
-                            <td>{{player.first}} {{player.last}}&nbsp;<img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png"/></td>
+                            <td>
+                                <a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a> &nbsp;
+                                <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png" /></td>
                             <td>{{player.atk}}</td>
                             <td>{{player.def}}</td>
                             <td>{{player.spd}}</td>
@@ -108,10 +114,10 @@
                 <p class="control">
                     <input formControlName="askingPrice" class="input" type="number" placeholder="enter asking price">
                 </p>
-                <bloodrush-player-info [player]="modalPlayer"></bloodrush-player-info>
+                <bloodrush-player-card [player]="modalPlayer"></bloodrush-player-card>
             </section>
             <footer class="modal-card-foot">
-                    <button class="button is-success" type="button" (click)="modalSellForm.submit" [disabled]="!modalSellForm.valid">Place On Market</button>
+                <button class="button is-success" type="button" (click)="modalSellForm.submit" [disabled]="!modalSellForm.valid">Place On Market</button>
                 <button type="submit" class="button is-success">Sell For $20</button>
             </footer>
         </form>
