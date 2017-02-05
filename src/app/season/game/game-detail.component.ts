@@ -428,6 +428,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   playerLogic(playerPos, team, i) {
+    if (this.gameFinished) return playerPos;
     /**
      * Calculates the player logic
      * @param {x, y, r} playerPos

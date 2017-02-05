@@ -8,6 +8,9 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
+                    Add a player page to view the details of a specific player
+                </li>
+                <li type="disc">
                     Players now come from a country, viewable on their player card
                 </li>
                 <li type="disc">
