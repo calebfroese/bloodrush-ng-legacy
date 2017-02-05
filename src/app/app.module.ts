@@ -19,6 +19,7 @@ import { LeagueComponent } from './league/league.component';
 import { LeagueDetailComponent } from './league/league-detail.component';
 import { LeagueCreateComponent } from './league/create/league-create.component';
 import { LogoutComponent } from './account/logout/logout.component';
+import { LoggedInGuard } from './shared/guards/loggedin.guard';
 import { LoginComponent } from './account/login/login.component';
 import { MyPlayersComponent } from './my/players/my-players.component';
 import { MyTeamNavComponent } from './my/team/my-team-nav.component';
@@ -79,7 +80,8 @@ import { VersionHistoryComponent } from './about/version-history/version-history
     ApiService,
     AccountService,
     ScoreService,
-    FormService
+    FormService,
+    LoggedInGuard
   ],
   bootstrap: [
     AppComponent,
