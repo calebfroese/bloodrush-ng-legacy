@@ -1,7 +1,7 @@
 <section *ngIf="home && away && game" class="section">
     <div class="container">
         <h1 class="title is-1">{{home.name}} vs {{away.name}}</h1>
-        <!--<button (click)="runGame()">RUN GAME</button>-->
+        <button (click)="runGame()">RUN GAME</button>
         <div class="columns">
             <div class="column is-12">
                 Round: #{{game.round}}
@@ -32,6 +32,24 @@
                 <div #cDiv class="c-div">
                     <canvas #gameCanvas></canvas>
                 </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-6">
+                <nav class="panel">
+                    <p class="panel-heading">
+                        Events
+                    </p>
+                    <a *ngFor="let event of events" class="panel-block is-active">
+                        <span class="panel-icon">
+                            <img src="{{imgUrl}}/teamlogos/{{self[event.team]?.id}}.png?a={{rndCache}}" onError="this.src='/assets/img/logo.png';">
+                        </span> {{event.text}}
+                    </a>
+                </nav>
+            </div>
+            <div class="column is-6">
+                <h3 class="title is-3">Game Info</h3>
+                Put other game info here.
             </div>
         </div>
     </div>

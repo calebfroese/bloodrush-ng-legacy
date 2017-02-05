@@ -24,6 +24,8 @@ export class GameDetailComponent implements OnInit {
   startsIn: string;
   live: boolean = false;
   roundPercent: number = 0;
+  imgUrl = Config[environment.envName].imgUrl;
+  events: any[] = [];
 
   // GAME STUFF
   isBye: boolean = false;
@@ -36,6 +38,7 @@ export class GameDetailComponent implements OnInit {
   home: any;  // original unmodified team
   away: any;  // original unmodified team
   game: any;  // the game object "game": { "data": {}, "round": Date(), etc}
+  self = this;
   bye: string = null;  // 'home' or 'away' or null;
   // Game data
   data: any;  // additional game data
@@ -158,7 +161,7 @@ export class GameDetailComponent implements OnInit {
       if (this.gameCanvas && this.cDiv) {
         this.context = CanvasRenderingContext2D =
             this.gameCanvas.nativeElement.getContext('2d');
-        console.log('STARTING GAME');
+        this.events.push({team: null, text: 'The game has started!'});
         this.fullscreenify();
         this.initializeGame();
       } else {
@@ -303,6 +306,12 @@ export class GameDetailComponent implements OnInit {
   }
 
   newRound(): void {
+    if (this.qtrNum > 0)
+      this.events.push({
+        team: null,
+        text: `Quarter ${this.qtrNum} finished. Score is ${this.home
+                  .name} ${this.homeScore}, ${this.away.name} ${this.awayScore}`
+      });
     this.replaceWithSub();
     // Calculate end point
     this.calcEndPoint = this.maxWidth - this.data.playerAttr.x;
@@ -346,7 +355,8 @@ export class GameDetailComponent implements OnInit {
   }
 
   redrawCanvas() {
-    this.roundPercent = 1000 - Math.round((this.timeElapsed / this.timeNextRound) * 1000);
+    this.roundPercent =
+        1000 - Math.round((this.timeElapsed / this.timeNextRound) * 1000);
     if (this.cachedQtrNum !== this.qtrNum) {
       return;
     }
@@ -543,10 +553,22 @@ export class GameDetailComponent implements OnInit {
           homePlayers[playerIndex].kg =
               homePlayers[playerIndex].def / 6;  // give hp back
         }, recoveryTime);
-      } else if (homePlayers[playerIndex].knockdown === 'injury') {
-        this.qtrDeadInjArray.home.push(playerIndex)
-      } else if (homePlayers[playerIndex].knockdown === 'death') {
-        this.qtrDeadInjArray.home.push(playerIndex)
+      } else if (homePlayers[playerIndex].knockdown === 'injured') {
+        this.qtrDeadInjArray.home.push(playerIndex);
+        this.events.push({
+          team: 'home',
+          text:
+              `${homePlayers[playerIndex].first} ${homePlayers[playerIndex].last
+              } was injured`
+        });
+      } else if (homePlayers[playerIndex].knockdown === 'dead') {
+        this.qtrDeadInjArray.home.push(playerIndex);
+        this.events.push({
+          team: 'home',
+          text:
+              `${homePlayers[playerIndex].first} ${homePlayers[playerIndex].last
+              } died`
+        });
       }
       homePlayers[playerIndex].knockdown = 'knockdown';
     } else {
@@ -557,10 +579,22 @@ export class GameDetailComponent implements OnInit {
           awayPlayers[playerIndex].kg =
               awayPlayers[playerIndex].def / 6;  // give hp back
         }, recoveryTime);
-      } else if (awayPlayers[playerIndex].knockdown === 'injury') {
-        this.qtrDeadInjArray.away.push(playerIndex)
-      } else if (awayPlayers[playerIndex].knockdown === 'death') {
-        this.qtrDeadInjArray.away.push(playerIndex)
+      } else if (awayPlayers[playerIndex].knockdown === 'injured') {
+        this.qtrDeadInjArray.away.push(playerIndex);
+        this.events.push({
+          team: 'away',
+          text:
+              `${awayPlayers[playerIndex].first} ${awayPlayers[playerIndex].last
+              } was injured`
+        });
+      } else if (awayPlayers[playerIndex].knockdown === 'dead') {
+        this.qtrDeadInjArray.away.push(playerIndex);
+        this.events.push({
+          team: 'away',
+          text:
+              `${awayPlayers[playerIndex].first} ${awayPlayers[playerIndex].last
+              } died`
+        });
       }
       awayPlayers[playerIndex].knockdown = 'knockdown';
     }
@@ -590,6 +624,14 @@ export class GameDetailComponent implements OnInit {
         console.log('home finding a replacement');
         if (this.qtr[1].homePlayers[k] &&
             this.qtrDeadInjArray.home[needReplaceIndexC]) {
+          this.events.push({
+            team: 'home',
+            text: `${this.qtr[1]
+                      .homePlayers[k]
+                      .first} ${this.qtr[1]
+                      .homePlayers[k]
+                      .last} was subbed on`
+          });
           this.qtr[1]
               .homePlayers[this.qtrDeadInjArray.home[needReplaceIndexC]] =
               this.qtr[1].homePlayers[k];
@@ -626,7 +668,14 @@ export class GameDetailComponent implements OnInit {
         console.log('possible replacement of', this.qtr[1].awayPlayers);
         if (this.qtr[1].awayPlayers[k] &&
             this.qtrDeadInjArray.away[needReplaceIndexC]) {
-          console.log('away fouind a replacement', this.qtr[1].awayPlayers[k]);
+          this.events.push({
+            team: 'away',
+            text: `${this.qtr[1]
+                      .awayPlayers[k]
+                      .first} ${this.qtr[1]
+                      .awayPlayers[k]
+                      .last} was subbed on`
+          });
           this.qtr[1]
               .awayPlayers[this.qtrDeadInjArray.away[needReplaceIndexC]] =
               this.qtr[1].awayPlayers[k];
