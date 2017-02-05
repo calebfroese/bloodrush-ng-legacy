@@ -4,9 +4,20 @@ import {Component} from '@angular/core';
 export class VersionHistoryComponent {
   public versionHistory = {
     '2.0.4': {
-        tag: `<span class="tag is-success is-medium">Market Update</span>`,
-        desc: `
+      tag: `<span class="tag is-success is-medium">Market Update</span>`,
+      desc: `
             <ol>
+                <li type="disc">
+                    Players who are injured, dead, or in the market cannot play in the games and will show up red in the <a href="/home/team/players">players screen</a>
+                </li>
+                <li type="disc">
+                    Teams are awarded money for wins, losses, ties, and end-of-season rank
+                </li>
+                <li type="disc">
+                    Added team money, displayed as <span class="icon">
+                    <i class="fa fa-money"></i>
+                </span>
+                </li>
                 <li type="disc">
                     Market update, able to trade and sell players on the global <a href="/market">market</a>
                 </li>
@@ -23,7 +34,7 @@ export class VersionHistoryComponent {
             `
     },
     '2.0.3': {
-        desc: `
+      desc: `
             <ol>
                 <li type="disc">
                     Leagues update, there can now be multiple leagues owned by different users and per-league enrolment
@@ -43,6 +54,9 @@ export class VersionHistoryComponent {
     '2.0.2': {
       desc: `
             <ol>
+                <li type="disc">
+                    Added a 'my team' page, where you have manage your team overview, players, and style
+                </li>
                 <li type="disc">
                     <a href="/home/team/team">Team customization</a>, now able to custom edit team uniform 
                 </li>
