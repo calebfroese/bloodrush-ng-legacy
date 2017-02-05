@@ -8,6 +8,12 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
+                    Players now come from a country, viewable on their player card
+                </li>
+                <li type="disc">
+                    Game interface now shows events with which players have died and been injured, as well as the score at the end of each quarter
+                </li>
+                <li type="disc">
                     Players who are injured, dead, or in the market cannot play in the games and will show up red in the <a href="/home/team/players">players screen</a>
                 </li>
                 <li type="disc">
