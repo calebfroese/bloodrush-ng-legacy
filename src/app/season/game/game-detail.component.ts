@@ -26,6 +26,7 @@ export class GameDetailComponent implements OnInit {
   roundPercent: number = 0;
   imgUrl = Config[environment.envName].imgUrl;
   events: any[] = [];
+  gameFinished: boolean = false;
 
   // GAME STUFF
   isBye: boolean = false;
@@ -345,11 +346,19 @@ export class GameDetailComponent implements OnInit {
   }
 
   checkRoundEnd() {
+    if (!this.gameFinished) return;
     if (this.timeCurrent >= this.timeNextRound || !this.timeNextRound) {
       if (this.qtrNum < 4) {
         this.newRound();
         this.timeNextRound =
             this.timeCurrent + this.data.gameAttr.roundDuration;
+      } else {
+        this.gameFinished = true;
+        this.events.push({
+          team: null,
+          text: `Game finished. Final score is ${this.home.name
+                } ${this.homeScore}, ${this.away.name} ${this.awayScore}`
+        });
       }
     }
   }
@@ -405,7 +414,8 @@ export class GameDetailComponent implements OnInit {
       }
     }
     // Update time
-    this.timeElapsed = this.timeCurrent - this.timeStart;
+    if (!this.gameFinished)
+      this.timeElapsed = this.timeCurrent - this.timeStart;
 
     setTimeout(() => {
       this.timeCurrent += this.data.gameAttr.fps;
