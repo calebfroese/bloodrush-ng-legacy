@@ -16,6 +16,16 @@ import {CustomValidators} from './../../shared/forms/custom-validators';
         .player-not-ok {
           color: red;
         }
+        table .small {
+            width:auto;
+            text-align:right;
+            white-space: nowrap
+        }
+        table  {
+            border-collapse:collapse;
+            border-spacing:0;
+            width:100%;
+        }
     `]
 })
 export class MyPlayersComponent implements OnInit {
