@@ -346,7 +346,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   checkRoundEnd() {
-    if (!this.gameFinished) return;
+    if (this.gameFinished) return;
     if (this.timeCurrent >= this.timeNextRound || !this.timeNextRound) {
       if (this.qtrNum < 4) {
         this.newRound();
