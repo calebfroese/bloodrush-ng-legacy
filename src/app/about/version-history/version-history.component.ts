@@ -14,6 +14,9 @@ export class VersionHistoryComponent {
                     Game interface now shows events with which players have died and been injured, as well as the score at the end of each quarter
                 </li>
                 <li type="disc">
+                    Teams will now be awarded new players for any deaths, and a chance to recieve for injured players
+                </li>
+                <li type="disc">
                     Players who are injured, dead, or in the market cannot play in the games and will show up red in the <a href="/home/team/players">players screen</a>
                 </li>
                 <li type="disc">

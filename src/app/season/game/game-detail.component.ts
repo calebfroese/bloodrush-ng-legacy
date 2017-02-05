@@ -27,6 +27,7 @@ export class GameDetailComponent implements OnInit {
   imgUrl = Config[environment.envName].imgUrl;
   events: any[] = [];
   gameFinished: boolean = false;
+  showNames: boolean = false;
 
   // GAME STUFF
   isBye: boolean = false;
@@ -262,8 +263,10 @@ export class GameDetailComponent implements OnInit {
     if (down) {
       this.context.globalAlpha = 0.3;
     }
-    this.context.font = '30px Arial';
-    this.context.fillText(last, x / this.ratio, y / this.ratio);
+    if (this.showNames) {
+      this.context.font = '30px Arial';
+      this.context.fillText(last, x / this.ratio, y / this.ratio);
+    }
     this.context.drawImage(
         image, x / this.ratio, y / this.ratio, width / this.ratio,
         height / this.ratio);
