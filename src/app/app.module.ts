@@ -35,6 +35,7 @@ import { SignupComponent } from './account/signup/signup.component';
 import { ScoreService } from './shared/score.service';
 import { UpcomingGamesComponent } from './upcoming-games/upcoming-games.component';
 import { VerifyComponent } from './account/verify/verify.component';
+import { VersionHistoryComponent } from './about/version-history/version-history.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { VerifyComponent } from './account/verify/verify.component';
     LoginComponent,
     LogoutComponent,
     UpcomingGamesComponent,
-    VerifyComponent
+    VerifyComponent,
+    VersionHistoryComponent
   ],
   imports: [
     BrowserModule,

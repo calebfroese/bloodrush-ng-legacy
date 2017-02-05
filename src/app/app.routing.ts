@@ -18,6 +18,7 @@ import { MyOverviewComponent } from './my/my-overview.component';
 import { TeamDetailComponent } from './team/team-detail.component';
 import { SeasonComponent } from './season/season.component';
 import { VerifyComponent } from './account/verify/verify.component';
+import { VersionHistoryComponent } from './about/version-history/version-history.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -26,6 +27,7 @@ const routes: Routes = [
     { path: 'home/team/team', component: MyTeamComponent },
     { path: 'home/team', component: MyOverviewComponent },
     { path: 'about', component: AboutComponent },
+    { path: 'about/version-history', component: VersionHistoryComponent },
     { path: 'leagues', component: LeagueComponent },
     { path: 'leagues/create', component: LeagueCreateComponent },
     { path: 'leagues/:leagueId', component: LeagueDetailComponent },

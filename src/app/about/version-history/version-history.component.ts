@@ -1,0 +1,89 @@
+import {Component} from '@angular/core';
+
+@Component({templateUrl: './version-history.component.html'})
+export class VersionHistoryComponent {
+  public versionHistory = {
+    '2.0.4': {
+        tag: `<span class="tag is-success is-medium">Market Update</span>`,
+        desc: `
+            <ol>
+                <li type="disc">
+                    Market update, able to trade and sell players on the global <a href="/market">market</a>
+                </li>
+                <li type="disc">
+                    Able to sell a player for a default value
+                </li>
+                <li type="disc">
+                    UI updates to the game page, will now display live or replay and it's respective colored banner
+                </li>
+                <li type="disc">
+                    Added <a href="/about/version-history">version history</a> page
+                </li>
+            </ol>
+            `
+    },
+    '2.0.3': {
+        desc: `
+            <ol>
+                <li type="disc">
+                    Leagues update, there can now be multiple leagues owned by different users and per-league enrolment
+                </li>
+                <li type="disc">
+                    <a href="/home/team/players">Manage and save player order</a>
+                </li>
+                <li type="disc">
+                    Auto game starting if you are on the game page
+                </li>
+                <li type="disc">
+                    Revamped the <a href="/seasons">season</a> screen to show team logos, times, and rounds
+                </li>
+            </ol>
+            `
+    },
+    '2.0.2': {
+      desc: `
+            <ol>
+                <li type="disc">
+                    <a href="/home/team/team">Team customization</a>, now able to custom edit team uniform 
+                </li>
+                <li type="disc">
+                    Added team logos
+                </li>
+                <li type="disc">
+                    Added seasons
+                </li>
+            </ol>
+            `
+    },
+    '2.0.1': {
+      desc: `
+            <ol>
+                <li type="disc">
+                    Added teams, users now own a team which they can manage
+                </li>
+                <li type="disc">
+                    Added players, where multiple randomly rolled players belong to a team
+                </li>
+            </ol>
+            `
+    },
+    '2.0.0': {
+      desc: `
+            <ol>
+                <li type="disc">
+                    Created the Bloodrush 2 website and base server backend
+                </li>
+                <li type="disc">
+                    Added <a href="/home">home</a> page
+                </li>
+                <li type="disc">
+                    Added <a href="/login">login</a> page
+                </li>
+                <li type="disc">
+                    Added <a href="/signup">signup</a> page
+                </li>
+            </ol>
+            `
+    }
+  }
+}
