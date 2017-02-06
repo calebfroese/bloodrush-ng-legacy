@@ -536,7 +536,7 @@ export class GameDetailComponent implements OnInit {
     }
     // Graphics
     if (this.timeElapsed > playerPos.framecalc) {
-      playerPos.framecalc = this.timeElapsed + 120 - (teamPlayers[i].spd / 2);
+      playerPos.framecalc = this.timeElapsed + 160 - (teamPlayers[i].spd / 2);
       if (playerPos.frame === 1) {
         playerPos.frame = 4;
       } else if (playerPos.frame === 4) {
