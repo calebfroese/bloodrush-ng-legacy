@@ -201,6 +201,24 @@ export class GameDetailComponent implements OnInit {
         })
         .then(() => {
           return this.loadImage(
+              'homeattack1',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-attack1.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'homeattack2',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-attack2.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'homeattack3',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-attack3.png`);
+        })
+        .then(() => {
+          return this.loadImage(
               'awayframe1',
               `${Config[environment.envName].imgUrl}player/output/${this.away.id
               }-frame1r.png`);
@@ -225,18 +243,6 @@ export class GameDetailComponent implements OnInit {
         })
         .then(() => {
           return this.loadImage(
-              'homeattack1',
-              `${Config[environment.envName].imgUrl}player/output/${this.away.id
-              }-attack1.png`);
-        })
-        .then(() => {
-          return this.loadImage(
-              'homeattack2',
-              `${Config[environment.envName].imgUrl}player/output/${this.away.id
-              }-attack2.png`);
-        })
-        .then(() => {
-          return this.loadImage(
               'awayattack1',
               `${Config[environment.envName].imgUrl}player/output/${this.away.id
               }-attack1r.png`);
@@ -246,6 +252,12 @@ export class GameDetailComponent implements OnInit {
               'awayattack2',
               `${Config[environment.envName].imgUrl}player/output/${this.away.id
               }-attack2r.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'awayattack3',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-attack3r.png`);
         })
         .then(() => {})
         .catch(err => {
@@ -573,6 +585,8 @@ export class GameDetailComponent implements OnInit {
         // Attack frame
         if (playerPos.frame === 'attack1') {
           playerPos.frame = 'attack2';
+        } else if (playerPos.frame === 'attack2') {
+          playerPos.frame = 'attack3';
         } else {
           playerPos.frame = 'attack1';
         }
