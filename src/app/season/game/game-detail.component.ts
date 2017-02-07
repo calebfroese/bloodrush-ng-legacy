@@ -177,51 +177,80 @@ export class GameDetailComponent implements OnInit {
     return this.loadImage('field', '/assets/img/fields/field3.png')
         .then(() => {
           return this.loadImage(
-              'home1',
+              'homeframe1',
               `${Config[environment.envName].imgUrl}player/output/${this.home.id
-              }-1.png`);
+              }-frame1.png`);
         })
         .then(() => {
           return this.loadImage(
-              'home4',
+              'homeframe4',
               `${Config[environment.envName].imgUrl}player/output/${this.home.id
-              }-4.png`);
+              }-frame4.png`);
         })
         .then(() => {
           return this.loadImage(
-              'home7',
+              'homeframe7',
               `${Config[environment.envName].imgUrl}player/output/${this.home.id
-              }-7.png`);
+              }-frame7.png`);
         })
         .then(() => {
           return this.loadImage(
-              'home7.4',
+              'homeframe7.4',
               `${Config[environment.envName].imgUrl}player/output/${this.home.id
-              }-4.png`);
+              }-frame4.png`);
         })
         .then(() => {
           return this.loadImage(
-              'away1',
+              'awayframe1',
               `${Config[environment.envName].imgUrl}player/output/${this.away.id
-              }-1r.png`);
+              }-frame1r.png`);
         })
         .then(() => {
           return this.loadImage(
-              'away4',
+              'awayframe4',
               `${Config[environment.envName].imgUrl}player/output/${this.away.id
-              }-4r.png`);
+              }-frame4r.png`);
         })
         .then(() => {
           return this.loadImage(
-              'away7',
+              'awayframe7',
               `${Config[environment.envName].imgUrl}player/output/${this.away.id
-              }-7r.png`);
+              }-frame7r.png`);
         })
         .then(() => {
           return this.loadImage(
-              'away7.4',
+              'awayframe7.4',
               `${Config[environment.envName].imgUrl}player/output/${this.away.id
-              }-4r.png`);
+              }-frame4r.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'homeattack1',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-attack1.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'homeattack2',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-attack2.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'awayattack1',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-attack1r.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'awayattack2',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-attack2r.png`);
+        })
+        .then(() => {})
+        .catch(err => {
+          console.error('UNAVBL TO LOAD IMAGTES');
+          console.error(err);
         });
   }
 
@@ -329,7 +358,7 @@ export class GameDetailComponent implements OnInit {
         r: 0,
         recalc: 0,
         targetIndex: i,
-        frame: 1,
+        frame: 'frame1',
         framecalc: 0
       });
       this.awayPos.push({
@@ -338,7 +367,7 @@ export class GameDetailComponent implements OnInit {
         r: 0,
         recalc: 0,
         targetIndex: i,
-        frame: 1,
+        frame: 'frame1',
         framecalc: 0
       });
     }
@@ -480,6 +509,7 @@ export class GameDetailComponent implements OnInit {
       let c = Math.sqrt(a * a + b * b);
 
       if (c <= this.data.playerAttr.attackRadius) {
+        playerPos.UIattacking = true;
         // ATTACK THE ENEMY
         if (this.timeElapsed > playerPos.atkTime || !playerPos.atkTime) {
           let genNextTime: number =
@@ -499,6 +529,7 @@ export class GameDetailComponent implements OnInit {
           }
         }
       } else {
+        playerPos.UIattacking = false;
         // MOVE TOWARDS ENEMY
 
         // Calculate direction towards player
@@ -520,6 +551,7 @@ export class GameDetailComponent implements OnInit {
         playerPos.r = Math.atan2(calcY, calcX);
       }
     } else {
+      playerPos.UIattacking = false;
       // MOVE TO END field
       let moveDirection = (team === 'home') ? 1 : -1;
       if (playerPos.x >= this.calcEndPoint && moveDirection === 1 ||
@@ -537,14 +569,24 @@ export class GameDetailComponent implements OnInit {
     // Graphics
     if (this.timeElapsed > playerPos.framecalc) {
       playerPos.framecalc = this.timeElapsed + 160 - (teamPlayers[i].spd / 2);
-      if (playerPos.frame === 1) {
-        playerPos.frame = 4;
-      } else if (playerPos.frame === 4) {
-        playerPos.frame = 7;
-      } else if (playerPos.frame === 7) {
-        playerPos.frame = 7.4;
-      } else if (playerPos.frame === 7.4) {
-        playerPos.frame = 1;
+      if (playerPos.UIattacking !== true) {
+        // Motion Frame
+        if (playerPos.frame === 'frame1') {
+          playerPos.frame = 'frame4';
+        } else if (playerPos.frame === 'frame4') {
+          playerPos.frame = 'frame7';
+        } else if (playerPos.frame === 'frame7') {
+          playerPos.frame = 'frame7.4';
+        } else if (playerPos.frame === 'frame7.4') {
+          playerPos.frame = 'frame1';
+        }
+      } else {
+        // Attack frame
+        if (playerPos.frame === 'attack1') {
+          playerPos.frame = 'attack2';
+        } else if (playerPos.frame === 'attack2') {
+          playerPos.frame = 'attack1';
+        }
       }
     }
     return playerPos;
@@ -571,17 +613,19 @@ export class GameDetailComponent implements OnInit {
         this.qtrDeadInjArray.home.push(playerIndex);
         this.events.push({
           team: 'home',
-          text:
-              `<a href="/players/${homePlayers[playerIndex].id}">${homePlayers[playerIndex].first} ${homePlayers[playerIndex].last
-              }</a> was injured`
+          text: `<a href="/players/${homePlayers[playerIndex]
+                    .id}">${homePlayers[playerIndex]
+                    .first} ${homePlayers[playerIndex]
+                    .last}</a> was injured`
         });
       } else if (homePlayers[playerIndex].knockdown === 'dead') {
         this.qtrDeadInjArray.home.push(playerIndex);
         this.events.push({
           team: 'home',
-          text:
-              `<a href="/players/${homePlayers[playerIndex].id}">${homePlayers[playerIndex].first} ${homePlayers[playerIndex].last
-              }</a> died`
+          text: `<a href="/players/${homePlayers[playerIndex]
+                    .id}">${homePlayers[playerIndex]
+                    .first} ${homePlayers[playerIndex]
+                    .last}</a> died`
         });
       }
       homePlayers[playerIndex].knockdown = 'knockdown';
@@ -597,17 +641,19 @@ export class GameDetailComponent implements OnInit {
         this.qtrDeadInjArray.away.push(playerIndex);
         this.events.push({
           team: 'away',
-          text:
-              `<a href="/players/${awayPlayers[playerIndex].id}">${awayPlayers[playerIndex].first} ${awayPlayers[playerIndex].last
-              }</a> was injured`
+          text: `<a href="/players/${awayPlayers[playerIndex]
+                    .id}">${awayPlayers[playerIndex]
+                    .first} ${awayPlayers[playerIndex]
+                    .last}</a> was injured`
         });
       } else if (awayPlayers[playerIndex].knockdown === 'dead') {
         this.qtrDeadInjArray.away.push(playerIndex);
         this.events.push({
           team: 'away',
-          text:
-              `<a href="/players/${awayPlayers[playerIndex].id}">${awayPlayers[playerIndex].first} ${awayPlayers[playerIndex].last
-              }</a> died`
+          text: `<a href="/players/${awayPlayers[playerIndex]
+                    .id}">${awayPlayers[playerIndex]
+                    .first} ${awayPlayers[playerIndex]
+                    .last}</a> died`
         });
       }
       awayPlayers[playerIndex].knockdown = 'knockdown';
