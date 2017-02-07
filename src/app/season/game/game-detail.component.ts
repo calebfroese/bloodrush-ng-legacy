@@ -202,19 +202,19 @@ export class GameDetailComponent implements OnInit {
         .then(() => {
           return this.loadImage(
               'homeattack1',
-              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              `${Config[environment.envName].imgUrl}player/output/${this.home.id
               }-attack1.png`);
         })
         .then(() => {
           return this.loadImage(
               'homeattack2',
-              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              `${Config[environment.envName].imgUrl}player/output/${this.home.id
               }-attack2.png`);
         })
         .then(() => {
           return this.loadImage(
               'homeattack3',
-              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              `${Config[environment.envName].imgUrl}player/output/${this.home.id
               }-attack3.png`);
         })
         .then(() => {
