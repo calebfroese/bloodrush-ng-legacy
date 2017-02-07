@@ -33,6 +33,18 @@
                     <p class="control has-icon has-icon-right">
                         <input formControlName="teamName" class="input" type="text" placeholder="enter a team name" maxlength="20">
                     </p>
+                    <p class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" formControlName="mailUpdates">
+                            Email me when there are major updates to Bloodrush
+                        </label>
+                    </p>
+                    <p class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" formControlName="mailNewsletter">
+                            Email me the newsletter
+                        </label>
+                    </p>
                     <input class="button is-primary" type="submit" value="Submit" [disabled]="!form.valid">
                     <input class="button" (click)="this.router.navigate(['/home'])" type="button" value="Cancel">
                 </form>
