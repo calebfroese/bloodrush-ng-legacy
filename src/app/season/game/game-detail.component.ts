@@ -24,6 +24,7 @@ export class GameDetailComponent implements OnInit {
   startsIn: string;
   live: boolean = false;
   roundPercent: number = 0;
+  dev: boolean = (environment.envName === 'dev');
   imgUrl = Config[environment.envName].imgUrl;
   events: any[] = [];
   gameFinished: boolean = false;
