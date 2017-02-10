@@ -60,9 +60,15 @@ export class MyPlayersComponent implements OnInit {
             this.players[i] = player;
           }
         });
+        // Run through the players and make add any non-mapped players that have been added
+        // since the time of save to the end of the this.players array
+        this.acc.players.forEach(player => {
+          if (this.players.indexOf(player) === -1) {
+            this.players.push(player);
+          }
+        }); 
       }
     } else {
-      console.log('Loading default');
       this.players = this.acc.players;
     }
   }
