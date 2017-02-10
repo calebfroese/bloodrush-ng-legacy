@@ -178,6 +178,18 @@ export class GameDetailComponent implements OnInit {
     return this.loadImage('field', '/assets/img/fields/field3.png')
         .then(() => {
           return this.loadImage(
+              'homeLogo',
+              `${Config[environment.envName].imgUrl}teamlogos/${this.home.id
+              }.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'awayLogo',
+              `${Config[environment.envName].imgUrl}teamlogos/${this.away.id
+              }.png`);
+        })
+        .then(() => {
+          return this.loadImage(
               'homeframe1',
               `${Config[environment.envName].imgUrl}player/output/${this.home.id
               }-frame1.png`);
@@ -273,6 +285,10 @@ export class GameDetailComponent implements OnInit {
       this.images[name].onload = () => {
         resolve();
       };
+      this.images[name].onerror = (err) => {
+        this.images[name].src =
+            '/assets/img/logo.png';  // use a default bloodrush logo image
+      };
       this.images[name].src = src;
     });
   }
@@ -296,6 +312,18 @@ export class GameDetailComponent implements OnInit {
     this.context.drawImage(
         this.images['field'], 0, 0, this.maxWidth / this.ratio,
         this.maxHeight / this.ratio);
+    this.context.globalAlpha = 0.1;
+    this.context.drawImage(
+        this.images['homeLogo'], 100 / this.ratio, 100 / this.ratio,
+        200 / this.ratio, 200 / this.ratio);
+    this.context.drawImage(
+        this.images['awayLogo'], (this.maxWidth - 100 - 200) / this.ratio,
+        100 / this.ratio, 200 / this.ratio, 200 / this.ratio);
+    this.context.globalAlpha = 1;
+    // this.context.drawImage(
+    //     this.images['awayLogo'], (this.maxWidth - 60) / this.ratio,
+    //     100 / this.ratio, this.maxWidth / this.ratio,
+    //     this.maxHeight / this.ratio);
   }
 
   drawPlayer(

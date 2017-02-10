@@ -8,7 +8,10 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
-                    Add a player page to view the details of a specific player
+                    Injured players now lose stats, but will be playable once they have recovered
+                </li>
+                <li type="disc">
+                    Team logos now show up on the field
                 </li>
             </ol>
             `
