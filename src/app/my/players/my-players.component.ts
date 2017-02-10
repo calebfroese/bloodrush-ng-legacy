@@ -52,25 +52,24 @@ export class MyPlayersComponent implements OnInit {
     // Load the players
     if (this.acc.team.playerIdsAtPos &&
         this.acc.team.playerIdsAtPos.length > 0) {
-      console.log('Loading from pos');
-      console.log(this.acc.team.playerIdsAtPos);
       for (let i = 0; i < this.acc.team.playerIdsAtPos.length; i++) {
         this.acc.players.forEach(player => {
-          if (player.id === this.acc.team.playerIdsAtPos[i]) {
+          if (player.id === this.acc.team.playerIdsAtPos[i] &&
+              this.players.indexOf(player) === -1) {
             this.players[i] = player;
           }
         });
-        // Run through the players and make add any non-mapped players that have been added
-        // since the time of save to the end of the this.players array
-        this.acc.players.forEach(player => {
-          if (this.players.indexOf(player) === -1) {
-            this.players.push(player);
-          }
-        }); 
       }
+      this.acc.players.forEach(player => {
+        if (this.players.indexOf(player) === -1) {
+          this.players.push(player);
+        }
+      });
     } else {
       this.players = this.acc.players;
     }
+    // Remove any nulls in the array
+    this.players = this.clean(this.players);
   }
 
   moveTo(old_index, new_index) {
@@ -108,13 +107,13 @@ export class MyPlayersComponent implements OnInit {
 
   placeOnMarket(val: any): void {
     // Puts the place on the market for the asking price
+    if (!this.modalPlayer) return;
     if (this.modalPlayer.state === 'ok') {
       this.modalPlayer.state = 'market';
       this.modalPlayer.askingPrice = val.askingPrice;
       this.api
           .run('patch', `/players/${this.modalPlayer.id}`, '', this.modalPlayer)
           .then(savedPlayer => {
-            console.log(savedPlayer);
             this.resetForm();
             this.modalPlayer = null;
           })
@@ -123,7 +122,7 @@ export class MyPlayersComponent implements OnInit {
             this.modalPlayer = null;
           });
     } else {
-      console.error('You cannot market a player that is not playable!');
+      alert('This player cannot be placed on the market');
     }
   }
 
@@ -151,5 +150,15 @@ export class MyPlayersComponent implements OnInit {
           console.error(err);
           alert(err);
         });
+  }
+
+  clean(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] == undefined || arr[i] == null) {
+        arr.splice(i, 1);
+        i--;
+      }
+    }
+    return arr;
   }
 }

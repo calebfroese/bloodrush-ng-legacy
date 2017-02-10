@@ -50,6 +50,8 @@ export class MarketComponent implements OnInit {
         })
         .then(() => {
           alert('Successfully purchased ' + player.first + ' ' + player.last);
+          this.modalPlayer = undefined;
+          this.ngOnInit();
         })
         .catch(err => {
           alert(err);

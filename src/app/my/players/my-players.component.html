@@ -4,7 +4,7 @@
         <div class="columns">
             <div class="column is-12">
                 <h3 class="title is-3">Team</h3>
-                <table class="table is-striped is-narrow content">
+                <table *ngIf="players.length > 0" class="table is-striped is-narrow content">
                     <thead>
                         <tr>
                             <td>Name</td>
@@ -16,23 +16,25 @@
                             <td></td>
                         </tr>
                     </thead>
-                    <tr *ngFor="let player of players; let i = index;" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
-                        <ng-container *ngIf="i < 8">
-                            <td>
-                                <a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a> &nbsp;
-                                <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png" /></td>
-                            <td>{{player.atk}}</td>
-                            <td>{{player.def}}</td>
-                            <td>{{player.spd}}</td>
-                            <td>{{player.kg}}kg</td>
-                            <td>{{player.rec}}%</td>
-                            <td class="small">
-                                <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
-                                <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
-                                <span (click)="openSellModal(player)" class="fa fa-shopping-basket"></span>
-                            </td>
-                        </ng-container>
-                    </tr>
+                    <ng-container *ngFor="let player of players; let i = index;">
+                        <tr *ngIf="player" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
+                            <ng-container *ngIf="i < 8">
+                                <td>
+                                    <a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a> &nbsp;
+                                    <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png" /></td>
+                                <td>{{player.atk}}</td>
+                                <td>{{player.def}}</td>
+                                <td>{{player.spd}}</td>
+                                <td>{{player.kg}}kg</td>
+                                <td>{{player.rec}}%</td>
+                                <td class="small">
+                                    <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
+                                    <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
+                                    <span (click)="openSellModal(player)" class="fa fa-shopping-basket"></span>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </ng-container>
                 </table>
                 <h3 class="title is-3">Subs</h3>
                 <table class="table is-striped is-narrow">
@@ -47,23 +49,25 @@
                             <td></td>
                         </tr>
                     </thead>
-                    <tr *ngFor="let player of players; let i = index;" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
-                        <ng-container *ngIf="i >= 8 && i < 12">
-                            <td>
-                                <a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a> &nbsp;
-                                <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png" /></td>
-                            <td>{{player.atk}}</td>
-                            <td>{{player.def}}</td>
-                            <td>{{player.spd}}</td>
-                            <td>{{player.kg}}kg</td>
-                            <td>{{player.rec}}%</td>
-                            <td class="small">
-                                <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
-                                <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
-                                <span (click)="openSellModal(player)" class="fa fa-shopping-basket"></span>
-                            </td>
-                        </ng-container>
-                    </tr>
+                    <ng-container *ngFor="let player of players; let i = index;">
+                        <tr *ngIf="player" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
+                            <ng-container *ngIf="i >= 8 && i < 12">
+                                <td>
+                                    <a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a> &nbsp;
+                                    <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png" /></td>
+                                <td>{{player.atk}}</td>
+                                <td>{{player.def}}</td>
+                                <td>{{player.spd}}</td>
+                                <td>{{player.kg}}kg</td>
+                                <td>{{player.rec}}%</td>
+                                <td class="small">
+                                    <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
+                                    <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
+                                    <span (click)="openSellModal(player)" class="fa fa-shopping-basket"></span>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </ng-container>
                 </table>
                 <h3 class="title is-3">Other</h3>
                 <table class="table is-striped is-narrow">
@@ -78,23 +82,25 @@
                             <td></td>
                         </tr>
                     </thead>
-                    <tr *ngFor="let player of players; let i = index;" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
-                        <ng-container *ngIf="i >= 12">
-                            <td>
-                                <a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a> &nbsp;
-                                <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png" /></td>
-                            <td>{{player.atk}}</td>
-                            <td>{{player.def}}</td>
-                            <td>{{player.spd}}</td>
-                            <td>{{player.kg}}kg</td>
-                            <td>{{player.rec}}%</td>
-                            <td class="small">
-                                <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
-                                <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
-                                <span (click)="openSellModal(player)" class="fa fa-shopping-basket"></span>
-                            </td>
-                        </ng-container>
-                    </tr>
+                    <ng-container *ngFor="let player of players; let i = index;">
+                        <tr *ngIf="player" [ngClass]="{'player-not-ok': (player.state !== 'ok')}">
+                            <ng-container *ngIf="i >= 12">
+                                <td>
+                                    <a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a> &nbsp;
+                                    <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png" /></td>
+                                <td>{{player.atk}}</td>
+                                <td>{{player.def}}</td>
+                                <td>{{player.spd}}</td>
+                                <td>{{player.kg}}kg</td>
+                                <td>{{player.rec}}%</td>
+                                <td class="small">
+                                    <span (click)="moveTo(i, i - 1)" class="fa fa-arrow-circle-up"></span>
+                                    <span (click)="moveTo(i, i + 1)" class="fa fa-arrow-circle-down"></span>
+                                    <span (click)="openSellModal(player)" class="fa fa-shopping-basket"></span>
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </ng-container>
                 </table>
             </div>
         </div>
@@ -117,7 +123,7 @@
                 <bloodrush-player-card [player]="modalPlayer"></bloodrush-player-card>
             </section>
             <footer class="modal-card-foot">
-                <button class="button is-success" type="button" (click)="modalSellForm.submit" [disabled]="!modalSellForm.valid">Place On Market</button>
+                <button class="button is-success" type="button" (click)="placeOnMarket(modalSellForm.value)" [disabled]="!modalSellForm.valid">Place On Market</button>
                 <button type="submit" class="button is-success">Sell For $20</button>
             </footer>
         </form>
