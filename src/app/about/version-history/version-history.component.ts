@@ -2,8 +2,19 @@ import {Component} from '@angular/core';
 
 @Component({templateUrl: './version-history.component.html'})
 export class VersionHistoryComponent {
-  public versionHistory = {
-    '2.0.4': {
+  public versionHistory = [
+    {
+      number: '2.0.5',
+      desc: `
+            <ol>
+                <li type="disc">
+                    Add a player page to view the details of a specific player
+                </li>
+            </ol>
+            `
+    },
+    {
+      number: '2.0.4',
       tag: `<span class="tag is-success is-medium">Market Update</span>`,
       desc: `
             <ol>
@@ -45,7 +56,8 @@ export class VersionHistoryComponent {
             </ol>
             `
     },
-    '2.0.3': {
+    {
+      number: '2.0.3',
       desc: `
             <ol>
                 <li type="disc">
@@ -63,7 +75,8 @@ export class VersionHistoryComponent {
             </ol>
             `
     },
-    '2.0.2': {
+    {
+      number: '2.0.2',
       desc: `
             <ol>
                 <li type="disc">
@@ -81,7 +94,8 @@ export class VersionHistoryComponent {
             </ol>
             `
     },
-    '2.0.1': {
+    {
+      number: '2.0.1',
       desc: `
             <ol>
                 <li type="disc">
@@ -93,7 +107,8 @@ export class VersionHistoryComponent {
             </ol>
             `
     },
-    '2.0.0': {
+    {
+      number: '2.0.0',
       desc: `
             <ol>
                 <li type="disc">
@@ -111,5 +126,5 @@ export class VersionHistoryComponent {
             </ol>
             `
     }
-  }
+  ];
 }
