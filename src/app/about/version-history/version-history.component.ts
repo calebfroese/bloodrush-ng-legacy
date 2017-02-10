@@ -8,6 +8,21 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
+                    Modified rewards. As per this release it is $100 for win, $80 for tie, $60 for loss
+                </li>
+                <li type="disc">
+                    Fix sold players not refreshing on the market after being purchased
+                </li>
+                <li type="disc">
+                    Fix empty player slots being empty in game if a sub is available
+                </li>
+                <li type="disc">
+                    Fix dead/injured players still able to play on the field
+                </li>
+                <li type="disc">
+                    Market has default purchasable players that refresh each day
+                </li>
+                <li type="disc">
                     Player screen will show when the injury/training ends
                 </li>
                 <li type="disc">
