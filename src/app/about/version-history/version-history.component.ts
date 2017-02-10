@@ -8,6 +8,12 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
+                    Player screen will show when the injury/training ends
+                </li>
+                <li type="disc">
+                    Injured/marketed/dead/training players are not able to play, and will not turn up to their games
+                </li>
+                <li type="disc">
                     Injured players now lose stats, but will be playable once they have recovered
                 </li>
                 <li type="disc">

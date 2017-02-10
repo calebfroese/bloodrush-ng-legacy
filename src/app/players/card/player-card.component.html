@@ -1,5 +1,19 @@
 <div class="container has-text-centered">
     <div class="columns">
+        <div *ngIf="player.state === 'training'" class="column is-12">
+            This player is currently training. Training will complete on {{stateEnds || player.stateEnds}}.
+        </div>
+        <div *ngIf="player.state === 'injured'" class="column is-12">
+            This player is currently injured. The recovery for {{player.first}} {{player.last}} is on {{stateEnds || player.stateEnds}}.
+        </div>
+        <div *ngIf="player.state === 'market'" class="column is-12">
+            This player is currently on the <a routerLink="/market">market</a>.
+        </div>
+        <div *ngIf="player.state === 'dead'" class="column is-12">
+            This player is dead.
+        </div>
+    </div>
+    <div class="columns">
         <div class="column is-one-third">
             <p class="heading">Attack</p>
             <p class="title">{{player.atk}}</p>
