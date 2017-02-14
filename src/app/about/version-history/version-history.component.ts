@@ -14,10 +14,13 @@ export class VersionHistoryComponent {
                     Teams can now create their own league after a certain experience level
                 </li>
                 <li type="disc">
+                    Add down animations for when a player is defeated
+                </li>
+                <li type="disc">
                     Add team experience level, increased through playing games
                 </li>
                 <li type="disc">
-                    Add down animations for when a player is defeated
+                    Reduced the round timer from 26 to 23 deconds per round
                 </li>
                 <li type="disc">
                     Reduced the amount of market generated players available

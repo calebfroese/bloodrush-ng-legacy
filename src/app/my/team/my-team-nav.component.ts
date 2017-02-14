@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 import {AccountService} from './../../shared/account.service';
 
@@ -16,6 +16,12 @@ import {AccountService} from './../../shared/account.service';
                 </span>
                 {{acc.team.money}}
             </h2>
+            <h2 class="subtitle">
+            Level {{curLvl}}, {{this.acc.team.experience}} / {{acc.calculateExp(curLvl + 1)}} XP
+            <progress class="progress is-large is-marginless" [value]="curExp" [max]="nextLevelExp"></progress>
+            </h2>
+        </div>
+        <div class="container has-text-centered">
         </div>
     </div>
     <!-- Hero footer: will stick at the bottom -->
@@ -31,8 +37,26 @@ import {AccountService} from './../../shared/account.service';
         </nav>
     </div>
 </section>
-`
+`,
+  styles: [`
+    .subtitle {
+        margin: 0;
+    }
+`]
 })
-export class MyTeamNavComponent {
+export class MyTeamNavComponent implements OnInit {
+  curExp: number = 0;
+  nextLevelExp: number = 1;
+  curLvl: number = 1;
+
   constructor(private acc: AccountService) {}
+
+  ngOnInit(): void {
+    // Calculate the exp bar
+    this.curLvl = this.acc.calculateLevel(this.acc.team.experience);
+    this.curExp = this.acc.team.experience - this.acc.calculateExp(this.curLvl);
+    this.nextLevelExp = this.acc.calculateExp(this.curLvl + 1) -
+        this.acc.calculateExp(this.curLvl);
+    console.log(this.curExp, this.nextLevelExp);
+  }
 }

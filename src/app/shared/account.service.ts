@@ -20,6 +20,9 @@ export class AccountService {
 
   constructor(private api: ApiService, private http: Http) {
     this.checkCachedLogin();
+    for (let i = 0; i < 100; i++) {
+      console.log('Level', i, 'requires exp', this.calculateExp(i));
+    }
   }
 
   checkCachedLogin(): Promise<boolean> {
@@ -167,5 +170,13 @@ export class AccountService {
           console.log('set season', season);
           return;
         });
+  }
+
+  calculateLevel(exp: number): number {
+    return Math.floor(Math.sqrt(exp / 100));
+  }
+
+  calculateExp(level: number): number {
+    return Math.floor(level * level * 100);
   }
 }
