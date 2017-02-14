@@ -17,7 +17,7 @@ export class LeagueCreateComponent {
       private router: Router, private formService: FormService) {
     this.form = this.formService.leagueCreate();
     if (!acc.team ||
-        acc.calculateLevel(acc.team.experience) >= MIN_LEAGUE_CREATE_LVL) {
+        acc.calculateLevel(acc.team.experience) < MIN_LEAGUE_CREATE_LVL) {
       alert(
           `Not high enough level to create a league. You must be at least level ${MIN_LEAGUE_CREATE_LVL
           } to create a league.`);
