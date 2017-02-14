@@ -40,7 +40,7 @@ import {AccountService} from './../../shared/account.service';
 `,
   styles: [`
     .subtitle {
-        margin: 0;
+        margin: 5px;
     }
 `]
 })

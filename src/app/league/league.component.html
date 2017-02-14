@@ -1,6 +1,7 @@
 <section *ngIf="enrolledLeagues" class="section">
     <div class="container">
         <h1 class="title is-1">Leagues</h1>
+        <button *ngIf="acc.team && acc.calculateLevel(acc.team.experience) >= minLeagueCreateLvl" routerLink="/leagues/create" class="button">Create A League</button>
         <h2 class="title is-2">Enrolled Leagues</h2>
         <table class="table">
             <thead>
