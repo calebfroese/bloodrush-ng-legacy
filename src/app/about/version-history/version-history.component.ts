@@ -4,6 +4,28 @@ import {Component} from '@angular/core';
 export class VersionHistoryComponent {
   public versionHistory = [
     {
+      number: '2.0.6',
+      desc: `
+            <ol>
+                <li type="disc">
+                    League enrollments now require approval from the league owner
+                </li>
+                <li type="disc">
+                    Teams can now create their own league after a certain experience level
+                </li>
+                <li type="disc">
+                    Add team experience level, increased through playing games
+                </li>
+                <li type="disc">
+                    Add down animations for when a player is defeated
+                </li>
+                <li type="disc">
+                    Reduced the amount of market generated players available
+                </li>
+            </ol>
+            `
+    },
+    {
       number: '2.0.5',
       desc: `
             <ol>
