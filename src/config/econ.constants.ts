@@ -1,1 +1,2 @@
 export const MIN_LEAGUE_CREATE_LVL = 10;
+export const LEAGUE_CREATE_COST = 20000;

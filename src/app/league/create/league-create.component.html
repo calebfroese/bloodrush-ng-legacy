@@ -3,6 +3,7 @@
         <div class="columns">
             <div class="column">
                 <h1 class="title is-1">Create League</h1>
+                It costs&nbsp;<span class="icon"><i class="fa fa-money"></i></span>&nbsp;{{leagueCreateCost}}&nbsp;to create a league.
                 <form [formGroup]="form" (ngSubmit)="create(form.value)">
                     <label class="label">Name</label>
                     <p class="control has-icon has-icon-right">
