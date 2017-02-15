@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'bloodrush-footer',
-    templateUrl: './footer.component.html'
+    selector: 'bloodrush-chat',
+    templateUrl: './chat.component.html',
+    styleUrls: ['./chat.component.scss']
 })
-export class FooterComponent {
+export class ChatComponent {
     // Copyright
     year = 2017;
     text = '2017';

@@ -12,6 +12,7 @@ import {SignupComponent} from './account/signup/signup.component';
 import {VerifyComponent} from './account/verify/verify.component';
 import {AppComponent} from './app.component';
 import {AppRouting} from './app.routing';
+import {ChatComponent} from './chat/chat.component';
 import {FooterComponent} from './footer/footer.component';
 import {HomeComponent} from './home/home.component';
 import {LadderComponent} from './ladder/ladder.component';
@@ -41,20 +42,21 @@ import {UpcomingGamesComponent} from './upcoming-games/upcoming-games.component'
 
 @NgModule({
   declarations: [
-    AboutComponent,        AppComponent,
-    FooterComponent,       GamePipe,
-    GameDetailComponent,   HomeComponent,
-    LadderComponent,       LeagueComponent,
-    LeagueCreateComponent, LeagueDetailComponent,
-    MarketComponent,       MarketListingsComponent,
-    MyPlayersComponent,    MyTeamComponent,
-    MyTeamNavComponent,    MyOverviewComponent,
-    PlayerCardComponent,   PlayerDetailComponent,
-    TeamStatsComponent,    TeamPlayersComponent,
-    TeamDetailComponent,   SignupComponent,
-    SeasonComponent,       LoginComponent,
-    LogoutComponent,       UpcomingGamesComponent,
-    VerifyComponent,       VersionHistoryComponent
+    AboutComponent,          AppComponent,
+    FooterComponent,         GamePipe,
+    ChatComponent,           GameDetailComponent,
+    HomeComponent,           LadderComponent,
+    LeagueComponent,         LeagueCreateComponent,
+    LeagueDetailComponent,   MarketComponent,
+    MarketListingsComponent, MyPlayersComponent,
+    MyTeamComponent,         MyTeamNavComponent,
+    MyOverviewComponent,     PlayerCardComponent,
+    PlayerDetailComponent,   TeamStatsComponent,
+    TeamPlayersComponent,    TeamDetailComponent,
+    SignupComponent,         SeasonComponent,
+    LoginComponent,          LogoutComponent,
+    UpcomingGamesComponent,  VerifyComponent,
+    VersionHistoryComponent
   ],
   imports: [
     BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, AppRouting,
@@ -62,7 +64,7 @@ import {UpcomingGamesComponent} from './upcoming-games/upcoming-games.component'
   ],
   providers:
       [ApiService, AccountService, ScoreService, FormService, LoggedInGuard],
-  bootstrap: [AppComponent, FooterComponent]
+  bootstrap: [AppComponent, FooterComponent, ChatComponent]
 })
 export class AppModule {
 }

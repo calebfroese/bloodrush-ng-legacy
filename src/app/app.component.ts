@@ -5,7 +5,7 @@ import { Config } from './shared/config';
 import { AccountService } from './shared/account.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'bloodrush-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent {
