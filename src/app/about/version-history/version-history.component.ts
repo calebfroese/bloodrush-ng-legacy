@@ -8,13 +8,10 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
-                    League enrollments now require approval from the league owner
+                    Add falling down player animations for when a player is defeated
                 </li>
                 <li type="disc">
-                    Teams can now create their own league after a certain experience level
-                </li>
-                <li type="disc">
-                    Add down animations for when a player is defeated
+                    Teams can now create their own league at level 10 for $20,000
                 </li>
                 <li type="disc">
                     Add team experience level, increased through playing games
