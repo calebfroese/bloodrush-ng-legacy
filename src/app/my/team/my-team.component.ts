@@ -197,8 +197,14 @@ export class MyTeamComponent {
                       .imgUrl}player/output/${this.team
                       .id}-preview.png?a=${new Date()
                       .toString()}`;
+          i.onload = () => {
+            this.drawCanvas();
+          };
+          i.onerror = (err) => {
+            i.src =
+                '/assets/img/logo.png';  // use a default bloodrush logo image
+          };
           this.images = [i];
-          this.drawCanvas();
         })
         .catch(err => {
           console.error(err);
