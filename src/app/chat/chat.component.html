@@ -1,5 +1,5 @@
 <!--Chat icon-->
-<a *ngIf="!shown" (click)="shown = true" class="chat-icon">
+<a *ngIf="!shown" (click)="showChat()" class="chat-icon">
     <span class="icon is-large"><i class="fa fa-comments-o"></i></span>
 </a>
 <article *ngIf="shown" class="message is-info">
@@ -9,7 +9,7 @@
     </div>
     <div class="message-body">
         <p *ngFor="let chat of chats">
-            <a>{{chat.owner?.name}}</a>:&nbsp; {{chat.message}}
+            <a routerLink="/teams/{{chat.ownerId}}">{{chat.owner?.name}}</a>:&nbsp; {{chat.message}}
         </p>
     </div>
     <form [formGroup]="form" (ngSubmit)="send(form.value)">

@@ -13,6 +13,7 @@ export class ChatComponent {
   shown: boolean = false;
   chats: {}[];
   form: FormGroup;
+  leagueId: string;
 
   constructor(
       public acc: AccountService, public fb: FormBuilder,
@@ -22,11 +23,7 @@ export class ChatComponent {
         '',
         Validators.compose([Validators.required, Validators.minLength(3)])
       ]
-    })
-    setTimeout(() => {
-      console.log(this.acc.leagues[0]);
-      this.chats = this.acc.leagues[0].chats;
-    }, 500);
+    });
   }
 
   send(val: any): void {
@@ -37,7 +34,34 @@ export class ChatComponent {
       leagueId: this.acc.leagues[0].id,
       message: val.message
     };
-    this.chats.push(chatObj);
     this.api.run('post', `/chats`, '', chatObj)
+  }
+
+  listenChat(): void {
+    if (!this.acc.leagues[0]) {
+      setTimeout(() => {
+        this.listenChat();
+      }, 1000);
+      return;
+    } else if (!this.leagueId) {
+      this.leagueId = this.acc.leagues[0].id;
+    }
+    this.api
+        .run(
+            'get', `/leagues/${this.leagueId}/chats`,
+            `&filter={"include": "owner"}`, {})
+        .then(chats => {
+          this.chats = chats;
+          if (this.shown) {
+            setTimeout(() => {
+              this.listenChat();
+            }, 1000);
+          }
+        });
+  }
+
+  showChat(): void {
+    this.shown = true;
+    this.listenChat();
   }
 }
