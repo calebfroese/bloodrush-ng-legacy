@@ -4,13 +4,17 @@
 </a>
 <article *ngIf="shown" class="message is-info">
     <div class="message-header">
+        <p class="control">
+            <span class="select is-small">
+
         <select [(ngModel)]="leagueId"><option *ngFor="let league of this.acc.leagues" [value]="league.id">{{league.name}}</option></select>
-        Chat
+          </span>
+        </p>
         <button (click)="shown = false" class="delete"></button>
     </div>
-    <div class="message-body">
+    <div #messagePanel class="message-body">
         <p *ngFor="let chat of chats">
-            <a routerLink="/teams/{{chat.ownerId}}">{{chat.owner?.name}}</a>:&nbsp; {{chat.message}}
+            <a routerLink="/teams/{{chat.ownerId}}"><b>{{chat.owner?.name}}</b></a>&nbsp; {{chat.message}}
         </p>
     </div>
     <form [formGroup]="form" (ngSubmit)="send(form.value)">

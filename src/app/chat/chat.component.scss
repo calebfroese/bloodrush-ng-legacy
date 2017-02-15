@@ -3,8 +3,18 @@
     position: fixed;
     width: calc(100% - 20px);
     margin: 10px;
+    overflow: hidden;
 }
 
 .chat-icon {
     float: right;
+}
+
+.control {
+    margin: 0;
+}
+
+.message-body {
+    max-height: 300px;
+    overflow-y: auto;
 }

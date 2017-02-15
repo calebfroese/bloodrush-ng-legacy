@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {AccountService} from './../shared/account.service';
@@ -14,6 +14,7 @@ export class ChatComponent {
   chats: {}[];
   form: FormGroup;
   leagueId: string;
+  @ViewChild('messagePanel') messagePanel: any;
 
   constructor(
       public acc: AccountService, public fb: FormBuilder,
@@ -24,6 +25,7 @@ export class ChatComponent {
         Validators.compose([Validators.required, Validators.minLength(3)])
       ]
     });
+    this.scrollToBottom();
   }
 
   send(val: any): void {
@@ -34,7 +36,8 @@ export class ChatComponent {
       leagueId: this.acc.leagues[0].id,
       message: val.message
     };
-    this.api.run('post', `/chats`, '', chatObj)
+    this.api.run('post', `/chats`, '', chatObj);
+    this.chats.push(chatObj);
   }
 
   listenChat(): void {
@@ -52,6 +55,7 @@ export class ChatComponent {
             `&filter={"include": "owner"}`, {})
         .then(chats => {
           this.chats = chats;
+          this.scrollToBottom();
           if (this.shown) {
             setTimeout(() => {
               this.listenChat();
@@ -63,5 +67,15 @@ export class ChatComponent {
   showChat(): void {
     this.shown = true;
     this.listenChat();
+  }
+
+  scrollToBottom(): void {
+    try {
+      this.messagePanel.nativeElement.scrollTop =
+          this.messagePanel.nativeElement.scrollHeight;
+    } catch (err) {
+      console.log(err);
+      // do nothing
+    }
   }
 }
