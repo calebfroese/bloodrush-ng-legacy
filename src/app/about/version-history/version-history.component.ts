@@ -8,7 +8,7 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
-                    Add league chat
+                    Add league chat for the leagues that the user is enrolled in
                 </li>
                 <li type="disc">
                     Teams must now request access to join a league and be approved
