@@ -4,7 +4,8 @@
 </a>
 <article *ngIf="shown" class="message is-info">
     <div class="message-header">
-        <p>{{this.acc.leagues[0].name}} Chat</p>
+        <select [(ngModel)]="leagueId"><option *ngFor="let league of this.acc.leagues" [value]="league.id">{{league.name}}</option></select>
+        Chat
         <button (click)="shown = false" class="delete"></button>
     </div>
     <div class="message-body">
