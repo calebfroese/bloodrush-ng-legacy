@@ -1,6 +1,10 @@
 :host {
-  bottom: 0;
-  right: 0;
-  position: fixed;
-  margin: 20px;
+    bottom: 0;
+    position: fixed;
+    width: calc(100% - 20px);
+    margin: 10px;
+}
+
+.chat-icon {
+    float: right;
 }

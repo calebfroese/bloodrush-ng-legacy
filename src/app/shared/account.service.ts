@@ -130,7 +130,7 @@ export class AccountService {
     return this.api
         .run(
             'get', `/leagues`,
-            `&filter={"where": {"teamIds": {"in": ["${teamId}"] }}}`, {})
+            `&filter={"include": {"chats": "owner"}, "where": {"teamIds": {"in": ["${teamId}"] }}}`, {})
         .then(leagues => {
           this.leagues = leagues;
           console.log('ALL leagues have been loged!', leagues);
