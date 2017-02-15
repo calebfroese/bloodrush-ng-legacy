@@ -18,7 +18,7 @@ import {AccountService} from './../../shared/account.service';
             </h2>
             <h2 class="subtitle">
             Level {{curLvl}}, {{this.acc.team.experience}} / {{acc.calculateExp(curLvl + 1)}} XP
-            <progress class="progress is-large is-marginless" [value]="curExp" [max]="nextLevelExp"></progress>
+            <progress class="progress is-info is-large is-marginless" [value]="curExp" [max]="nextLevelExp"></progress>
             </h2>
         </div>
         <div class="container has-text-centered">

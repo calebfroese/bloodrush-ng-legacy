@@ -8,7 +8,10 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
-                    Revamped the league and league detail page
+                    Teams must now request access to join a league and be approved
+                </li>
+                <li type="disc">
+                    Fixed bugs in the league and league detail page
                 </li>
                 <li type="disc">
                     Fixed games not auto running on the server
