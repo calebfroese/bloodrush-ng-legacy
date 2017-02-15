@@ -179,31 +179,29 @@ export class MyTeamComponent {
   // CANVAS RENDERING PLAYER
   images: any[] = [];
   updateCanvas(): void {
-    let tempSrcImgs = [];  // empty the image stack
+    let arrayOfStyles = [];
     for (let i = 0; i < this.team.style.length; i++) {
       let sty = this.team.style[i];
       if (sty.base || sty.selected) {
-        // Send a request to the server
-        this.api
-            .run(
-                'post', '/images/createPart', '',
-                {style: sty, teamId: this.team.id})
-            .then(() => {
-              tempSrcImgs[i] =
-                  `${Config[environment.envName].imgUrl
-                  }temp/player/${this.team.id}/frame1/${sty.name
-                  }-${sty.color.r}.${sty.color.g}.${sty.color.b}.png`;
-            });
+        arrayOfStyles.push(sty);
       }
     }
-    setTimeout(() => {
-      tempSrcImgs.forEach(src => {
-        let i = new Image();
-        i.src = src;
-        this.images.push(i);
-      });
-      this.drawCanvas();
-    }, 2000);
+    this.api
+        .run(
+            'post', '/images/createPreview', '',
+            {styles: arrayOfStyles, teamId: this.team.id})
+        .then(res => {
+          let i = new Image();
+          i.src = `${Config[environment.envName]
+                      .imgUrl}player/output/${this.team
+                      .id}-preview.png?a=${new Date()
+                      .toString()}`;
+          this.images = [i];
+          this.drawCanvas();
+        })
+        .catch(err => {
+          console.error(err);
+        })
   }
 
   drawCanvas() {
