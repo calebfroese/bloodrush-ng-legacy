@@ -537,11 +537,14 @@ export class GameDetailComponent implements OnInit {
     let teamPlayers = this.qtr[this.qtrNum][team + 'Players'];
     let oPlayers = this.qtr[this.qtrNum][oTeam + 'Players'];
     let oPos = (team === 'home') ? this.awayPos : this.homePos;
+    let scored: boolean = teamPlayers[i].scored['qtr' + this.qtrNum];
     if (!teamPlayers[i]) return;
     // Graphics
     if (this.timeElapsed > playerPos.framecalc) {
       playerPos.framecalc = this.timeElapsed + 160 - (teamPlayers[i].spd / 2);
-      if (teamPlayers[i].down) {
+      if (scored) {
+        // Do nothing
+      } else if (teamPlayers[i].down) {
         // Down Frame
         if (playerPos.frame !== 'out1') {
           if (playerPos.frame === 'knockout1') {
@@ -575,7 +578,7 @@ export class GameDetailComponent implements OnInit {
       }
     }
     // If down or scored
-    if (teamPlayers[i].kg <= 0 || teamPlayers[i].scored['qtr' + this.qtrNum])
+    if (teamPlayers[i].down || scored)
       return playerPos;
     // Run through to find the closest enemy
     if (this.timeElapsed > playerPos.recalc && !oPlayers[i] ||
