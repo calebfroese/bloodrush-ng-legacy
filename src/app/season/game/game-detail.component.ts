@@ -356,10 +356,6 @@ export class GameDetailComponent implements OnInit {
         this.images['awayLogo'], (this.maxWidth - 100 - 200) / this.ratio,
         100 / this.ratio, 200 / this.ratio, 200 / this.ratio);
     this.context.globalAlpha = 1;
-    // this.context.drawImage(
-    //     this.images['awayLogo'], (this.maxWidth - 60) / this.ratio,
-    //     100 / this.ratio, this.maxWidth / this.ratio,
-    //     this.maxHeight / this.ratio);
   }
 
   drawPlayer(
