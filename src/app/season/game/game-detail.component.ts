@@ -232,6 +232,24 @@ export class GameDetailComponent implements OnInit {
         })
         .then(() => {
           return this.loadImage(
+              'homeknockout1',
+              `${Config[environment.envName].imgUrl}player/output/${this.home.id
+              }-knockout1.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'homeknockout2',
+              `${Config[environment.envName].imgUrl}player/output/${this.home.id
+              }-knockout2.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'homeout1',
+              `${Config[environment.envName].imgUrl}player/output/${this.home.id
+              }-out1.png`);
+        })
+        .then(() => {
+          return this.loadImage(
               'awayframe1',
               `${Config[environment.envName].imgUrl}player/output/${this.away.id
               }-frame1r.png`);
@@ -271,6 +289,24 @@ export class GameDetailComponent implements OnInit {
               'awayattack3',
               `${Config[environment.envName].imgUrl}player/output/${this.away.id
               }-attack3r.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'awayknockout1',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-knockout1r.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'awayknockout2',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-knockout2r.png`);
+        })
+        .then(() => {
+          return this.loadImage(
+              'awayout1',
+              `${Config[environment.envName].imgUrl}player/output/${this.away.id
+              }-out1r.png`);
         })
         .then(() => {})
         .catch(err => {
@@ -330,9 +366,6 @@ export class GameDetailComponent implements OnInit {
       image: any, width: number, height: number, x, y, first: string,
       last: string, down: boolean, color: string): void {
     // Draws a single player
-    if (down) {
-      this.context.globalAlpha = 0.3;
-    }
     if (this.showNames) {
       this.context.font = '30px Arial';
       this.context.fillText(last, x / this.ratio, y / this.ratio);
@@ -340,7 +373,6 @@ export class GameDetailComponent implements OnInit {
     this.context.drawImage(
         image, x / this.ratio, y / this.ratio, width / this.ratio,
         height / this.ratio);
-    this.context.globalAlpha = 1;
   }
 
   // GAME
@@ -510,6 +542,42 @@ export class GameDetailComponent implements OnInit {
     let oPlayers = this.qtr[this.qtrNum][oTeam + 'Players'];
     let oPos = (team === 'home') ? this.awayPos : this.homePos;
     if (!teamPlayers[i]) return;
+    // Graphics
+    if (this.timeElapsed > playerPos.framecalc) {
+      playerPos.framecalc = this.timeElapsed + 160 - (teamPlayers[i].spd / 2);
+      if (teamPlayers[i].down) {
+        // Down Frame
+        if (playerPos.frame !== 'out1') {
+          if (playerPos.frame === 'knockout1') {
+            playerPos.frame = 'knockout2'
+          } else if (playerPos.frame === 'knockout2') {
+            playerPos.frame = 'out1';
+          } else {
+            playerPos.frame = 'knockout1';
+          }
+        }
+      } else if (playerPos.UIattacking === true) {
+        // Attack frame
+        if (playerPos.frame === 'attack1') {
+          playerPos.frame = 'attack2';
+        } else if (playerPos.frame === 'attack2') {
+          playerPos.frame = 'attack3';
+        } else {
+          playerPos.frame = 'attack1';
+        }
+      } else {
+        // Motion Frame
+        if (playerPos.frame === 'frame1') {
+          playerPos.frame = 'frame4';
+        } else if (playerPos.frame === 'frame4') {
+          playerPos.frame = 'frame7';
+        } else if (playerPos.frame === 'frame7') {
+          playerPos.frame = 'frame7.4';
+        } else {
+          playerPos.frame = 'frame1';
+        }
+      }
+    }
     // If down or scored
     if (teamPlayers[i].kg <= 0 || teamPlayers[i].scored['qtr' + this.qtrNum])
       return playerPos;
@@ -605,31 +673,6 @@ export class GameDetailComponent implements OnInit {
         playerPos.x +=
             (teamPlayers[i].spd / this.data.gameAttr.speedMultiplier) *
             moveDirection;
-      }
-    }
-    // Graphics
-    if (this.timeElapsed > playerPos.framecalc) {
-      playerPos.framecalc = this.timeElapsed + 160 - (teamPlayers[i].spd / 2);
-      if (playerPos.UIattacking === true) {
-        // Attack frame
-        if (playerPos.frame === 'attack1') {
-          playerPos.frame = 'attack2';
-        } else if (playerPos.frame === 'attack2') {
-          playerPos.frame = 'attack3';
-        } else {
-          playerPos.frame = 'attack1';
-        }
-      } else {
-        // Motion Frame
-        if (playerPos.frame === 'frame1') {
-          playerPos.frame = 'frame4';
-        } else if (playerPos.frame === 'frame4') {
-          playerPos.frame = 'frame7';
-        } else if (playerPos.frame === 'frame7') {
-          playerPos.frame = 'frame7.4';
-        } else {
-          playerPos.frame = 'frame1';
-        }
       }
     }
     return playerPos;
