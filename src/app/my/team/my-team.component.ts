@@ -142,7 +142,7 @@ export class MyTeamComponent {
                         {style: this.team.style, teamId: this.team.id})
                     .then(response => {
                       console.log(response);
-                      if (response.ok === true) {
+                      if (response.response.ok === true) {
                         alert('Saved');
                       } else {
                         alert('Unable to save team. Please try again shortly');
