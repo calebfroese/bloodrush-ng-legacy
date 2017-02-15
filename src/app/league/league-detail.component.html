@@ -6,11 +6,21 @@
                 Public: {{league.public}}
                 <br>
                 <br>
+                <!--Enrollment and requests-->
                 <ng-container *ngIf="acc.team">
-                    <button *ngIf="!teams || teams.indexOf(acc.team.id) === -1" (click)="enroll(league.id)" class="button is-primary">Enroll</button>
-                    <button *ngIf="acc.team.id === league.ownerId" (click)="generateSeason()" class="button is-primary">Generate Season</button>
+                    <button *ngIf="!league.requestTeamIds || league.requestTeamIds.indexOf(acc.team.id) === -1" (click)="enroll()" class="button is-primary">Request To Join</button>
+                    <button *ngIf="league.requestTeamIds.indexOf(acc.team.id) !== -1" (click)="unenroll()" class="button is-primary">Cancel Join Request</button>
                 </ng-container>
-                <br>
+                <!--League owner-->
+                <ng-container *ngIf="acc.team && acc.team.id === league.ownerId">
+                    <button (click)="generateSeason()" class="button is-primary">Generate Season</button>
+                    <br>
+                    <br>
+                    <h4 class="title is-4">Join Requests</h4>
+                    <div *ngFor="let team of requestTeams">
+                        [<a (click)="approveRequest(team.id)">Approve</a> / <a (click)="denyRequest(team.id)">Deny</a>] <a routerLink="/teams/{{team.id}}">{{team.name}}</a>
+                    </div>
+                </ng-container>
                 <br>
                 <h4 class="title is-4">Teams</h4>
                 <div *ngFor="let team of teams">

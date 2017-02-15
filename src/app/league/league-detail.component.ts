@@ -10,7 +10,8 @@ import {Config} from './../shared/config';
 export class LeagueDetailComponent implements OnInit {
   leagueId: string;
   league: any;
-  teams: any[] = [];  // teams belonging to the league
+  teams: any[] = [];            // teams belonging to the league
+  requestTeams: string[] = [];  // teams requesting to join the league
   seasons: any[] = [];
 
   constructor(
@@ -56,12 +57,19 @@ export class LeagueDetailComponent implements OnInit {
         this.teams.push(team);
       });
     });
+    this.requestTeams = [];
+    if (this.league.requestTeamIds)
+      this.league.requestTeamIds.forEach(teamId => {
+        return this.api.run('get', `/teams/${teamId}`, '', {}).then(team => {
+          this.requestTeams.push(team);
+        });
+      });
   }
 
   /**
-   * Enrolls a user in a league
+   * Requests enrollment for a user in a league
    */
-  enroll(id: string): void {
+  enroll(): void {
     // Make sure the user cannot enrol if they have not yet created team colours
     if (!this.acc.team.init) {
       alert(
@@ -69,15 +77,31 @@ export class LeagueDetailComponent implements OnInit {
       this.router.navigate(['/home/team/team']);
       return;
     }
-    this.api.run('get', `/leagues/${id}`, '', {}).then(league => {
-      if (league.teamIds.indexOf(this.acc.team.id) === -1) {
-        league.teamIds.push(this.acc.team.id);
-        this.api.run('patch', `/leagues/${id}`, '', league).then(() => {
-          this.loadLeague();
-        });
-      } else {
-        alert('You are already enrolled to this league');
+    this.api.run('get', `/leagues/${this.leagueId}`, '', {}).then(league => {
+      if (league.teamIds.indexOf(this.acc.team.id) !== -1) return;
+      if (league.requestTeamIds.indexOf(this.acc.team.id) !== -1) return;
+      console.log('did not return');
+      league.requestTeamIds.push(this.acc.team.id);
+      this.api.run('patch', `/leagues/${this.leagueId}`, '', league)
+          .then(() => {
+            this.loadLeague();
+          });
+    });
+  }
+
+  /**
+   * Cancels a join request
+   */
+  unenroll(): void {
+    this.api.run('get', `/leagues/${this.leagueId}`, '', {}).then(league => {
+      var index = league.requestTeamIds.indexOf(this.acc.team.id);
+      if (index > -1) {
+        league.requestTeamIds.splice(index, 1);
       }
+      this.api.run('patch', `/leagues/${this.leagueId}`, '', league)
+          .then(() => {
+            this.loadLeague();
+          });
     });
   }
 
@@ -87,5 +111,32 @@ export class LeagueDetailComponent implements OnInit {
         .then(res => {
           this.loadLeague();
         });
+  }
+
+  approveRequest(teamId: string): void {
+    this.api.run('get', `/leagues/${this.leagueId}`, '', {}).then(league => {
+      var index = league.requestTeamIds.indexOf(teamId);
+      if (index > -1) {
+        league.requestTeamIds.splice(index, 1);
+      }
+      league.teamIds.push(teamId);
+      this.api.run('patch', `/leagues/${this.leagueId}`, '', league)
+          .then(() => {
+            this.loadLeague();
+          });
+    });
+  }
+
+  denyRequest(teamId: string): void {
+    this.api.run('get', `/leagues/${this.leagueId}`, '', {}).then(league => {
+      var index = league.requestTeamIds.indexOf(teamId);
+      if (index > -1) {
+        league.requestTeamIds.splice(index, 1);
+      }
+      this.api.run('patch', `/leagues/${this.leagueId}`, '', league)
+          .then(() => {
+            this.loadLeague();
+          });
+    });
   }
 }
