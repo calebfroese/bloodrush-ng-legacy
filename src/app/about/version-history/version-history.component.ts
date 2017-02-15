@@ -8,6 +8,12 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
+                    Revamped the league and league detail page
+                </li>
+                <li type="disc">
+                    Fixed games not auto running on the server
+                </li>
+                <li type="disc">
                     Add falling down player animations for when a player is defeated
                 </li>
                 <li type="disc">
