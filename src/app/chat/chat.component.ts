@@ -6,16 +6,9 @@ import { Component } from '@angular/core';
     styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent {
-    // Copyright
-    year = 2017;
-    text = '2017';
-    appVersion = require('./../../../package.json').appVersion
+    shown: boolean = false;
 
     constructor() {
-        console.log(this.appVersion)
-        let thisYear = new Date().getFullYear();
-        if (this.year !== thisYear) {
-            this.text = `2017 - ${thisYear.toString()}`;
-        }
+      
     }
 }
