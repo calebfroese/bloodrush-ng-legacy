@@ -33,7 +33,7 @@ export class ChatComponent {
     let chatObj = {
       owner: this.acc.team,
       ownerId: this.acc.team.id,
-      leagueId: this.acc.leagues[0].id,
+      leagueId: this.leagueId,
       message: val.message
     };
     this.api.run('post', `/chats`, '', chatObj);
