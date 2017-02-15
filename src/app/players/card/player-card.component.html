@@ -4,7 +4,7 @@
             This player is currently training. Training will complete on {{stateEnds || player.stateEnds}}.
         </div>
         <div *ngIf="player.state === 'injured'" class="column is-12">
-            This player is currently injured. The recovery for {{player.first}} {{player.last}} is on {{stateEnds || player.stateEnds}}.
+            This player is currently injured. {{player.first}} {{player.last}} is likely to recover on {{stateEnds || player.stateEnds}}.
         </div>
         <div *ngIf="player.state === 'market'" class="column is-12">
             This player is currently on the <a routerLink="/market">market</a>.
