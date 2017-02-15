@@ -96,6 +96,7 @@ export class MyTeamComponent {
     // Loaded
     this.team.style = defaultStyles;
     this.initCanvas();
+    this.updateCanvas();
     // Image url
     this.imgUrl = Config[environment.envName].imgUrl;
   }
