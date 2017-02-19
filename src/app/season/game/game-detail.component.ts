@@ -358,12 +358,16 @@ export class GameDetailComponent implements OnInit, OnDestroy {
         100 / this.ratio, 200 / this.ratio, 200 / this.ratio);
     // Draw team scores
     this.context.font = '70px Arial';
-    this.context.textAlign="center"; 
+    this.context.textAlign = 'center';
     this.context.fillStyle = 'white';
-    this.context.fillText(this.awayScore, (this.maxWidth - 100 - 100) / this.ratio, 650 / this.ratio);
+    this.context.fillText(
+        this.awayScore, (this.maxWidth - 100 - 100) / this.ratio,
+        650 / this.ratio);
     this.context.fillText(this.homeScore, 200 / this.ratio, 650 / this.ratio);
     this.context.font = '40px Arial';
-    this.context.fillText(this.away.name, (this.maxWidth - 100 - 100) / this.ratio, 700 / this.ratio);
+    this.context.fillText(
+        this.away.name, (this.maxWidth - 100 - 100) / this.ratio,
+        700 / this.ratio);
     this.context.fillText(this.home.name, 200 / this.ratio, 700 / this.ratio);
     this.context.globalAlpha = 1;
   }
@@ -488,10 +492,13 @@ export class GameDetailComponent implements OnInit, OnDestroy {
             } ${this.homeScore}, ${this.away.name} ${this.awayScore}`
     });
     // Play winning team anthem
+    this.homeScore = 999;
     if (this.homeScore > this.awayScore) {
-      if (this.homeAnthem) this.homeAnthem.play();
+      if (!this.homeAnthem) return;
+      this.homeAnthem.play();
     } else if (this.awayScore > this.homeScore) {
-      if (this.awayAnthem) this.awayAnthem.play();
+      if (!this.awayAnthem) return;
+      this.awayAnthem.play();
     }
   }
 
@@ -874,5 +881,10 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.homeAnthem.remove();
     this.awayAnthem.remove();
+  }
+
+  changeVolume(): void {
+    this.homeAnthem.volume = this.volume / 100;
+    this.awayAnthem.volume = this.volume / 100;
   }
 }

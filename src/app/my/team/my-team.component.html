@@ -4,21 +4,27 @@
         <h1 class="title is-1">Team</h1>
         <div class="columns">
             <div class="column">
-                <hr>
                 <label class="label">Logo</label>
                 <p class="control">
-                    <input type="file" ngFileSelect [options]="options" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)">
+                    <input type="file" ngFileSelect [options]="teamlogoOptions" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)">
                 </p>
                 <img class="image is-128x128" src="{{imgUrl}}/teamlogos/{{team.id}}.png?a={{rndCache}}" onError="this.src='/assets/img/logo.png';">
-                <h3 class="title is-3">Team Details</h3>
+            </div>
+            <div class="column">
+                <label class="label">Anthem</label>
+                <p class="control">
+                    <input type="file" ngFileSelect [options]="teamanthemOptions" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event)">
+                </p>
+                Your team anthem is a <b>.mp3</b> file that will play at the end if your team wins a game.
+            </div>
+            <div class="column">
                 <label class="label">Acronym</label>
                 <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="team.acronym" class="input" type="text" placeholder="e.g. ADEL" maxlength="4">
+                    <input (ngModelChange)="upperAcr()" [(ngModel)]="team.acronym" class="input" type="text" placeholder="e.g. ADEL" maxlength="4">
                 </p>
                 <label class="label">Name</label>
                 <p class="control has-icon has-icon-right">
-                    <input [(ngModel)]="team.name" class="input" type="text" placeholder="enter a team name"
-                        maxlength="20">
+                    <input [(ngModel)]="team.name" class="input" type="text" placeholder="enter a team name" maxlength="20">
                 </p>
             </div>
         </div>
@@ -65,16 +71,16 @@
                 </div>
                 <table *ngIf="team" class="table">
                     <ng-container *ngFor="let part of team.style; let i = index">
-                    <tr *ngIf="!part.hidden">
-                        <td (click)="editPart(i)">{{part.name}} show: {{part.hidden}}</td>
-                        <td [ngClass]="{'part-editing': partEditIndex === i}">{{part.color.r}}, {{part.color.g}}, {{part.color.b}}</td>
-                        <td (click)="selectPart(i)" class="has-text-right">
-                            <a *ngIf="!part.base">
-                                <span *ngIf="part.selected" class="icon"><i class="fa fa-remove is-success"></i></span>
-                                <span *ngIf="!part.selected" class="icon"><i class="fa fa-plus"></i></span>
-                            </a>
-                        </td>
-                    </tr>
+                        <tr *ngIf="!part.hidden">
+                            <td (click)="editPart(i)">{{part.name}} show: {{part.hidden}}</td>
+                            <td [ngClass]="{'part-editing': partEditIndex === i}">{{part.color.r}}, {{part.color.g}}, {{part.color.b}}</td>
+                            <td (click)="selectPart(i)" class="has-text-right">
+                                <a *ngIf="!part.base">
+                                    <span *ngIf="part.selected" class="icon"><i class="fa fa-remove is-success"></i></span>
+                                    <span *ngIf="!part.selected" class="icon"><i class="fa fa-plus"></i></span>
+                                </a>
+                            </td>
+                        </tr>
                     </ng-container>
                 </table>
             </div>
@@ -85,4 +91,4 @@
 </section>
 <div ngFileDrop [options]="options" (onUpload)="handleUpload($event)" [ngClass]="{'file-over': hasBaseDropZoneOver}" (onFileOver)="fileOverBase($event)"
     (beforeUpload)="beforeUpload($event)">
-</div>
+    </div>

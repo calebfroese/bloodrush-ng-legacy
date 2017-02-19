@@ -43,8 +43,11 @@ export class MyTeamComponent {
   ngOnInit(): void {
     if (!this.acc.team.id) return;
     // Upon page init, load the team data
-    this.options = {
+    this.teamlogoOptions = {
       url: Config[environment.envName].imgUrl + 'file/' + this.acc.team.id
+    };
+    this.teamanthemOptions = {
+      url: Config[environment.envName].imgUrl + 'fileAnthem/' + this.acc.team.id
     };
     this.team = this.acc.team;
     // Defaults
@@ -104,10 +107,12 @@ export class MyTeamComponent {
 
   uploadFile: any;
   hasBaseDropZoneOver: boolean = false;
-  options: NgUploaderOptions;
-  sizeLimit = 2000000;
+  teamlogoOptions: NgUploaderOptions;
+  teamanthemOptions: NgUploaderOptions;
+  sizeLimit = 10000000;
 
   handleUpload(data): void {
+    console.log(data);
     if (data && data.response) {
       data = JSON.parse(data.response);
       this.uploadFile = data;
@@ -122,10 +127,14 @@ export class MyTeamComponent {
   }
 
   beforeUpload(uploadingFile): void {
+    console.log(uploadingFile);
     if (uploadingFile.size > this.sizeLimit) {
       uploadingFile.setAbort();
       alert('File is too large');
     }
+  }
+  upperAcr(): void {
+    this.team.acronym = this.team.acronym.toUpperCase();
   }
 
   onClickSubmit(): void {

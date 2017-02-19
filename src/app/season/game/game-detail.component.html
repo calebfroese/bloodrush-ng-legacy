@@ -54,7 +54,7 @@
                 <br>
                 <br>
                 <p class="control has-icon">
-                    <input [(ngModel)]="volume" class="input" min="0" max="100" step="1" type="range">
+                    <input (ngModelChange)="changeVolume()" [(ngModel)]="volume" class="input" min="0" max="100" step="1" type="range">
                     <span class="icon"><i class="fa fa-volume-up"></i></span>
                 </p>
             </div>
