@@ -9,7 +9,8 @@ import {TRAINING_COST_ADVANCED, TRAINING_COST_BASIC} from './../../../config/eco
 @Component({
   templateUrl: './my-training.component.html',
   styles: [`
-.button {float: right; margin-left: 5px;}`]
+.button {float: right; margin-left: 5px;}
+.is-4 {margin-top: 20px;}`]
 })
 export class MyTrainingComponent {
   players = this.acc.players;
