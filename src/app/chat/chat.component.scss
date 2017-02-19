@@ -1,7 +1,8 @@
 :host {
     bottom: 0;
+    right: 0;
     position: fixed;
-    width: calc(100% - 20px);
+    max-width: calc(100% - 20px);
     margin: 10px;
     overflow: hidden;
 }
@@ -17,4 +18,6 @@
 .message-body {
     max-height: 300px;
     overflow-y: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
