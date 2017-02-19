@@ -54,5 +54,9 @@ Season 2nd: 250
 Season 3rd: 150
 Average Player Cost: 80
 Market Default Sale: 20
-Basic Training (2 days): 10 - less stats
-Advanced Training (7 days): 35 - more stats
+
+# Training
+At level 8, players can purchase a training facility (maybe call it a gym?).
+* Training facility: $1,500
+* Basic Training (2 days): 10 - less stats
+* Advanced Training (7 days): 35 - more stats 

@@ -4,12 +4,31 @@ import {Component} from '@angular/core';
 export class VersionHistoryComponent {
   public versionHistory = [
     {
+      number: '2.0.7',
+      desc: `
+            <ol>
+                <li type="disc">
+                    Added player training to improve stats
+                </li>
+                <li type="disc">
+                    Teams may buy a training facility at level 6 for $1,500
+                </li>
+                <li type="disc">
+                    Add notifications for game events
+                </li>
+                <li type="disc">
+                    Add team logo to chat
+                </li>
+            </ol>
+            `
+    },
+    {
       number: '2.0.6',
       desc: `
             <ol>
                 <li type="disc">
                     Add league chat for the leagues that the user is enrolled in
-                </li>
+            </li>
                 <li type="disc">
                     Teams must now request access to join a league and be approved
                 </li>
