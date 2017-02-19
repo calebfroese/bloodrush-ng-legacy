@@ -1,5 +1,5 @@
 import {Location} from '@angular/common';
-import {Component, ElementRef, OnInit, ViewChild, OnDestroy} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import * as moment from 'moment';
 
@@ -374,17 +374,20 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   // GAME
   homeAnthem: HTMLAudioElement;
   awayAnthem: HTMLAudioElement;
-  volume: number = 100;
+  volume: number = 40;
   initializeGame(): void {
-    this.homeAnthem = new Audio(`${Config[environment.envName].imgUrl}teamsounds/${this.home.id}.mp3`);
-    this.homeAnthem.play();
-    this.awayAnthem = new Audio(`${Config[environment.envName].imgUrl}teamsounds/${this.away.id}.mp3`);
-    this.awayAnthem.play();
-    console.log('playing audio');
+    this.initAudio();
     // This will start the game playing
     this.initializePlayers();
     this.checkRoundEnd();
     this.redrawCanvas();
+  }
+
+  initAudio(): void {
+    this.homeAnthem = new Audio(
+        `${Config[environment.envName].imgUrl}teamsounds/${this.home.id}.mp3`);
+    this.awayAnthem = new Audio(
+        `${Config[environment.envName].imgUrl}teamsounds/${this.away.id}.mp3`);
   }
 
   initializePlayers(): void {
@@ -462,12 +465,23 @@ export class GameDetailComponent implements OnInit, OnDestroy {
             this.timeCurrent + this.data.gameAttr.roundDuration;
       } else {
         this.gameFinished = true;
-        this.events.push({
-          team: null,
-          text: `Game finished. Final score is ${this.home.name
-                } ${this.homeScore}, ${this.away.name} ${this.awayScore}`
-        });
+        this.endGame();
       }
+    }
+  }
+
+  endGame(): void {
+    // Add end to event
+    this.events.push({
+      team: null,
+      text: `Game finished. Final score is ${this.home.name
+            } ${this.homeScore}, ${this.away.name} ${this.awayScore}`
+    });
+    // Play winning team anthem
+    if (this.homeScore > this.awayScore) {
+      if (this.homeAnthem) this.homeAnthem.play();
+    } else if (this.awayScore > this.homeScore) {
+      if (this.awayAnthem) this.awayAnthem.play();
     }
   }
 
@@ -533,8 +547,6 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   }
 
   playerLogic(playerPos, team, i) {
-    this.homeAnthem.volume = this.volume / 100;
-    this.awayAnthem.volume = this.volume / 100;
     if (this.gameFinished) return playerPos;
     /**
      * Calculates the player logic
