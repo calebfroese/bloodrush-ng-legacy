@@ -13,6 +13,9 @@ import {TRAINING_COST_ADVANCED, TRAINING_COST_BASIC} from './../../../config/eco
 })
 export class MyTrainingComponent {
   players = this.acc.players;
+  adv = TRAINING_COST_ADVANCED;
+  basic = TRAINING_COST_BASIC;
+  
   constructor(private acc: AccountService, private api: ApiService) {}
 
   basicTraining(player: any): void {

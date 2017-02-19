@@ -8,10 +8,7 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
-                    Added player training to improve stats
-                </li>
-                <li type="disc">
-                    Teams may buy a training facility at level 6 for $1,500
+                    Can now opt players into basic or advanced training
                 </li>
                 <li type="disc">
                     Improved the player part editor
