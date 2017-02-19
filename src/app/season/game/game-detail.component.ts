@@ -348,6 +348,7 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     this.context.drawImage(
         this.images['field'], 0, 0, this.maxWidth / this.ratio,
         this.maxHeight / this.ratio);
+    // Draw team logos
     this.context.globalAlpha = 0.1;
     this.context.drawImage(
         this.images['homeLogo'], 100 / this.ratio, 100 / this.ratio,
@@ -355,6 +356,15 @@ export class GameDetailComponent implements OnInit, OnDestroy {
     this.context.drawImage(
         this.images['awayLogo'], (this.maxWidth - 100 - 200) / this.ratio,
         100 / this.ratio, 200 / this.ratio, 200 / this.ratio);
+    // Draw team scores
+    this.context.font = '70px Arial';
+    this.context.textAlign="center"; 
+    this.context.fillStyle = 'white';
+    this.context.fillText(this.awayScore, (this.maxWidth - 100 - 100) / this.ratio, 650 / this.ratio);
+    this.context.fillText(this.homeScore, 200 / this.ratio, 650 / this.ratio);
+    this.context.font = '40px Arial';
+    this.context.fillText(this.away.name, (this.maxWidth - 100 - 100) / this.ratio, 700 / this.ratio);
+    this.context.fillText(this.home.name, 200 / this.ratio, 700 / this.ratio);
     this.context.globalAlpha = 1;
   }
 
