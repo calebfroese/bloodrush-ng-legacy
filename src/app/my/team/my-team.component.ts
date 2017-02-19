@@ -126,8 +126,15 @@ export class MyTeamComponent {
     this.hasBaseDropZoneOver = e;
   }
 
-  beforeUpload(uploadingFile): void {
-    console.log(uploadingFile);
+  beforeUpload(uploadingFile, type: string): void {
+    if (type === 'anthem') {
+      // Validate as mp3
+      if (uploadingFile.originalName.split('.').pop() !== 'mp3') {
+        uploadingFile.setAbort();
+        alert('Must be a .mp3 file');
+        return;
+      }
+    }
     if (uploadingFile.size > this.sizeLimit) {
       uploadingFile.setAbort();
       alert('File is too large');
