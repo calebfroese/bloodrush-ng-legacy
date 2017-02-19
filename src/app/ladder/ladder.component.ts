@@ -9,7 +9,8 @@ import {ScoreService} from './../shared/score.service';
   selector: 'bloodrush-ladder',
   templateUrl: './ladder.component.html',
   styles: [`
-        .team { cursor: pointer }
+        .team { cursor: pointer; }
+        .image { float: left; margin-right: 10px; }
     `]
 })
 export class LadderComponent implements OnInit {

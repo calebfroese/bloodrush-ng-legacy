@@ -11,7 +11,6 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th></th>
                                         <th>Name</th>
                                         <th>Pts</th>
                                         <th>W</th>
@@ -25,13 +24,11 @@
                                     <tr *ngFor="let team of teams; let i = index;">
                                         <td><b>{{i + 1}}</b></td>
                                         <td>
-                                            <figure class="image is-32x32 team-icon-parent team-icon">
-                                                <img src="{{config[envName].imgUrl}}teamlogos/{{team.team.id}}.png" onError="this.src='/assets/img/logo.png';" class="team-icon">
-                                            </figure>
-                                        </td>
-                                        <td>
                                             <a routerLink="/teams/{{team.team.id}}">
-                                            {{team.team.name}}
+                                                <figure class="image is-32x32 team-icon-parent team-icon">
+                                                    <img src="{{config[envName].imgUrl}}teamlogos/{{team.team.id}}.png" onError="this.src='/assets/img/logo.png';" class="team-icon">
+                                                </figure>
+                                                {{team.team.name}}
                                             </a>
                                         </td>
                                         <td>{{team.pts}}</td>
