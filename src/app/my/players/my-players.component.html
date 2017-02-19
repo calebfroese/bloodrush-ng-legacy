@@ -109,23 +109,19 @@
 </section>
 <div class="modal" [ngClass]="{'is-active': modalPlayer}" *ngIf="modalPlayer">
     <div class="modal-background"></div>
-    <div class="modal-card">
+    <div class="modal-content">
         <form [formGroup]="modalSellForm" (ngSubmit)="placeOnMarket(modalSellForm.value)">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Sell {{modalPlayer.first}} {{modalPlayer.last}}</p>
-                <button type="button" (click)="modalPlayer = null" class="delete"></button>
-            </header>
-            <section class="modal-card-body">
+            <div class="box">
+                <h2 class="title is-2">Sell {{modalPlayer.first}} {{modalPlayer.last}}</h2>
+                <bloodrush-player-card [player]="modalPlayer"></bloodrush-player-card>
                 <label class="label">Price</label>
                 <p class="control">
                     <input formControlName="askingPrice" class="input" type="number" placeholder="enter asking price">
                 </p>
-                <bloodrush-player-card [player]="modalPlayer"></bloodrush-player-card>
-            </section>
-            <footer class="modal-card-foot">
                 <button class="button is-success" type="button" (click)="placeOnMarket(modalSellForm.value)" [disabled]="!modalSellForm.valid">Place On Market</button>
                 <button type="submit" class="button is-success">Sell For $20</button>
-            </footer>
+            </div>
         </form>
+        <button (click)="modalPlayer = null" class="modal-close"></button>
     </div>
 </div>
