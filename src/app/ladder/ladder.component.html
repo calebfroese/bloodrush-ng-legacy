@@ -7,13 +7,13 @@
                 <div class="container">
                     <div class="columns">
                         <div class="column">
-                            <table class="u-full-width">
+                            <table class="u-full-width is-narrow is-striped">
                                 <thead>
                                     <tr>
                                         <th></th>
                                         <th></th>
                                         <th>Name</th>
-                                        <th>PTS</th>
+                                        <th>Pts</th>
                                         <th>W</th>
                                         <th>L</th>
                                         <th>T</th>
@@ -23,8 +23,12 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let team of teams; let i = index;">
-                                        <td>{{i + 1}}</td>
-                                        <td>{{team.team.acronym}}</td>
+                                        <td><b>{{i + 1}}</b></td>
+                                        <td>
+                                            <figure class="image is-32x32 team-icon-parent team-icon">
+                                                <img src="{{config[envName].imgUrl}}teamlogos/{{team.id}}.png" onError="this.src='/assets/img/logo.png';" class="team-icon">
+                                            </figure>
+                                        </td>
                                         <td>
                                             <a routerLink="/teams/{{team.team.id}}">
                                             {{team.team.name}}
