@@ -15,24 +15,24 @@ export class MyTrainingComponent {
   players = this.acc.players;
   adv = TRAINING_COST_ADVANCED;
   basic = TRAINING_COST_BASIC;
-  
+
   constructor(private acc: AccountService, private api: ApiService) {}
 
   basicTraining(player: any): void {
     player.stateEnds = moment().add(2, 'days').toDate();
     // Add stats
-    player.atk += Math.round(Math.random() * 8);
-    player.def += Math.round(Math.random() * 8);
-    player.spd += Math.round(Math.random() * 5);
+    player.atk += Math.round(Math.random() * 4);
+    player.def += Math.round(Math.random() * 4);
+    player.spd += Math.round(Math.random() * 4);
     this.trainPlayer(player, TRAINING_COST_BASIC);
   }
 
   advancedTraining(player: any): void {
     player.stateEnds = moment().add(7, 'days').toDate();
     // Add stats
-    player.atk += Math.round(Math.random() * 16);
-    player.def += Math.round(Math.random() * 16);
-    player.spd += Math.round(Math.random() * 10);
+    player.atk += Math.round(Math.random() * 17);
+    player.def += Math.round(Math.random() * 17);
+    player.spd += Math.round(Math.random() * 17);
     this.trainPlayer(player, TRAINING_COST_ADVANCED);
   }
 
