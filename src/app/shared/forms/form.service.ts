@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {CustomValidators} from './custom-validators';
 // Custom imports
-import {LEAGUE, TEAM, USER} from './form.config';
+import {LEAGUE, TEAM, USER, PLAYER} from './form.config';
 
 @Injectable()
 export class FormService {
@@ -51,6 +51,19 @@ export class FormService {
     ])
   ];
   leaguePublic = [{value: true, disabled: false}];
+  // Player
+  playerFirst = [
+    '', Validators.compose([
+      Validators.required, Validators.minLength(PLAYER.FIRST.MIN),
+      Validators.maxLength(PLAYER.FIRST.MAX)
+    ])
+  ];
+  playerLast = [
+    '', Validators.compose([
+      Validators.required, Validators.minLength(PLAYER.LAST.MIN),
+      Validators.maxLength(PLAYER.LAST.MAX)
+    ])
+  ];
 
   constructor(private fb: FormBuilder) {}
 
@@ -77,5 +90,9 @@ export class FormService {
 
   leagueCreate(): FormGroup {
     return this.fb.group({name: this.leagueName, public: this.leaguePublic});
+  }
+
+  renamePlayerForm(): FormGroup {
+    return this.fb.group({first: this.playerFirst, last: this.playerLast});
   }
 }

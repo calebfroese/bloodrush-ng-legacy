@@ -26,10 +26,10 @@ export const LEAGUE = {
 export const PLAYER = {
     FIRST: {
         MIN: 2,
-        MAX: 2
+        MAX: 16
     },
     LAST: {
         MIN: 2,
-        MAX: 2
+        MAX: 16
     }
 };

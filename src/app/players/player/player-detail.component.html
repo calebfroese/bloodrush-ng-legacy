@@ -2,6 +2,18 @@
     <div class="container">
         <h1 class="title is-1">{{player.first}} {{player.last}}</h1>
         <hr>
+        <div *ngIf="acc.team && player.teamId === acc.team.id">
+            <form [formGroup]="form" (ngSubmit)="renamePlayer(form.value)">
+                <p class="control">
+                    <input formControlName="first" class="input" type="text" placeholder="first name">
+                    <input formControlName="last" class="input" type="text" placeholder="last name">
+                    <button class="button" type="submit" [disabled]="!form.valid">Rename for 
+                        &nbsp;<span class="icon">
+                        <i class="fa fa-money"></i>
+                    </span>&nbsp;&nbsp;{{renameCost}}</button>
+                </p>
+            </form>
+        </div>
         <bloodrush-player-card [player]="player"></bloodrush-player-card>
     </div>
 </section>

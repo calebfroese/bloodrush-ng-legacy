@@ -8,6 +8,15 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
+                    Add the score to the game field (which is especially helpful for mobile users)
+                </li>
+                <li type="disc">
+                    Increased the amount of money earned from games
+                </li>
+                <li type="disc">
+                    Minor improvements to the season page
+                </li>
+                <li type="disc">
                     Can now opt players into basic or advanced training
                 </li>
                 <li type="disc">
