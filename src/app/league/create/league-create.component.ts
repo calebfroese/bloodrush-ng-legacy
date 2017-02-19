@@ -3,6 +3,7 @@ import {FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 
 import {LEAGUE_CREATE_COST, MIN_LEAGUE_CREATE_LVL} from './../../../config/econ.constants';
+import {environment} from './../../../environments/environment';
 import {AccountService} from './../../shared/account.service';
 import {ApiService} from './../../shared/api/api.service';
 import {FormService} from './../../shared/forms/form.service';
@@ -17,12 +18,14 @@ export class LeagueCreateComponent {
       private api: ApiService, private acc: AccountService,
       private router: Router, private formService: FormService) {
     this.form = this.formService.leagueCreate();
-    if (!acc.team ||
-        acc.calculateLevel(acc.team.experience) < MIN_LEAGUE_CREATE_LVL) {
-      alert(
-          `Not high enough level to create a league. You must be at least level ${MIN_LEAGUE_CREATE_LVL
-          } to create a league.`);
-      this.router.navigate(['/leagues']);
+    if (environment.envName !== 'dev') {
+      if (!acc.team ||
+          acc.calculateLevel(acc.team.experience) < MIN_LEAGUE_CREATE_LVL) {
+        alert(
+            `Not high enough level to create a league. You must be at least level ${MIN_LEAGUE_CREATE_LVL
+            } to create a league.`);
+        this.router.navigate(['/leagues']);
+      }
     }
   }
 
@@ -30,7 +33,8 @@ export class LeagueCreateComponent {
    * Creates a league with you as the owner
    */
   create(val: any): void {
-    if (this.acc.team.money < LEAGUE_CREATE_COST) {
+    if (this.acc.team.money < LEAGUE_CREATE_COST &&
+        environment.envName !== 'dev') {
       alert('You do not have enough money to create a league.');
       return;
     }
@@ -48,14 +52,18 @@ export class LeagueCreateComponent {
           teamIds: [this.acc.teamId]
         })
         .then(() => {
-          this.api.run('get', `/teams/${this.acc.team.id}`, '', {}).then(team => {
-            team.money -= LEAGUE_CREATE_COST;
-            this.api.run('patch', `/teams/${team.id}`, '', team).then(() => {
-              alert('League added');
-              this.acc.loadLeagues(this.acc.teamId);  // refresh the leagues
-              this.router.navigate(['/leagues']);
-            });
-          });
+          this.api.run('get', `/teams/${this.acc.team.id}`, '', {})
+              .then(team => {
+                if (environment.envName !== 'dev')
+                  team.money -= LEAGUE_CREATE_COST;
+                this.api.run('patch', `/teams/${team.id}`, '', team)
+                    .then(() => {
+                      alert('League added');
+                      this.acc.loadLeagues(
+                          this.acc.teamId);  // refresh the leagues
+                      this.router.navigate(['/leagues']);
+                    });
+              });
         });
   }
 }

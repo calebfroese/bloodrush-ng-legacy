@@ -34,6 +34,7 @@ export class MyTeamComponent {
   partEditIndex: number = 0;
   imgUrl: string;
   rndCache: string = Math.random().toString();
+  savingChanges: boolean = false;
 
   constructor(
       private acc: AccountService, private api: ApiService,
@@ -128,11 +129,13 @@ export class MyTeamComponent {
   }
 
   onClickSubmit(): void {
+    if (this.savingChanges) return;
     // When the user submits their signup form
     // TODO validate form
     this.team.init = true;
     // Submit to the server and update the team
     this.team.acronym = this.team.acronym.toUpperCase();
+    this.savingChanges = true;
     this.api.run('patch', `/teams/${this.acc.team.id}`, '', this.team)
         .then(
             response => {
@@ -148,10 +151,12 @@ export class MyTeamComponent {
                       } else {
                         alert('Unable to save team. Please try again shortly');
                       }
+                      this.savingChanges = false;
                     })
                     .catch(err => {
                       console.error(err);
                       alert('Unable to save team. Please try again shortly');
+                      this.savingChanges = false;
                     })});
   }
 

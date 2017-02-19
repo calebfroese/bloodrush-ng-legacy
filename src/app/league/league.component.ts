@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {MIN_LEAGUE_CREATE_LVL} from './../../config/econ.constants';
+import {environment} from './../../environments/environment';
 import {AccountService} from './../shared/account.service';
 import {ApiService} from './../shared/api/api.service';
 
@@ -10,6 +11,7 @@ export class LeagueComponent implements OnInit {
   allLeagues: any = [];
   enrolledLeagues: any = [];
   minLeagueCreateLvl = MIN_LEAGUE_CREATE_LVL;
+  isDev: boolean = environment.envName === 'dev';
   constructor(
       private api: ApiService, private acc: AccountService,
       private router: Router) {}
