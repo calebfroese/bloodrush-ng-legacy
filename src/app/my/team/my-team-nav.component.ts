@@ -29,9 +29,18 @@ import {AccountService} from './../../shared/account.service';
         <nav class="tabs">
             <div class="container">
                 <ul>
-                    <li><a routerLink="/home/team">Overview</a></li>
-                    <li><a routerLink="/home/team/players">Players</a></li>
-                    <li><a routerLink="/home/team/team">Team</a></li>
+                    <li><a routerLink="/home/team">
+                    <span class="icon is-small"><i class="fa fa-sitemap"></i></span>
+                    Overview
+                    </a></li>
+                    <li><a routerLink="/home/team/players">
+                    <span class="icon is-small"><i class="fa fa-users"></i></span>
+                    Players
+                    </a></li>
+                    <li><a routerLink="/home/team/team">
+                    <span class="icon is-small"><i class="fa fa-flag"></i></span>
+                    Team
+                    </a></li>
                 </ul>
             </div>
         </nav>
