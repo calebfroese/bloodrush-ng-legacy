@@ -1,5 +1,5 @@
 import {Location} from '@angular/common';
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import * as moment from 'moment';
 
@@ -18,7 +18,7 @@ import {Config} from './../../shared/config';
         }
     `]
 })
-export class GameDetailComponent implements OnInit {
+export class GameDetailComponent implements OnInit, OnDestroy {
   // UI STUFF
   gameTime: string;
   startsIn: string;
@@ -372,8 +372,15 @@ export class GameDetailComponent implements OnInit {
   }
 
   // GAME
-
+  homeAnthem: HTMLAudioElement;
+  awayAnthem: HTMLAudioElement;
+  volume: number = 100;
   initializeGame(): void {
+    this.homeAnthem = new Audio(`${Config[environment.envName].imgUrl}teamsounds/${this.home.id}.mp3`);
+    this.homeAnthem.play();
+    this.awayAnthem = new Audio(`${Config[environment.envName].imgUrl}teamsounds/${this.away.id}.mp3`);
+    this.awayAnthem.play();
+    console.log('playing audio');
     // This will start the game playing
     this.initializePlayers();
     this.checkRoundEnd();
@@ -526,6 +533,8 @@ export class GameDetailComponent implements OnInit {
   }
 
   playerLogic(playerPos, team, i) {
+    this.homeAnthem.volume = this.volume / 100;
+    this.awayAnthem.volume = this.volume / 100;
     if (this.gameFinished) return playerPos;
     /**
      * Calculates the player logic
@@ -578,8 +587,7 @@ export class GameDetailComponent implements OnInit {
       }
     }
     // If down or scored
-    if (teamPlayers[i].down || scored)
-      return playerPos;
+    if (teamPlayers[i].down || scored) return playerPos;
     // Run through to find the closest enemy
     if (this.timeElapsed > playerPos.recalc && !oPlayers[i] ||
         this.timeElapsed > playerPos.recalc && oPlayers[i].down) {
@@ -839,5 +847,10 @@ export class GameDetailComponent implements OnInit {
       }
     }
     this.qtrDeadInjArray = {home: [], away: []};
+  }
+
+  ngOnDestroy(): void {
+    this.homeAnthem.remove();
+    this.awayAnthem.remove();
   }
 }

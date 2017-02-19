@@ -1,13 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {AccountService} from './../shared/account.service';
 
-import { AccountService } from './../shared/account.service';
-
-@Component({
-    templateUrl: './my-overview.component.html'
-})
+@Component({templateUrl: './my-overview.component.html'})
 export class MyOverviewComponent {
-
-    constructor(
-        private acc: AccountService
-    ) { }
+  constructor(private acc: AccountService) {}
 }

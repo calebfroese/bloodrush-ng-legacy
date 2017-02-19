@@ -43,13 +43,19 @@
                     <a *ngFor="let event of events" class="panel-block is-active">
                         <span class="panel-icon">
                             <img src="{{imgUrl}}/teamlogos/{{self[event.team]?.id}}.png?a={{rndCache}}" onError="this.src='/assets/img/logo.png';">
-                        </span><p [innerHTML]="event.text"></p>
+                        </span>
+                        <p [innerHTML]="event.text"></p>
                     </a>
                 </nav>
             </div>
             <div class="column is-6">
                 <h3 class="title is-3">Game Info</h3>
                 <button class="button is-light" (click)="showNames = !showNames">Showing Names: {{showNames}}</button>
+                <label>Sound</label>
+                <br>
+                <p class="control">
+                    <input [(ngModel)]="volume" class="input" min="0" max="100" step="1" type="range">
+                </p>
             </div>
         </div>
     </div>
