@@ -8,6 +8,9 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
+                    Truncated the ladder ratio to prevent recurring values
+                </li>
+                <li type="disc">
                     Improved UI for team navigation with icons
                 </li>
                 <li type="disc">

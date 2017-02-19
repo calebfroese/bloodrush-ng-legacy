@@ -7,7 +7,7 @@
                 <br>
                 <br>
                 <!--Enrollment and requests-->
-                <ng-container *ngIf="acc.team">
+                <ng-container *ngIf="acc.team && league.teamIds.indexOf(acc.team.id) === -1">
                     <button *ngIf="!league.requestTeamIds || league.requestTeamIds.indexOf(acc.team.id) === -1" (click)="enroll()" class="button is-primary">Request To Join</button>
                     <button *ngIf="league.requestTeamIds.indexOf(acc.team.id) !== -1" (click)="unenroll()" class="button is-primary">Cancel Join Request</button>
                 </ng-container>
