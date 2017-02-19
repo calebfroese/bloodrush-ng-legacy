@@ -108,7 +108,7 @@
     </div>
 </section>
 <div class="modal" [ngClass]="{'is-active': modalPlayer}" *ngIf="modalPlayer">
-    <div class="modal-background"></div>
+    <div (click)="modalPlayer = null" class="modal-background"></div>
     <div class="modal-content">
         <form [formGroup]="modalSellForm" (ngSubmit)="placeOnMarket(modalSellForm.value)">
             <div class="box">
