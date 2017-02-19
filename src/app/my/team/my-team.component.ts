@@ -22,6 +22,9 @@ import {Config} from './../../shared/config';
     .part-editing {
         background-color: yellow;
     }
+    .is-block {
+      width: 100%;
+    }
     `]
 })
 export class MyTeamComponent {

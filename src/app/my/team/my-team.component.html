@@ -72,14 +72,13 @@
                 <table *ngIf="team" class="table">
                     <ng-container *ngFor="let part of team.style; let i = index">
                         <tr *ngIf="!part.hidden">
-                            <td (click)="editPart(i)">{{part.name}} show: {{part.hidden}}</td>
-                            <td [ngClass]="{'part-editing': partEditIndex === i}">{{part.color.r}}, {{part.color.g}}, {{part.color.b}}</td>
+                            <td><button class="button is-block" (click)="editPart(i)" [disabled]="!part.selected && !part.base">{{part.name}}</button></td>
                             <td (click)="selectPart(i)" class="has-text-right">
-                                <a *ngIf="!part.base">
-                                    <span *ngIf="part.selected" class="icon"><i class="fa fa-remove is-success"></i></span>
-                                    <span *ngIf="!part.selected" class="icon"><i class="fa fa-plus"></i></span>
-                                </a>
+                                <button class="button is-link" *ngIf="!part.base">
+                                    Toggle
+                                </button>
                             </td>
+                            <td [ngClass]="{'part-editing': partEditIndex === i}" style.background-color="rgb({{part.color.r}}, {{part.color.g}}, {{part.color.b}})"></td>
                         </tr>
                     </ng-container>
                 </table>
