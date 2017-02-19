@@ -25,6 +25,7 @@ import {MyOverviewComponent} from './my/my-overview.component';
 import {MyPlayersComponent} from './my/players/my-players.component';
 import {MyTeamNavComponent} from './my/team/my-team-nav.component';
 import {MyTeamComponent} from './my/team/my-team.component';
+import {MyTrainingComponent} from './my/training/my-training.component';
 import {PlayerCardComponent} from './players/card/player-card.component';
 import {PlayerDetailComponent} from './players/player/player-detail.component';
 import {TeamPlayersComponent} from './players/team-players.component';
@@ -56,7 +57,7 @@ import {UpcomingGamesComponent} from './upcoming-games/upcoming-games.component'
     SignupComponent,         SeasonComponent,
     LoginComponent,          LogoutComponent,
     UpcomingGamesComponent,  VerifyComponent,
-    VersionHistoryComponent
+    MyTrainingComponent,     VersionHistoryComponent
   ],
   imports: [
     BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, AppRouting,

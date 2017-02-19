@@ -1,0 +1,58 @@
+<bloodrush-my-team-nav></bloodrush-my-team-nav>
+<section *ngIf="players" class="section">
+    <div class="container">
+        <h1 class="title is-1">Training Facility</h1>
+        <div class="columns">
+            <div class="column is-12">
+                <h3 class="title is-3">In Training</h3>
+                <div *ngFor="let player of players">
+                    <ng-container *ngIf="player.state == 'training'">
+                        {{player.first}} {{player.last}} completed {{momentify(player.stateEnds)}}
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column is-12">
+                <h3 class="title is-3">Trainable Players</h3>
+                <table class="u-full-width">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>ATK</th>
+                            <th>DEF</th>
+                            <th>SPD</th>
+                            <th>KG</th>
+                            <th>REC</th>
+                            <th>Train</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let player of players">
+                            <ng-container *ngIf="player?.state === 'ok'">
+                                <tr>
+                                    <td><a href="/players/{{player.id}}">{{player.first}} {{player.last}}</a>
+                                        <img style="display: inline;" class="image is-16x16" src="assets/img/stateicons/{{player.state}}.png" />
+                                    </td>
+                                    <td>{{player.atk}}</td>
+                                    <td>{{player.def}}</td>
+                                    <td>{{player.spd}}</td>
+                                    <td>{{player.kg}}</td>
+                                    <td>{{player.rec}}</td>
+                                    <td>
+                                        <button class="button" (click)="basicTraining(player)">
+                                            Basic Training (2 days)
+                                        </button>
+                                        <button class="button" (click)="advancedTraining(player)">
+                                            Advanced Training (7 days)
+                                        </button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

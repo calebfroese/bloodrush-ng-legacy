@@ -14,10 +14,13 @@ export class VersionHistoryComponent {
                     Teams may buy a training facility at level 6 for $1,500
                 </li>
                 <li type="disc">
-                    Add notifications for game events
+                    Improved the player part editor
                 </li>
                 <li type="disc">
-                    Add team logo to chat
+                    Add team anthem to play after a win or loss
+                </li>
+                <li type="disc">
+                    Add team logo to ladder
                 </li>
             </ol>
             `

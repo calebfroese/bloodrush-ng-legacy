@@ -41,6 +41,10 @@ import {AccountService} from './../../shared/account.service';
                     <span class="icon is-small"><i class="fa fa-flag"></i></span>
                     Team
                     </a></li>
+                    <li><a routerLink="/home/team/training">
+                    <span class="icon is-small"><i class="fa fa-hand-rock-o"></i></span>
+                    Training
+                    </a></li>
                 </ul>
             </div>
         </nav>

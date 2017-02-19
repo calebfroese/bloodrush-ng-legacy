@@ -15,6 +15,7 @@ import {LeagueComponent} from './league/league.component';
 import {MarketComponent} from './market/market.component';
 import {MyOverviewComponent} from './my/my-overview.component';
 import {MyPlayersComponent} from './my/players/my-players.component';
+import {MyTrainingComponent} from './my/training/my-training.component';
 import {MyTeamComponent} from './my/team/my-team.component';
 import {GameDetailComponent} from './season/game/game-detail.component';
 import {PlayerDetailComponent} from './players/player/player-detail.component';
@@ -33,6 +34,11 @@ const routes: Routes = [
   {
     path: 'home/team/team',
     component: MyTeamComponent,
+    canActivate: [LoggedInGuard]
+  },
+  {
+    path: 'home/team/training',
+    component: MyTrainingComponent,
     canActivate: [LoggedInGuard]
   },
   {
