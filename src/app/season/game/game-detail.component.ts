@@ -492,7 +492,6 @@ export class GameDetailComponent implements OnInit, OnDestroy {
             } ${this.homeScore}, ${this.away.name} ${this.awayScore}`
     });
     // Play winning team anthem
-    this.homeScore = 999;
     if (this.homeScore > this.awayScore) {
       if (!this.homeAnthem) return;
       this.homeAnthem.play();
