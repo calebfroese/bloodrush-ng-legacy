@@ -142,6 +142,7 @@ export class MyTeamComponent {
   }
   upperAcr(): void {
     this.team.acronym = this.team.acronym.toUpperCase();
+    console.log(this.team.acronym);
   }
 
   onClickSubmit(): void {

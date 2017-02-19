@@ -20,7 +20,7 @@
             <div class="column">
                 <label class="label">Acronym</label>
                 <p class="control has-icon has-icon-right">
-                    <input (ngModelChange)="upperAcr()" [(ngModel)]="team.acronym" class="input" type="text" placeholder="e.g. ADEL" maxlength="4">
+                    <input [(ngModel)]="team.acronym" (ngModelChange)="upperAcr()" class="input" type="text" placeholder="e.g. ADEL" maxlength="4">
                 </p>
                 <label class="label">Name</label>
                 <p class="control has-icon has-icon-right">
