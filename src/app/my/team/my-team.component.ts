@@ -186,6 +186,7 @@ export class MyTeamComponent {
     if (this.team.style[this.partEditIndex]) {
       this.team.style[this.partEditIndex].color = this.picker;
     }
+    if (!this.savingChanges) this.updateCanvas();
   }
 
   editPart(i: number): void {
@@ -205,6 +206,7 @@ export class MyTeamComponent {
   // CANVAS RENDERING PLAYER
   images: any[] = [];
   updateCanvas(): void {
+    this.savingChanges = true;
     let arrayOfStyles = [];
     for (let i = 0; i < this.team.style.length; i++) {
       let sty = this.team.style[i];
@@ -230,8 +232,10 @@ export class MyTeamComponent {
                 '/assets/img/logo.png';  // use a default bloodrush logo image
           };
           this.images = [i];
+          this.savingChanges = false;
         })
         .catch(err => {
+          this.savingChanges = false;
           console.error(err);
         })
   }

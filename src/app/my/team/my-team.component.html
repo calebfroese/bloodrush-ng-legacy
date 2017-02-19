@@ -85,8 +85,8 @@
             </div>
         </div>
     </div>
-    <button (click)="updateCanvas()" type="button" class="button is-primary">Update Preview</button>
-    <button (click)="onClickSubmit()" [ngClass]="{'is-loading': savingChanges}" type="button" class="button is-primary">Save Changes</button>
+    <button (click)="updateCanvas()" [ngClass]="{'is-loading': savingChanges}" [disabled]="savingChanges" type="button" class="button is-primary">Update Preview</button>
+    <button (click)="onClickSubmit()" [ngClass]="{'is-loading': savingChanges}" [disabled]="savingChanges" type="button" class="button is-primary">Save Changes</button>
 </section>
 <div ngFileDrop [options]="options" (onUpload)="handleUpload($event)" [ngClass]="{'file-over': hasBaseDropZoneOver}" (onFileOver)="fileOverBase($event)"
     (beforeUpload)="beforeUpload($event)">
