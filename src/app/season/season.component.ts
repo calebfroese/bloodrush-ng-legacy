@@ -54,9 +54,10 @@ export class SeasonComponent {
             })
             .then(games => {
                 this.games = games;
-                return this.api.run('get', `/leagues/${this.season.leagueId}`, '', {})
+                return this.api.run('get', `/leagues/${this.season.leagueId}`, '&filter={"include": "owner"}', {})
             })
             .then(league => {
+                console.log(league.owner);
                 this.league = league;
             });
     }

@@ -1,49 +1,33 @@
-<section *ngIf="teams && teams.length > 0" class="section">
-    <div class="container">
-        <div class="columns">
-            <div class="column">
-                <h2 class="title is-2">Ladder</h2>
-                <hr>
-                <div class="container">
-                    <div class="columns">
-                        <div class="column">
-                            <table class="u-full-width is-narrow is-striped">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Name</th>
-                                        <th>Pts</th>
-                                        <th>W</th>
-                                        <th>L</th>
-                                        <th>T</th>
-                                        <th>W/L</th>
-                                        <th>GP</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let team of teams; let i = index;">
-                                        <td><b>{{i + 1}}</b></td>
-                                        <td>
-                                            <a routerLink="/teams/{{team.team.id}}">
-                                                <figure class="image is-32x32 team-icon-parent team-icon">
-                                                    <img src="{{config[envName].imgUrl}}teamlogos/{{team.team.id}}.png" onError="this.src='/assets/img/logo.png';" class="team-icon">
-                                                </figure>
-                                                {{team.team.name}}
-                                            </a>
-                                        </td>
-                                        <td>{{team.pts}}</td>
-                                        <td>{{team.score.w}}</td>
-                                        <td>{{team.score.l}}</td>
-                                        <td>{{team.score.t}}</td>
-                                        <td>{{team.ratio}}</td>
-                                        <td>{{team.score.gp}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<table class="u-full-width is-narrow is-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Pts</th>
+            <th>W</th>
+            <th>L</th>
+            <th>T</th>
+            <th>W/L</th>
+            <th>GP</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let team of teams; let i = index;">
+            <td><b>{{i + 1}}</b></td>
+            <td>
+                <a routerLink="/teams/{{team.team.id}}">
+                    <figure class="image is-32x32 team-icon-parent team-icon">
+                        <img src="{{config[envName].imgUrl}}teamlogos/{{team.team.id}}.png" onError="this.src='/assets/img/logo.png';" class="team-icon">
+                    </figure>
+                    {{team.team.name}}
+                </a>
+            </td>
+            <td>{{team.pts}}</td>
+            <td>{{team.score.w}}</td>
+            <td>{{team.score.l}}</td>
+            <td>{{team.score.t}}</td>
+            <td>{{team.ratio}}</td>
+            <td>{{team.score.gp}}</td>
+        </tr>
+    </tbody>
+</table>

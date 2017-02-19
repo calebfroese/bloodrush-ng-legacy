@@ -1,6 +1,25 @@
-<ng-container *ngIf="season && league">
-    <bloodrush-ladder [league]="league" [season]="season"></bloodrush-ladder>
-</ng-container>
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <h2 class="title is-3">Ladder</h2>
+                <ng-container *ngIf="season && league">
+                    <bloodrush-ladder [league]="league" [season]="season"></bloodrush-ladder>
+                </ng-container>
+            </div>
+            <div *ngIf="league && season" class="column">
+                <h2 class="title is-3">{{league.name}}</h2>
+                Season length: {{games.length}} games
+                <br>
+                League owner: <a routerLink="/teams/{{league.owner.id}}">{{league.owner?.name}}</a>
+                <br>
+                Teams: {{league.teamIds.length}}
+                <br>
+                Public: {{league.public}}
+            </div>
+        </div>
+    </div>
+</section>
 <section *ngIf="season" class="section">
     <div class="container">
         <div class="columns">
@@ -38,8 +57,7 @@
                                 <td>{{momentify(game.date)}}</td>
                                 <td>
                                     <ng-container *ngIf="game.data.live">
-                                        {{game.data.live.awayScore}} &nbsp;-
-                                        &nbsp; {{game.data.live.homeScore}}&nbsp;
+                                        {{game.data.live.awayScore}} &nbsp;- &nbsp; {{game.data.live.homeScore}}&nbsp;
                                         <ng-container *ngIf="game.data.live.isLive"><span class="tag is-danger is-medium">QTR {{game.data.live.quarter}}</span></ng-container>
                                     </ng-container>
                                 </td>
