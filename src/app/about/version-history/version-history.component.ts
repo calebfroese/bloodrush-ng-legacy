@@ -8,22 +8,28 @@ export class VersionHistoryComponent {
       desc: `
             <ol>
                 <li type="disc">
+                    Improved UI for team navigation with icons
+                </li>
+                <li type="disc">
+                    Add player renaming for $15 via the player detail page
+                </li>
+                <li type="disc">
                     Add the score to the game field (which is especially helpful for mobile users)
                 </li>
                 <li type="disc">
-                    Increased the amount of money earned from games
+                    Increased the amount of money earned from games to win: $200, tie $180, loss: $160
                 </li>
                 <li type="disc">
                     Minor improvements to the season page
                 </li>
                 <li type="disc">
-                    Can now opt players into basic or advanced training
+                    Can now opt players into basic or advanced <a href="/home/team/training">training</a>
                 </li>
                 <li type="disc">
-                    Improved the player part editor
+                    Improved the <a href="/home/team/team">player part editor</a>
                 </li>
                 <li type="disc">
-                    Add team anthem to play after a win or loss
+                    Add team anthem to play after a win or loss, uploadable from the <a href="/home/team/team">my team</a> page
                 </li>
                 <li type="disc">
                     Add team logo to ladder
