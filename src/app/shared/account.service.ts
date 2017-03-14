@@ -19,7 +19,7 @@ export class AccountService {
   leagues: any = [];
 
   constructor(private api: ApiService, private http: Http) {
-    this.checkCachedLogin();
+    this.checkCachedLogin().then(() => {}).catch(() => {});
   }
 
   checkCachedLogin(): Promise<boolean> {

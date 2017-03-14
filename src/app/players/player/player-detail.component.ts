@@ -30,30 +30,30 @@ export class PlayerDetailComponent implements OnInit {
     });
   }
 
-  renamePlayer(val: any): void {
-    this.api.run('get', `/teams/${this.acc.team.id}`, '', {})
-        .then(team => {
-          if (team.money < PLAYER_RENAME_COST) {
-            return Promise.reject('Not enough money');
-          }
-          if (team.id !== this.acc.team.id) {
-            return Promise.reject('This player is not yours!');
-          }
-          team.money -= PLAYER_RENAME_COST;
-          return this.api.run('patch', `/teams/${this.acc.team.id}`, '', team)
-        })
-        .then(() => {
-          this.player.first = val.first;
-          this.player.last = val.last;
-          return this.api.run(
-              'patch', `/players/${this.player.id}`, '', this.player)
-        })
-        .then(() => {
-          return this.acc.loadTeam();
-        })
-        .catch(err => {
-          alert(err);
-          console.error(err);
-        })
-  }
+  // renamePlayer(val: any): void {
+  //   this.api.run('get', `/teams/${this.acc.team.id}`, '', {})
+  //       .then(team => {
+  //         if (team.money < PLAYER_RENAME_COST) {
+  //           return Promise.reject('Not enough money');
+  //         }
+  //         if (team.id !== this.acc.team.id) {
+  //           return Promise.reject('This player is not yours!');
+  //         }
+  //         team.money -= PLAYER_RENAME_COST;
+  //         return this.api.run('patch', `/teams/${this.acc.team.id}`, '', team)
+  //       })
+  //       .then(() => {
+  //         this.player.first = val.first;
+  //         this.player.last = val.last;
+  //         return this.api.run(
+  //             'patch', `/players/${this.player.id}`, '', this.player)
+  //       })
+  //       .then(() => {
+  //         return this.acc.loadTeam();
+  //       })
+  //       .catch(err => {
+  //         alert(err);
+  //         console.error(err);
+  //       })
+  // }
 }

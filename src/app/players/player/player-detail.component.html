@@ -1,7 +1,7 @@
 <section *ngIf="player" class="section">
     <div class="container">
         <h1 class="title is-1">{{player.first}} {{player.last}}</h1>
-        <hr>
+        <!--<hr>
         <div *ngIf="acc.team && player.teamId === acc.team.id">
             <form [formGroup]="form" (ngSubmit)="renamePlayer(form.value)">
                 <p class="control">
@@ -13,7 +13,7 @@
                     </span>&nbsp;&nbsp;{{renameCost}}</button>
                 </p>
             </form>
-        </div>
+        </div>-->
         <bloodrush-player-card [player]="player"></bloodrush-player-card>
     </div>
 </section>
