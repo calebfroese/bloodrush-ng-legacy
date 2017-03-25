@@ -2,35 +2,35 @@ import {Component} from '@angular/core';
 
 @Component({templateUrl: './version-history.component.html'})
 export class VersionHistoryComponent {
+    //     {
+    //   number: '2.0.8',
+    //   desc: `
+    //         <ol>
+    //             <li type="disc">
+    //                 (NOT DONE YET) More team player animations
+    //             </li>
+    //             <li type="disc">
+    //                 (NOT DONE YET) League menu now has links to the teams
+    //             </li>
+    //             <li type="disc">
+    //                 (NOT DONE YET) Dead players will be removed from your team after a day
+    //             </li>
+    //             <li type="disc">
+    //                 (NOT DONE YET) Fix anthem audio not stopping
+    //             </li>
+    //             <li type="disc">
+    //                 (NOT DONE YET) Temporarily removed the rename player until league specific renaming is implemented
+    //             </li>
+    //             <li type="disc">
+    //                 (NOT DONE YET) Upon signup, teams will recieve bad-average players, discouraging spam signups to get good players
+    //             </li>
+    //             <li type="disc">
+    //                 (NOT DONE YET) Fixed market players sell for default not selling
+    //             </li>
+    //         </ol>
+    //         `
+    // },
   public versionHistory = [
-    {
-      number: '2.0.8',
-      desc: `
-            <ol>
-                <li type="disc">
-                    (NOT DONE YET) More team player animations
-                </li>
-                <li type="disc">
-                    (NOT DONE YET) League menu now has links to the teams
-                </li>
-                <li type="disc">
-                    (NOT DONE YET) Dead players will be removed from your team after a day
-                </li>
-                <li type="disc">
-                    (NOT DONE YET) Fix anthem audio not stopping
-                </li>
-                <li type="disc">
-                    (NOT DONE YET) Temporarily removed the rename player until league specific renaming is implemented
-                </li>
-                <li type="disc">
-                    (NOT DONE YET) Upon signup, teams will recieve bad-average players, discouraging spam signups to get good players
-                </li>
-                <li type="disc">
-                    (NOT DONE YET) Fixed market players sell for default not selling
-                </li>
-            </ol>
-            `
-    },
     {
       number: '2.0.7',
       desc: `
