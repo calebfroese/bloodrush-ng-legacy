@@ -28,7 +28,7 @@
                     <!--Only display team details if the user is part of this league-->
                     <h4 class="title is-4">Teams</h4>
                     <div *ngFor="let team of teams">
-                        {{team.name}} &nbsp;
+                        <a routerLink="/teams/{{team.id}}">{{team.name}}</a> &nbsp;
                         <b *ngIf="league.ownerId === team.id">OWNER</b>
                     </div>
                     <br>

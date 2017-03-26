@@ -878,7 +878,9 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.homeAnthem.remove();
+    this.homeAnthem.pause();
+    this.homeAnthem.pause();
+    this.awayAnthem.remove();
     this.awayAnthem.remove();
   }
 

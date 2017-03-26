@@ -11,16 +11,19 @@ export class VersionHistoryComponent {
                     (NOT DONE YET) More team player animations
                 </li>
                 <li type="disc">
-                    (NOT DONE YET) League menu now has links to the teams
+                    League menu now has links to the teams
                 </li>
                 <li type="disc">
-                    (NOT DONE YET) Dead players will be removed from your team after a day
+                    Dead players will be removed from your team
                 </li>
                 <li type="disc">
-                    (NOT DONE YET) Fix anthem audio not stopping
+                    Fix anthem audio not stopping
                 </li>
                 <li type="disc">
-                    (NOT DONE YET) Fixed market players sell for default not selling
+                    Fixed market players sell for default not selling
+                </li>
+                <li type="disc">
+                    Can now remove listed players from the market
                 </li>
                 <li type="disc">
                     Temporarily removed the rename player

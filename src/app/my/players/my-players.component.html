@@ -119,7 +119,7 @@
                     <input formControlName="askingPrice" class="input" type="number" placeholder="enter asking price">
                 </p>
                 <button class="button is-success" type="button" (click)="placeOnMarket(modalSellForm.value)" [disabled]="!modalSellForm.valid">Place On Market</button>
-                <button type="submit" class="button is-success">Sell For $20</button>
+                <button type="button" (click)="sellForDefault()" class="button is-success">Sell For $20</button>
             </div>
         </form>
         <button (click)="modalPlayer = null" class="modal-close"></button>
