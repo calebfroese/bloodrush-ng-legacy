@@ -13,13 +13,18 @@ export class MarketComponent implements OnInit {
 
   ngOnInit(): void {
     // Load the players
+    this.getPlayers();
+  }
+
+  getPlayers() {
+    this.players = [];
     this.api
         .run('get', `/players`, '&filter={"where": {"state": "market"}}', {})
         .then(playersForSale => {
           this.players = playersForSale;
         })
         .catch(err => {
-          debugger;
+          alert('Unable to fetch market players');
         });
     this.api
         .run(
@@ -29,7 +34,7 @@ export class MarketComponent implements OnInit {
           this.myPlayers = playersForSale;
         })
         .catch(err => {
-          debugger;
+          alert('Unable to fetch market players');
         });
   }
 
@@ -37,6 +42,23 @@ export class MarketComponent implements OnInit {
     this.modalPlayer = player;
     this.modalPlayer.localIndex = i;
     // Fetch the team that is selling the player
+  }
+
+  cancelSale(player: any): void {
+    // Puts the place on the market for the asking price
+    if (!player) return;
+    if (player.state === 'market') {
+      player.state = 'ok';
+      this.api.run('patch', `/players/${player.id}`, '', player)
+          .then(savedPlayer => {
+            this.getPlayers();
+          })
+          .catch(err => {
+            alert('Unable to remove player from market');
+          });
+    } else {
+      alert('This player is no longer on the market');
+    }
   }
 
   purchasePlayer(player: any): void {

@@ -17,6 +17,7 @@ export class MarketListingsComponent {
     @Input() players: any[];
     @Input() isMine: boolean;
     @Output() viewPlayer = new EventEmitter();
+    @Output() cancelSale = new EventEmitter();
     mockTime: string = moment().format('DD/MM/YYYY');
 
 }

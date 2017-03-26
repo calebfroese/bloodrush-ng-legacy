@@ -17,7 +17,7 @@
             </td>
             <td>{{mockTime}}</td>
             <td>
-                <button *ngIf="isMine" class="button listing-button is-light">
+                <button *ngIf="isMine" (click)="cancelSale.emit(player)" class="button listing-button is-light">
                     <span class="icon">
                         <i class="fa fa-close"></i>
                     </span>
