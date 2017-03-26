@@ -11,7 +11,34 @@ const request = require('request');
 export class ApiService {
   sessionId: string;
 
-  constructor(private http: Http) {}
+  constructor(private http: Http) {
+    // Determine if fallback to the internal IP is neccesary
+
+    this.testConnectionToServer()
+        .then(()  => {
+          
+        })
+        .catch(() => {
+          Config.prod = Config.localProd;
+          console.log('Using local production mode');
+        });
+  }
+
+  testConnectionToServer(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.run('get', '/leagues', '', {})
+          .then(stuff => {
+            resolve();
+          })
+          .catch(err => {
+            reject();
+          });
+      setTimeout(() => {
+        reject();
+      }, 1000);
+
+    });
+  }
 
   auth(): string {
     return 'access_token=' + this.sessionId;
