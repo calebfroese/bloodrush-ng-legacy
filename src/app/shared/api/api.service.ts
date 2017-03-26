@@ -13,15 +13,24 @@ export class ApiService {
 
   constructor(private http: Http) {
     // Determine if fallback to the internal IP is neccesary
-
+    if (localStorage.getItem('prodMode') === 'localProd') this.useLocalProd();
     this.testConnectionToServer()
-        .then(()  => {
-          
+        .then(() => {
+          this.useExternalProd();
         })
         .catch(() => {
-          Config.prod = Config.localProd;
-          console.log('Using local production mode');
+          this.useLocalProd();
         });
+  }
+
+  useLocalProd() {
+    localStorage.setItem('prodMode', 'localProd');
+    Config.prod = Config.localProd;
+  }
+
+  useExternalProd() {
+    localStorage.setItem('prodMode', 'externalProd');
+    Config.prod = Config.externalProd;
   }
 
   testConnectionToServer(): Promise<any> {
@@ -36,7 +45,6 @@ export class ApiService {
       setTimeout(() => {
         reject();
       }, 1000);
-
     });
   }
 
