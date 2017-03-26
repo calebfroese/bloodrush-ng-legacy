@@ -18,19 +18,25 @@
                     <br>
                     <h4 class="title is-4">Join Requests</h4>
                     <div *ngFor="let team of requestTeams">
-                        [<a (click)="approveRequest(team.id)">Approve</a> / <a (click)="denyRequest(team.id)">Deny</a>] <a routerLink="/teams/{{team.id}}">{{team.name}}</a>
+                        [<a (click)="approveRequest(team.id)">Approve</a> / <a (click)="denyRequest(team.id)">Deny</a>]
+                        <a routerLink="/teams/{{team.id}}">{{team.name}}</a>
                     </div>
                 </ng-container>
                 <br>
-                <h4 class="title is-4">Teams</h4>
-                <div *ngFor="let team of teams">
-                    {{team.name}} &nbsp;
-                    <b *ngIf="league.ownerId === team.id">OWNER</b>
-                </div>
                 <br>
-                <h4 class="title is-4">Seasons</h4>
-                <ng-container *ngIf="seasons">
-                    <button *ngFor="let season of seasons" routerLink="/seasons/{{season.id}}" class="button is-default">Season #{{season.number}}</button>
+                <ng-container *ngIf="acc.team && league.teamIds.indexOf(acc.team.id) !== -1">
+                    <!--Only display team details if the user is part of this league-->
+                    <h4 class="title is-4">Teams</h4>
+                    <div *ngFor="let team of teams">
+                        {{team.name}} &nbsp;
+                        <b *ngIf="league.ownerId === team.id">OWNER</b>
+                    </div>
+                    <br>
+                    <br>
+                    <h4 class="title is-4">Seasons</h4>
+                    <ng-container *ngIf="seasons">
+                        <button *ngFor="let season of seasons" routerLink="/seasons/{{season.id}}" class="button is-default">Season #{{season.number}}</button>
+                    </ng-container>
                 </ng-container>
                 <br>
             </div>
