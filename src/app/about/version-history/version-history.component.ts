@@ -2,19 +2,22 @@ import {Component} from '@angular/core';
 
 @Component({templateUrl: './version-history.component.html'})
 export class VersionHistoryComponent {
+                // <li type="disc">
+                //     (NOT DONE YET) More team player animations
+                // </li>
   public versionHistory = [
         {
       number: '2.0.8',
       desc: `
             <ol>
                 <li type="disc">
-                    (NOT DONE YET) More team player animations
-                </li>
-                <li type="disc">
                     League menu now has links to the teams
                 </li>
                 <li type="disc">
-                    Dead players will be removed from your team
+                    Dead players will be removed from your team upon death
+                </li>
+                <li type="disc">
+                    Updated web framework to new version
                 </li>
                 <li type="disc">
                     Fix anthem audio not stopping
