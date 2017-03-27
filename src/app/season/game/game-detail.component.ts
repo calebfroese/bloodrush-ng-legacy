@@ -55,12 +55,12 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   timeElapsed = 0;
   timeNextRound = null;
   qtr: any;
-  cachedQtrNum = this.qtrNum;
   qtrDeadInjArray = {
     home: [],
     away: []
   };                   // arrays of injured/dead players to be replaced
   qtrNum: number = 0;  // round number
+  cachedQtrNum = this.qtrNum;
 
   @ViewChild('gameCanvas') gameCanvas: ElementRef;
   @ViewChild('cDiv') cDiv: ElementRef;
