@@ -25,5 +25,5 @@ export var Config = {
     playerImgWidth: 280,
     playerImgHeight: 430
   },
-  versionNumber: '2.0.7-3'
+  versionNumber: '2.0.8-2'
 };
