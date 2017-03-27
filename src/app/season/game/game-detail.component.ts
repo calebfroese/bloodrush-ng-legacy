@@ -72,8 +72,8 @@ export class GameDetailComponent implements OnInit, OnDestroy {
   maxHeight: number = 822;
 
   constructor(
-      private route: ActivatedRoute, private router: Router,
-      private location: Location, private api: ApiService) {}
+      public route: ActivatedRoute, public router: Router,
+      public location: Location, public api: ApiService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {

@@ -39,7 +39,7 @@ export class SeasonComponent {
     config = Config;
     envName = environment.envName;
 
-    constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) {
+    constructor(public api: ApiService, public router: Router, public route: ActivatedRoute) {
         this.route.params.forEach((params: Params) => {
             this.loadSeason(params['seasonId'])
                 .then(() => { this.loadTeams(); })

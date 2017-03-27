@@ -9,7 +9,7 @@ export class MarketComponent implements OnInit {
   myPlayers: any[];
   modalPlayer: any;  // the player being viewed in a modal
 
-  constructor(private api: ApiService, private acc: AccountService) {}
+  constructor(public api: ApiService, public acc: AccountService) {}
 
   ngOnInit(): void {
     // Load the players

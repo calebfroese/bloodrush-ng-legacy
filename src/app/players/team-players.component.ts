@@ -16,7 +16,7 @@ export class TeamPlayersComponent implements OnInit {
     @Input() teamId: string;
     players: any;
 
-    constructor(private api: ApiService) { }
+    constructor(public api: ApiService) { }
 
     ngOnInit(): void {
         if (!this.teamId) return;

@@ -3,5 +3,5 @@ import {AccountService} from './../shared/account.service';
 
 @Component({templateUrl: './my-overview.component.html'})
 export class MyOverviewComponent {
-  constructor(private acc: AccountService) {}
+  constructor(public acc: AccountService) {}
 }

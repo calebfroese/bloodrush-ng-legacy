@@ -15,8 +15,8 @@ export class LeagueDetailComponent implements OnInit {
   seasons: any[] = [];
 
   constructor(
-      private api: ApiService, private route: ActivatedRoute,
-      private acc: AccountService, private router: Router) {}
+      public api: ApiService, public route: ActivatedRoute,
+      public acc: AccountService, public router: Router) {}
 
   ngOnInit(): void {
     // Load the league specified

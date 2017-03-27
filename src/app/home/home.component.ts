@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
     teams: any; // array of teams in the league sorted by points
     myTeam: any;
 
-    constructor(private router: Router, private acc: AccountService) { }
+    constructor(public router: Router, public acc: AccountService) { }
 
     ngOnInit(): void {
         // Fetch the 

@@ -11,7 +11,7 @@ const request = require('request');
 export class ApiService {
   sessionId: string;
 
-  constructor(private http: Http) {
+  constructor(public http: Http) {
     // Determine if fallback to the internal IP is neccesary
     if (localStorage.getItem('prodMode') === 'localProd') this.useLocalProd();
     this.testConnectionToServer()

@@ -7,7 +7,7 @@ import { ApiService } from './../../shared/api/api.service';
     template: `Verifying...`
 })
 export class VerifyComponent {
-    constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {
+    constructor(public api: ApiService, public route: ActivatedRoute, public router: Router) {
         // Activate the token
         this.route.params.forEach((params: Params) => {
             let token = params['token'];

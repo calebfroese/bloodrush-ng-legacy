@@ -15,8 +15,8 @@ export class LeagueCreateComponent {
   leagueCreateCost = LEAGUE_CREATE_COST;
 
   constructor(
-      private api: ApiService, private acc: AccountService,
-      private router: Router, private formService: FormService) {
+      public api: ApiService, public acc: AccountService,
+      public router: Router, public formService: FormService) {
     this.form = this.formService.leagueCreate();
     if (environment.envName !== 'dev') {
       if (!acc.team ||

@@ -16,7 +16,7 @@ export class TeamStatsComponent implements OnInit {
     ratio: number = 0;
 
 
-    constructor(private api: ApiService, private acc: AccountService, private scoreService: ScoreService) { }
+    constructor(public api: ApiService, public acc: AccountService, public scoreService: ScoreService) { }
 
     ngOnInit(): void {
         if (!this.teamId) {

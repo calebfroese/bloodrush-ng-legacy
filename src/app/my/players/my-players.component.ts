@@ -34,8 +34,8 @@ export class MyPlayersComponent implements OnInit {
   modalSellForm: FormGroup;
 
   constructor(
-      private acc: AccountService, private api: ApiService,
-      private fb: FormBuilder) {
+      public acc: AccountService, public api: ApiService,
+      public fb: FormBuilder) {
     this.modalSellForm = this.fb.group({
       askingPrice: new FormControl(
           '',

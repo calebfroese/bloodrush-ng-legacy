@@ -20,7 +20,7 @@ export class LadderComponent implements OnInit {
   config = Config;
   envName = environment.envName;
 
-  constructor(private scoreService: ScoreService, private api: ApiService) {}
+  constructor(public scoreService: ScoreService, public api: ApiService) {}
 
   ngOnInit(): void {
     // Load the teams

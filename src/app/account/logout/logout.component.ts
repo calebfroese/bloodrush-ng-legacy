@@ -7,7 +7,7 @@ import { AccountService } from './../../shared/account.service';
     template: `Logging out`
 })
 export class LogoutComponent {
-    constructor(private router: Router, private acc: AccountService) {
+    constructor(public router: Router, public acc: AccountService) {
         this.acc.logout()
         .then(() => {
             this.router.navigate(['/home']);

@@ -13,7 +13,7 @@ export class AppComponent {
   showMobileNav = false;
   config = Config;
 
-  constructor(private router: Router, private acc: AccountService) { }
+  constructor(public router: Router, public acc: AccountService) { }
   
   toggleMobNav(): void {
 

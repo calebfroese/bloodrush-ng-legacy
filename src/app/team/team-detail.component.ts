@@ -23,10 +23,10 @@ export class TeamDetailComponent implements OnInit {
     envName = environment.envName;
 
     constructor(
-        private route: ActivatedRoute,
-        private location: Location,
-        private api: ApiService,
-        private acc: AccountService
+        public route: ActivatedRoute,
+        public location: Location,
+        public api: ApiService,
+        public acc: AccountService
     ) { }
 
     ngOnInit(): void {

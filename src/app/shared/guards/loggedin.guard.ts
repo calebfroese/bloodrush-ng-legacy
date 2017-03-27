@@ -9,7 +9,7 @@ import {AccountService} from './../account.service';
 
 @Injectable()
 export class LoggedInGuard implements CanActivate {
-  constructor(private acc: AccountService, private router: Router) {}
+  constructor(public acc: AccountService, public router: Router) {}
 
   public canActivate(route, state): Promise<boolean>|boolean {
     let isLoggedIn = this.acc.team && this.acc.team.id;

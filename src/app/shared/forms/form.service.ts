@@ -65,7 +65,7 @@ export class FormService {
     ])
   ];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(public fb: FormBuilder) {}
 
   signupForm(): FormGroup {
     return this.fb.group(

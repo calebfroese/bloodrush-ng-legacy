@@ -22,7 +22,7 @@ export class UpcomingGamesComponent implements OnInit {
   teams: any = {};
   public gamesToday: any[] = [];
 
-  constructor(private api: ApiService, public acc: AccountService) {}
+  constructor(public api: ApiService, public acc: AccountService) {}
 
   ngOnInit(): void {
     let doWhile = true;

@@ -18,8 +18,8 @@ export class SignupComponent {
   };
 
   constructor(
-      private router: Router, private formService: FormService,
-      private acc: AccountService, private api: ApiService) {
+      public router: Router, public formService: FormService,
+      public acc: AccountService, public api: ApiService) {
     this.form = this.formService.signupForm();
   }
 

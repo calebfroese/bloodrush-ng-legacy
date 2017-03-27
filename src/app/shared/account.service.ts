@@ -18,7 +18,7 @@ export class AccountService {
   team: any;
   leagues: any = [];
 
-  constructor(private api: ApiService, private http: Http) {
+  constructor(public api: ApiService, public http: Http) {
     this.checkCachedLogin().then(() => {}).catch(() => {});
   }
 

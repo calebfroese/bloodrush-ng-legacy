@@ -13,8 +13,8 @@ export class LeagueComponent implements OnInit {
   minLeagueCreateLvl = MIN_LEAGUE_CREATE_LVL;
   isDev: boolean = environment.envName === 'dev';
   constructor(
-      private api: ApiService, private acc: AccountService,
-      private router: Router) {}
+      public api: ApiService, public acc: AccountService,
+      public router: Router) {}
 
   ngOnInit(): void {
     if (this.acc.leagues) {

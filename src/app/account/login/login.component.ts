@@ -15,7 +15,7 @@ export class LoginComponent {
         password: new FormControl('', Validators.minLength(6)),
     });
 
-    constructor(private router: Router, private acc: AccountService) { }
+    constructor(public router: Router, public acc: AccountService) { }
 
     onClickSubmit(val: any): void {
         if (val.username && val.password) {

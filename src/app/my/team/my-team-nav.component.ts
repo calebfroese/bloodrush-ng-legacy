@@ -62,7 +62,7 @@ export class MyTeamNavComponent implements OnInit {
   nextLevelExp: number = 1;
   curLvl: number = 1;
 
-  constructor(private acc: AccountService) {}
+  constructor(public acc: AccountService) {}
 
   ngOnInit(): void {
     // Calculate the exp bar

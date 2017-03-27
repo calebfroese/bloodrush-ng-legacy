@@ -17,7 +17,7 @@ export class MyTrainingComponent {
   adv = TRAINING_COST_ADVANCED;
   basic = TRAINING_COST_BASIC;
 
-  constructor(private acc: AccountService, private api: ApiService) {}
+  constructor(public acc: AccountService, public api: ApiService) {}
 
   basicTraining(player: any): void {
     player.stateEnds = moment().add(2, 'days').toDate();

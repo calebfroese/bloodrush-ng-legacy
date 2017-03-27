@@ -15,9 +15,9 @@ export class PlayerDetailComponent implements OnInit {
   renameCost = PLAYER_RENAME_COST;
 
   constructor(
-      private route: ActivatedRoute, private location: Location,
-      private api: ApiService, private acc: AccountService,
-      private formService: FormService) {
+      public route: ActivatedRoute, public location: Location,
+      public api: ApiService, public acc: AccountService,
+      public formService: FormService) {
     this.form = this.formService.renamePlayerForm();
   }
 

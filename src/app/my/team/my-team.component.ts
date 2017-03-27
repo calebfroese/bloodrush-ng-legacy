@@ -40,8 +40,8 @@ export class MyTeamComponent {
   savingChanges: boolean = false;
 
   constructor(
-      private acc: AccountService, private api: ApiService,
-      private router: Router) {}
+      public acc: AccountService, public api: ApiService,
+      public router: Router) {}
 
   ngOnInit(): void {
     if (!this.acc.team.id) return;
