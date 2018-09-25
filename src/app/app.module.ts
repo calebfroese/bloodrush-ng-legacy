@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
-import {NgUploaderModule} from 'ngx-uploader';
 
 import {AboutComponent} from './about/about.component';
 import {VersionHistoryComponent} from './about/version-history/version-history.component';
@@ -61,7 +60,6 @@ import {UpcomingGamesComponent} from './upcoming-games/upcoming-games.component'
   ],
   imports: [
     BrowserModule, FormsModule, ReactiveFormsModule, HttpModule, AppRouting,
-    NgUploaderModule
   ],
   providers:
       [ApiService, AccountService, ScoreService, FormService, LoggedInGuard],

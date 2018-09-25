@@ -6,14 +6,14 @@
             <div class="column">
                 <label class="label">Logo</label>
                 <p class="control">
-                    <input type="file" ngFileSelect [options]="teamlogoOptions" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event, 'logo')">
+                    <input type="file" >
                 </p>
                 <img class="image is-128x128" src="{{imgUrl}}/teamlogos/{{team.id}}.png?a={{rndCache}}" onError="this.src='/assets/img/logo.png';">
             </div>
             <div class="column">
                 <label class="label">Anthem</label>
                 <p class="control">
-                    <input type="file" ngFileSelect [options]="teamanthemOptions" (onUpload)="handleUpload($event)" (beforeUpload)="beforeUpload($event, 'anthem')">
+                    <input type="file" >
                 </p>
                 Your team anthem is a <b>.mp3</b> file that will play at the end if your team wins a game.
             </div>

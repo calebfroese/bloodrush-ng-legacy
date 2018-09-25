@@ -1,6 +1,6 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {NgUploaderOptions} from 'ngx-uploader';
+import * as Convert from 'color-convert';
 
 import {environment} from './../../../environments/environment';
 import {AccountService} from './../../shared/account.service';
@@ -33,7 +33,7 @@ export class MyTeamComponent {
   context: any;
   team: any;
   picker = {r: 0, g: 255, b: 120};
-  convert = require('color-convert');
+  convert = Convert;
   partEditIndex: number = 0;
   imgUrl: string;
   rndCache: string = Math.random().toString();
@@ -110,8 +110,8 @@ export class MyTeamComponent {
 
   uploadFile: any;
   hasBaseDropZoneOver: boolean = false;
-  teamlogoOptions: NgUploaderOptions;
-  teamanthemOptions: NgUploaderOptions;
+  teamlogoOptions: any;
+  teamanthemOptions: any;
   sizeLimit = 10000000;
 
   handleUpload(data): void {

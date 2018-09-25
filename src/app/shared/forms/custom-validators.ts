@@ -1,7 +1,7 @@
 import {AbstractControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import * as moment from 'moment';
 
-const validator = require('validator');
+import * as validator from 'validator';
 
 export class CustomValidators extends Validators {
   static isRaw(method: string, options?: any) {
